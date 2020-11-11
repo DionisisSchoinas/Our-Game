@@ -38,7 +38,7 @@ public class Firebolt : Spell
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Damageable"))
+        if (collision.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
             collision.transform.SendMessage("Damage", damage);
         Destroy(Instantiate(explosionParticles, transform.position, transform.rotation), 1f);
         Destroy(gameObject);
