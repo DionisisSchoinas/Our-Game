@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class LightningStorm : Spell
 {
     [SerializeField]
     private float spawningHeight;
+    [SerializeField]
+    private float damagePerFrame = 5f;
 
     private GameObject tmpStorm;
     private Vector3 spawningLocation;
@@ -13,9 +16,14 @@ public class LightningStorm : Spell
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
 
+    private List<GameObject> collisions;
+    private int damageablesLayer;
+
     void Start()
     {
         pickedSpot = false;
+        collisions = new List<GameObject>();
+        damageablesLayer = LayerMask.NameToLayer("Damageables");
     }
 
     public override void SetFirePoints(Transform point1, Transform point2)
@@ -59,6 +67,30 @@ public class LightningStorm : Spell
                     spawningLocation = indicatorController.LockLocation()[0];
                     pickedSpot = true;
                     Invoke(nameof(CancelSpell), 5f);
+                }
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        foreach (GameObject gm in collisions)
+        {
+            if (gm != null)
+                gm.SendMessage("Damage", damagePerFrame);
+        }
+        collisions.Clear();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer.Equals(damageablesLayer))
+        {
+            if (!collisions.Contains(other.gameObject))
+            {
+                if (!Physics.Linecast(other.transform.position, transform.position, ~damageablesLayer))
+                {
+                    collisions.Add(other.gameObject);
                 }
             }
         }
