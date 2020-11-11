@@ -9,20 +9,24 @@ public class LightningBolt : Spell
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
     private GameObject tmpBolt;
+
     private List<GameObject> collisions;
+    private int damageablesLayer;
 
     private SpellIndicatorController indicatorController;
 
     private void Start()
     {
         collisions = new List<GameObject>();
+        damageablesLayer = LayerMask.NameToLayer("Damageables");
     }
 
     private void FixedUpdate()
     {
         foreach (GameObject gm in collisions)
         {
-            gm.SendMessage("Damage", damagePerFrame);
+            if (gm != null)
+                gm.SendMessage("Damage", damagePerFrame);
         }
         collisions.Clear();
     }
@@ -54,12 +58,17 @@ public class LightningBolt : Spell
         Start();
     }
 
-    private void OnParticleCollision(GameObject other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Damageable"))
+        if (other.gameObject.layer.Equals(damageablesLayer))
         {
-            if (!collisions.Contains(other))
-                collisions.Add(other);
+            if (!collisions.Contains(other.gameObject))
+            {
+                if (!Physics.Linecast(other.transform.position, transform.position, ~damageablesLayer))
+                {
+                    collisions.Add(other.gameObject);
+                }
+            }
         }
     }
 

@@ -8433,7 +8433,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.9
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -8488,7 +8488,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 3895
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -19104,6 +19104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4061491430522058730}
   - component: {fileID: -4962917080314306125}
+  - component: {fileID: 2388622265143027201}
   m_Layer: 8
   m_Name: Lightning Ray
   m_TagString: Untagged
@@ -19141,3 +19142,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePerFrame: 5
+--- !u!65 &2388622265143027201
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4061491430522058733}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 5, z: 20}
+  m_Center: {x: 0, y: 0, z: 10.14}
