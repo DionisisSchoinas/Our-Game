@@ -43,7 +43,6 @@ public class MeteorShower : Spell
     {
         if (pickedSpot)
         {
-            indicatorController.DestroyIndicator();
             pickedSpot = false;
             spellLocation = spawningLocation + Vector3.up * spawningHeight;
             firing = true;
@@ -92,13 +91,17 @@ public class MeteorShower : Spell
 
     private void StopFiring()
     {
+        indicatorController.DestroyIndicator();
         firing = false;
     }
 
     private void CancelSpell()
     {
-        indicatorController.DestroyIndicator();
-        pickedSpot = false;
+        if (!firing)
+        {
+            indicatorController.DestroyIndicator();
+            pickedSpot = false;
+        }
     }
     public override void SetIndicatorController(SpellIndicatorController controller)
     {

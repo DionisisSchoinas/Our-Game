@@ -209,7 +209,7 @@ public class SpellIndicatorController : MonoBehaviour
 
     public void DestroyIndicator()
     {
-        Destroy(tmpAoeIndicator);
+        if (tmpAoeIndicator != null) Destroy(tmpAoeIndicator);
         mode = -1;
         picking = false;
     }
