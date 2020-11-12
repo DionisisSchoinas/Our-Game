@@ -14272,8 +14272,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3956823411663701898}
   - component: {fileID: 3956823411663701899}
-  - component: {fileID: 3956823411663701908}
   - component: {fileID: 5468378603873797052}
+  - component: {fileID: 8047276160424979684}
   m_Layer: 8
   m_Name: Firebolt
   m_TagString: Untagged
@@ -14314,19 +14314,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!135 &3956823411663701908
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3956823411663701910}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.7
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5468378603873797052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14344,3 +14331,17 @@ MonoBehaviour:
   rb: {fileID: 3956823411663701899}
   explosionParticles: {fileID: 8289330964062763208, guid: 72cb46b6b72bfa84c8c62d920af76b81,
     type: 3}
+--- !u!136 &8047276160424979684
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3956823411663701910}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

@@ -21,7 +21,7 @@ public class Firebolt : Spell
 
     public override void FireSimple()
     {
-        GameObject tmp = Instantiate(gameObject, simpleFirePoint.position, simpleFirePoint.rotation) as GameObject;
+        GameObject tmp = Instantiate(gameObject, simpleFirePoint.position + simpleFirePoint.forward * 0.5f, simpleFirePoint.rotation) as GameObject;
         Destroy(tmp, 5f);
     }
 
@@ -38,7 +38,7 @@ public class Firebolt : Spell
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Damageable"))
+        if (collision.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
             collision.transform.SendMessage("Damage", damage);
         Destroy(Instantiate(explosionParticles, transform.position, transform.rotation), 1f);
         Destroy(gameObject);

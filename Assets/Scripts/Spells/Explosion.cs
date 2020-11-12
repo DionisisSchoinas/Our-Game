@@ -7,17 +7,20 @@ public class Explosion : MonoBehaviour
     [SerializeField]
     private float damage = 35f;
 
+    private int damageablesLayer;
+
+    private void Start()
+    {
+        damageablesLayer = LayerMask.NameToLayer("Damageables");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Damageable"))
+        if (other.gameObject.layer.Equals(damageablesLayer))
         {
-            RaycastHit hit;
-            if (Physics.Linecast(transform.position, other.transform.position, out hit))
+            if (!Physics.Linecast(other.transform.position, transform.position, ~damageablesLayer))
             {
-                if (hit.collider.CompareTag("Damageable"))
-                {
-                    other.SendMessage("Damage", damage);
-                }
+                other.SendMessage("Damage", damage);
             }
         }
     }

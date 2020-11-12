@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 57400012}
   - component: {fileID: 57400014}
   - component: {fileID: 57400013}
-  - component: {fileID: 3488560577025570054}
   m_Layer: 8
   m_Name: Beam
   m_TagString: Untagged
@@ -3734,7 +3733,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 3895
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4756,19 +4755,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &3488560577025570054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 57400011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1c35bef718746e4fb026a1efd632768, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damagePerFrame: 5
 --- !u!1 &595963705
 GameObject:
   m_ObjectHideFlags: 0
@@ -4780,7 +4766,7 @@ GameObject:
   - component: {fileID: 595963706}
   - component: {fileID: 595963708}
   - component: {fileID: 595963707}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BeamParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9534,7 +9520,7 @@ GameObject:
   - component: {fileID: 1421429846}
   - component: {fileID: 1421429848}
   - component: {fileID: 1421429847}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SourceParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14288,7 +14274,7 @@ GameObject:
   - component: {fileID: 1966150693}
   - component: {fileID: 1966150695}
   - component: {fileID: 1966150694}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BeamHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19100,7 +19086,7 @@ GameObject:
   - component: {fileID: 2144136649716141396}
   - component: {fileID: 2144136649716141398}
   - component: {fileID: 2144136649716141397}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23852,7 +23838,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2144136649809689944}
-  m_Layer: 0
+  - component: {fileID: 5149430543365902812}
+  - component: {fileID: 7729258316315907497}
+  m_Layer: 8
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23877,3 +23865,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5149430543365902812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144136649809689943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c35bef718746e4fb026a1efd632768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePerFrame: 5
+--- !u!65 &7729258316315907497
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144136649809689943}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 5, z: 1}
+  m_Center: {x: 0, y: 0, z: 0.5}

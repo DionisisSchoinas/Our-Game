@@ -1,11 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Firewall : Spell
 {
+    [SerializeField]
+    private float damagePerFrame = 5f;
+
+    private List<GameObject> collisions;
+    private int damageablesLayer;
+
     private Transform simpleFirePoint;
     private Transform channelingFirePoint;
     private GameObject currentFireWall;
@@ -17,6 +20,8 @@ public class Firewall : Spell
     private void Start()
     {
         pickedSpot = false;
+        collisions = new List<GameObject>();
+        damageablesLayer = LayerMask.NameToLayer("Damageables");
     }
 
     public override void SetFirePoints(Transform point1, Transform point2)
@@ -56,6 +61,27 @@ public class Firewall : Spell
                     pickedSpot = true;
                     Invoke(nameof(CancelSpell), 5f);
                 }
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        foreach (GameObject gm in collisions)
+        {
+            if (gm != null)
+                gm.SendMessage("Damage", damagePerFrame);
+        }
+        collisions.Clear();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer.Equals(damageablesLayer))
+        {
+            if (!collisions.Contains(other.gameObject))
+            {
+                collisions.Add(other.gameObject);
             }
         }
     }

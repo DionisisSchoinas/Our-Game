@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5700972946874308674}
   - component: {fileID: 5700972946874308675}
   - component: {fileID: 5700972946874308681}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Subject
   m_TagString: Damageable
   m_Icon: {fileID: 0}
@@ -151,6 +151,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5700972946874308678}
     m_Modifications:
+    - target: {fileID: 2370444074506028830, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2370444074593593754, guid: e554486e94ddf2441a22c07f0c836276,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -276,6 +281,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 2370444074593593758, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2370444074931935364, guid: e554486e94ddf2441a22c07f0c836276,
         type: 3}
       propertyPath: m_WholeNumbers
@@ -311,6 +321,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2370444074931935417, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2370444075610238292, guid: e554486e94ddf2441a22c07f0c836276,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -320,6 +335,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2370444075610238295, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e554486e94ddf2441a22c07f0c836276, type: 3}

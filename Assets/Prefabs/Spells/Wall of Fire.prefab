@@ -4765,7 +4765,6 @@ GameObject:
   - component: {fileID: 7040329422488220091}
   - component: {fileID: 7040329422488220093}
   - component: {fileID: 7040329422488220092}
-  - component: {fileID: 6471547015152456985}
   m_Layer: 8
   m_Name: Flames
   m_TagString: Untagged
@@ -8379,7 +8378,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.05
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -8484,10 +8483,10 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 0.6
+    radiusScale: 0.2
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 3895
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -9509,19 +9508,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &6471547015152456985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7040329422488220090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec39446b51e8bfc4399c52a036964025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damagePerFrame: 5
 --- !u!1 &7040329422519976411
 GameObject:
   m_ObjectHideFlags: 0
@@ -9532,6 +9518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7040329422519976412}
   - component: {fileID: 6662070825089805369}
+  - component: {fileID: 8695578224533397699}
   m_Layer: 8
   m_Name: Wall of Fire
   m_TagString: Untagged
@@ -9567,3 +9554,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a820681a189f9640938dc67a9c5a10a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damagePerFrame: 5
+--- !u!65 &8695578224533397699
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7040329422519976411}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 23, y: 10, z: 3}
+  m_Center: {x: 0, y: 3.92, z: 0}

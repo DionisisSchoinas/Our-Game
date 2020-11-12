@@ -8,27 +8,35 @@ public class Laser : MonoBehaviour
     private float damagePerFrame = 5f;
 
     private List<GameObject> collisions;
+    private int damageablesLayer;
 
     private void Start()
     {
         collisions = new List<GameObject>();
+        damageablesLayer = LayerMask.NameToLayer("Damageables");
     }
 
     private void FixedUpdate()
     {
         foreach(GameObject gm in collisions)
         {
-            gm.SendMessage("Damage", damagePerFrame);
+            if (gm != null)
+                gm.SendMessage("Damage", damagePerFrame);
         }
         collisions.Clear();
     }
 
-    private void OnParticleCollision(GameObject other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Damageable"))
+        if (other.gameObject.layer.Equals(damageablesLayer))
         {
-            if (!collisions.Contains(other))
-                collisions.Add(other);
+            if (!collisions.Contains(other.gameObject))
+            {
+                if (!Physics.Linecast(other.transform.position, transform.position, ~damageablesLayer))
+                {
+                    collisions.Add(other.gameObject);
+                }
+            }
         }
     }
 }
