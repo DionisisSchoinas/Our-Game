@@ -28,9 +28,15 @@ public class PlayerMovementScript : MonoBehaviour
     public bool isGrounded;
     public bool canMove;
     public bool casting;
+    // Controlled inputs which lock other if one is pressed
     public bool mousedown_1;
     public bool mousedown_2;
+    // ---------------
     public bool menu;
+    // Raw inputs
+    public bool mouse_1;
+    public bool mouse_2;
+    // ---------------
 
     private float horizontal;
     private float vertical;
@@ -71,7 +77,7 @@ public class PlayerMovementScript : MonoBehaviour
 
         if (!menu)
         {
-            //casting spells
+            // Controlled inputs which lock other if one is pressed
             if (Input.GetMouseButtonDown(0) && !mousedown_2)
             {
                 mousedown_1 = true;
@@ -80,7 +86,6 @@ public class PlayerMovementScript : MonoBehaviour
             {
                 mousedown_1 = false;
             }
-
             if (Input.GetMouseButtonDown(1) && !mousedown_1)
             {
                 mousedown_2 = true;
@@ -88,6 +93,24 @@ public class PlayerMovementScript : MonoBehaviour
             else if (Input.GetMouseButtonUp(1))
             {
                 mousedown_2 = false;
+            }
+
+            // Raw inputs
+            if (Input.GetMouseButtonDown(0))
+            {
+                mouse_1 = true;
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                mouse_1 = false;
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                mouse_2 = true;
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                mouse_2 = false;
             }
         }
 

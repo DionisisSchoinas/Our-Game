@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6271100673280186106}
   - component: {fileID: 6271100673280186104}
   - component: {fileID: 6271100673280186107}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Falling Flame Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4766,7 +4766,7 @@ GameObject:
   - component: {fileID: 6271100673442165560}
   - component: {fileID: 6271100673442165566}
   - component: {fileID: 6271100673442165561}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fire Splash Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9578,7 +9578,7 @@ GameObject:
   - component: {fileID: 6271100674066883617}
   - component: {fileID: 6271100674066883616}
   - component: {fileID: 8416600066421314934}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Firerain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9593,7 +9593,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6271100674066883619}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.0571175, y: 40, z: -29.34}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6271100673280186106}
