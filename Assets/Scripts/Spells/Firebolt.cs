@@ -21,7 +21,7 @@ public class Firebolt : Spell
 
     public override void FireSimple()
     {
-        GameObject tmp = Instantiate(gameObject, simpleFirePoint.position, simpleFirePoint.rotation) as GameObject;
+        GameObject tmp = Instantiate(gameObject, simpleFirePoint.position + simpleFirePoint.forward * 0.5f, simpleFirePoint.rotation) as GameObject;
         Destroy(tmp, 5f);
     }
 

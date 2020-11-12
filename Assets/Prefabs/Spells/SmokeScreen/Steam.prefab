@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 199185188785216948}
   - component: {fileID: -6315393374685689038}
   - component: {fileID: -6733406041930164486}
-  - component: {fileID: 2828798775233921893}
+  - component: {fileID: 5614509829695606003}
   m_Layer: 8
   m_Name: Steam
   m_TagString: Untagged
@@ -4788,8 +4788,8 @@ MonoBehaviour:
   rb: {fileID: -6315393374685689038}
   smokeScreen: {fileID: 8952321711452038130, guid: f196feeebe2653e44a9d2ad98c187c53,
     type: 3}
---- !u!135 &2828798775233921893
-SphereCollider:
+--- !u!136 &5614509829695606003
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4798,6 +4798,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
+  m_Height: 5
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
