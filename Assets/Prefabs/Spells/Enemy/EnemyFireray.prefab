@@ -23838,10 +23838,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2144136649809689944}
-  - component: {fileID: 5149430543365902812}
   - component: {fileID: 7729258316315907497}
+  - component: {fileID: -3501496084584192332}
   m_Layer: 8
-  m_Name: Fireray
+  m_Name: EnemyFireray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23865,20 +23865,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5149430543365902812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144136649809689943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1c35bef718746e4fb026a1efd632768, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  damageTicksPerSecond: 8
 --- !u!65 &7729258316315907497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23892,3 +23878,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 5, z: 0.88}
   m_Center: {x: 0, y: 0, z: 0.45}
+--- !u!114 &-3501496084584192332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144136649809689943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779976aa86b970247865da9a224d4415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  damageTicksPerSecond: 8
