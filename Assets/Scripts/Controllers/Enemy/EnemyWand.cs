@@ -13,8 +13,10 @@ public class EnemyWand : MonoBehaviour
 
     public bool fireSimple;
     public bool fireChannel;
+    public bool fireCharge;
 
     private bool hold;
+    private bool swap;
 
     private int selectedSpell;
 
@@ -27,6 +29,7 @@ public class EnemyWand : MonoBehaviour
         }
         if (spells.Length != 0) selectedSpell = 0;
         hold = false;
+        swap = true;
 
         InvokeRepeating(nameof(FireSpell), 0f, 2f);
     }
@@ -43,13 +46,26 @@ public class EnemyWand : MonoBehaviour
 
     public void Fire2(bool holding)
     {
-        spells[selectedSpell].FireHold(!hold, channelingFirePoint);
-        hold = !holding;
+        spells[selectedSpell].FireHold(holding, channelingFirePoint);
+        hold = holding;
     }
 
     private void FireSpell()
     {
         if (fireSimple) Fire1();
-        else Fire2(hold);
+        else if (fireChannel) Fire2(!hold);
+        else
+        {
+            if (swap)
+            {
+                Fire2(true);
+            }
+            else
+            {
+                Fire2(false);
+                Fire1();
+            }
+            swap = !swap;
+        }
     }
 }

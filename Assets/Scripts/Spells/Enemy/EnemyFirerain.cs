@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Firerain : Spell
+public class EnemyFirerain : EnemySpell
 {
     [SerializeField]
     private float spawningHeight = 40f;
@@ -14,10 +14,11 @@ public class Firerain : Spell
     private GameObject tmpStorm;
     private Vector3 spawningLocation;
     private bool pickedSpot;
-    private SpellIndicatorController indicatorController;
 
     private List<GameObject> collisions;
     private int damageablesLayer;
+
+    private GameObject tmpSource;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class Firerain : Spell
             tmpStorm = Instantiate(gameObject);
             tmpStorm.transform.position = spawningLocation + Vector3.up * spawningHeight;
             tmpStorm.SetActive(true);
-            Invoke(nameof(StopStorm), 10f);
+            Invoke(nameof(StopStorm), 5f);
         }
     }
 
@@ -45,17 +46,14 @@ public class Firerain : Spell
         {
             if (holding)
             {
-                indicatorController.SelectLocation(20f, 15f);
                 pickedSpot = false;
+                tmpSource = Instantiate(((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))), firePoint.position, firePoint.rotation);
             }
             else
             {
-                if (indicatorController != null)
-                {
-                    spawningLocation = indicatorController.LockLocation()[0];
-                    pickedSpot = true;
-                    Invoke(nameof(CancelSpell), 5f);
-                }
+                spawningLocation = firePoint.forward * 15f - firePoint.up * 2f + firePoint.position;
+                if (tmpSource != null ) Destroy(tmpSource);
+                pickedSpot = true;
             }
         }
     }
@@ -86,26 +84,7 @@ public class Firerain : Spell
 
     private void StopStorm()
     {
-        indicatorController.DestroyIndicator();
         Destroy(tmpStorm);
-    }
-
-    private void CancelSpell()
-    {
-        if (tmpStorm == null)
-        {
-            indicatorController.DestroyIndicator();
-            pickedSpot = false;
-        }
-    }
-    public override void SetIndicatorController(SpellIndicatorController controller)
-    {
-        indicatorController = controller;
-    }
-
-    public override ParticleSystem GetSource()
-    {
-        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
 
     public override void WakeUp()
