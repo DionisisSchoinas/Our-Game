@@ -3225,7 +3225,7 @@ MonoBehaviour:
   channelingFirePoint: {fileID: 1300258942}
   spells:
   - {fileID: 5468378603873797052, guid: f38fc25572ffc0144a78d72bde5d03ff, type: 3}
-  - {fileID: 7047838759429328838, guid: 95c382ab29425d9429f77a5021855fe4, type: 3}
+  - {fileID: 5149430543365902812, guid: 0f87d8c6feb02164ca294aaf64f58a9c, type: 3}
   - {fileID: -5782698546474381239, guid: 74e5ae4f22405064e9ef27a7e8e2fc2c, type: 3}
   - {fileID: 6662070825089805369, guid: 66f891401d5b028478e8a7d6ca2eeb5f, type: 3}
   - {fileID: 5459350591867277708, guid: b61259fa5924ad24c972ef73e40b0112, type: 3}

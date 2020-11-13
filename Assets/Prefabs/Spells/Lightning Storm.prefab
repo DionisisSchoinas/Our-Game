@@ -4859,7 +4859,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningHeight: 40
-  damagePerFrame: 5
+  damage: 5
+  damageTicksPerSecond: 10
 --- !u!65 &7516749533218781956
 BoxCollider:
   m_ObjectHideFlags: 0
