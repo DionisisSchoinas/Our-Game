@@ -9527,7 +9527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceef9a569c2e28b4dbd346bf4565f96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePerFrame: 5
+  damage: 5
+  damageTicksPerSecond: 5
 --- !u!1 &4061491429149446614
 GameObject:
   m_ObjectHideFlags: 0
@@ -19141,7 +19142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceef9a569c2e28b4dbd346bf4565f96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePerFrame: 5
+  damage: 10
+  damageTicksPerSecond: 8
 --- !u!65 &2388622265143027201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19153,5 +19155,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 5, z: 20}
-  m_Center: {x: 0, y: 0, z: 10.14}
+  m_Size: {x: 4, y: 5, z: 18}
+  m_Center: {x: 0, y: 0, z: 9.13}
