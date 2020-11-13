@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class HealthController : MonoBehaviour
@@ -20,6 +19,8 @@ public class HealthController : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+
+        HealthEventSystem.current.onDamageTaken += TakeDamage;
     }
 
     public void Damage(float damage)
@@ -39,5 +40,18 @@ public class HealthController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void TakeDamage(string name, float damage)
+    {
+        if (gameObject.name == name)
+        {
+            Damage(damage);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        HealthEventSystem.current.onDamageTaken -= TakeDamage;
     }
 }
