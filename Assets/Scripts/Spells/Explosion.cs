@@ -18,7 +18,7 @@ public class Explosion : MonoBehaviour
     {
         if (other.gameObject.layer.Equals(damageablesLayer))
         {
-            if (!Physics.Linecast(other.transform.position, transform.position, ~damageablesLayer))
+            if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
             {
                 other.SendMessage("Damage", damage);
             }

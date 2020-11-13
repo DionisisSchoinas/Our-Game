@@ -6,7 +6,9 @@ public class LightningStorm : Spell
     [SerializeField]
     private float spawningHeight = 40f;
     [SerializeField]
-    private float damagePerFrame = 5f;
+    private float damage = 5f;
+    [SerializeField]
+    private int damageTicksPerSecond = 5;
 
     private GameObject tmpStorm;
     private Vector3 spawningLocation;
@@ -21,13 +23,7 @@ public class LightningStorm : Spell
         pickedSpot = false;
         collisions = new List<GameObject>();
         damageablesLayer = LayerMask.NameToLayer("Damageables");
-    }
-
-    public override void WakeUp()
-    {
-        tmpStorm = Instantiate(gameObject) as GameObject;
-        tmpStorm.SetActive(false);
-        Start();
+        InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
     }
 
     public override void FireSimple(Transform firePoint)
@@ -35,6 +31,7 @@ public class LightningStorm : Spell
         if (pickedSpot)
         {
             pickedSpot = false;
+            tmpStorm = Instantiate(gameObject);
             tmpStorm.transform.position = spawningLocation + Vector3.up * spawningHeight;
             tmpStorm.SetActive(true);
             Invoke(nameof(StopStorm), 10f);
@@ -43,7 +40,7 @@ public class LightningStorm : Spell
 
     public override void FireHold(bool holding, Transform firePoint)
     {
-        if (!tmpStorm.activeInHierarchy)
+        if (tmpStorm == null)
         {
             if (holding)
             {
@@ -62,12 +59,12 @@ public class LightningStorm : Spell
         }
     }
 
-    private void FixedUpdate()
+    private void DamageEnemies()
     {
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
-                gm.SendMessage("Damage", damagePerFrame);
+                gm.SendMessage("Damage", damage);
         }
         collisions.Clear();
     }
@@ -78,7 +75,7 @@ public class LightningStorm : Spell
         {
             if (!collisions.Contains(other.gameObject))
             {
-                if (!Physics.Linecast(other.transform.position, transform.position, ~damageablesLayer))
+                if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
                 {
                     collisions.Add(other.gameObject);
                 }
@@ -89,12 +86,12 @@ public class LightningStorm : Spell
     private void StopStorm()
     {
         indicatorController.DestroyIndicator();
-        tmpStorm.SetActive(false);
+        Destroy(tmpStorm);
     }
 
     private void CancelSpell()
     {
-        if (!tmpStorm.activeSelf)
+        if (tmpStorm == null)
         {
             indicatorController.DestroyIndicator();
             pickedSpot = false;
@@ -108,5 +105,9 @@ public class LightningStorm : Spell
     public override ParticleSystem GetSource()
     {
         return ((GameObject)Resources.Load("Spells/Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+    }
+
+    public override void WakeUp()
+    {
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 public class Firewall : Spell
 {
     [SerializeField]
-    private float damagePerFrame = 5f;
+    private float damage = 5f;
+    [SerializeField]
+    private int damageTicksPerSecond = 5;
 
     private List<GameObject> collisions;
     private int damageablesLayer;
@@ -20,6 +22,7 @@ public class Firewall : Spell
         pickedSpot = false;
         collisions = new List<GameObject>();
         damageablesLayer = LayerMask.NameToLayer("Damageables");
+        InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
     }
 
     public override void FireSimple(Transform firePoint)
@@ -28,6 +31,7 @@ public class Firewall : Spell
         {
             indicatorController.DestroyIndicator();
             pickedSpot = false;
+            currentFireWall = Instantiate(gameObject);
             currentFireWall.transform.position = Vector3.up * transform.localScale.y / 2 + spawningLocation;
             currentFireWall.transform.eulerAngles = spellRotation;
             currentFireWall.SetActive(true);
@@ -37,7 +41,7 @@ public class Firewall : Spell
 
     public override void FireHold(bool holding, Transform firePoint)
     {
-        if (!currentFireWall.activeInHierarchy)
+        if (currentFireWall == null)
         {
             if (holding)
             {
@@ -57,12 +61,12 @@ public class Firewall : Spell
         }
     }
 
-    private void FixedUpdate()
+    private void DamageEnemies()
     {
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
-                gm.SendMessage("Damage", damagePerFrame);
+                gm.SendMessage("Damage", damage);
         }
         collisions.Clear();
     }
@@ -73,27 +77,27 @@ public class Firewall : Spell
         {
             if (!collisions.Contains(other.gameObject))
             {
-                collisions.Add(other.gameObject);
+                Vector3 belowEntity = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
+                if (LineCasting.isLineClear(other.transform.position, belowEntity, damageablesLayer))
+                {
+                    collisions.Add(other.gameObject);
+                }
             }
         }
     }
 
     private void DeactivateWall()
     {
-        currentFireWall.SetActive(false);
-    }
-
-    public override void WakeUp()
-    {
-        currentFireWall = Instantiate(gameObject) as GameObject;
-        currentFireWall.SetActive(false);
-        Start();
+        Destroy(currentFireWall);
     }
 
     private void CancelSpell()
     {
-        indicatorController.DestroyIndicator();
-        pickedSpot = false;
+        if (currentFireWall == null)
+        {
+            indicatorController.DestroyIndicator();
+            pickedSpot = false;
+        }
     }
 
     public override ParticleSystem GetSource()
@@ -104,5 +108,9 @@ public class Firewall : Spell
     public override void SetIndicatorController(SpellIndicatorController controller)
     {
         indicatorController = controller;
+    }
+
+    public override void WakeUp()
+    {
     }
 }
