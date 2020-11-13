@@ -14,21 +14,12 @@ public class Firebolt : Spell
     [SerializeField]
     private GameObject explosionParticles;
 
-    private Transform simpleFirePoint;
-    private Transform channelingFirePoint;
-
     private SpellIndicatorController indicatorController;
 
-    public override void FireSimple()
+    public override void FireSimple(Transform firePoint)
     {
-        GameObject tmp = Instantiate(gameObject, simpleFirePoint.position + simpleFirePoint.forward * 0.5f, simpleFirePoint.rotation) as GameObject;
+        GameObject tmp = Instantiate(gameObject, firePoint.position + firePoint.forward * 0.5f, firePoint.rotation) as GameObject;
         Destroy(tmp, 5f);
-    }
-
-    public override void SetFirePoints(Transform point1 , Transform point2)
-    {
-        simpleFirePoint = point1;
-        channelingFirePoint = point2;
     }
 
     void FixedUpdate()
@@ -56,7 +47,7 @@ public class Firebolt : Spell
         indicatorController = controller;
     }
 
-    public override void FireHold(bool holding)
+    public override void FireHold(bool holding, Transform firePoint)
     {
     }
 

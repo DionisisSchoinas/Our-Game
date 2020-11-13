@@ -54,7 +54,7 @@ public class AnimationScriptController : MonoBehaviour
         }
 
         //===== Spell Casting Animations ======
-        if (!controls.casting && allowStopCasting)
+        if (!controls.casting)
         {
             //fireboltHand.SetActive(false);
             animator.SetLayerWeight(1, 0);

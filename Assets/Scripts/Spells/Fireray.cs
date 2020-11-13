@@ -13,49 +13,39 @@ public class Fireray : Spell
     private GameObject laser;
 
     private GameObject tmpLaser;
-    private Transform simpleFirePoint;
-    private Transform channelingFirePoint;
 
     private SpellIndicatorController indicatorController;
 
     void Start()
     {
-        tmpLaser = Instantiate(laser, channelingFirePoint) as GameObject;
-        tmpLaser.SetActive(false);
     }
 
     public override void WakeUp()
     {
-        Start();
     }
 
-    public override void SetFirePoints(Transform point1, Transform point2)
-    {
-        simpleFirePoint = point1;
-        channelingFirePoint = point2;
-    }
-
-    public override void FireHold(bool holding)
+    public override void FireHold(bool holding, Transform firePoint)
     {
         if (holding)
         {
-            indicatorController.SelectLocation(channelingFirePoint, 3f, 18f);
+            tmpLaser = Instantiate(laser, firePoint);
+            indicatorController.SelectLocation(firePoint, 3f, 18f);
             tmpLaser.SetActive(true);
         }
         else
         {
+            Destroy(tmpLaser);
             indicatorController.DestroyIndicator();
-            tmpLaser.SetActive(false);
         }
     }
 
-    public override void FireSimple()
+    public override void FireSimple(Transform firePoint)
     {
     }
 
     public override ParticleSystem GetSource()
     {
-        return tmpLaser.transform.Find("Source").GetComponent<ParticleSystem>();
+        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
     public override void SetIndicatorController(SpellIndicatorController controller)
     {

@@ -9,8 +9,6 @@ public class Firewall : Spell
     private List<GameObject> collisions;
     private int damageablesLayer;
 
-    private Transform simpleFirePoint;
-    private Transform channelingFirePoint;
     private GameObject currentFireWall;
     private Vector3 spawningLocation;
     private Vector3 spellRotation;
@@ -24,13 +22,7 @@ public class Firewall : Spell
         damageablesLayer = LayerMask.NameToLayer("Damageables");
     }
 
-    public override void SetFirePoints(Transform point1, Transform point2)
-    {
-        simpleFirePoint = point1;
-        channelingFirePoint = point2;
-    }
-
-    public override void FireSimple()
+    public override void FireSimple(Transform firePoint)
     {
         if (pickedSpot)
         {
@@ -43,7 +35,7 @@ public class Firewall : Spell
         }
     }
 
-    public override void FireHold(bool holding)
+    public override void FireHold(bool holding, Transform firePoint)
     {
         if (!currentFireWall.activeInHierarchy)
         {

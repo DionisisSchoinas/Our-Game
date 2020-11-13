@@ -3176,6 +3176,8 @@ MonoBehaviour:
   mousedown_1: 0
   mousedown_2: 0
   menu: 0
+  mouse_1: 0
+  mouse_2: 0
 --- !u!114 &845488864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3230,6 +3232,8 @@ MonoBehaviour:
   - {fileID: -4962917080314306125, guid: 69beeab46010fc24d9b263235f1f3f9e, type: 3}
   - {fileID: 4067347847314189893, guid: ab3e0b10f6e793a4d82b816e4dc849c2, type: 3}
   - {fileID: 5204361133402161293, guid: ac9992798730bbe4b934cbb3402ddafc, type: 3}
+  - {fileID: 8416600066421314934, guid: 7eae751ff2968f24eabcf847e03a0a1e, type: 3}
+  - {fileID: 3106149902200075673, guid: fc515db407900f44a9e215c38cb97f60, type: 3}
   castingAnimationSimple: 0.8
   castingAnimationSimpleReset: 1.4
   castingAnimationChannel: 1.3

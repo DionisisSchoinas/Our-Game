@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningStorm : Spell
+public class Firerain : Spell
 {
     [SerializeField]
     private float spawningHeight = 40f;
@@ -107,6 +108,6 @@ public class LightningStorm : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ((GameObject)Resources.Load("Spells/Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
 }
