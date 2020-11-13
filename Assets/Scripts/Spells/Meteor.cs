@@ -39,7 +39,7 @@ public class Meteor : MonoBehaviour
     {
         if (other.CompareTag("Damageable"))
         {
-            other.transform.SendMessage("Damage", meteorHitDamage);
+            HealthEventSystem.current.TakeDamage(other.gameObject.name, meteorHitDamage);
         }
         Destroy(Instantiate(meteorHitEffect, transform.position, transform.rotation), 1f);
         Destroy(gameObject);

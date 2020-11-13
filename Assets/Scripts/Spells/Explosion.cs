@@ -20,7 +20,7 @@ public class Explosion : MonoBehaviour
         {
             if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
             {
-                other.SendMessage("Damage", damage);
+                HealthEventSystem.current.TakeDamage(other.gameObject.name, damage);
             }
         }
     }

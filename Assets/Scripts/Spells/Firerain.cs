@@ -65,7 +65,7 @@ public class Firerain : Spell
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
-                gm.SendMessage("Damage", damage);
+                HealthEventSystem.current.TakeDamage(gm.name, damage);
         }
         collisions.Clear();
     }
