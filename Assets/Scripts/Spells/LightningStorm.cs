@@ -13,9 +13,6 @@ public class LightningStorm : Spell
     private bool pickedSpot;
     private SpellIndicatorController indicatorController;
 
-    private Transform simpleFirePoint;
-    private Transform channelingFirePoint;
-
     private List<GameObject> collisions;
     private int damageablesLayer;
 
@@ -26,12 +23,6 @@ public class LightningStorm : Spell
         damageablesLayer = LayerMask.NameToLayer("Damageables");
     }
 
-    public override void SetFirePoints(Transform point1, Transform point2)
-    {
-        simpleFirePoint = point1;
-        channelingFirePoint = point2;
-    }
-
     public override void WakeUp()
     {
         tmpStorm = Instantiate(gameObject) as GameObject;
@@ -39,7 +30,7 @@ public class LightningStorm : Spell
         Start();
     }
 
-    public override void FireSimple()
+    public override void FireSimple(Transform firePoint)
     {
         if (pickedSpot)
         {
@@ -50,7 +41,7 @@ public class LightningStorm : Spell
         }
     }
 
-    public override void FireHold(bool holding)
+    public override void FireHold(bool holding, Transform firePoint)
     {
         if (!tmpStorm.activeInHierarchy)
         {

@@ -40,7 +40,6 @@ public class Wand : MonoBehaviour
         canCast = true;
         foreach (Spell s in spells)
         {
-            s.SetFirePoints(simpleFirePoint, channelingFirePoint);
             s.SetIndicatorController(indicatorController);
             s.WakeUp();
         }
@@ -85,7 +84,7 @@ public class Wand : MonoBehaviour
         castingBasic = true;
         canCast = false;
         yield return new WaitForSeconds(cast);
-        spells[selectedSpell].FireSimple();
+        spells[selectedSpell].FireSimple(simpleFirePoint);
         yield return new WaitForSeconds(reset);
         castingBasic = false;
         canCast = true;
@@ -95,6 +94,6 @@ public class Wand : MonoBehaviour
         canCast = !holding;
         channeling = holding;
         yield return new WaitForSeconds(seconds);
-        spells[selectedSpell].FireHold(holding);
+        spells[selectedSpell].FireHold(holding, channelingFirePoint);
     }
 }

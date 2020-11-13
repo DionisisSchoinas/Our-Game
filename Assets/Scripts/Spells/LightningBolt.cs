@@ -6,8 +6,6 @@ public class LightningBolt : Spell
     [SerializeField]
     private float damagePerFrame = 5f;
 
-    private Transform simpleFirePoint;
-    private Transform channelingFirePoint;
     private GameObject tmpBolt;
 
     private List<GameObject> collisions;
@@ -31,30 +29,23 @@ public class LightningBolt : Spell
         collisions.Clear();
     }
 
-    public override void FireHold(bool holding)
+    public override void FireHold(bool holding, Transform firePoint)
     {
         if (holding)
         {
-            indicatorController.SelectLocation(channelingFirePoint, 3f, 18f);
+            tmpBolt = Instantiate(gameObject, firePoint);
+            indicatorController.SelectLocation(firePoint, 3f, 18f);
             tmpBolt.SetActive(true);
         }
         else
         {
+            Destroy(tmpBolt);
             indicatorController.DestroyIndicator();
-            tmpBolt.SetActive(false);
         }
-    }
-
-    public override void SetFirePoints(Transform point1, Transform point2)
-    {
-        simpleFirePoint = point1;
-        channelingFirePoint = point2;
     }
 
     public override void WakeUp()
     {
-        tmpBolt = Instantiate(gameObject, channelingFirePoint) as GameObject;
-        tmpBolt.SetActive(false);
         Start();
     }
 
@@ -79,10 +70,10 @@ public class LightningBolt : Spell
 
     public override ParticleSystem GetSource()
     {
-        return tmpBolt.transform.Find("Source").GetComponent<ParticleSystem>();
+        return ((GameObject)Resources.Load("Spells/Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
 
-    public override void FireSimple()
+    public override void FireSimple(Transform firePoint)
     {
     }
 }

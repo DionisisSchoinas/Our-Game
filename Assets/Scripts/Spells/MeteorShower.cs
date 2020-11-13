@@ -11,8 +11,6 @@ public class MeteorShower : Spell
     [SerializeField]
     private float projectilesPerSecond;
 
-    private Transform simplefiringPoint;
-    private Transform channelingfiringPoint;
     private Vector3 spellLocation;
     private bool pickedSpot;
     private Vector3 spawningLocation;
@@ -33,13 +31,7 @@ public class MeteorShower : Spell
         Start();
     }
 
-    public override void SetFirePoints(Transform point1, Transform point2)
-    {
-        simplefiringPoint = point1;
-        channelingfiringPoint = point2;
-    }
-
-    public override void FireSimple()
+    public override void FireSimple(Transform firePoint)
     {
         if (pickedSpot)
         {
@@ -51,7 +43,7 @@ public class MeteorShower : Spell
         }
     }
 
-    public override void FireHold(bool holding)
+    public override void FireHold(bool holding, Transform firePoint)
     {
         if (!firing)
         {

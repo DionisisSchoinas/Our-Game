@@ -9,8 +9,6 @@ public class WallofStone : Spell
     private List<GameObject> collisions;
     private int damageablesLayer;
 
-    private Transform simpleFirePoint;
-    private Transform channelingFirePoint;
     private Vector3 spawningLocation;
     private Vector3 spellRotation;
     private bool pickedSpot;
@@ -25,13 +23,7 @@ public class WallofStone : Spell
         wallToSpawn = GetComponentInChildren<WallScript>().gameObject;
     }
 
-    public override void SetFirePoints(Transform point1, Transform point2)
-    {
-        simpleFirePoint = point1;
-        channelingFirePoint = point2;
-    }
-
-    public override void FireSimple()
+    public override void FireSimple(Transform firePoint)
     {
         if (pickedSpot)
         {
@@ -62,7 +54,7 @@ public class WallofStone : Spell
         }
     }
 
-    public override void FireHold(bool holding)
+    public override void FireHold(bool holding, Transform firePoint)
     {
         if (holding)
         {
