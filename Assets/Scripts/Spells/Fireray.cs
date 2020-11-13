@@ -1,34 +1,46 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Fireray : Spell
 {
     [SerializeField]
-    private float damageTicksPerSecond = 5;
+    private float damage = 5f;
     [SerializeField]
-    private GameObject laser;
+    private int damageTicksPerSecond = 5;
+
+    private List<GameObject> collisions;
+    private int damageablesLayer;
 
     private GameObject tmpLaser;
-
     private SpellIndicatorController indicatorController;
 
-    void Start()
+    private void Start()
     {
+        collisions = new List<GameObject>();
+        damageablesLayer = LayerMask.NameToLayer("Damageables");
+        InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
     }
 
-    public override void WakeUp()
+    private void OnTriggerStay(Collider other)
     {
+        if (other.gameObject.layer.Equals(damageablesLayer))
+        {
+            if (!collisions.Contains(other.gameObject))
+            {
+                if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
+                {
+                    collisions.Add(other.gameObject);
+                }
+            }
+        }
     }
 
     public override void FireHold(bool holding, Transform firePoint)
     {
         if (holding)
         {
-            tmpLaser = Instantiate(laser, firePoint);
+            tmpLaser = Instantiate(gameObject, firePoint);
             indicatorController.SelectLocation(firePoint, 3f, 18f);
             tmpLaser.SetActive(true);
         }
@@ -39,8 +51,14 @@ public class Fireray : Spell
         }
     }
 
-    public override void FireSimple(Transform firePoint)
+    private void DamageEnemies()
     {
+        foreach (GameObject gm in collisions)
+        {
+            if (gm != null)
+                gm.SendMessage("Damage", damage);
+        }
+        collisions.Clear();
     }
 
     public override ParticleSystem GetSource()
@@ -50,5 +68,12 @@ public class Fireray : Spell
     public override void SetIndicatorController(SpellIndicatorController controller)
     {
         indicatorController = controller;
+    }
+
+    public override void WakeUp()
+    {
+    }
+    public override void FireSimple(Transform firePoint)
+    {
     }
 }

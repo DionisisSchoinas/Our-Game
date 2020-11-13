@@ -4,7 +4,9 @@ using UnityEngine;
 public class LightningBolt : Spell
 {
     [SerializeField]
-    private float damagePerFrame = 5f;
+    private float damage = 5f;
+    [SerializeField]
+    private int damageTicksPerSecond = 5;
 
     private GameObject tmpBolt;
 
@@ -17,16 +19,7 @@ public class LightningBolt : Spell
     {
         collisions = new List<GameObject>();
         damageablesLayer = LayerMask.NameToLayer("Damageables");
-    }
-
-    private void FixedUpdate()
-    {
-        foreach (GameObject gm in collisions)
-        {
-            if (gm != null)
-                gm.SendMessage("Damage", damagePerFrame);
-        }
-        collisions.Clear();
+        InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
     }
 
     public override void FireHold(bool holding, Transform firePoint)
@@ -44,9 +37,14 @@ public class LightningBolt : Spell
         }
     }
 
-    public override void WakeUp()
+    private void DamageEnemies()
     {
-        Start();
+        foreach (GameObject gm in collisions)
+        {
+            if (gm != null)
+                gm.SendMessage("Damage", damage);
+        }
+        collisions.Clear();
     }
 
     private void OnTriggerStay(Collider other)
@@ -55,7 +53,7 @@ public class LightningBolt : Spell
         {
             if (!collisions.Contains(other.gameObject))
             {
-                if (!Physics.Linecast(other.transform.position, transform.position, ~damageablesLayer))
+                if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
                 {
                     collisions.Add(other.gameObject);
                 }
@@ -74,6 +72,10 @@ public class LightningBolt : Spell
     }
 
     public override void FireSimple(Transform firePoint)
+    {
+    }
+
+    public override void WakeUp()
     {
     }
 }
