@@ -102,7 +102,7 @@ public class Firewall : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        return ResourceManager.Default.Fire;
     }
 
     public override void SetIndicatorController(SpellIndicatorController controller)

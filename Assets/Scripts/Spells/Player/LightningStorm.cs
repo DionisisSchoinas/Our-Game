@@ -104,7 +104,7 @@ public class LightningStorm : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ((GameObject)Resources.Load("Spells/Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        return ResourceManager.Default.Lightning;
     }
 
     public override void WakeUp()

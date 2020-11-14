@@ -33,9 +33,7 @@ public class Fireball : Spell
     }
     public override ParticleSystem GetSource()
     {
-        GameObject tmp = Instantiate(gameObject, Vector3.up * 1000, Quaternion.identity) as GameObject;
-        Destroy(tmp, 0.1f);
-        return tmp.transform.Find("Source").GetComponent<ParticleSystem>();
+        return ResourceManager.Default.Fire;
     }
 
     public override void SetIndicatorController(SpellIndicatorController controller)
