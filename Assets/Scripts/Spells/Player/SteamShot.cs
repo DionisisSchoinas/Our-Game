@@ -32,6 +32,6 @@ public class SteamShot : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ((GameObject)Resources.Load("Spells/Default Smoke Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        return ResourceManager.Default.Smoke;
     }
 }

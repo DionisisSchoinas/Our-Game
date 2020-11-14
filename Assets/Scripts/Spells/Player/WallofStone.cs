@@ -93,7 +93,7 @@ public class WallofStone : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ((GameObject)Resources.Load("Spells/Default Earth Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        return ResourceManager.Default.Earth;
     }
 
     public override void SetIndicatorController(SpellIndicatorController controller)
