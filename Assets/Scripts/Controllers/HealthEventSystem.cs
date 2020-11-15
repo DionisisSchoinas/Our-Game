@@ -20,4 +20,13 @@ public class HealthEventSystem : MonoBehaviour
             onDamageTaken(name, damage);
         }
     }
+
+    public event Action<string, bool> onChangeInvunerability;
+    public void SetInvunerable(string name, bool state)
+    {
+        if (onChangeInvunerability != null)
+        {
+            onChangeInvunerability(name, state);
+        }
+    }
 }

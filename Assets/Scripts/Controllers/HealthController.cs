@@ -21,6 +21,7 @@ public class HealthController : MonoBehaviour
         healthBar.SetMaxHealth(maxHealth);
 
         HealthEventSystem.current.onDamageTaken += TakeDamage;
+        HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
     }
 
     public void Damage(float damage)
@@ -49,9 +50,17 @@ public class HealthController : MonoBehaviour
             Damage(damage);
         }
     }
+    public void SetInvunerability(string name, bool state)
+    {
+        if (gameObject.name == name)
+        {
+            invunarable = state;
+        }
+    }
 
     private void OnDestroy()
     {
         HealthEventSystem.current.onDamageTaken -= TakeDamage;
+        HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
     }
 }

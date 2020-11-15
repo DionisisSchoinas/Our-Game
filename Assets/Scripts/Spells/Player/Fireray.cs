@@ -10,7 +10,7 @@ public class Fireray : Spell
     private int damageTicksPerSecond = 5;
 
     private List<GameObject> collisions;
-    private int damageablesLayer;
+    private string[] damageablesLayer;
 
     private GameObject tmpLaser;
     private SpellIndicatorController indicatorController;
@@ -18,13 +18,13 @@ public class Fireray : Spell
     private void Start()
     {
         collisions = new List<GameObject>();
-        damageablesLayer = LayerMask.NameToLayer("Damageables");
+        damageablesLayer = new string[] { "Damageables", "Spell" };
         InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer.Equals(damageablesLayer))
+        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
         {
             if (!collisions.Contains(other.gameObject))
             {

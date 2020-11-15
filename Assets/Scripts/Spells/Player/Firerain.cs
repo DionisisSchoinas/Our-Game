@@ -17,13 +17,13 @@ public class Firerain : Spell
     private SpellIndicatorController indicatorController;
 
     private List<GameObject> collisions;
-    private int damageablesLayer;
+    private string[] damageablesLayer;
 
     void Start()
     {
         pickedSpot = false;
         collisions = new List<GameObject>();
-        damageablesLayer = LayerMask.NameToLayer("Damageables");
+        damageablesLayer = new string[] { "Damageables", "Spell" };
         InvokeRepeating(nameof(DamageEnemies), 1f, 1f / damageTicksPerSecond);
     }
 
@@ -72,7 +72,7 @@ public class Firerain : Spell
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer.Equals(damageablesLayer))
+        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
         {
             if (!collisions.Contains(other.gameObject))
             {

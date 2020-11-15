@@ -16,7 +16,7 @@ public class EnemyFirerain : EnemySpell
     private bool pickedSpot;
 
     private List<GameObject> collisions;
-    private int damageablesLayer;
+    private string[] damageablesLayer;
 
     private GameObject tmpSource;
 
@@ -24,7 +24,7 @@ public class EnemyFirerain : EnemySpell
     {
         pickedSpot = false;
         collisions = new List<GameObject>();
-        damageablesLayer = LayerMask.NameToLayer("Damageables");
+        damageablesLayer = new string[] { "Damageables", "Spell" };
         InvokeRepeating(nameof(DamageEnemies), 1f, 1f / damageTicksPerSecond);
     }
 
@@ -70,7 +70,7 @@ public class EnemyFirerain : EnemySpell
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer.Equals(damageablesLayer))
+        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
         {
             if (!collisions.Contains(other.gameObject))
             {
