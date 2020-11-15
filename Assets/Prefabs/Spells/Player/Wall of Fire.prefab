@@ -9495,7 +9495,7 @@ ParticleSystemRenderer:
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0
-  m_RenderAlignment: 0
+  m_RenderAlignment: 3
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_UseCustomVertexStreams: 0
@@ -9554,7 +9554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a820681a189f9640938dc67a9c5a10a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePerFrame: 5
+  damage: 5
+  damageTicksPerSecond: 5
 --- !u!65 &8695578224533397699
 BoxCollider:
   m_ObjectHideFlags: 0
