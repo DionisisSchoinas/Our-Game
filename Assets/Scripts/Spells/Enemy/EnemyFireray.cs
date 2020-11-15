@@ -17,7 +17,6 @@ public class EnemyFireray : EnemySpell
     private void Start()
     {
         collisions = new List<GameObject>();
-        //damageablesLayer = LayerMask.NameToLayer("Damageables");
         damageablesLayer = new string[] { "Damageables", "Spell" };
         InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
     }

@@ -18,7 +18,7 @@ public class EnemyFirerain : EnemySpell
     private List<GameObject> collisions;
     private string[] damageablesLayer;
 
-    private GameObject tmpSource;
+    private ParticleSystem tmpSource;
 
     void Start()
     {
@@ -47,7 +47,7 @@ public class EnemyFirerain : EnemySpell
             if (holding)
             {
                 pickedSpot = false;
-                tmpSource = Instantiate(((GameObject)Resources.Load("Spells/Default Fire Source", typeof(GameObject))), firePoint.position, firePoint.rotation);
+                tmpSource = Instantiate(ResourceManager.Default.Fire, firePoint.position, firePoint.rotation);
             }
             else
             {
