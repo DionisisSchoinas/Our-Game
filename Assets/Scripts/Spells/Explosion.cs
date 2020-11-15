@@ -7,16 +7,16 @@ public class Explosion : MonoBehaviour
     [SerializeField]
     private float damage = 35f;
 
-    private int damageablesLayer;
+    private string[] damageablesLayer;
 
     private void Start()
     {
-        damageablesLayer = LayerMask.NameToLayer("Damageables");
+        damageablesLayer = new string[] { "Damageables", "Spell" };
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.Equals(damageablesLayer))
+        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
         {
             if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
             {
