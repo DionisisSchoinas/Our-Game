@@ -19,7 +19,7 @@ public class CastingControls : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (controls.menu)
+        if (controls.menu && !overlayController.isEnabled)
         {
             overlayController.Enable(true);
             fire1 = false;
@@ -29,7 +29,7 @@ public class CastingControls : MonoBehaviour
                 wand.Fire2(false);
             }
         }
-        else if (overlayController.isEnabled)
+        else if (!controls.menu && overlayController.isEnabled)
         {
             overlayController.Enable(false);
         }

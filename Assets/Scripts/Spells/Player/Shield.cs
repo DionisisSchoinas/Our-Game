@@ -43,7 +43,7 @@ public class Shield : Spell
                 HealthEventSystem.current.SetInvunerable(gm.gameObject.name, false);
             }
         }
-        colliders = Physics.OverlapSphere(transform.position, transform.localScale.x / 2.5f, damageablesLayer);
+        colliders = Physics.OverlapSphere(transform.position, transform.localScale.x / 3f, damageablesLayer);
         foreach (Collider gm in colliders)
         {
             HealthEventSystem.current.SetInvunerable(gm.gameObject.name, true);
