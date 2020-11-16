@@ -15,6 +15,7 @@ public class MeteorShower : Spell
     private bool pickedSpot;
     private Vector3 spawningLocation;
     private SpellIndicatorController indicatorController;
+    private IndicatorResponse indicatorResponse;
     private bool firing;
 
     private void Start()
@@ -56,9 +57,10 @@ public class MeteorShower : Spell
             {
                 if (indicatorController != null)
                 {
-                    if (indicatorController.LockLocation() != null)
+                    indicatorResponse = indicatorController.LockLocation();
+                    if (!indicatorResponse.IsNull())
                     {
-                        spawningLocation = indicatorController.LockLocation()[0];
+                        spawningLocation = indicatorResponse.CenterOfAoe();
                         pickedSpot = true;
                         Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
                     }

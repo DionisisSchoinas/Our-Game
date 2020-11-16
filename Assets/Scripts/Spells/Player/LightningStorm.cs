@@ -14,6 +14,7 @@ public class LightningStorm : Spell
     private Vector3 spawningLocation;
     private bool pickedSpot;
     private SpellIndicatorController indicatorController;
+    private IndicatorResponse indicatorResponse;
 
     private List<GameObject> collisions;
     private string[] damageablesLayer;
@@ -51,9 +52,10 @@ public class LightningStorm : Spell
             {
                 if (indicatorController != null)
                 {
-                    if (indicatorController.LockLocation() != null)
+                    indicatorResponse = indicatorController.LockLocation();
+                    if (!indicatorResponse.IsNull())
                     {
-                        spawningLocation = indicatorController.LockLocation()[0];
+                        spawningLocation = indicatorResponse.CenterOfAoe();
                         pickedSpot = true;
                         Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
                     }

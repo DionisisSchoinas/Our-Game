@@ -16,6 +16,7 @@ public class Firewall : Spell
     private Vector3 spellRotation;
     private bool pickedSpot;
     private SpellIndicatorController indicatorController;
+    private IndicatorResponse indicatorResponse;
 
     private void Start()
     {
@@ -52,10 +53,11 @@ public class Firewall : Spell
             {
                 if (indicatorController != null)
                 {
-                    if (indicatorController.LockLocation() != null)
+                    indicatorResponse = indicatorController.LockLocation();
+                    if (!indicatorResponse.IsNull())
                     {
-                        spawningLocation = indicatorController.LockLocation()[0];
-                        spellRotation = indicatorController.LockLocation()[1];
+                        spawningLocation = indicatorResponse.CenterOfAoe();
+                        spellRotation = indicatorResponse.SpellRotation();
                         pickedSpot = true;
                         Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
                     }

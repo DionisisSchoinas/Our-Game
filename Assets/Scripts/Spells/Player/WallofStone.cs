@@ -14,7 +14,8 @@ public class WallofStone : Spell
     private bool pickedSpot;
     private bool spawned;
     private SpellIndicatorController indicatorController;
-    private float face;
+    private IndicatorResponse indicatorResponse;
+    private int face;
 
     private void Start()
     {
@@ -67,11 +68,12 @@ public class WallofStone : Spell
         {
             if (indicatorController != null)
             {
-                if (indicatorController.LockLocation() != null)
+                indicatorResponse = indicatorController.LockLocation();
+                if (!indicatorResponse.IsNull())
                 {
-                    spawningLocation = indicatorController.LockLocation()[0];
-                    spellRotation = indicatorController.LockLocation()[1];
-                    face = indicatorController.LockLocation()[2].x;
+                    spawningLocation = indicatorResponse.CenterOfAoe();
+                    spellRotation = indicatorResponse.SpellRotation();
+                    face = indicatorResponse.Face();
                     pickedSpot = true;
                     spawned = false;
                     Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
