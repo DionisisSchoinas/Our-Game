@@ -257,7 +257,7 @@ public class SpellIndicatorController : MonoBehaviour
         picking = true;
     }
 
-    public Vector3[] LockLocation()
+    public IndicatorResponse LockLocation()
     {
         picking = false;
         if (tmpAoeIndicator != null)
@@ -283,18 +283,18 @@ public class SpellIndicatorController : MonoBehaviour
         }
         else
         {
-            return null;
+            return new IndicatorResponse().IsNull(true);
         }
         switch (mode)
         {
             case 1:
-                return new Vector3[] { centerOfAOE, spellRotation };
+                return new IndicatorResponse().CenterOfAoe(centerOfAOE).SpellRotation(spellRotation);
 
             case 3:
-                return new Vector3[] { centerOfAOE, spellRotation, Vector3.one * face };
+                return new IndicatorResponse().CenterOfAoe(centerOfAOE).SpellRotation(spellRotation).Face(face);
 
             default:
-                return new Vector3[] { centerOfAOE };
+                return new IndicatorResponse().CenterOfAoe(centerOfAOE);
         }
     }
 
