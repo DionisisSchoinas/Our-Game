@@ -52,10 +52,13 @@ public class Firewall : Spell
             {
                 if (indicatorController != null)
                 {
-                    spawningLocation = indicatorController.LockLocation()[0];
-                    spellRotation = indicatorController.LockLocation()[1];
-                    pickedSpot = true;
-                    Invoke(nameof(CancelSpell), 5f);
+                    if (indicatorController.LockLocation() != null)
+                    {
+                        spawningLocation = indicatorController.LockLocation()[0];
+                        spellRotation = indicatorController.LockLocation()[1];
+                        pickedSpot = true;
+                        Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
+                    }
                 }
             }
         }
@@ -93,7 +96,7 @@ public class Firewall : Spell
 
     private void CancelSpell()
     {
-        if (currentFireWall == null)
+        if (currentFireWall == null && pickedSpot)
         {
             indicatorController.DestroyIndicator();
             pickedSpot = false;

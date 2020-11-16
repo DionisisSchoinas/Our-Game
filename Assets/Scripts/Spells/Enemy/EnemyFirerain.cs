@@ -52,7 +52,7 @@ public class EnemyFirerain : EnemySpell
             else
             {
                 spawningLocation = firePoint.forward * 15f - firePoint.up * 2f + firePoint.position;
-                if (tmpSource != null ) Destroy(tmpSource);
+                if (tmpSource != null ) Destroy(tmpSource.gameObject);
                 pickedSpot = true;
             }
         }
