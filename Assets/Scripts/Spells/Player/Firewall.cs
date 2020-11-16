@@ -22,7 +22,7 @@ public class Firewall : Spell
     {
         pickedSpot = false;
         collisions = new List<GameObject>();
-        damageablesLayer = new string[] { "Damageables", "Spell" };
+        damageablesLayer = new string[] { "Damageables", "Spells" };
         InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
     }
 
