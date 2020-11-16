@@ -24,7 +24,7 @@ public class Firerain : Spell
     {
         pickedSpot = false;
         collisions = new List<GameObject>();
-        damageablesLayer = new string[] { "Damageables", "Spell" };
+        damageablesLayer = new string[] { "Damageables", "Spells" };
         InvokeRepeating(nameof(DamageEnemies), 1f, 1f / damageTicksPerSecond);
     }
 

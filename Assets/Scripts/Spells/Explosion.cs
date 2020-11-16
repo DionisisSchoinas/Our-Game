@@ -11,7 +11,7 @@ public class Explosion : MonoBehaviour
 
     private void Start()
     {
-        damageablesLayer = new string[] { "Damageables", "Spell" };
+        damageablesLayer = new string[] { "Damageables", "Spells" };
     }
 
     private void OnTriggerEnter(Collider other)
