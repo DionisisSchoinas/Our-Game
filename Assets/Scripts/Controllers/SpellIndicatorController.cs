@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.GameCenter;
 
 public class SpellIndicatorController : MonoBehaviour
 {
@@ -8,6 +7,7 @@ public class SpellIndicatorController : MonoBehaviour
     public Material rangeCircleMaterial;
     public Material aoeCircleMaterial;
     public Material aoeSquareMaterial;
+    public float indicatorDeleteTimer = 10f;
 
     private int mode;
     private int face;
@@ -25,7 +25,7 @@ public class SpellIndicatorController : MonoBehaviour
     private GameObject tmpRangeIndicator;
     private GameObject tmpAoeIndicator;
     private int layerMasks;
-    private Plane plane;
+    //private Plane plane;
 
     private PlayerMovementScript controls;
     private bool mouse_1_clicked;
@@ -51,7 +51,7 @@ public class SpellIndicatorController : MonoBehaviour
         picking = false;
         controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
         layerMasks = LayerMask.GetMask("Ground");
-        plane = new Plane(Vector3.up, controls.transform.position);
+        //plane = new Plane(Vector3.up, controls.transform.position);
     }
 
     private void Update()
@@ -64,19 +64,20 @@ public class SpellIndicatorController : MonoBehaviour
     {
         if (picking)
         {
+            // Swap faces
             if (mode == 3 && mouse_1_clicked && !mouse_1_locked)
             {
                 mouse_1_clicked = false;
                 StartCoroutine(LockMouse_1(0.2f));
                 SwapFaces();
             }
-            // Centered on player
+            // Center on player
             if (mode != 2)
             {
                 centerOfRadius = controls.transform.position;
                 tmpRangeIndicator.transform.position = centerOfRadius;
             }
-            // Centered on mouse
+            // Center on mouse
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMasks))
@@ -85,8 +86,6 @@ public class SpellIndicatorController : MonoBehaviour
             }
             else if (mode == 2)
             {
-                float hitPlane;
-                plane.Raycast(ray, out hitPlane);
                 SetIndicators(new RaycastHit(), centerOfRadius, 0f);
             }
         }
@@ -189,7 +188,6 @@ public class SpellIndicatorController : MonoBehaviour
         tmpAoeIndicator.SetActive(true);
 
         picking = true;
-        tmpAoeIndicator.SetActive(true);
     }
     public void SelectLocation(float rangeRadious, float leftToRight, float backToForward)
     {
@@ -212,7 +210,6 @@ public class SpellIndicatorController : MonoBehaviour
         tmpAoeIndicator.SetActive(true);
 
         picking = true;
-        tmpAoeIndicator.SetActive(true);
     }
 
     public void SelectLocation(Transform center, float leftToRight, float backToForward)
@@ -232,7 +229,6 @@ public class SpellIndicatorController : MonoBehaviour
         tmpAoeIndicator.SetActive(true);
 
         picking = true;
-        tmpAoeIndicator.SetActive(true);
     }
     public void SelectLocation(float rangeRadious, Vector3 scaleVector)
     {
@@ -259,7 +255,6 @@ public class SpellIndicatorController : MonoBehaviour
 
         face = 0;
         picking = true;
-        tmpAoeIndicator.SetActive(true);
     }
 
     public Vector3[] LockLocation()
@@ -285,6 +280,10 @@ public class SpellIndicatorController : MonoBehaviour
                    );
             }
             Destroy(tmpRangeIndicator);
+        }
+        else
+        {
+            return null;
         }
         switch (mode)
         {

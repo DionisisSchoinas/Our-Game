@@ -56,9 +56,12 @@ public class MeteorShower : Spell
             {
                 if (indicatorController != null)
                 {
-                    spawningLocation = indicatorController.LockLocation()[0];
-                    pickedSpot = true;
-                    Invoke(nameof(CancelSpell), 5f);
+                    if (indicatorController.LockLocation() != null)
+                    {
+                        spawningLocation = indicatorController.LockLocation()[0];
+                        pickedSpot = true;
+                        Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
+                    }
                 }
             }
         }

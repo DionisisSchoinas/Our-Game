@@ -67,12 +67,15 @@ public class WallofStone : Spell
         {
             if (indicatorController != null)
             {
-                spawningLocation = indicatorController.LockLocation()[0];
-                spellRotation = indicatorController.LockLocation()[1];
-                face = indicatorController.LockLocation()[2].x;
-                pickedSpot = true;
-                spawned = false;
-                Invoke(nameof(CancelSpell), 5f);
+                if (indicatorController.LockLocation() != null)
+                {
+                    spawningLocation = indicatorController.LockLocation()[0];
+                    spellRotation = indicatorController.LockLocation()[1];
+                    face = indicatorController.LockLocation()[2].x;
+                    pickedSpot = true;
+                    spawned = false;
+                    Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
+                }
             }
         }
     }
@@ -84,7 +87,7 @@ public class WallofStone : Spell
 
     private void CancelSpell()
     {
-        if (!spawned)
+        if (!spawned && pickedSpot)
         {
             indicatorController.DestroyIndicator();
             pickedSpot = false;

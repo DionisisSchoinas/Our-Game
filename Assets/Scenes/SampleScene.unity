@@ -4125,6 +4125,7 @@ MonoBehaviour:
   rangeCircleMaterial: {fileID: 2100000, guid: dbe8b6546accb5f458954f19fc99950f, type: 2}
   aoeCircleMaterial: {fileID: 2100000, guid: f9b9e6e237f0926479f1a94f1b6f18df, type: 2}
   aoeSquareMaterial: {fileID: 2100000, guid: 08b9ffed84b8e98498e68bbf028ceec0, type: 2}
+  indicatorDeleteTimer: 10
 --- !u!114 &845488869
 MonoBehaviour:
   m_ObjectHideFlags: 0
