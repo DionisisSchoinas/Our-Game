@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class HealthController : MonoBehaviour
@@ -13,6 +16,7 @@ public class HealthController : MonoBehaviour
     public bool respawn = false;
 
     private float currentHealth;
+    private ConditionsHandler conditionsHandler;
 
     // Start is called before the first frame update
     void Start()
@@ -20,25 +24,34 @@ public class HealthController : MonoBehaviour
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
 
+        conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
+        
         HealthEventSystem.current.onDamageTaken += TakeDamage;
+        HealthEventSystem.current.onDamageIgnoreShieldsTaken += TakeDamageIgnoreShields;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
+        HealthEventSystem.current.onConditionHit += SetCondition;
     }
 
     public void Damage(float damage)
     {
         if (!invunarable)
         {
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
-            if (currentHealth <= 0)
+            DamageIgnoreShields(damage);
+        }
+    }
+
+    public void DamageIgnoreShields(float damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+        if (currentHealth <= 0)
+        {
+            if (!respawn)
+                Destroy(gameObject);
+            else
             {
-                if (!respawn)
-                    Destroy(gameObject);
-                else
-                {
-                    currentHealth = maxHealth;
-                    healthBar.SetHealth(maxHealth);
-                }
+                currentHealth = maxHealth;
+                healthBar.SetHealth(maxHealth);
             }
         }
     }
@@ -50,6 +63,13 @@ public class HealthController : MonoBehaviour
             Damage(damage);
         }
     }
+    public void TakeDamageIgnoreShields(string name, float damage)
+    {
+        if (gameObject.name == name)
+        {
+            DamageIgnoreShields(damage);
+        }
+    }
     public void SetInvunerability(string name, bool state)
     {
         if (gameObject.name == name)
@@ -57,10 +77,23 @@ public class HealthController : MonoBehaviour
             invunarable = state;
         }
     }
+    public void SetCondition(string name, Condition condition)
+    {
+        if (gameObject.name == name)
+        {
+            if (invunarable)
+            {
+                return;
+            }
+            conditionsHandler.AddCondition(condition);
+        }
+    }
 
     private void OnDestroy()
     {
         HealthEventSystem.current.onDamageTaken -= TakeDamage;
+        HealthEventSystem.current.onDamageTaken -= TakeDamageIgnoreShields;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
+        HealthEventSystem.current.onConditionHit -= SetCondition;
     }
 }
