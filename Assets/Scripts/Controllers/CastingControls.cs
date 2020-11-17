@@ -23,11 +23,7 @@ public class CastingControls : MonoBehaviour
         {
             overlayController.Enable(true);
             fire1 = false;
-            if (fire2)
-            {
-                fire2 = false;
-                wand.Fire2(false);
-            }
+            fire2 = false;
         }
         else if (!controls.menu && overlayController.isEnabled)
         {
@@ -39,20 +35,24 @@ public class CastingControls : MonoBehaviour
             fire1 = controls.mousedown_1;
             fire2 = controls.mousedown_2;
 
-            if (!fire2 && Wand.channeling)
-            {
-                wand.Fire2(false);
-            }
         }
 
-        if (fire1)
+        if (fire1 && !Wand.castingBasic)
         {
-            wand.Fire1();
-            fire1 = false;
+            wand.Fire1(true);
         }
+        else if (!fire1 && Wand.castingBasic)
+        {
+            wand.Fire1(false);
+        }
+
         if (fire2 && !Wand.channeling)
         {
             wand.Fire2(true);
+        }
+        else if (!fire2 && Wand.channeling)
+        {
+            wand.Fire2(false);
         }
     }
 }

@@ -55,15 +55,31 @@ public class Wand : MonoBehaviour
         selectedSpell = value;
     }
 
-    public void Fire1()
+    public void Fire1(bool charge)
     {
-        if (canCast)
+        if (canCast & charge)
         {
-            //start playing animation
-            animationController.CastBasic(spells[selectedSpell].GetSource(), castingAnimationSimple, castingAnimationSimpleReset);
-            //start spell attack
-            StartCoroutine(castFire1(castingAnimationSimple, castingAnimationSimpleReset));
+            canCast = false;
+            //start playing charging animation
+            animationController.ChargeBasic(spells[selectedSpell].GetSource());
         }
+        else if (!canCast && !charge)
+        {
+            //start playing reseting animation
+            animationController.ReleaseBasic();
+        }
+    }
+
+    public void FireBasic()
+    {
+        animationController.HideSource();
+        spells[selectedSpell].FireSimple(simpleFirePoint);
+        canCast = true;
+    }
+
+    public void CastingBasic(bool cast)
+    {
+        castingBasic = cast;
     }
 
     public void Fire2(bool holding)
@@ -78,7 +94,7 @@ public class Wand : MonoBehaviour
         }
 
     }
-
+    /*
     IEnumerator castFire1(float cast, float reset)
     {
         castingBasic = true;
@@ -89,6 +105,7 @@ public class Wand : MonoBehaviour
         castingBasic = false;
         canCast = true;
     }
+    */
     IEnumerator castFire2(float seconds, bool holding)
     {
         canCast = !holding;
