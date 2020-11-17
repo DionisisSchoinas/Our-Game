@@ -1,10 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Schema;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 
 public class AnimationScriptController : MonoBehaviour
@@ -16,10 +11,10 @@ public class AnimationScriptController : MonoBehaviour
     public GameObject handForBasicSpells;
     public GameObject leftHandForChannelingSpells;
     public GameObject rightHandForChannelingSpells;
+    public bool allowStopCasting;
 
     private PlayerMovementScript controls;
-    //public GameObject fireboltHand;
-    public bool allowStopCasting;
+    private ParticleSystem tmpSource;
 
     // Start is called before the first frame update
     void Start()
@@ -79,10 +74,23 @@ public class AnimationScriptController : MonoBehaviour
         
     }
 
-    public void CastBasic(ParticleSystem source, float chargeUp, float reset)
+    public void ChargeBasic(ParticleSystem source)
     {
-        animator.SetTrigger("CastBasic");
-        StartCoroutine(CastBasicAnimation(source, chargeUp, reset));
+        animator.SetBool("ReleaseBasic", false);
+        animator.SetBool("ChargeBasic", true);
+        tmpSource = Instantiate(source, handForBasicSpells.transform);
+        //tmpSource.transform.position += Vector3.left * 0.3f;
+
+    }
+    public void ReleaseBasic()
+    {
+        animator.SetBool("ChargeBasic", false);
+        animator.SetBool("ReleaseBasic", true);
+    }
+
+    public void HideSource()
+    {
+        Destroy(tmpSource.gameObject);
     }
 
     public void CastChannel(bool channeling, ParticleSystem source, float chargeUp, float reset)
