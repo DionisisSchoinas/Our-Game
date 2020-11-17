@@ -53,9 +53,9 @@ public class LightningStorm : Spell
                 if (indicatorController != null)
                 {
                     indicatorResponse = indicatorController.LockLocation();
-                    if (!indicatorResponse.IsNull())
+                    if (!indicatorResponse.isNull)
                     {
-                        spawningLocation = indicatorResponse.CenterOfAoe();
+                        spawningLocation = indicatorResponse.centerOfAoe;
                         pickedSpot = true;
                         Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
                     }

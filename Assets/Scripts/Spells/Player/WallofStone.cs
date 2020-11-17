@@ -69,11 +69,11 @@ public class WallofStone : Spell
             if (indicatorController != null)
             {
                 indicatorResponse = indicatorController.LockLocation();
-                if (!indicatorResponse.IsNull())
+                if (!indicatorResponse.isNull)
                 {
-                    spawningLocation = indicatorResponse.CenterOfAoe();
-                    spellRotation = indicatorResponse.SpellRotation();
-                    face = indicatorResponse.Face();
+                    spawningLocation = indicatorResponse.centerOfAoe;
+                    spellRotation = indicatorResponse.spellRotation;
+                    face = indicatorResponse.face;
                     pickedSpot = true;
                     spawned = false;
                     Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);

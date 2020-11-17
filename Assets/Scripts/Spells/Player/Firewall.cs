@@ -54,10 +54,10 @@ public class Firewall : Spell
                 if (indicatorController != null)
                 {
                     indicatorResponse = indicatorController.LockLocation();
-                    if (!indicatorResponse.IsNull())
+                    if (!indicatorResponse.isNull)
                     {
-                        spawningLocation = indicatorResponse.CenterOfAoe();
-                        spellRotation = indicatorResponse.SpellRotation();
+                        spawningLocation = indicatorResponse.centerOfAoe;
+                        spellRotation = indicatorResponse.spellRotation;
                         pickedSpot = true;
                         Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
                     }
