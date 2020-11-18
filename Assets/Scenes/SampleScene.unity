@@ -4722,6 +4722,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5700972946874308681, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
+      propertyPath: damageResistances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700972946874308681, guid: c0651748694f9bc4391c22d65399137d,
+        type: 3}
+      propertyPath: damageImmunities.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700972946874308681, guid: c0651748694f9bc4391c22d65399137d,
+        type: 3}
       propertyPath: respawn
       value: 1
       objectReference: {fileID: 0}
@@ -4729,6 +4739,16 @@ PrefabInstance:
         type: 3}
       propertyPath: id
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700972946874308681, guid: c0651748694f9bc4391c22d65399137d,
+        type: 3}
+      propertyPath: damageResistances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700972946874308681, guid: c0651748694f9bc4391c22d65399137d,
+        type: 3}
+      propertyPath: damageImmunities.Array.data[0]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8068320653798607674, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}

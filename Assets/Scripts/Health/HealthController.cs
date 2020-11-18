@@ -37,6 +37,7 @@ public class HealthController : MonoBehaviour
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
+        HealthEventSystem.current.onForceApply += ApplyForce;
     }
 
     public void Damage(float damage, int damageType)
@@ -91,11 +92,6 @@ public class HealthController : MonoBehaviour
         return dmg;
     }
 
-    private bool IntegerOnArray()
-    {
-
-    }
-
     public void TakeDamage(string name, float damage, int damageType)
     {
         if (gameObject.name == name)
@@ -126,6 +122,21 @@ public class HealthController : MonoBehaviour
                 return;
             }
             conditionsHandler.AddCondition(condition);
+        }
+    }
+    public void ApplyForce(string name, Vector3 direction, float magnitude)
+    {
+        if (gameObject.name == name)
+        {
+            if (invunarable)
+            {
+                return;
+            }
+            Vector3 dir = direction.normalized;
+            //================================================
+            //      APPLY FORCE TO GAMEOBJECT SOMEHOW
+            UnityEngine.Debug.Log("ADD A WAY TO APPLY FORCE" + dir + " -> " + dir * magnitude + " called from HealthController - ApplyForce");
+            //================================================
         }
     }
 
