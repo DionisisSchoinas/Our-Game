@@ -21,6 +21,7 @@ public class Explosion : MonoBehaviour
             if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
             {
                 HealthEventSystem.current.TakeDamage(other.gameObject.name, damage);
+                if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(other.gameObject.name, ConditionsManager.Burning);
             }
         }
     }

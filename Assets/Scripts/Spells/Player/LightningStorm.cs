@@ -69,7 +69,10 @@ public class LightningStorm : Spell
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
+            {
                 HealthEventSystem.current.TakeDamage(gm.name, damage);
+                if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Electrified);
+            }
         }
         collisions.Clear();
     }
