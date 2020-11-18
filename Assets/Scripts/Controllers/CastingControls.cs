@@ -41,7 +41,7 @@ public class CastingControls : MonoBehaviour
         {
             wand.Fire1(true);
         }
-        else if (!fire1 && Wand.castingBasic)
+        else if (!fire1 && Wand.canRelease)
         {
             wand.Fire1(false);
         }

@@ -28,6 +28,7 @@ public class Wand : MonoBehaviour
     //=============
     public static bool channeling;
     public static bool castingBasic;
+    public static bool canRelease;
 
     private bool canCast;
     private int selectedSpell;
@@ -38,6 +39,7 @@ public class Wand : MonoBehaviour
         castingBasic = false;
         channeling = false;
         canCast = true;
+        canRelease = false;
         foreach (Spell s in spells)
         {
             s.SetIndicatorController(indicatorController);
@@ -57,29 +59,21 @@ public class Wand : MonoBehaviour
 
     public void Fire1(bool charge)
     {
+        //Debug.Log("Fire :" + charge);
         if (canCast & charge)
         {
             canCast = false;
+            castingBasic = true;
+            canRelease = true;
             //start playing charging animation
             animationController.ChargeBasic(spells[selectedSpell].GetSource());
         }
-        else if (!canCast && !charge)
+        else if (!canCast && canRelease)
         {
             //start playing reseting animation
             animationController.ReleaseBasic();
+            StartCoroutine(releaseFire1(castingAnimationSimple, castingAnimationSimpleReset));
         }
-    }
-
-    public void FireBasic()
-    {
-        animationController.HideSource();
-        spells[selectedSpell].FireSimple(simpleFirePoint);
-        canCast = true;
-    }
-
-    public void CastingBasic(bool cast)
-    {
-        castingBasic = cast;
     }
 
     public void Fire2(bool holding)
@@ -94,18 +88,18 @@ public class Wand : MonoBehaviour
         }
 
     }
-    /*
-    IEnumerator castFire1(float cast, float reset)
+    
+    IEnumerator releaseFire1(float cast, float reset)
     {
-        castingBasic = true;
-        canCast = false;
+        canRelease = false;
         yield return new WaitForSeconds(cast);
         spells[selectedSpell].FireSimple(simpleFirePoint);
+        animationController.HideSource();
         yield return new WaitForSeconds(reset);
         castingBasic = false;
         canCast = true;
     }
-    */
+    
     IEnumerator castFire2(float seconds, bool holding)
     {
         canCast = !holding;
