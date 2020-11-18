@@ -35,6 +35,7 @@ public class AnimationScriptController : MonoBehaviour
         }
         else
         {
+            animator.ResetTrigger("HardLanding");
             animator.SetBool("IsGrounded", false);
         }
        
@@ -80,7 +81,6 @@ public class AnimationScriptController : MonoBehaviour
         animator.SetBool("ChargeBasic", true);
         tmpSource = Instantiate(source, handForBasicSpells.transform);
         //tmpSource.transform.position += Vector3.left * 0.3f;
-
     }
     public void ReleaseBasic()
     {
