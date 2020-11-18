@@ -81,6 +81,7 @@ public class AnimationScriptController : MonoBehaviour
         animator.SetBool("ChargeBasic", true);
         tmpSource = Instantiate(source, handForBasicSpells.transform);
         //tmpSource.transform.position += Vector3.left * 0.3f;
+
     }
     public void ReleaseBasic()
     {
@@ -90,7 +91,8 @@ public class AnimationScriptController : MonoBehaviour
 
     public void HideSource()
     {
-        Destroy(tmpSource.gameObject);
+        if (tmpSource != null)
+            Destroy(tmpSource.gameObject);
     }
 
     public void CastChannel(bool channeling, ParticleSystem source, float chargeUp, float reset)
