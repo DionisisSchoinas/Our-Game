@@ -103,8 +103,16 @@ public class Wand : MonoBehaviour
     IEnumerator castFire2(float seconds, bool holding)
     {
         channeling = holding;
-        spells[selectedSpell].FireHold(holding, channelingFirePoint);
-        yield return new WaitForSeconds(seconds);
+        if (holding)
+        {
+            yield return new WaitForSeconds(seconds);
+            spells[selectedSpell].FireHold(holding, channelingFirePoint);
+        }
+        else
+        {
+            spells[selectedSpell].FireHold(holding, channelingFirePoint);
+            yield return new WaitForSeconds(seconds);
+        }
         canCast = !holding;
     }
 }

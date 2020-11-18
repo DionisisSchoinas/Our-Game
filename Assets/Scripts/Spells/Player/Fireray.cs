@@ -56,7 +56,10 @@ public class Fireray : Spell
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
+            {
                 HealthEventSystem.current.TakeDamage(gm.name, damage);
+                if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
+            }
         }
         collisions.Clear();
     }

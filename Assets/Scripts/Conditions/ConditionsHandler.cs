@@ -28,18 +28,12 @@ public class ConditionsHandler : MonoBehaviour
             conditionsParticles.RemoveAt(cur_con); // Delete particles
             conditions.Remove(condition); // Delete condition
 
-            // Add new instance
-            conditions.Add(condition);
-            conditionsParticles.Add(Instantiate(condition.effect, gameObject.transform));
-            conditionsCoroutines.Add(StartCoroutine(nameof(DamageOverTime), condition));
         }
-        else
-        {
-            // Add new instance
-            conditions.Add(condition);
-            conditionsParticles.Add(Instantiate(condition.effect, gameObject.transform));
-            conditionsCoroutines.Add(StartCoroutine(nameof(DamageOverTime), condition));
-        }
+        // Add new instance
+        conditions.Add(condition);
+        conditionsParticles.Add(Instantiate(condition.effect, gameObject.transform));
+        conditionsParticles[conditionsParticles.Count - 1].transform.localScale = transform.localScale;
+        conditionsCoroutines.Add(StartCoroutine(nameof(DamageOverTime), condition));
     }
 
     IEnumerator DamageOverTime(Condition condition)

@@ -42,7 +42,10 @@ public class LightningBolt : Spell
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
+            {
                 HealthEventSystem.current.TakeDamage(gm.name, damage);
+                if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Electrified);
+            }
         }
         collisions.Clear();
     }
