@@ -8,6 +8,7 @@ public class Condition
     public float duration { get; private set; }
     public float damage { get; private set; }
     public float damageTicks { get; private set; }
+    public int damageType { get; private set; }
     public ParticleSystem effect { get; private set; }
 
     public Condition()
@@ -16,6 +17,7 @@ public class Condition
         duration = 5f;
         damage = 1f;
         damageTicks = 5f;
+        damageType = DamageTypesManager.Fire;
         effect = ResourceManager.Effects.Burning;
     }
 
@@ -37,6 +39,11 @@ public class Condition
     public Condition DamageTicks(float damageTicks)
     {
         this.damageTicks = damageTicks;
+        return this;
+    }
+    public Condition DamageType(int damageType)
+    {
+        this.damageType = damageType;
         return this;
     }
     public Condition Effect(ParticleSystem effect)

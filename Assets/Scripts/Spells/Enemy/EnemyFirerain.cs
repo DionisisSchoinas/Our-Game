@@ -63,7 +63,10 @@ public class EnemyFirerain : EnemySpell
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
-                HealthEventSystem.current.TakeDamage(gm.name, damage);
+            {
+                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
+                if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
+            }
         }
         collisions.Clear();
     }

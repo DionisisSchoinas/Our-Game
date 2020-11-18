@@ -43,7 +43,7 @@ public class LightningBolt : Spell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Lightning);
                 if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Electrified);
             }
         }

@@ -70,7 +70,7 @@ public class LightningStorm : Spell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Lightning);
                 if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Electrified);
             }
         }

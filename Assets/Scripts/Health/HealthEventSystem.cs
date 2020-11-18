@@ -12,21 +12,21 @@ public class HealthEventSystem : MonoBehaviour
         current = this;
     }
 
-    public event Action<string, float> onDamageTaken;
-    public void TakeDamage(string name, float damage)
+    public event Action<string, float, int> onDamageTaken;
+    public void TakeDamage(string name, float damage, int damageType)
     {
         if (onDamageTaken != null)
         {
-            onDamageTaken(name, damage);
+            onDamageTaken(name, damage, damageType);
         }
     }
 
-    public event Action<string, float> onDamageIgnoreShieldsTaken;
-    public void TakeDamageIgnoreShields(string name, float damage)
+    public event Action<string, float, int> onDamageIgnoreInvunarableTaken;
+    public void TakeDamageIgnoreShields(string name, float damage, int damageType)
     {
-        if (onDamageIgnoreShieldsTaken != null)
+        if (onDamageIgnoreInvunarableTaken != null)
         {
-            onDamageIgnoreShieldsTaken(name, damage);
+            onDamageIgnoreInvunarableTaken(name, damage, damageType);
         }
     }
 
