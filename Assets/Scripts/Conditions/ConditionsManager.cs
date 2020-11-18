@@ -5,5 +5,5 @@ using UnityEngine;
 public class ConditionsManager
 {
     public static Condition Burning = new Condition();
-    public static Condition Electrified = new Condition().Name("Electrified").Effect(ResourceManager.Effects.Electrified);
+    public static Condition Electrified = new Condition().Name("Electrified").DamageType(DamageTypesManager.Lightning).Effect(ResourceManager.Effects.Electrified);
 }

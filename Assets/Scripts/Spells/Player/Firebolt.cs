@@ -31,8 +31,9 @@ public class Firebolt : Spell
     {
         if (collision.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
         {
-            HealthEventSystem.current.TakeDamage(collision.gameObject.name, damage);
+            HealthEventSystem.current.TakeDamage(collision.gameObject.name, damage, DamageTypesManager.Fire);
             if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(collision.gameObject.name, ConditionsManager.Burning);
+            HealthEventSystem.current.ApplyForce(collision.gameObject.name, gameObject.transform.forward.normalized, 5f);
         }
         Destroy(Instantiate(explosionParticles, transform.position, transform.rotation), 1f);
         Destroy(gameObject);

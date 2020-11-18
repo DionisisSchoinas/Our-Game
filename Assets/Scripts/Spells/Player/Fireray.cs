@@ -57,7 +57,7 @@ public class Fireray : Spell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
                 if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
             }
         }

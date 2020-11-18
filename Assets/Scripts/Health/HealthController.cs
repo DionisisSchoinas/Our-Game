@@ -12,6 +12,10 @@ public class HealthController : MonoBehaviour
     private HealthBar healthBar;
     [SerializeField]
     private bool invunarable = false;
+    [SerializeField]
+    private int[] damageResistances;
+    [SerializeField]
+    private int[] damageImmunities;
 
     public bool respawn = false;
 
@@ -23,26 +27,31 @@ public class HealthController : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-
         conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
+
+        if (damageResistances == null) damageResistances = new int[0];
+        if (damageImmunities == null) damageImmunities = new int[0];
+        
         
         HealthEventSystem.current.onDamageTaken += TakeDamage;
-        HealthEventSystem.current.onDamageIgnoreShieldsTaken += TakeDamageIgnoreShields;
+        HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
+        HealthEventSystem.current.onForceApply += ApplyForce;
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage, int damageType)
     {
         if (!invunarable)
         {
-            DamageIgnoreShields(damage);
+            DamageIgnoreInvunarable(damage, damageType);
         }
     }
 
-    public void DamageIgnoreShields(float damage)
+    public void DamageIgnoreInvunarable(float damage, int damageType)
     {
-        currentHealth -= damage;
+        currentHealth -= CheckDamageTypes(damage, damageType);
+
         healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0)
         {
@@ -56,18 +65,45 @@ public class HealthController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(string name, float damage)
+    private float CheckDamageTypes(float damage, int damageType)
+    {
+        float dmg = damage;
+
+        foreach (int type in damageImmunities)
+        {
+            if (type == damageType)
+            {
+                dmg = 0;
+                break;
+            }
+        }
+        if (dmg != 0)
+        {
+            foreach (int type in damageResistances)
+            {
+                if (type == damageType)
+                {
+                    dmg = dmg / 2f;
+                    break;
+                }
+            }
+        }
+
+        return dmg;
+    }
+
+    public void TakeDamage(string name, float damage, int damageType)
     {
         if (gameObject.name == name)
         {
-            Damage(damage);
+            Damage(damage, damageType);
         }
     }
-    public void TakeDamageIgnoreShields(string name, float damage)
+    public void TakeDamageIgnoreInvunarable(string name, float damage, int damageType)
     {
         if (gameObject.name == name)
         {
-            DamageIgnoreShields(damage);
+            DamageIgnoreInvunarable(damage, damageType);
         }
     }
     public void SetInvunerability(string name, bool state)
@@ -88,11 +124,26 @@ public class HealthController : MonoBehaviour
             conditionsHandler.AddCondition(condition);
         }
     }
+    public void ApplyForce(string name, Vector3 direction, float magnitude)
+    {
+        if (gameObject.name == name)
+        {
+            if (invunarable)
+            {
+                return;
+            }
+            Vector3 dir = direction.normalized;
+            //================================================
+            //      APPLY FORCE TO GAMEOBJECT SOMEHOW
+            UnityEngine.Debug.Log("ADD A WAY TO APPLY FORCE" + dir + " -> " + dir * magnitude + " called from HealthController - ApplyForce");
+            //================================================
+        }
+    }
 
     private void OnDestroy()
     {
         HealthEventSystem.current.onDamageTaken -= TakeDamage;
-        HealthEventSystem.current.onDamageTaken -= TakeDamageIgnoreShields;
+        HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
     }

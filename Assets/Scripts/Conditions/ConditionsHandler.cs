@@ -43,7 +43,7 @@ public class ConditionsHandler : MonoBehaviour
 
         while (watch.Elapsed.TotalSeconds <= condition.duration)
         {
-            HealthEventSystem.current.TakeDamageIgnoreShields(gameObject.name, condition.damage);
+            HealthEventSystem.current.TakeDamageIgnoreShields(gameObject.name, condition.damage, condition.damageType);
             yield return new WaitForSeconds(1f / condition.damageTicks);
         }
 

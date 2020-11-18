@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthEventSystem : MonoBehaviour
@@ -11,25 +9,25 @@ public class HealthEventSystem : MonoBehaviour
     {
         current = this;
     }
-
-    public event Action<string, float> onDamageTaken;
-    public void TakeDamage(string name, float damage)
+    // Deals damage
+    public event Action<string, float, int> onDamageTaken;
+    public void TakeDamage(string name, float damage, int damageType)
     {
         if (onDamageTaken != null)
         {
-            onDamageTaken(name, damage);
+            onDamageTaken(name, damage, damageType);
         }
     }
-
-    public event Action<string, float> onDamageIgnoreShieldsTaken;
-    public void TakeDamageIgnoreShields(string name, float damage)
+    // Deals damage ignoring invunarable
+    public event Action<string, float, int> onDamageIgnoreInvunarableTaken;
+    public void TakeDamageIgnoreShields(string name, float damage, int damageType)
     {
-        if (onDamageIgnoreShieldsTaken != null)
+        if (onDamageIgnoreInvunarableTaken != null)
         {
-            onDamageIgnoreShieldsTaken(name, damage);
+            onDamageIgnoreInvunarableTaken(name, damage, damageType);
         }
     }
-
+    // Sets the invunarablility state
     public event Action<string, bool> onChangeInvunerability;
     public void SetInvunerable(string name, bool state)
     {
@@ -38,13 +36,22 @@ public class HealthEventSystem : MonoBehaviour
             onChangeInvunerability(name, state);
         }
     }
-
+    // Applies a condition
     public event Action<string, Condition> onConditionHit;
     public void SetCondition(string name, Condition condition)
     {
         if (onConditionHit != null)
         {
             onConditionHit(name, condition);
+        }
+    }
+    // Applies force
+    public event Action<string, Vector3, float> onForceApply;
+    public void ApplyForce(string name, Vector3 direction, float magnitude)
+    {
+        if (onForceApply != null)
+        {
+            onForceApply(name, direction, magnitude);
         }
     }
 }
