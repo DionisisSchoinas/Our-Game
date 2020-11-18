@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Condition
 {
-    public string name;
-    public float duration;
-    public float damage;
-    public float damageTicks;
-    public ParticleSystem effect;
+    public string name { get; private set; }
+    public float duration { get; private set; }
+    public float damage { get; private set; }
+    public float damageTicks { get; private set; }
+    public ParticleSystem effect { get; private set; }
 
     public Condition()
     {
