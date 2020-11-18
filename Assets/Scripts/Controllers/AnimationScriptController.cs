@@ -35,6 +35,7 @@ public class AnimationScriptController : MonoBehaviour
         }
         else
         {
+            animator.ResetTrigger("HardLanding");
             animator.SetBool("IsGrounded", false);
         }
        

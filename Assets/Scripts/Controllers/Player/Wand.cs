@@ -68,7 +68,7 @@ public class Wand : MonoBehaviour
             //start playing charging animation
             animationController.ChargeBasic(spells[selectedSpell].GetSource());
         }
-        else if (!canCast && canRelease)
+        else if (!canCast && canRelease && castingBasic)
         {
             //start playing reseting animation
             animationController.ReleaseBasic();
@@ -84,7 +84,7 @@ public class Wand : MonoBehaviour
             animationController.CastChannel(holding, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
             //start spell attack
             if (runningCoroutine != null) StopCoroutine(runningCoroutine);
-            runningCoroutine = StartCoroutine(castFire2( (holding ? castingAnimationChannel : 0), holding));
+            runningCoroutine = StartCoroutine(castFire2( (holding ? castingAnimationChannel : castingAnimationChannelReset), holding));
         }
 
     }
@@ -102,9 +102,9 @@ public class Wand : MonoBehaviour
     
     IEnumerator castFire2(float seconds, bool holding)
     {
-        canCast = !holding;
         channeling = holding;
-        yield return new WaitForSeconds(seconds);
         spells[selectedSpell].FireHold(holding, channelingFirePoint);
+        yield return new WaitForSeconds(seconds);
+        canCast = !holding;
     }
 }
