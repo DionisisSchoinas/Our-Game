@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8393465025559046071}
   - component: {fileID: 6558112592143082812}
   - component: {fileID: 6014783670045370662}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Default Smoke Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ ParticleSystem:
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
-  cullingMode: 3
+  cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
@@ -918,7 +918,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 5
       minScalar: 0
       maxCurve:
         serializedVersion: 2

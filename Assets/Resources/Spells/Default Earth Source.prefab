@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 19800000}
   - component: {fileID: 19900000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Default Earth Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ ParticleSystem:
   lengthInSec: 1
   simulationSpeed: 2
   stopAction: 0
-  cullingMode: 1
+  cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
@@ -4712,7 +4712,7 @@ GameObject:
   - component: {fileID: 3687071670934031872}
   - component: {fileID: 1317717506925754754}
   - component: {fileID: 2431546718728900898}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

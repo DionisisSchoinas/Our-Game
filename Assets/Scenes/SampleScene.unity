@@ -2887,6 +2887,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4964402965454966635, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: spells.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4964402965454966635, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: spells.Array.data[11]
+      value: 
+      objectReference: {fileID: -6905581690283978721, guid: 1fde7ac8ef46b06408ce4b74d957be59,
+        type: 3}
     - target: {fileID: 7205926950548252580, guid: bbdf2f0f859680c448dbd66b93f6f062,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -4668,17 +4679,17 @@ PrefabInstance:
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.4
+      value: -36.65
       objectReference: {fileID: 0}
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.5
+      value: 4.14
       objectReference: {fileID: 0}
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.08
+      value: -23.76
       objectReference: {fileID: 0}
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
