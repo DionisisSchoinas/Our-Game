@@ -2,11 +2,9 @@
 
 public class LineCasting
 {
-    public static bool isLineClear(Vector3 point1, Vector3 point2, string[] ignoreLayers)
+    public static bool isLineClear(Vector3 point1, Vector3 point2, int ignoreLayersMask)
     {
-        int ignore = LayerMask.GetMask(ignoreLayers);
-
-        if (!Physics.Linecast(point1, point2, ~ignore))
+        if (!Physics.Linecast(point1, point2, ~ignoreLayersMask))
         {
             return true;
         }
