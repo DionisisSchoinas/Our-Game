@@ -4823,7 +4823,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8692346028077824677}
   - component: {fileID: 4067347847314189893}
-  - component: {fileID: 6634008931592414296}
   m_Layer: 8
   m_Name: Lightning Storm
   m_TagString: Untagged
@@ -4861,20 +4860,6 @@ MonoBehaviour:
   spawningHeight: 40
   damage: 5
   damageTicksPerSecond: 10
---- !u!136 &6634008931592414296
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8692346028077824678}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 14
-  m_Height: 60
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 22}
 --- !u!1 &8692346028337539344
 GameObject:
   m_ObjectHideFlags: 0

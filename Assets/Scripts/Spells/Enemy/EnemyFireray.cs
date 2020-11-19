@@ -9,18 +9,22 @@ public class EnemyFireray : EnemySpell
     [SerializeField]
     private int damageTicksPerSecond = 5;
 
-    private List<GameObject> collisions;
-    private string[] damageablesLayer;
+    private GameObject[] collisions;
+    private Vector3 boxSize;
 
     private GameObject tmpLaser;
 
     private void Start()
     {
-        collisions = new List<GameObject>();
-        damageablesLayer = new string[] { "Damageables", "Spells" };
-        InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
+        boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
+        InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
 
+    private void FixedUpdate()
+    {
+        Collider[] colliders = Physics.OverlapBox(transform.position + Vector3.down + transform.forward * 9f, boxSize, transform.rotation, BasicLayerMasks.DamageableEntities);
+        collisions = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
+    }
 
     public override void FireHold(bool holding, Transform firePoint)
     {
@@ -35,22 +39,10 @@ public class EnemyFireray : EnemySpell
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Damage()
     {
-        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
-        {
-            if (!collisions.Contains(other.gameObject))
-            {
-                if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
-                {
-                    collisions.Add(other.gameObject);
-                }
-            }
-        }
-    }
+        if (collisions == null) return;
 
-    private void DamageEnemies()
-    {
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
@@ -59,7 +51,6 @@ public class EnemyFireray : EnemySpell
                 if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
             }
         }
-        collisions.Clear();
     }
 
     public override void WakeUp()

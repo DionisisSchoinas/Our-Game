@@ -6,23 +6,24 @@ public class Explosion : MonoBehaviour
 {
     [SerializeField]
     private float damage = 35f;
-
-    private string[] damageablesLayer;
+    [SerializeField]
+    private float radius = 9f;
 
     private void Start()
     {
-        damageablesLayer = new string[] { "Damageables", "Spells" };
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, BasicLayerMasks.DamageableEntities);
+        GameObject[] hitObjects = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
+        foreach (GameObject gm in hitObjects)
+        {
+            Damage(gm);
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Damage(GameObject gm)
     {
-        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
-        {
-            if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
-            {
-                HealthEventSystem.current.TakeDamage(other.gameObject.name, damage, DamageTypesManager.Fire);
-                if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(other.gameObject.name, ConditionsManager.Burning);
-            }
-        }
+        if (gm == null)  return;
+
+        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
+        if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
     }
 }

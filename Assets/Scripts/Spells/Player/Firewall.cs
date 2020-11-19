@@ -8,8 +8,8 @@ public class Firewall : Spell
     [SerializeField]
     private int damageTicksPerSecond = 5;
 
-    private List<GameObject> collisions;
-    private string[] damageablesLayer;
+    private GameObject[] collisions;
+    private Vector3 boxSize;
 
     private GameObject currentFireWall;
     private Vector3 spawningLocation;
@@ -21,9 +21,14 @@ public class Firewall : Spell
     private void Start()
     {
         pickedSpot = false;
-        collisions = new List<GameObject>();
-        damageablesLayer = new string[] { "Damageables", "Spells" };
-        InvokeRepeating(nameof(DamageEnemies), 0f, 1f / damageTicksPerSecond);
+        boxSize = (new Vector3(23f, 10f, 3f)) / 2f;
+        InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
+    }
+
+    private void FixedUpdate()
+    {
+        Collider[] colliders = Physics.OverlapBox(transform.position + Vector3.up * 4f, boxSize, transform.rotation, BasicLayerMasks.DamageableEntities);
+        collisions = OverlapDetection.NoObstaclesVertical(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
     public override void FireSimple(Transform firePoint)
@@ -66,30 +71,16 @@ public class Firewall : Spell
         }
     }
 
-    private void DamageEnemies()
+    private void Damage()
     {
+        if (collisions == null) return;
+
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
             {
                 HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
-                if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
-            }
-        }
-        collisions.Clear();
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
-        {
-            if (!collisions.Contains(other.gameObject))
-            {
-                Vector3 belowEntity = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
-                if (LineCasting.isLineClear(other.transform.position, belowEntity, damageablesLayer))
-                {
-                    collisions.Add(other.gameObject);
-                }
+                if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
             }
         }
     }

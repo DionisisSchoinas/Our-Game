@@ -9518,7 +9518,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7040329422519976412}
   - component: {fileID: 6662070825089805369}
-  - component: {fileID: 8695578224533397699}
   m_Layer: 8
   m_Name: Wall of Fire
   m_TagString: Untagged
@@ -9556,16 +9555,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   damageTicksPerSecond: 5
---- !u!65 &8695578224533397699
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7040329422519976411}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 23, y: 10, z: 3}
-  m_Center: {x: 0, y: 3.92, z: 0}

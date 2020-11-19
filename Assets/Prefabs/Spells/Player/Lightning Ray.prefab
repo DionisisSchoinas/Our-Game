@@ -19105,7 +19105,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4061491430522058730}
   - component: {fileID: -4962917080314306125}
-  - component: {fileID: 2388622265143027201}
   m_Layer: 8
   m_Name: Lightning Ray
   m_TagString: Untagged
@@ -19144,16 +19143,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   damageTicksPerSecond: 8
---- !u!65 &2388622265143027201
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4061491430522058733}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 5, z: 18}
-  m_Center: {x: 0, y: 0, z: 9.13}

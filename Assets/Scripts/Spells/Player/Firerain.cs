@@ -5,8 +5,6 @@ using UnityEngine;
 public class Firerain : Spell
 {
     [SerializeField]
-    private float spawningHeight = 40f;
-    [SerializeField]
     private float damage = 5f;
     [SerializeField]
     private int damageTicksPerSecond = 5;
@@ -17,15 +15,20 @@ public class Firerain : Spell
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
 
-    private List<GameObject> collisions;
-    private string[] damageablesLayer;
+    private GameObject[] collisions;
+    private Vector3 capsuleTop;
 
     void Start()
     {
         pickedSpot = false;
-        collisions = new List<GameObject>();
-        damageablesLayer = new string[] { "Damageables", "Spells" };
-        InvokeRepeating(nameof(DamageEnemies), 1f, 1f / damageTicksPerSecond);
+        capsuleTop = transform.position + Vector3.up * 8f;
+        InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
+    }
+
+    private void FixedUpdate()
+    {
+        Collider[] colliders = Physics.OverlapCapsule(capsuleTop, capsuleTop + Vector3.down * 60f, 14f, BasicLayerMasks.DamageableEntities);
+        collisions = OverlapDetection.NoObstaclesVertical(colliders, capsuleTop, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
     public override void FireSimple(Transform firePoint)
@@ -34,7 +37,7 @@ public class Firerain : Spell
         {
             pickedSpot = false;
             tmpStorm = Instantiate(gameObject);
-            tmpStorm.transform.position = spawningLocation + Vector3.up * spawningHeight;
+            tmpStorm.transform.position = spawningLocation + Vector3.up * 40f;
             tmpStorm.SetActive(true);
             Invoke(nameof(StopStorm), 10f);
         }
@@ -65,29 +68,16 @@ public class Firerain : Spell
         }
     }
 
-    private void DamageEnemies()
+    private void Damage()
     {
+        if (collisions == null) return;
+
         foreach (GameObject gm in collisions)
         {
             if (gm != null)
             {
                 HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
                 if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
-            }
-        }
-        collisions.Clear();
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
-        {
-            if (!collisions.Contains(other.gameObject))
-            {
-                if (LineCasting.isLineClear(other.transform.position, transform.position, damageablesLayer))
-                {
-                    collisions.Add(other.gameObject);
-                }
             }
         }
     }
