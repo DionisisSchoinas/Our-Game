@@ -7,7 +7,7 @@ public class TempEffectTester : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating(nameof(SetFrozen), 0f, 5f);
+        InvokeRepeating(nameof(SetFire), 0f, 5f);
     }
 
     public void SetFire()
