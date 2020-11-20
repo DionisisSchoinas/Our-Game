@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Firerain : Spell
+public class Snowstorm : Spell
 {
     [SerializeField]
     private float damage = 5f;
@@ -14,19 +14,19 @@ public class Firerain : Spell
     private IndicatorResponse indicatorResponse;
 
     private GameObject[] collisions;
-    private Vector3 capsuleTop;
+    private Vector3 capsuleBottom;
 
     void Start()
     {
         pickedSpot = false;
-        capsuleTop = transform.position + Vector3.up * 8f;
-        InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
+        capsuleBottom = transform.position + Vector3.down * 14f;
+        InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
 
     private void FixedUpdate()
     {
-        Collider[] colliders = Physics.OverlapCapsule(capsuleTop, capsuleTop + Vector3.down * 60f, 14f, BasicLayerMasks.DamageableEntities);
-        collisions = OverlapDetection.NoObstaclesVertical(colliders, capsuleTop, BasicLayerMasks.IgnoreOnDamageRaycasts);
+        Collider[] colliders = Physics.OverlapCapsule(capsuleBottom + Vector3.up * 50f, capsuleBottom, 14f, BasicLayerMasks.DamageableEntities);
+        collisions = OverlapDetection.NoObstaclesHorizontal(colliders, capsuleBottom, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
     public override void FireSimple(Transform firePoint)
@@ -35,7 +35,7 @@ public class Firerain : Spell
         {
             pickedSpot = false;
             tmpStorm = Instantiate(gameObject);
-            tmpStorm.transform.position = spawningLocation + Vector3.up * 40f;
+            tmpStorm.transform.position = spawningLocation;
             tmpStorm.SetActive(true);
             Invoke(nameof(StopStorm), 10f);
         }
@@ -74,8 +74,8 @@ public class Firerain : Spell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
-                if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Cold);
+                if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Frozen);
             }
         }
     }
@@ -101,7 +101,7 @@ public class Firerain : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Fire;
+        return ResourceManager.Default.Ice;
     }
 
     public override void WakeUp()
