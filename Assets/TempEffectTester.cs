@@ -7,9 +7,7 @@ public class TempEffectTester : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke(nameof(SetFire), 2f);
-        Invoke(nameof(SetElect), 5f);
-        Invoke(nameof(SetFire), 6f);
+        InvokeRepeating(nameof(SetFire), 0f, 5f);
     }
 
     public void SetFire()
@@ -20,5 +18,9 @@ public class TempEffectTester : MonoBehaviour
     public void SetElect()
     {
         HealthEventSystem.current.SetCondition(gameObject.name, ConditionsManager.Electrified);
+    }
+    public void SetFrozen()
+    {
+        HealthEventSystem.current.SetCondition(gameObject.name, ConditionsManager.Frozen);
     }
 }
