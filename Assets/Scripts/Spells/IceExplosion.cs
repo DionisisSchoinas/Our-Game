@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Explosion : MonoBehaviour
+public class IceExplosion : MonoBehaviour
 {
     [SerializeField]
     private float damage = 35f;
@@ -19,9 +19,9 @@ public class Explosion : MonoBehaviour
 
     private void Damage(GameObject gm)
     {
-        if (gm == null)  return;
+        if (gm == null) return;
 
-        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
-        if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
+        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Cold);
+        if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Frozen);
     }
 }

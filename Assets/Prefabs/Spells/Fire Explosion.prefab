@@ -3799,7 +3799,7 @@ ParticleSystem:
     radiusScale: 0.3
     collidesWith:
       serializedVersion: 2
-      m_Bits: 3895
+      m_Bits: 12087
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4832,7 +4832,7 @@ GameObject:
   - component: {fileID: 8289330964062763209}
   - component: {fileID: 7965673094263827599}
   m_Layer: 8
-  m_Name: Explosion
+  m_Name: Fire Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8668,7 +8668,7 @@ ParticleSystem:
     radiusScale: 0.3
     collidesWith:
       serializedVersion: 2
-      m_Bits: 3895
+      m_Bits: 12087
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
