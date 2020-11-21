@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ice Explosion
-  m_Shader: {fileID: -6465566751694194690, guid: 92ff625ea47fcdc49be480e7a2a11f3c,
+  m_Name: Iceblock
+  m_Shader: {fileID: -6465566751694194690, guid: f1ee459e1a91336459f0484215a7ecdb,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -49,10 +49,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_613B7DC5: 0.812
-    - Vector1_94B89E8A: 65
-    - Vector1_C4F961AA: 9.2
-    - Vector1_D66D628C: 2
+    - Vector1_5EBE93D0: 1
+    - Vector1_613B7DC5: 0.63
+    - Vector1_94B89E8A: 10.72
+    - Vector1_C4F961AA: 2.77
+    - Vector1_D66D628C: 20
+    - Vector1_EF070E57: 0.348
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -75,14 +77,15 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_3447E8ED: {r: 2.0475469, g: 5.0011487, b: 5.9463005, a: 1}
-    - Color_9B0201B5: {r: 0.33117065, g: 0.5743741, b: 0.6105958, a: 1}
-    - Vector2_C1EEECDC: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - Color_3447E8ED: {r: 0.15886435, g: 0.2779912, b: 0.3207547, a: 1}
+    - Color_9B0201B5: {r: 0.95686275, g: 2.0705884, b: 2.9960785, a: 1}
+    - Vector2_A7D32E31: {r: 0.6, g: -1.08, b: 0, a: 0}
+    - Vector2_C1EEECDC: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
---- !u!114 &6427089133594819657
+--- !u!114 &2068145808262349461
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

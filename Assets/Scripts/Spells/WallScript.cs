@@ -25,7 +25,7 @@ public class WallScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (transform.localScale.y < height)
+        if (counter <= 1f)
         {
             transform.localScale = Vector3.Lerp(minHeight, maxHeight, counter);
             transform.position = Vector3.Lerp(minPosition, maxPosition, counter);
