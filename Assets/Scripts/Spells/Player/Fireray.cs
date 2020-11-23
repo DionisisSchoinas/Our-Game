@@ -5,9 +5,9 @@ using UnityEngine;
 public class Fireray : Spell
 {
     [SerializeField]
-    private float damage = 5f;
+    private float damage = 10f;
     [SerializeField]
-    private int damageTicksPerSecond = 5;
+    private int damageTicksPerSecond = 8;
 
     private GameObject[] collisions;
     private Vector3 boxSize;

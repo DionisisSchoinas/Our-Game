@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningBolt : Spell
+public class StoneRay : Spell
 {
     [SerializeField]
     private float damage = 10f;
     [SerializeField]
     private int damageTicksPerSecond = 8;
 
-    private GameObject tmpBolt;
-
     private GameObject[] collisions;
     private Vector3 boxSize;
 
+    private GameObject tmpLaser;
     private SpellIndicatorController indicatorController;
 
     private void Start()
@@ -31,13 +31,13 @@ public class LightningBolt : Spell
     {
         if (holding)
         {
-            tmpBolt = Instantiate(gameObject, firePoint);
+            tmpLaser = Instantiate(gameObject, firePoint);
             indicatorController.SelectLocation(firePoint, 3f, 18f);
-            tmpBolt.SetActive(true);
+            tmpLaser.SetActive(true);
         }
         else
         {
-            Destroy(tmpBolt);
+            Destroy(tmpLaser);
             indicatorController.DestroyIndicator();
         }
     }
@@ -50,27 +50,24 @@ public class LightningBolt : Spell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Lightning);
-                if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Electrified);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Physical);
             }
         }
     }
 
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Default.Earth;
+    }
     public override void SetIndicatorController(SpellIndicatorController controller)
     {
         indicatorController = controller;
     }
 
-    public override ParticleSystem GetSource()
-    {
-        return ResourceManager.Default.Lightning;
-    }
-
-    public override void FireSimple(Transform firePoint)
-    {
-    }
-
     public override void WakeUp()
+    {
+    }
+    public override void FireSimple(Transform firePoint)
     {
     }
 }
