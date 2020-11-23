@@ -12,9 +12,16 @@ public class IceWallPart : MonoBehaviour
     private Vector3 maxPosition;
     private Vector3 minPosition;
     private float counter;
+    private float heightMod;
 
     private bool spawn;
     private bool melt;
+
+    private void Awake()
+    {
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.material.SetFloat("_RippleDistortion", Random.Range(15f, 60f));
+    }
 
     void Start()
     {
@@ -30,6 +37,7 @@ public class IceWallPart : MonoBehaviour
         minPosition = transform.position;
 
         counter = 0f;
+        heightMod = Random.Range(0f / steps, 3f / steps);
         spawn = true;
         melt = false;
     }
@@ -42,15 +50,17 @@ public class IceWallPart : MonoBehaviour
     
     private void Rise()
     {
-        if (counter <= 1f)
+        if (counter <= 1f - heightMod)
         {
             transform.localScale = Vector3.Lerp(minHeight, maxHeight, counter);
             transform.position = Vector3.Lerp(minPosition, maxPosition, counter);
-            counter += Random.Range(0.3f / steps, 1.5f / steps);
+            counter += Random.Range(0.1f / steps, 1.2f / steps);
         }
         else
         {
             spawn = false;
+            maxHeight = transform.localScale;
+            maxPosition = transform.position;
             Invoke(nameof(StartMelting), 5f);
         }
     }
