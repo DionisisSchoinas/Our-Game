@@ -2,26 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallofStone : Spell
+public class WallOfSand : Spell
 {
-    private GameObject wallToSpawn;
-
-    private List<GameObject> collisions;
-    private int damageablesLayer;
-
     private Vector3 spawningLocation;
     private Vector3 spellRotation;
     private bool pickedSpot;
-    private bool spawned;
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
-    private int face;
 
     private void Start()
     {
         pickedSpot = false;
-        spawned = false;
-        wallToSpawn = GetComponentInChildren<WallScript>().gameObject;
     }
 
     public override void FireSimple(Transform firePoint)
@@ -30,28 +21,11 @@ public class WallofStone : Spell
         {
             indicatorController.DestroyIndicator();
             pickedSpot = false;
-            spawned = true;
-
-            Vector3 scale = new Vector3();
-            if (face == 0)
-            {
-                scale = wallToSpawn.transform.localScale;
-            }
-            else if (face == 1)
-            {
-                scale = new Vector3(
-                    wallToSpawn.transform.localScale.y,
-                    wallToSpawn.transform.localScale.x,
-                    wallToSpawn.transform.localScale.z
-                );
-            }
-
-            GameObject w = Instantiate(wallToSpawn);
-            w.SendMessage("SetScale", scale);
-            w.SetActive(false);
-            w.transform.eulerAngles = spellRotation;
-            w.transform.position = -w.transform.up * w.transform.localScale.y / 2f + spawningLocation;
-            w.SetActive(true);
+            GameObject wall = Instantiate(gameObject);
+            wall.transform.position = spawningLocation;
+            wall.transform.eulerAngles = spellRotation;
+            wall.SetActive(true);
+            Destroy(wall, 15f);
         }
     }
 
@@ -59,9 +33,7 @@ public class WallofStone : Spell
     {
         if (holding)
         {
-            Vector3 scale = wallToSpawn.transform.localScale;
-            scale.z = Mathf.Max(2f, wallToSpawn.transform.localScale.z);
-            indicatorController.SelectLocation(20f, scale);
+            indicatorController.SelectLocation(20f, 24f, 4f);
             pickedSpot = false;
         }
         else
@@ -73,23 +45,16 @@ public class WallofStone : Spell
                 {
                     spawningLocation = indicatorResponse.centerOfAoe;
                     spellRotation = indicatorResponse.spellRotation;
-                    face = indicatorResponse.face;
                     pickedSpot = true;
-                    spawned = false;
                     Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
                 }
             }
         }
     }
 
-    public override void WakeUp()
-    {
-        Start();
-    }
-
     private void CancelSpell()
     {
-        if (!spawned && pickedSpot)
+        if (pickedSpot)
         {
             indicatorController.DestroyIndicator();
             pickedSpot = false;
@@ -104,5 +69,9 @@ public class WallofStone : Spell
     public override void SetIndicatorController(SpellIndicatorController controller)
     {
         indicatorController = controller;
+    }
+
+    public override void WakeUp()
+    {
     }
 }

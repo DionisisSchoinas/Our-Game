@@ -36,7 +36,7 @@ public class SpellIndicatorController : MonoBehaviour
     mode : 0  -  1 cirlce range and 1 circle aoe
     mode : 1  -  1 cirlce range and 1 square aoe
     mode : 2  -  locked range and 1 square aoe
-    mode : 3  -  1 circle range and 1 square aoe with face swapping
+    mode : 3  -  1 circle range and 1 square aoe with face swapping     ===== NOT USED =====
             face : 0  -  short and wide
             face : 1  -  tall and narrow
 
