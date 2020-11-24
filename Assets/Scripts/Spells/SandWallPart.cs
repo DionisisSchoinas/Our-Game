@@ -67,7 +67,7 @@ public class SandWallPart : MonoBehaviour
             if (up)
             {
                 transform.localScale = Vector3.Lerp(downPos, upPos, count);
-                count += 0.2f * Random.Range(0.5f, 1f);
+                count += 0.3f * Random.Range(0.5f, 1f);
                 if (count >= 1f)
                 {
                     up = false;

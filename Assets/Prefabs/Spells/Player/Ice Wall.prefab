@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2818920419133848455}
   - component: {fileID: 665522332336828455}
   m_Layer: 8
-  m_Name: Wall of Ice
+  m_Name: Ice Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
