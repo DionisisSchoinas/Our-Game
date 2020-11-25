@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningBolt : Spell
+public class LightningRay : Spell
 {
     [SerializeField]
     private float damage = 10f;
