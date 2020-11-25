@@ -18,4 +18,14 @@ public class ResourceManager
         public static ParticleSystem Frozen = ((GameObject)Resources.Load("Effects/Frozen Effect", typeof(GameObject))).GetComponent<ParticleSystem>();
         public static ParticleSystem Hit = ((GameObject)Resources.Load("Effects/Hit Effect", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
+
+    public class Components
+    {
+        public static Arc Arc = ((GameObject)Resources.Load("Components/Arc", typeof(GameObject))).GetComponent<Arc>();
+    }
+    public class Materials
+    {
+        public static Material LightningArc1 = (Material)Resources.Load("Materials/Lightning Arc 1", typeof(Material));
+        public static Material LightningArc2 = (Material)Resources.Load("Materials/Lightning Arc 2", typeof(Material));
+    }
 }
