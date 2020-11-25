@@ -22,7 +22,12 @@ public class LightningBall : Spell
         Collider[] colliders = Physics.OverlapSphere(transform.position, 10f, ~BasicLayerMasks.SpellsLayers);
         foreach (Collider c in colliders)
         {
-            Instantiate(ResourceManager.Components.Arc, transform).SetValues(c.ClosestPoint(transform.position) + Random.insideUnitSphere, 0.2f, 0.6f, 25);
+            Instantiate(ResourceManager.Components.Arc, transform)
+                .To(c.ClosestPoint(transform.position) + Random.insideUnitSphere)
+                .SecondsAlive(0.2f)
+                .Width(0.6f)
+                .BreakPoints(25)
+                .Enable();
         }
     }
 
@@ -34,7 +39,8 @@ public class LightningBall : Spell
 
     void FixedUpdate()
     {
-        rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
+        if (rb != null)
+            rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
     }
 
     private void OnCollisionEnter(Collision collision)

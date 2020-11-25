@@ -36,7 +36,12 @@ public class LightningBolt : Spell
         Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, ~BasicLayerMasks.SpellsLayers);
         foreach (Collider c in colliders)
         {
-            Instantiate(ResourceManager.Components.Arc, transform).SetValues(c.ClosestPoint(transform.position) + Random.insideUnitSphere, 0.2f, 0.6f, 15);
+            Instantiate(ResourceManager.Components.Arc, transform)
+                .To(c.ClosestPoint(transform.position) + Random.insideUnitSphere)
+                .SecondsAlive(0.2f)
+                .Width(0.6f)
+                .BreakPoints(15)
+                .Enable();
         }
     }
 
