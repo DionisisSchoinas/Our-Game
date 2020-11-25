@@ -17,6 +17,7 @@ public class ResourceManager
         public static ParticleSystem Electrified = ((GameObject)Resources.Load("Effects/Electrified Effect", typeof(GameObject))).GetComponent<ParticleSystem>();
         public static ParticleSystem Frozen = ((GameObject)Resources.Load("Effects/Frozen Effect", typeof(GameObject))).GetComponent<ParticleSystem>();
         public static ParticleSystem Hit = ((GameObject)Resources.Load("Effects/Hit Effect", typeof(GameObject))).GetComponent<ParticleSystem>();
+        public static ParticleSystem Sparks = ((GameObject)Resources.Load("Effects/Sparks", typeof(GameObject))).GetComponent<ParticleSystem>();
     }
 
     public class Components

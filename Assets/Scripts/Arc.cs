@@ -70,7 +70,7 @@ public class Arc : MonoBehaviour
             lineRenderer.SetPosition(i, ray.GetPoint(i * points) + Random.insideUnitSphere * 0.5f);
         }
         lineRenderer.SetPosition(breakPoints-1, to);
+
+        Destroy(Instantiate(ResourceManager.Effects.Sparks, to, Quaternion.identity).gameObject, 0.3f);
     }
-
-
 }
