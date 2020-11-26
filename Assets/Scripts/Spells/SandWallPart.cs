@@ -17,7 +17,7 @@ public class SandWallPart : MonoBehaviour
     private bool spawn;
     private bool melt;
 
-    void Start()
+    private void Start()
     {
         height = 8f;
         steps = 30;
@@ -32,7 +32,7 @@ public class SandWallPart : MonoBehaviour
         melt = false;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (spawn) Rise();
         else if (melt) Melt();

@@ -6,8 +6,8 @@ public class SpellTypeBall : Spell
 {
     public float speed = 8f;
     public GameObject explosion;
-
-    private Rigidbody rb;
+    [HideInInspector]
+    public Rigidbody rb;
     private SpellIndicatorController indicatorController;
 
     private void Awake()
@@ -41,7 +41,6 @@ public class SpellTypeBall : Spell
     //------------------ Irrelevant ------------------
     public override void FireHold(bool holding, Transform firePoint)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void WakeUp()

@@ -9,12 +9,12 @@ public class SteamBall : SpellTypeBolt
         damage = 0f;
     }
 
-    public new ParticleSystem GetSource()
+    public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Smoke;
     }
 
-    public new string Name()
+    public override string Name()
     {
         return "Steam Ball";
     }

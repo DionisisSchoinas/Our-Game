@@ -17,6 +17,7 @@ public class StoneBall : SpellTypeBall
     private void FixedUpdate()
     {
         MovePath();
+        rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
     }
 
     private void MovePath()

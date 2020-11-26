@@ -54,7 +54,6 @@ public class SpellTypeBolt : Spell
 
     public override void FireHold(bool holding, Transform firePoint)
     {
-        throw new System.NotImplementedException();
     }
     public override ParticleSystem GetSource()
     {

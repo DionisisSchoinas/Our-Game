@@ -73,7 +73,6 @@ public class SpellTypeRay : Spell
     }
     public override void FireSimple(Transform firePoint)
     {
-        throw new System.NotImplementedException();
     }
 
     public override string Name()

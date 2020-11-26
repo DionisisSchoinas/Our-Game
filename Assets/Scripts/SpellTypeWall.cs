@@ -26,14 +26,16 @@ public class SpellTypeWall : Spell
     {
         pickedSpot = false;
         boxSize = (new Vector3(23f, 10f, 3f)) / 2f;
-        if (doDamage)
-            InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
+        InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
 
     private void FixedUpdate()
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position + Vector3.up * 4f, boxSize, transform.rotation, BasicLayerMasks.DamageableEntities);
-        collisions = OverlapDetection.NoObstaclesVertical(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
+        if (doDamage)
+        {
+            Collider[] colliders = Physics.OverlapBox(transform.position + Vector3.up * 4f, boxSize, transform.rotation, BasicLayerMasks.DamageableEntities);
+            collisions = OverlapDetection.NoObstaclesVertical(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
+        }
     }
 
     public override void FireSimple(Transform firePoint)
@@ -78,7 +80,7 @@ public class SpellTypeWall : Spell
 
     private void Damage()
     {
-        if (collisions == null) return;
+        if (collisions == null || !doDamage) return;
 
         foreach (GameObject gm in collisions)
         {

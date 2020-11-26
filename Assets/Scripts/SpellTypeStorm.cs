@@ -18,18 +18,18 @@ public class SpellTypeStorm : Spell
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
 
-    private GameObject[] collisions;
-    private Vector3 capsuleTop;
+    [HideInInspector]
+    public GameObject[] collisions;
 
     private void Awake()
     {
         pickedSpot = false;
-        capsuleTop = transform.position + Vector3.up * 8f;
         InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
     }
 
     private void FixedUpdate()
     {
+        Vector3 capsuleTop = transform.position + Vector3.up * 8f;
         Collider[] colliders = Physics.OverlapCapsule(capsuleTop, capsuleTop + Vector3.down * 60f, 14f, BasicLayerMasks.DamageableEntities);
         collisions = OverlapDetection.NoObstaclesVertical(colliders, capsuleTop, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
