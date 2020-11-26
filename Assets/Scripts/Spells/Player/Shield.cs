@@ -106,4 +106,8 @@ public class Shield : Spell
     {
         return ResourceManager.Default.Lightning;
     }
+    public override string Name()
+    {
+        return "Shield";
+    }
 }

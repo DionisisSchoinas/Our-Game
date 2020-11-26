@@ -4785,9 +4785,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284b43fd1922183439e55fb1311843e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: -6315393374685689038}
-  smokeScreen: {fileID: 8952321711452038130, guid: f196feeebe2653e44a9d2ad98c187c53,
+  damage: 15
+  speed: 40
+  explosionParticles: {fileID: 8952321711452038130, guid: f196feeebe2653e44a9d2ad98c187c53,
     type: 3}
+  damageType: 0
 --- !u!136 &5614509829695606003
 CapsuleCollider:
   m_ObjectHideFlags: 0

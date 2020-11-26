@@ -40,6 +40,7 @@ public class Wand : MonoBehaviour
         channeling = false;
         canCast = true;
         canRelease = false;
+
         foreach (Spell s in spells)
         {
             s.SetIndicatorController(indicatorController);

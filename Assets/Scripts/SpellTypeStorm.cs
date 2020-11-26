@@ -2,30 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoneStorm : SpellTypeStorm
+public class SpellTypeStorm : Spell
 {
-    private void Start()
-    {
-        damageType = DamageTypesManager.Physical;
-        condition = null;
-    }
+    public float damage = 5f;
+    public int damageTicksPerSecond = 5;
 
-    public override ParticleSystem GetSource()
-    {
-        return ResourceManager.Default.Earth;
-    }
-
-    public override string Name()
-    {
-        return "Stone Storm";
-    }
-}
-/*
-{
-    [SerializeField]
-    private float damage = 5f;
-    [SerializeField]
-    private int damageTicksPerSecond = 5;
+    [HideInInspector]
+    public int damageType;
+    [HideInInspector]
+    public Condition condition;
 
     private GameObject tmpStorm;
     private Vector3 spawningLocation;
@@ -34,19 +19,19 @@ public class StoneStorm : SpellTypeStorm
     private IndicatorResponse indicatorResponse;
 
     private GameObject[] collisions;
-    private Vector3 capsuleBottom;
+    private Vector3 capsuleTop;
 
-    void Start()
+    private void Awake()
     {
         pickedSpot = false;
-        capsuleBottom = transform.position + Vector3.down * 14f;
-        InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
+        capsuleTop = transform.position + Vector3.up * 8f;
+        InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
     }
 
     private void FixedUpdate()
     {
-        Collider[] colliders = Physics.OverlapCapsule(capsuleBottom + Vector3.up * 50f, capsuleBottom, 14f, BasicLayerMasks.DamageableEntities);
-        collisions = OverlapDetection.NoObstaclesHorizontal(colliders, capsuleBottom, BasicLayerMasks.IgnoreOnDamageRaycasts);
+        Collider[] colliders = Physics.OverlapCapsule(capsuleTop, capsuleTop + Vector3.down * 60f, 14f, BasicLayerMasks.DamageableEntities);
+        collisions = OverlapDetection.NoObstaclesVertical(colliders, capsuleTop, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
     public override void FireSimple(Transform firePoint)
@@ -55,7 +40,7 @@ public class StoneStorm : SpellTypeStorm
         {
             pickedSpot = false;
             tmpStorm = Instantiate(gameObject);
-            tmpStorm.transform.position = spawningLocation;
+            tmpStorm.transform.position = spawningLocation + Vector3.up * 40f;
             tmpStorm.SetActive(true);
             Invoke(nameof(StopStorm), 10f);
         }
@@ -94,7 +79,9 @@ public class StoneStorm : SpellTypeStorm
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Physical);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
+                if (condition != null)
+                    if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }
         }
     }
@@ -118,13 +105,18 @@ public class StoneStorm : SpellTypeStorm
         indicatorController = controller;
     }
 
+    //------------------ Irrelevant ------------------
+
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Earth;
+        throw new System.NotImplementedException();
     }
-
     public override void WakeUp()
     {
     }
+
+    public override string Name()
+    {
+        throw new System.NotImplementedException();
+    }
 }
-*/

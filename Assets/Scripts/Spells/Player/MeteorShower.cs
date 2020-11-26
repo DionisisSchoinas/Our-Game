@@ -109,4 +109,8 @@ public class MeteorShower : Spell
     {
         return ResourceManager.Default.Fire;
     }
+    public override string Name()
+    {
+        return "Meteor Storm";
+    }
 }

@@ -18,7 +18,7 @@ public class OverlayController : MonoBehaviour
         List<string> spellNames = new List<string>();
         foreach (Spell s in wand.GetSpells())
         {
-            spellNames.Add(s.name);
+            spellNames.Add(s.Name());
         }
         dropdown.ClearOptions();
         dropdown.AddOptions(spellNames);

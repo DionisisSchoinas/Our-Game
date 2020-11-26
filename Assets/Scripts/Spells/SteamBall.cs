@@ -2,28 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SteamBall : MonoBehaviour
+public class SteamBall : SpellTypeBolt
 {
-    [SerializeField]
-    private Rigidbody rb;
-    [SerializeField]
-    private GameObject smokeScreen;
-
-    private float speed = 5f;
-
-    public void SetSpeed(float s)
+    private void Start()
     {
-        speed = s;
+        damage = 0f;
     }
 
-    void FixedUpdate()
+    public new ParticleSystem GetSource()
     {
-        rb.AddForce((transform.rotation * Vector3.forward) * Time.deltaTime * speed, ForceMode.VelocityChange);
+        return ResourceManager.Default.Smoke;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public new string Name()
     {
-        Destroy(Instantiate(smokeScreen, transform.position, transform.rotation), 10f);
-        Destroy(gameObject);
+        return "Steam Ball";
     }
 }
