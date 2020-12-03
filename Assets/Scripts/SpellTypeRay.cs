@@ -33,13 +33,14 @@ public class SpellTypeRay : Spell
         if (holding)
         {
             tmpRay = Instantiate(gameObject, firePoint);
+            indicatorController = tmpRay.AddComponent<SpellIndicatorController>();
             indicatorController.SelectLocation(firePoint, 3f, 18f);
             tmpRay.SetActive(true);
         }
         else
         {
-            Destroy(tmpRay);
             indicatorController.DestroyIndicator();
+            Destroy(tmpRay);
         }
     }
 
@@ -56,11 +57,6 @@ public class SpellTypeRay : Spell
                     if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }
         }
-    }
-
-    public override void SetIndicatorController(SpellIndicatorController controller)
-    {
-        indicatorController = controller;
     }
 
     //------------------ Irrelevant ------------------

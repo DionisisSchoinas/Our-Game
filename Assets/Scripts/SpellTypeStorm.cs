@@ -18,6 +18,8 @@ public class SpellTypeStorm : Spell
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
 
+    private GameObject tmpIndicatorHolder;
+
     [HideInInspector]
     public GameObject[] collisions;
 
@@ -52,6 +54,8 @@ public class SpellTypeStorm : Spell
         {
             if (holding)
             {
+                tmpIndicatorHolder = new GameObject();
+                indicatorController = tmpIndicatorHolder.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(20f, 15f);
                 pickedSpot = false;
             }
@@ -88,7 +92,7 @@ public class SpellTypeStorm : Spell
 
     private void StopStorm()
     {
-        indicatorController.DestroyIndicator();
+        Clear();
         Destroy(tmpStorm);
     }
 
@@ -96,13 +100,14 @@ public class SpellTypeStorm : Spell
     {
         if (tmpStorm == null)
         {
-            indicatorController.DestroyIndicator();
+            Clear();
             pickedSpot = false;
         }
     }
-    public override void SetIndicatorController(SpellIndicatorController controller)
+    private void Clear()
     {
-        indicatorController = controller;
+        indicatorController.DestroyIndicator();
+        Destroy(tmpIndicatorHolder.gameObject);
     }
 
     //------------------ Irrelevant ------------------

@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class SpellIndicatorController : MonoBehaviour
 {
-    public GameObject indicator;
-    public Material rangeCircleMaterial;
-    public Material aoeCircleMaterial;
-    public Material aoeSquareMaterial;
     public float indicatorDeleteTimer = 10f;
+
+    private GameObject indicator;
+    private Material rangeCircleMaterial;
+    private Material aoeCircleMaterial;
+    private Material aoeSquareMaterial;
 
     private int mode;
     private int face;
@@ -43,7 +44,7 @@ public class SpellIndicatorController : MonoBehaviour
     --------------------------------------*/
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         mode = -1;
         mouse_1_clicked = false;
@@ -51,6 +52,12 @@ public class SpellIndicatorController : MonoBehaviour
         picking = false;
         controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
         layerMasks = LayerMask.GetMask("Ground");
+
+        indicator = ResourceManager.Components.IndicatorBase;
+        rangeCircleMaterial = ResourceManager.Materials.IndicatorCirlceRange;
+        aoeCircleMaterial = ResourceManager.Materials.IndicatorCircleAOE;
+        aoeSquareMaterial = ResourceManager.Materials.IndicatorSquareAOE;
+
         //plane = new Plane(Vector3.up, controls.transform.position);
     }
 

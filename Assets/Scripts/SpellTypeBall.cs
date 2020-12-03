@@ -33,11 +33,6 @@ public class SpellTypeBall : Spell
         Destroy(tmp, 5f);
     }
 
-    public override void SetIndicatorController(SpellIndicatorController controller)
-    {
-        indicatorController = controller;
-    }
-
     //------------------ Irrelevant ------------------
     public override void FireHold(bool holding, Transform firePoint)
     {

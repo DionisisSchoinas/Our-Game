@@ -22,6 +22,8 @@ public class SpellTypeWall : Spell
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
 
+    private GameObject tmpIndicatorHolder;
+
     private void Awake()
     {
         pickedSpot = false;
@@ -42,7 +44,7 @@ public class SpellTypeWall : Spell
     {
         if (pickedSpot)
         {
-            indicatorController.DestroyIndicator();
+            Clear();
             pickedSpot = false;
             currentWall = Instantiate(gameObject);
             currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + spawningLocation;
@@ -58,6 +60,8 @@ public class SpellTypeWall : Spell
         {
             if (holding)
             {
+                tmpIndicatorHolder = new GameObject();
+                indicatorController = tmpIndicatorHolder.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(20f, 24f, 4f);
                 pickedSpot = false;
             }
@@ -102,14 +106,15 @@ public class SpellTypeWall : Spell
     {
         if (currentWall == null && pickedSpot)
         {
-            indicatorController.DestroyIndicator();
+            Clear();
             pickedSpot = false;
         }
     }
 
-    public override void SetIndicatorController(SpellIndicatorController controller)
+    private void Clear()
     {
-        indicatorController = controller;
+        indicatorController.DestroyIndicator();
+        Destroy(tmpIndicatorHolder.gameObject);
     }
 
     //------------------ Irrelevant ------------------

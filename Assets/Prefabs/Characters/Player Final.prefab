@@ -3698,7 +3698,6 @@ GameObject:
   - component: {fileID: 4964402965454966632}
   - component: {fileID: 4964402965454966635}
   - component: {fileID: 4964402965454966634}
-  - component: {fileID: 4964402965454966637}
   - component: {fileID: 4964402965454966636}
   - component: {fileID: 4964402965454966639}
   m_Layer: 12
@@ -3825,7 +3824,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationController: {fileID: 4964402965454966634}
-  indicatorController: {fileID: 4964402965454966637}
   simpleFirePoint: {fileID: 2717411827236305056}
   channelingFirePoint: {fileID: 2717411826573241449}
   spells:
@@ -3865,24 +3863,6 @@ MonoBehaviour:
   leftHandForChannelingSpells: {fileID: 4140181253790957478}
   rightHandForChannelingSpells: {fileID: 4140181253790957560}
   allowStopCasting: 0
---- !u!114 &4964402965454966637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4964402965454966613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7ae87e266a8b104fbe3be12eaab613f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indicator: {fileID: 7416933492823802846, guid: 749b560e098ddfe47b21326b36e50514,
-    type: 3}
-  rangeCircleMaterial: {fileID: 2100000, guid: dbe8b6546accb5f458954f19fc99950f, type: 2}
-  aoeCircleMaterial: {fileID: 2100000, guid: f9b9e6e237f0926479f1a94f1b6f18df, type: 2}
-  aoeSquareMaterial: {fileID: 2100000, guid: 08b9ffed84b8e98498e68bbf028ceec0, type: 2}
-  indicatorDeleteTimer: 10
 --- !u!114 &4964402965454966636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3910,6 +3890,8 @@ MonoBehaviour:
   maxHealth: 100
   healthBar: {fileID: 3788272922322315788}
   invunarable: 0
+  damageResistances: 
+  damageImmunities: 
   respawn: 1
 --- !u!1 &4964402965491255278
 GameObject:

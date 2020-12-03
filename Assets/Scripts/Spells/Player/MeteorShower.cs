@@ -25,6 +25,8 @@ public class MeteorShower : Spell
 
         pickedSpot = false;
         firing = false;
+
+        indicatorController = gameObject.AddComponent<SpellIndicatorController>();
     }
 
     public override void WakeUp()
@@ -99,10 +101,6 @@ public class MeteorShower : Spell
             indicatorController.DestroyIndicator();
             pickedSpot = false;
         }
-    }
-    public override void SetIndicatorController(SpellIndicatorController controller)
-    {
-        indicatorController = controller;
     }
 
     public override ParticleSystem GetSource()

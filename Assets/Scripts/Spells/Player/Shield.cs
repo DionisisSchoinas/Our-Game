@@ -93,10 +93,6 @@ public class Shield : Spell
         }
     }
 
-    public override void SetIndicatorController(SpellIndicatorController controller)
-    {
-    }
-
     public override void WakeUp()
     {
         center = (FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript).transform;

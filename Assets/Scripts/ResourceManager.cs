@@ -23,10 +23,14 @@ public class ResourceManager
     public class Components
     {
         public static Arc Arc = ((GameObject)Resources.Load("Components/Arc", typeof(GameObject))).GetComponent<Arc>();
+        public static GameObject IndicatorBase = (GameObject)Resources.Load("Components/Quad Base Indicator", typeof(GameObject));
     }
     public class Materials
     {
         public static Material LightningArc1 = (Material)Resources.Load("Materials/Lightning Arc 1", typeof(Material));
         public static Material LightningArc2 = (Material)Resources.Load("Materials/Lightning Arc 2", typeof(Material));
+        public static Material IndicatorCircleAOE = (Material)Resources.Load("Materials/AOE Circle Indicator Material", typeof(Material));
+        public static Material IndicatorSquareAOE = (Material)Resources.Load("Materials/AOE Square Indicator Material", typeof(Material));
+        public static Material IndicatorCirlceRange = (Material)Resources.Load("Materials/Range Circle Indicator Material", typeof(Material));
     }
 }

@@ -9555,3 +9555,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   damageTicksPerSecond: 5
+  doDamage: 0
+  damageType: 0
