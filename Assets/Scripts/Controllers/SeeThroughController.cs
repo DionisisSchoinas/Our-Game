@@ -5,16 +5,17 @@ using UnityEngine;
 public class SeeThroughController : MonoBehaviour
 {
     public Vector3 cutOutSize = new Vector3(7,7,7);
-    public Camera mainCamera;
     public float waitTimeForEachSize = 0.001f;
     public float startSizeOnEnlarge = 3f;
 
+    private Camera mainCamera;
     private Coroutine coroutine;
     private float counter;
     private bool allowEnlarge;
 
     private void Awake()
     {
+        mainCamera = Camera.main;
         coroutine = null;
         counter = 0;
         allowEnlarge = true;
