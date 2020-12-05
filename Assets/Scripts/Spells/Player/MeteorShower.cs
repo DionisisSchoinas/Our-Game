@@ -18,6 +18,8 @@ public class MeteorShower : Spell
     private IndicatorResponse indicatorResponse;
     private bool firing;
 
+    private GameObject tmpIndicatorHolder;
+
     private void Start()
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Spells"), LayerMask.NameToLayer("SpellIgnoreLayer"));
@@ -25,8 +27,6 @@ public class MeteorShower : Spell
 
         pickedSpot = false;
         firing = false;
-
-        indicatorController = gameObject.AddComponent<SpellIndicatorController>();
     }
 
     public override void WakeUp()
@@ -52,6 +52,8 @@ public class MeteorShower : Spell
         {
             if (holding)
             {
+                tmpIndicatorHolder = new GameObject();
+                indicatorController = tmpIndicatorHolder.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(20f, 20f);
                 pickedSpot = false;
             }
@@ -90,7 +92,7 @@ public class MeteorShower : Spell
 
     private void StopFiring()
     {
-        indicatorController.DestroyIndicator();
+        Clear();
         firing = false;
     }
 
@@ -98,9 +100,14 @@ public class MeteorShower : Spell
     {
         if (!firing)
         {
-            indicatorController.DestroyIndicator();
+            Clear();
             pickedSpot = false;
         }
+    }
+    private void Clear()
+    {
+        indicatorController.DestroyIndicator();
+        Destroy(tmpIndicatorHolder.gameObject);
     }
 
     public override ParticleSystem GetSource()

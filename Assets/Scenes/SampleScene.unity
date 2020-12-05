@@ -742,8 +742,9 @@ GameObject:
   - component: {fileID: 313013568}
   - component: {fileID: 313013570}
   - component: {fileID: 313013569}
+  - component: {fileID: 313013571}
   m_Layer: 12
-  m_Name: Sphere
+  m_Name: Stencil Mask Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -758,7 +759,7 @@ Transform:
   m_GameObject: {fileID: 313013567}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 814988379}
   m_RootOrder: 7
@@ -810,6 +811,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313013567}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &313013571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313013567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd9b31a7e91b8d44856a943dd2cb753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutOutSize: {x: 7, y: 7, z: 7}
+  mainCamera: {fileID: 963194227}
+  waitTimeForEachSize: 0.001
+  startSizeOnEnlarge: 3
 --- !u!1 &321340373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2393,7 +2410,7 @@ GameObject:
   - component: {fileID: 796402673}
   - component: {fileID: 796402672}
   - component: {fileID: 796402671}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3560,7 +3577,7 @@ GameObject:
   - component: {fileID: 1153406518}
   - component: {fileID: 1153406517}
   - component: {fileID: 1153406516}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3575,7 +3592,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153406514}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23.889606, y: 4.8479056, z: -13.527559}
+  m_LocalPosition: {x: 23.889606, y: 6.47, z: -13.527559}
   m_LocalScale: {x: 10, y: 0.5, z: 10}
   m_Children: []
   m_Father: {fileID: 1444347271}
@@ -5402,7 +5419,7 @@ PrefabInstance:
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.2479057
+      value: 9.14
       objectReference: {fileID: 0}
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}

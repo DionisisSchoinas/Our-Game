@@ -1,8 +1,9 @@
-﻿Shader "Custom/Obstacle Hole Shader"
-{// When creating shaders for Universal Render Pipeline you can you the ShaderGraph which is super AWESOME!
-// However, if you want to author shaders in shading language you can use this teamplate as a base.
-// Please note, this shader does not necessarily match perfomance of the built-in URP Lit shader.
-// This shader works with URP 7.1.x and above
+﻿Shader "Stencil/Lit Cuttable Shader"
+{
+    // When creating shaders for Universal Render Pipeline you can you the ShaderGraph which is super AWESOME!
+    // However, if you want to author shaders in shading language you can use this teamplate as a base.
+    // Please note, this shader does not necessarily match perfomance of the built-in URP Lit shader.
+    // This shader works with URP 7.1.x and above
 
         Properties
         {
