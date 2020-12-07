@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Earth Resistance 2
-  m_Shader: {fileID: -6465566751694194690, guid: 2564cc49f58b5684eb3a8d085d4f176a,
+  m_Name: Earth Resistance
+  m_Shader: {fileID: -6465566751694194690, guid: 549c5cab000e35d448948d63e5a30b18,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -33,6 +33,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_4B95EC26:
+        m_Texture: {fileID: 2800000, guid: c0b92c8ff004ed84ea0349e70c18c0a4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_911E85C4:
         m_Texture: {fileID: 2800000, guid: d3645a646ee063e4a8d04931881f694d, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -68,9 +72,15 @@ Material:
     m_Floats:
     - Vector1_172F406A: 0
     - Vector1_542F7FAB: 0.582
+    - Vector1_5EBE93D0: 0.815
+    - Vector1_613B7DC5: 0.37
     - Vector1_8BC80D45: 0
     - Vector1_D39D1B61: 8
+    - Vector1_D82CA8DC: 5.39
+    - Vector1_E4412480: 0
     - Vector1_E45996E5: 0.414
+    - Vector1_EF070E57: 0
+    - Vector1_F0DEBEC8: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -94,8 +104,13 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_105D12B4: {r: 2.270603, g: 1.4027808, b: 0.5349588, a: 0}
+    - Color_3447E8ED: {r: 0, g: 0, b: 0, a: 1}
     - Color_358868B2: {r: 0, g: 0, b: 0, a: 0}
+    - Color_9B0201B5: {r: 0.39601517, g: 0.2594582, b: 0.06827848, a: 1}
+    - Vector2_3E192D2E: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_502C812D: {r: 0.3, g: 0.3, b: 0, a: 0}
     - Vector2_B9107C74: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - Vector2_BD346D02: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
