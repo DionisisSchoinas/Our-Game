@@ -8,7 +8,7 @@ public class SwingController : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();    
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -21,5 +21,15 @@ public class SwingController : MonoBehaviour
         {
             animator.SetBool("Swing", false);
         }
+
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            Fire();
+        }
+    }
+
+    private void Fire()
+    {
+
     }
 }
