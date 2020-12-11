@@ -34,6 +34,16 @@ public class Sword : MonoBehaviour
             selectedEffect = 2;
             ChangeSwordEffect();
         }
+        else if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            selectedEffect = 3;
+            ChangeSwordEffect();
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            selectedEffect = 4;
+            ChangeSwordEffect();
+        }
     }
 
     private void ChangeSwordEffect()

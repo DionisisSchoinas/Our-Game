@@ -13,8 +13,14 @@ public class SwordEffect : MonoBehaviour
 {
     public SwordEffectAttributes attributes;
 
+    private List<SwingTrailRenderer> trails;
     private SwordEffect currentEffect;
     private Transform tipPoint, basePoint;
+
+    public void Awake()
+    {
+        trails = new List<SwingTrailRenderer>();
+    }
 
     public SwordEffect InstantiateEffect(Transform tPoint, Transform bPoint, Transform parent)
     {
@@ -29,13 +35,14 @@ public class SwordEffect : MonoBehaviour
         basePoint = bPoint;
         foreach (SwingTrailRenderer t in attributes.trails)
         {
-            t.SetPoints(tipPoint, basePoint);
+            trails.Add(Instantiate(t, transform));
+            trails[trails.Count - 1].SetPoints(tipPoint, basePoint);
         }
     }
 
     public void StartSwing()
     {
-        foreach (SwingTrailRenderer t in attributes.trails)
+        foreach (SwingTrailRenderer t in trails)
         {
             t.StartLine();
         }
@@ -43,7 +50,7 @@ public class SwordEffect : MonoBehaviour
 
     public void StopSwing()
     {
-        foreach (SwingTrailRenderer t in attributes.trails)
+        foreach (SwingTrailRenderer t in trails)
         {
             t.StopLine();
         }
