@@ -21,18 +21,13 @@ public class SwingController : MonoBehaviour
         animator = GetComponent<Animator>();
         allow = true;
         swing = false;
-        //trail.Stop();
     }
 
     private void Update()
     {
-        if (allow && Input.GetKeyDown(KeyCode.Space))
+        if (allow && Input.GetKey(KeyCode.Space))
         {
             swing = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            swing = false;
         }
     }
 
@@ -58,8 +53,6 @@ public class SwingController : MonoBehaviour
     private void Swing()
     {
         allow = false;
-
-        //if (coroutine != null) StopCoroutine(coroutine);
         coroutine = StartCoroutine(StartSwing());
     }
 
@@ -67,14 +60,12 @@ public class SwingController : MonoBehaviour
     {
         animator.SetBool("Swing", true);
         yield return new WaitForSeconds(charge);
-        //trail.Play();
         StartCoroutine(StopSwing());
     }
 
     IEnumerator StopSwing()
     {
         yield return new WaitForSeconds(swinging);
-        //trail.Stop();
         yield return new WaitForSeconds(reset);
         animator.SetBool("Swing", false);
         allow = true;
