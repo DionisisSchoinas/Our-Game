@@ -19193,6 +19193,7 @@ MonoBehaviour:
   attributes:
     trails:
     - {fileID: 3486273707487541875, guid: 0448321d2308e854e9b6ca02711f11d8, type: 3}
+    swordMaterial: {fileID: 2100000, guid: f97a37a32a11e4e4a9aba123fb2ad98d, type: 2}
 --- !u!1 &3468896397486627651
 GameObject:
   m_ObjectHideFlags: 0

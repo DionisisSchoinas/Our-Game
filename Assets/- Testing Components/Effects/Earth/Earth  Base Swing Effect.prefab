@@ -23956,3 +23956,4 @@ MonoBehaviour:
   attributes:
     trails:
     - {fileID: 427095857774927675, guid: 36dc16d13ac03564496c29d4a775b2d8, type: 3}
+    swordMaterial: {fileID: 2100000, guid: 2d229da0c3e4d874ba735f72dc414b71, type: 2}

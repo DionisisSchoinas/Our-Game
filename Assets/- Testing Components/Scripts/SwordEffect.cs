@@ -7,6 +7,7 @@ using UnityEngine;
 public struct SwordEffectAttributes
 {
     public SwingTrailRenderer[] trails;
+    public Material swordMaterial;
 }
 
 public class SwordEffect : MonoBehaviour

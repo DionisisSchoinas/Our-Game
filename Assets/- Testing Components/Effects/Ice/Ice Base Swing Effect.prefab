@@ -4913,6 +4913,7 @@ MonoBehaviour:
   attributes:
     trails:
     - {fileID: 2960961278287097140, guid: 233563291e7c95c4f8267ebbde7c850b, type: 3}
+    swordMaterial: {fileID: 2100000, guid: 38e2377ffb63f5d40be3b66ef46099b5, type: 2}
 --- !u!1 &2625587274317451076
 GameObject:
   m_ObjectHideFlags: 0
@@ -4953,8 +4954,8 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2625587274317451076}
   serializedVersion: 6
-  lengthInSec: 1
-  simulationSpeed: 0.5
+  lengthInSec: 2
+  simulationSpeed: 0.3
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -5197,8 +5198,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.1
-      minScalar: 0.05
+      scalar: 0.2
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5519,8 +5520,8 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.1
-      minScalar: 0
+      scalar: 0.2
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5778,7 +5779,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 20
       minScalar: 50
       maxCurve:
         serializedVersion: 2
@@ -5888,23 +5889,32 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1.8114629
+      scalar: 1.0041363
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: -0.08683325
-          outSlope: -0.08683325
+          value: 0
+          inSlope: 3.0525248
+          outSlope: 3.0525248
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0.14130433
+          outWeight: 0.1706832
         - serializedVersion: 3
-          time: 1
-          value: 0.2576599
+          time: 0.2135533
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 136
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.9852295
+          value: 0.36279297
           inSlope: -1.4473467
           outSlope: -1.4473467
           tangentMode: 0
@@ -6208,7 +6218,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -6217,7 +6227,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}

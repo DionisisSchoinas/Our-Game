@@ -10,9 +10,11 @@ public class Sword : MonoBehaviour
 
     private int selectedEffect;
     private SwordEffect currentEffect;
+    private MeshRenderer meshRenderer;
 
     private void Start()
     {
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
         selectedEffect = 0;
         ChangeSwordEffect();
     }
@@ -50,6 +52,7 @@ public class Sword : MonoBehaviour
     {
         if (currentEffect != null) Destroy(currentEffect.gameObject);
         currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, transform).GetComponent<SwordEffect>();
+        meshRenderer.material = currentEffect.attributes.swordMaterial;
     }
 
     public void StartSwing()
