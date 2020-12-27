@@ -8,13 +8,12 @@ public class FollowMouse : MonoBehaviour
     private Vector3 mousePlacement;
     private Vector3 screenCentre;
     public Vector3 offset;
-    public Camera camera;
+    //public Camera camera;
     public Transform player;
     // Update is called once per frame
     void Update()
     {
-
-        Ray mouseRay = camera.ScreenPointToRay(Input.mousePosition);
+        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane p = new Plane(Vector3.up, player.position);
         if (p.Raycast(mouseRay, out float hitDist))
         {
