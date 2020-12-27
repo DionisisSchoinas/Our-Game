@@ -18,4 +18,5 @@ public class WallOfIce : SpellTypeWall
     {
         return "Ice Wall";
     }
+
 }
