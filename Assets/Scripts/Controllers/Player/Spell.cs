@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-abstract public class Spell : MonoBehaviour
+public abstract class Spell : MonoBehaviour
 {
-    abstract public void FireSimple(Transform firePoint);
-    abstract public void FireHold(bool holding, Transform firePoint);
-    abstract public void SetIndicatorController(SpellIndicatorController controller);
-    abstract public void WakeUp();
-    abstract public ParticleSystem GetSource();
+    public abstract void FireSimple(Transform firePoint);
+    public abstract void FireHold(bool holding, Transform firePoint);
+    public abstract void WakeUp();
+    public abstract ParticleSystem GetSource();
+    public abstract string Name();
 }

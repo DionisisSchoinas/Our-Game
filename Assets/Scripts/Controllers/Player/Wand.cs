@@ -12,8 +12,6 @@ public class Wand : MonoBehaviour
     [SerializeField]
     private AnimationScriptController animationController;
     [SerializeField]
-    private SpellIndicatorController indicatorController;
-    [SerializeField]
     private Transform simpleFirePoint;
     [SerializeField]
     private Transform channelingFirePoint;
@@ -40,9 +38,9 @@ public class Wand : MonoBehaviour
         channeling = false;
         canCast = true;
         canRelease = false;
+
         foreach (Spell s in spells)
         {
-            s.SetIndicatorController(indicatorController);
             s.WakeUp();
         }
     }

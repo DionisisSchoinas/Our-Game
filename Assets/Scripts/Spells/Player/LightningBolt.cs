@@ -1,64 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningBolt : Spell
+public class LightningBolt : SpellTypeBolt
 {
-    [SerializeField]
-    private float damage = 5f;
-    [SerializeField]
-    private int damageTicksPerSecond = 5;
-
-    private GameObject tmpBolt;
-
-    private GameObject[] collisions;
-    private Vector3 boxSize;
-
-    private SpellIndicatorController indicatorController;
-
     private void Start()
     {
-        boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
-        InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
-    }
-
-    private void FixedUpdate()
-    {
-        Collider[] colliders = Physics.OverlapBox(transform.position + Vector3.down + transform.forward * 9f, boxSize, transform.rotation, BasicLayerMasks.DamageableEntities);
-        collisions = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
-    }
-
-    public override void FireHold(bool holding, Transform firePoint)
-    {
-        if (holding)
-        {
-            tmpBolt = Instantiate(gameObject, firePoint);
-            indicatorController.SelectLocation(firePoint, 3f, 18f);
-            tmpBolt.SetActive(true);
-        }
-        else
-        {
-            Destroy(tmpBolt);
-            indicatorController.DestroyIndicator();
-        }
-    }
-
-    private void Damage()
-    {
-        if (collisions == null) return;
-
-        foreach (GameObject gm in collisions)
-        {
-            if (gm != null)
-            {
-                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Lightning);
-                if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Electrified);
-            }
-        }
-    }
-
-    public override void SetIndicatorController(SpellIndicatorController controller)
-    {
-        indicatorController = controller;
+        damageType = DamageTypesManager.Lightning;
+        condition = ConditionsManager.Electrified;
+        InvokeRepeating(nameof(SpawnArcs), 0f, 0.1f);
     }
 
     public override ParticleSystem GetSource()
@@ -66,11 +16,21 @@ public class LightningBolt : Spell
         return ResourceManager.Default.Lightning;
     }
 
-    public override void FireSimple(Transform firePoint)
+    private void SpawnArcs()
     {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, ~BasicLayerMasks.SpellsLayers);
+        foreach (Collider c in colliders)
+        {
+            Instantiate(ResourceManager.Components.Arc, transform)
+                .To(c.ClosestPoint(transform.position) + Random.insideUnitSphere)
+                .SecondsAlive(0.2f)
+                .Width(0.6f)
+                .BreakPoints(15)
+                .Enable();
+        }
     }
-
-    public override void WakeUp()
+    public override string Name()
     {
+        return "Lightning Bolt";
     }
 }

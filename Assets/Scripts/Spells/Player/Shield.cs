@@ -93,10 +93,6 @@ public class Shield : Spell
         }
     }
 
-    public override void SetIndicatorController(SpellIndicatorController controller)
-    {
-    }
-
     public override void WakeUp()
     {
         center = (FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript).transform;
@@ -105,5 +101,9 @@ public class Shield : Spell
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Lightning;
+    }
+    public override string Name()
+    {
+        return "Shield";
     }
 }
