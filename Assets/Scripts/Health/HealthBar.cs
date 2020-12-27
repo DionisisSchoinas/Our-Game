@@ -10,11 +10,13 @@ public class HealthBar : MonoBehaviour
 
     public void SetMaxHealth(float health)
     {
-        healthBar.maxValue = health;
+        if (healthBar != null)
+            healthBar.maxValue = health;
     }
 
     public void SetHealth(float health)
     {
-        healthBar.value = health;
+        if (healthBar != null)
+            healthBar.value = health;
     }
 }

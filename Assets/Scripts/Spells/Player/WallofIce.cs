@@ -74,4 +74,5 @@ public class WallofIce : Spell
     public override void WakeUp()
     {
     }
+
 }
