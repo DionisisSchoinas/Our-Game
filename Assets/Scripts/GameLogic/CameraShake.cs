@@ -3,9 +3,11 @@ using System.Collections;
 
 public class CameraShake : MonoBehaviour
 {
+	/*
 	// Transform of the camera to shake. Grabs the gameObject's transform
 	// if null.
 	public Transform camTransform;
+	*/
 
 	// How long the object should shake for.
 	public float shakeDuration = 0f;
@@ -14,14 +16,18 @@ public class CameraShake : MonoBehaviour
 	public float shakeAmount = 0.7f;
 	public float decreaseFactor = 1.0f;
 
+	Transform camTransform;
 	Vector3 originalPos;
 
 	void Awake()
 	{
+		/*
 		if (camTransform == null)
 		{
 			camTransform = GetComponent(typeof(Transform)) as Transform;
 		}
+		*/
+		camTransform = Camera.main.transform;
 	}
 
 	
@@ -30,6 +36,7 @@ public class CameraShake : MonoBehaviour
 		originalPos = camTransform.localPosition;
 		shakeDuration = duration;
 	}
+
 	void Update()
 	{
 		if (shakeDuration > 0)
