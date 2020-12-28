@@ -50,7 +50,7 @@ public class MeleeController : MonoBehaviour
                 if (comboQueue.Count < 3)
                 {
 
-                    Attack();
+                    AttackAnimations();
                     comboQueue.Add(0);
                     reset = 0f;
                      
@@ -68,7 +68,10 @@ public class MeleeController : MonoBehaviour
             attacking = true;
             isDuringAttack = true;
             StartCoroutine(controls.stun(0.5f));
-            StartCoroutine(PerformAttack(attackDelay));
+
+            //StartCoroutine(PerformAttack(attackDelay));
+            Attack();
+
             comboCurrent = 0f;
 
         }
@@ -110,16 +113,22 @@ public class MeleeController : MonoBehaviour
         }
     }
 
-    private void Attack()
+    private void AttackAnimations()
     {
         sword.StartSwing();
         animations.Attack();
     }
 
+    private void Attack()
+    {
+        AttackAnimations();
+        sword.Attack(controls, indicator);
+    }
+
     IEnumerator PerformAttack(float attackDelay)
     {
 
-        Attack();
+        //AttackAnimations();
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;
         
@@ -128,11 +137,12 @@ public class MeleeController : MonoBehaviour
         {
             Debug.Log(visibleTarget.name);
             HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, DamageTypesManager.Physical);
-            HealthEventSystem.current.ApplyForce(visibleTarget.name,transform.forward, 5f);
+            HealthEventSystem.current.ApplyForce(visibleTarget.name, transform.forward, 10f);
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;
     }
+
     IEnumerator ComboCooldown(float comboCooldown)
     {
         comboLock = true;

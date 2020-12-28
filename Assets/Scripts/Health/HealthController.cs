@@ -54,7 +54,6 @@ public class HealthController : MonoBehaviour
 
     public void Damage(float damage, int damageType)
     {
-      
         if (!invunarable)
         {
             DamageIgnoreInvunarable(damage, damageType);

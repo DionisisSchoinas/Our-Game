@@ -90,20 +90,14 @@ public class SwingTrailRenderer : MonoBehaviour
     {
         return Vector3.Lerp(attributes.basePoint.position, attributes.tipPoint.position, 0.5f);
     }
-
+    /*
     private Vector3 LookAtPoint()
     {
         Vector3 center = SpawnPoint();
         Vector3 dir = center - attributes.basePoint.position;
         return Vector3.Cross(dir, Vector3.up).normalized + center;
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(SpawnPoint(), LookAtPoint());
-    }
-
+    */
     private void OnDestroy()
     {
         Destroy(trailHolder.gameObject);

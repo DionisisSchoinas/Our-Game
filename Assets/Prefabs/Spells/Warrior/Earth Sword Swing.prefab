@@ -9553,10 +9553,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9136293722121997372}
-  - component: {fileID: 1130584990891973827}
-  - component: {fileID: 2450090024464767060}
+  - component: {fileID: -4479016721527856258}
   m_Layer: 0
-  m_Name: Earth  Base Swing Effect
+  m_Name: Earth Sword Swing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9578,20 +9577,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1130584990891973827
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9136293722121997371}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 3, y: 20, z: 20}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2450090024464767060
+--- !u!114 &-4479016721527856258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9600,10 +9586,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 9136293722121997371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7a86a86bdb7b9c4383eebf04c5b3b20, type: 3}
+  m_Script: {fileID: 11500000, guid: 7979a03663901684696ea7dd4658e3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attributes:
     trails:
     - {fileID: 427095857774927675, guid: 36dc16d13ac03564496c29d4a775b2d8, type: 3}
     swordMaterial: {fileID: 2100000, guid: 2d229da0c3e4d874ba735f72dc414b71, type: 2}
+  attackDelay: 0.5
+  damageType: 0

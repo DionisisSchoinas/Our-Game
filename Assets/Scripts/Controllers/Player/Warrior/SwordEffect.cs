@@ -10,7 +10,7 @@ public struct SwordEffectAttributes
     public Material swordMaterial;
 }
 
-public class SwordEffect : MonoBehaviour
+public class SwordEffect : BasicSword
 {
     public SwordEffectAttributes attributes;
 
@@ -55,5 +55,14 @@ public class SwordEffect : MonoBehaviour
         {
             t.StopLine();
         }
+    }
+
+    public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
+    {
+    }
+
+    public override string Name()
+    {
+        return "No name";
     }
 }

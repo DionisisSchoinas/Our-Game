@@ -56,6 +56,11 @@ public class Sword : MonoBehaviour
         }
     }
 
+    public void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
+    {
+        currentEffect.Attack(controls, indicator);
+    }
+
     private void ChangeSwordEffect()
     {
         if (currentEffect != null) Destroy(currentEffect.gameObject);

@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386261893381081028}
-  m_LocalRotation: {x: 0.70032793, y: -0.097676955, z: 0.097676955, w: 0.70032793}
+  m_LocalRotation: {x: 0.6903456, y: -0.15304591, z: 0.15304591, w: 0.6903456}
   m_LocalPosition: {x: -0.15, y: 0, z: 0}
   m_LocalScale: {x: 0.18, y: 0.18, z: 0.18}
   m_Children:
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2984568329429575283}
   m_Father: {fileID: 2984568328886566353}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 90, y: -15.88, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 25}
 --- !u!33 &386261893377694660
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -464,11 +464,11 @@ MonoBehaviour:
   tipPoint: {fileID: 2984568329429575283}
   basePoint: {fileID: 2984568329755352924}
   swordEffects:
-  - {fileID: 8693390843199564228, guid: ef10e8eef305db3499d284b60067cdb0, type: 3}
-  - {fileID: 828744232977650402, guid: e3e74d5c0a51f224eab86826b21783b6, type: 3}
-  - {fileID: 7430813239369119490, guid: 3a2b1a3d565706f4f93a9ed39f49aea2, type: 3}
-  - {fileID: 7847851905616444867, guid: 6005f961cde652b4eaf39a6411d13d51, type: 3}
-  - {fileID: 2450090024464767060, guid: 6ec59932431e9a848af8bc5a7276e48b, type: 3}
+  - {fileID: -88320675119019295, guid: ef10e8eef305db3499d284b60067cdb0, type: 3}
+  - {fileID: 1612813705333380113, guid: e3e74d5c0a51f224eab86826b21783b6, type: 3}
+  - {fileID: 4211080902655888564, guid: 3a2b1a3d565706f4f93a9ed39f49aea2, type: 3}
+  - {fileID: 5483912179118218006, guid: 6005f961cde652b4eaf39a6411d13d51, type: 3}
+  - {fileID: -4479016721527856258, guid: 6ec59932431e9a848af8bc5a7276e48b, type: 3}
   delayBeforeSwing: 0.45
   delayBeforeStoppingSwing: 0.25
 --- !u!1 &2984568328857393509
