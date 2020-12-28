@@ -9,19 +9,18 @@ public class AttackIndicator : MonoBehaviour
     public float attackRadius;
     [Range (0,360)]
     public float attackAngle;
-
-    public LayerMask damageablesMask;
-  
+    [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
 
     void FixedUpdate() 
     {
         FindTargets();
     }
+
     void FindTargets()
     {
         visibleTargets.Clear();
-        Collider[] targetsInRange = Physics.OverlapSphere(transform.position, attackRadius, damageablesMask);
+        Collider[] targetsInRange = Physics.OverlapSphere(transform.position, attackRadius, BasicLayerMasks.DamageableEntities);
         for (int i = 0; i < targetsInRange.Length; i++)
         {
             if (targetsInRange[i].tag != gameObject.tag)
@@ -31,7 +30,6 @@ public class AttackIndicator : MonoBehaviour
                 if (Vector3.Angle(transform.forward, dirToTarget) < attackAngle / 2)
                 {
                     visibleTargets.Add(target);
-                  
                 }
             }
         }
