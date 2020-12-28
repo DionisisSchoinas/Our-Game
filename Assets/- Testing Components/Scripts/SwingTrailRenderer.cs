@@ -28,9 +28,9 @@ public class SwingTrailRenderer : MonoBehaviour
     {
         // Instantiate Container
         trailHolder = new GameObject();
-        trailHolder.transform.position = SpawnPoint();
         trailHolder.transform.SetParent(transform);
-        trailHolder.transform.LookAt(LookAtPoint());
+        trailHolder.transform.position = SpawnPoint();
+        trailHolder.transform.rotation = transform.rotation;
 
         // Instantiate Trail
         trail = trailHolder.AddComponent<TrailRenderer>();
@@ -45,13 +45,8 @@ public class SwingTrailRenderer : MonoBehaviour
         // Color
         trail.colorGradient = attributes.lineGradient;
         // Curve
-        AnimationCurve newCurve = new AnimationCurve();
-        float mag = (attributes.tipPoint.position - attributes.basePoint.position).magnitude;
-        foreach (Keyframe key in attributes.lineCurve.keys)
-        {
-            newCurve.AddKey(key.time, key.value * mag);
-        }
-        trail.widthCurve = newCurve;
+        trail.widthCurve = attributes.lineCurve;
+        trail.widthMultiplier = (attributes.tipPoint.position - attributes.basePoint.position).magnitude;
         // Materials
         trail.materials = attributes.lineMaterials.ToArray();
 
@@ -101,6 +96,12 @@ public class SwingTrailRenderer : MonoBehaviour
         Vector3 center = SpawnPoint();
         Vector3 dir = center - attributes.basePoint.position;
         return Vector3.Cross(dir, Vector3.up).normalized + center;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(SpawnPoint(), LookAtPoint());
     }
 
     private void OnDestroy()
