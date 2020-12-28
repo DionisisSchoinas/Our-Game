@@ -30,6 +30,8 @@ public class SwingTrailRenderer : MonoBehaviour
         trailHolder = new GameObject();
         trailHolder.transform.position = SpawnPoint();
         trailHolder.transform.SetParent(transform);
+        trailHolder.transform.LookAt(LookAtPoint());
+
         // Instantiate Trail
         trail = trailHolder.AddComponent<TrailRenderer>();
         trail.alignment = LineAlignment.TransformZ;
@@ -83,15 +85,22 @@ public class SwingTrailRenderer : MonoBehaviour
 
     private IEnumerator DelayedStart()
     {
-        yield return new WaitForSeconds(attributes.delayAfterStartFrame);
         trail.Clear();
-        trail.emitting = true;
+        yield return new WaitForSeconds(attributes.delayAfterStartFrame);
         trail.enabled = true;
+        trail.emitting = true;
     }
 
     private Vector3 SpawnPoint()
     {
         return Vector3.Lerp(attributes.basePoint.position, attributes.tipPoint.position, 0.5f);
+    }
+
+    private Vector3 LookAtPoint()
+    {
+        Vector3 center = SpawnPoint();
+        Vector3 dir = center - attributes.basePoint.position;
+        return Vector3.Cross(dir, Vector3.up).normalized + center;
     }
 
     private void OnDestroy()

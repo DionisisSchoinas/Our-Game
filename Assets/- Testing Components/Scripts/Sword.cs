@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
+    public GameObject swordObject;
+    public Transform swordMotionRoot;
     public Transform tipPoint;
     public Transform basePoint;
     public SwordEffect[] swordEffects;
 
+    public float delayBeforeSwing;
+    public float delayBeforeStoppingSwing;
+
     private int selectedEffect;
     private SwordEffect currentEffect;
-    private MeshRenderer meshRenderer;
+    private Renderer swordRenderer;
 
     private void Start()
     {
-        meshRenderer = GetComponentInChildren<MeshRenderer>();
+        swordRenderer = swordObject.GetComponent<SkinnedMeshRenderer>();
+        if (swordRenderer == null)
+            swordRenderer = swordObject.GetComponent<MeshRenderer>();
+
         selectedEffect = 0;
         ChangeSwordEffect();
     }
@@ -51,13 +59,25 @@ public class Sword : MonoBehaviour
     private void ChangeSwordEffect()
     {
         if (currentEffect != null) Destroy(currentEffect.gameObject);
-        currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, transform).GetComponent<SwordEffect>();
-        meshRenderer.material = currentEffect.attributes.swordMaterial;
+        currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
+        currentEffect.transform.position = swordObject.transform.position;
+        currentEffect.transform.rotation = swordObject.transform.rotation;
+
+        swordRenderer.material = currentEffect.attributes.swordMaterial;
     }
 
     public void StartSwing()
     {
+        StartCoroutine(DelayBeforeTrail());
+    }
+
+    private IEnumerator DelayBeforeTrail()
+    {
+        Debug.Log("Swing");
+        yield return new WaitForSeconds(delayBeforeSwing);
         currentEffect.StartSwing();
+        yield return new WaitForSeconds(delayBeforeStoppingSwing);
+        StopSwing();
     }
 
     public void StopSwing()

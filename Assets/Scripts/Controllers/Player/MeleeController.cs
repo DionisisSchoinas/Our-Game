@@ -7,6 +7,7 @@ public class MeleeController : MonoBehaviour
     private PlayerMovementScriptWarrior controls;
     private CharacterController characterController;
     private AnimationScriptControllerWarrior animations;
+    private Sword sword;
     private Transform transform;
     public AttackIndicator indicator;
     public float attackDelay;
@@ -36,6 +37,7 @@ public class MeleeController : MonoBehaviour
         indicator = GetComponent<AttackIndicator>() as AttackIndicator;
         controls = GetComponent<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
         animations = GetComponent<AnimationScriptControllerWarrior>() as AnimationScriptControllerWarrior;
+        sword = GetComponent<Sword>() as Sword;
         isDuringAttack = false;
     }
 
@@ -49,6 +51,7 @@ public class MeleeController : MonoBehaviour
                 if (comboQueue.Count < 3)
                 {
 
+                    sword.StartSwing();
                     animations.Attack();
                     comboQueue.Add(0);
                     reset = 0f;
