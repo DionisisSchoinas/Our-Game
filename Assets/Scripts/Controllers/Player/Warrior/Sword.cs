@@ -73,7 +73,6 @@ public class Sword : MonoBehaviour
 
     private IEnumerator DelayBeforeTrail()
     {
-        Debug.Log("Swing");
         yield return new WaitForSeconds(delayBeforeSwing);
         currentEffect.StartSwing();
         yield return new WaitForSeconds(delayBeforeStoppingSwing);

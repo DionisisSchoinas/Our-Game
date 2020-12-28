@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
+    // controllers
     private PlayerMovementScriptWarrior controls;
-    private CharacterController characterController;
     private AnimationScriptControllerWarrior animations;
     private Sword sword;
-    private Transform transform;
+
     public AttackIndicator indicator;
     public float attackDelay;
     [HideInInspector]
@@ -33,7 +33,6 @@ public class MeleeController : MonoBehaviour
     void Start()
     {
         canHit = true;
-        transform= GetComponent<Transform>() as Transform;
         indicator = GetComponent<AttackIndicator>() as AttackIndicator;
         controls = GetComponent<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
         animations = GetComponent<AnimationScriptControllerWarrior>() as AnimationScriptControllerWarrior;
@@ -51,8 +50,7 @@ public class MeleeController : MonoBehaviour
                 if (comboQueue.Count < 3)
                 {
 
-                    sword.StartSwing();
-                    animations.Attack();
+                    Attack();
                     comboQueue.Add(0);
                     reset = 0f;
                      
@@ -110,13 +108,18 @@ public class MeleeController : MonoBehaviour
                 attacking = false;
             }
         }
-    
-
     }
+
+    private void Attack()
+    {
+        sword.StartSwing();
+        animations.Attack();
+    }
+
     IEnumerator PerformAttack(float attackDelay)
     {
-       
-        animations.Attack();
+
+        Attack();
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;
         
@@ -124,7 +127,7 @@ public class MeleeController : MonoBehaviour
         foreach (Transform visibleTarget in indicator.visibleTargets)
         {
             Debug.Log(visibleTarget.name);
-            HealthEventSystem.current.TakeDamage(visibleTarget.name, 30,0);
+            HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, DamageTypesManager.Physical);
             HealthEventSystem.current.ApplyForce(visibleTarget.name,transform.forward, 5f);
         }
         yield return new WaitForSeconds(0.1f);
