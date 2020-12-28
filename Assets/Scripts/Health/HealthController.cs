@@ -21,6 +21,8 @@ public class HealthController : MonoBehaviour
 
     private float currentHealth;
     private ConditionsHandler conditionsHandler;
+    private HitStop hitStop;
+    private CameraShake cameraShake;
 
     //temp
     Rigidbody rigidbody;
@@ -37,6 +39,8 @@ public class HealthController : MonoBehaviour
         healthBar.SetMaxHealth(maxHealth);
         conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
         rigidbody = gameObject.GetComponent<Rigidbody>() as Rigidbody;
+        hitStop = FindObjectOfType<HitStop>();
+        cameraShake = FindObjectOfType<CameraShake>();
         if (damageResistances == null) damageResistances = new int[0];
         if (damageImmunities == null) damageImmunities = new int[0];
         
@@ -108,9 +112,10 @@ public class HealthController : MonoBehaviour
         {
             Damage(damage, damageType);
         }
-        FindObjectOfType<HitStop>().Stop(0.05f);
-        FindObjectOfType<CameraShake>().Shake(0.05f);
+        hitStop.Stop(0.05f);
+        cameraShake.Shake(0.05f);
     }
+
     public void TakeDamageIgnoreInvunarable(string name, float damage, int damageType)
     {
         if (gameObject.name == name)
@@ -144,12 +149,8 @@ public class HealthController : MonoBehaviour
             {
                 return;
             }
-            Vector3 dir = direction.normalized;
-            //================================================
-            //      APPLY FORCE TO GAMEOBJECT SOMEHOW
-            UnityEngine.Debug.Log("ADD A WAY TO APPLY FORCE" + dir + " -> " + dir * magnitude + " called from HealthController - ApplyForce");
-            //================================================
-            rigidbody.AddForce(direction*magnitude, ForceMode.Impulse);
+
+            rigidbody.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
         }
     }
 
