@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class SpellIndicatorController : MonoBehaviour
 {
+    public static int SquareIndicator = 0;
+    public static int ConeIndicator = 1;
+
+
     public float indicatorDeleteTimer = 10f;
 
     private GameObject indicator;
     private Material rangeCircleMaterial;
     private Material aoeCircleMaterial;
     private Material aoeSquareMaterial;
+    private Material aoeConeMaterial;
 
     private int mode;
     private int face;
@@ -28,7 +33,8 @@ public class SpellIndicatorController : MonoBehaviour
     private int layerMasks;
     //private Plane plane;
 
-    private PlayerMovementScript controls;
+    private PlayerMovementScript wizardControls;
+    private PlayerMovementScriptWarrior warriorControls;
     private bool mouse_1_clicked;
     private bool mouse_1_locked;
 
@@ -50,20 +56,25 @@ public class SpellIndicatorController : MonoBehaviour
         mouse_1_clicked = false;
         mouse_1_locked = false;
         picking = false;
-        controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
+        wizardControls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
+        warriorControls = GameObject.FindObjectOfType<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
         layerMasks = LayerMask.GetMask("Ground");
 
         indicator = ResourceManager.Components.IndicatorBase;
         rangeCircleMaterial = ResourceManager.Materials.IndicatorCirlceRange;
         aoeCircleMaterial = ResourceManager.Materials.IndicatorCircleAOE;
         aoeSquareMaterial = ResourceManager.Materials.IndicatorSquareAOE;
+        aoeConeMaterial = ResourceManager.Materials.IndicatorTriangleAOE;
 
         //plane = new Plane(Vector3.up, controls.transform.position);
     }
 
     private void Update()
     {
-        mouse_1_clicked = controls.mouse_1;
+        if (wizardControls != null)
+            mouse_1_clicked = wizardControls.mouse_1;
+        else
+            mouse_1_clicked = warriorControls.mouse_1;
     }
 
     // Update is called once per frame
@@ -81,7 +92,10 @@ public class SpellIndicatorController : MonoBehaviour
             // Center on player
             if (mode != 2)
             {
-                centerOfRadius = controls.transform.position;
+                if (wizardControls != null)
+                    centerOfRadius = wizardControls.transform.position;
+                else
+                    centerOfRadius = warriorControls.transform.position;
                 tmpRangeIndicator.transform.position = centerOfRadius;
             }
             // Center on mouse
@@ -105,26 +119,12 @@ public class SpellIndicatorController : MonoBehaviour
             // 1 circle and 1 polygon
             case 1:
                 tmpAoeIndicator.transform.position = OutOfRange(hit.point, center, range);
-                //Look at player
-                tmpAoeIndicator.transform.LookAt(controls.transform, Vector3.up);
-                //Rotate to look up
-                tmpAoeIndicator.transform.eulerAngles = new Vector3(
-                    90f,
-                    tmpAoeIndicator.transform.eulerAngles.y,
-                    tmpAoeIndicator.transform.eulerAngles.z
-                );
+                RotateToLookAtPlayer();
                 break;
             
             // Locked center and 1 polygon
             case 2:
-                //Look at player
-                tmpAoeIndicator.transform.LookAt(controls.transform, Vector3.up);
-                //Rotate to look up
-                tmpAoeIndicator.transform.eulerAngles = new Vector3(
-                    90f,
-                    tmpAoeIndicator.transform.eulerAngles.y,
-                    tmpAoeIndicator.transform.eulerAngles.z
-                );
+                RotateToLookAtPlayer();
                 break;
                 
             // 1 circle and 1 polygon, allow side swapping
@@ -140,7 +140,11 @@ public class SpellIndicatorController : MonoBehaviour
                 else
                 {
                     //Rotate to look up
-                    tmpAoeIndicator.transform.LookAt(controls.transform);
+                    //Look at player
+                    if (wizardControls != null)
+                        tmpAoeIndicator.transform.LookAt(wizardControls.transform);
+                    else
+                        tmpAoeIndicator.transform.LookAt(warriorControls.transform);
                     tmpAoeIndicator.transform.eulerAngles = new Vector3(
                         90f,
                         tmpAoeIndicator.transform.eulerAngles.y,
@@ -159,6 +163,21 @@ public class SpellIndicatorController : MonoBehaviour
             centerOfAOE = tmpAoeIndicator.transform.position;
             tmpAoeIndicator.transform.position -= tmpAoeIndicator.transform.forward;
         }
+    }
+
+    private void RotateToLookAtPlayer()
+    {
+        //Look at player
+        if (wizardControls != null)
+            tmpAoeIndicator.transform.LookAt(wizardControls.transform, Vector3.up);
+        else
+            tmpAoeIndicator.transform.LookAt(warriorControls.transform, Vector3.up);
+        //Rotate to look up
+        tmpAoeIndicator.transform.eulerAngles = new Vector3(
+            90f,
+            tmpAoeIndicator.transform.eulerAngles.y,
+            tmpAoeIndicator.transform.eulerAngles.z
+        );
     }
 
     private Vector3 OutOfRange(Vector3 hit, Vector3 center, float range)
@@ -219,7 +238,7 @@ public class SpellIndicatorController : MonoBehaviour
         picking = true;
     }
 
-    public void SelectLocation(Transform center, float leftToRight, float backToForward)
+    public void SelectLocation(Transform center, float leftToRight, float backToForward, int aoeShape)
     {
         // Use locked center and 1 polygon
         mode = 2;
@@ -230,7 +249,15 @@ public class SpellIndicatorController : MonoBehaviour
         // New indicators
         tmpAoeIndicator = Instantiate(indicator, center);
         tmpAoeIndicator.SetActive(false);
-        tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeSquareMaterial;
+        if (aoeShape == ConeIndicator)
+        {
+            tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeConeMaterial;
+            tmpAoeIndicator.transform.Rotate(0f, 0f, 180f);
+        }
+        else
+        {
+            tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeSquareMaterial;
+        }
         tmpAoeIndicator.transform.localScale = Vector3.right * leftToRight + Vector3.up * backToForward;
         tmpAoeIndicator.transform.position += center.forward * backToForward / 2f + Vector3.down * 2f;
         tmpAoeIndicator.SetActive(true);

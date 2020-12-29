@@ -9,6 +9,11 @@ public class OverlayController : MonoBehaviour
     private Dropdown dropdown;
     [SerializeField]
     private Wand wand;
+    [SerializeField]
+    private Sword sword;
+
+    private int wandListLength;
+    private int swordListLength;
 
     public bool isEnabled = false;
 
@@ -16,10 +21,27 @@ public class OverlayController : MonoBehaviour
     void Start()
     {
         List<string> spellNames = new List<string>();
-        foreach (Spell s in wand.GetSpells())
+        wandListLength = 0;
+        swordListLength = 0;
+
+        if (wand != null)
         {
-            spellNames.Add(s.Name());
+            foreach (Spell s in wand.GetSpells())
+            {
+                spellNames.Add(s.Name());
+            }
+            wandListLength = wand.GetSpells().Count;
         }
+
+        if (sword != null)
+        {
+            foreach (SwordEffect s in sword.GetSwordEffects())
+            {
+                spellNames.Add(s.Name());
+            }
+            swordListLength = sword.GetSwordEffects().Count;
+        }
+
         dropdown.ClearOptions();
         dropdown.AddOptions(spellNames);
         dropdown.interactable = false;
@@ -30,7 +52,15 @@ public class OverlayController : MonoBehaviour
 
     void DropdownValueChanged(Dropdown change)
     {
-        wand.SetSelectedSpell(change.value);
+        int value = change.value;
+        if (value < wandListLength)
+        {
+            wand.SetSelectedSpell(value);
+        }
+        else
+        {
+            sword.SetSelectedSwordEffect(value - wandListLength);
+        }
     }
 
     public void Enable(bool state)

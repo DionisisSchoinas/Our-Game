@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Sword : MonoBehaviour
@@ -27,33 +28,10 @@ public class Sword : MonoBehaviour
         ChangeSwordEffect();
     }
 
-    private void Update()
+    public void SetSelectedSwordEffect(int value)
     {
-        if (Input.GetKeyDown(KeyCode.Keypad0))
-        {
-            selectedEffect = 0;
-            ChangeSwordEffect();
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            selectedEffect = 1;
-            ChangeSwordEffect();
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            selectedEffect = 2;
-            ChangeSwordEffect();
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            selectedEffect = 3;
-            ChangeSwordEffect();
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            selectedEffect = 4;
-            ChangeSwordEffect();
-        }
+        selectedEffect = value;
+        ChangeSwordEffect();
     }
 
     public void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
@@ -64,6 +42,7 @@ public class Sword : MonoBehaviour
     private void ChangeSwordEffect()
     {
         if (currentEffect != null) Destroy(currentEffect.gameObject);
+
         currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
         currentEffect.transform.position = swordObject.transform.position;
         currentEffect.transform.rotation = swordObject.transform.rotation;
@@ -87,5 +66,10 @@ public class Sword : MonoBehaviour
     public void StopSwing()
     {
         currentEffect.StopSwing();
+    }
+
+    public List<SwordEffect> GetSwordEffects()
+    {
+        return swordEffects.ToList();
     }
 }

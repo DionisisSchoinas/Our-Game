@@ -49,7 +49,7 @@ public class ResourceManager
         public static Material LightningArc2 = (Material)Resources.Load(folder + "Lightning Arc 2", typeof(Material));
         public static Material IndicatorCircleAOE = (Material)Resources.Load(folder + "AOE Circle Indicator Material", typeof(Material));
         public static Material IndicatorSquareAOE = (Material)Resources.Load(folder + "AOE Square Indicator Material", typeof(Material));
-        public static Material IndicatorTriangleAOE = (Material)Resources.Load(folder + "AOE Trianlge Indicator Material", typeof(Material));
+        public static Material IndicatorTriangleAOE = (Material)Resources.Load(folder + "AOE Triangle Indicator Material", typeof(Material));
         public static Material IndicatorCirlceRange = (Material)Resources.Load(folder + "Range Circle Indicator Material", typeof(Material));
     }
 }
