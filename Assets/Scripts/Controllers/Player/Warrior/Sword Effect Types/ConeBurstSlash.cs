@@ -6,8 +6,8 @@ public class ConeBurstSlash : SwordEffect
 {
     public float attackDelay = 0.5f;
     public float damage = 50f;
-    public float coneWidth = 5f;
-    public float coneLength = 10f;
+    public float coneWidth = 35f;
+    public float coneLength = 25f;
     public float force = 5f;
 
     [HideInInspector]
@@ -64,10 +64,13 @@ public class ConeBurstSlash : SwordEffect
 
         foreach (GameObject visibleTarget in targets)
         {
-            HealthEventSystem.current.TakeDamage(visibleTarget.name, damage, damageType);
-            if (condition != null)
-                if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
-            HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+            if (visibleTarget.name != controls.name)
+            {
+                HealthEventSystem.current.TakeDamage(visibleTarget.name, damage, damageType);
+                if (condition != null)
+                    if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
+                HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+            }
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;

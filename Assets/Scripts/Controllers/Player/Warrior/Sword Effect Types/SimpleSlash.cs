@@ -25,10 +25,13 @@ public class SimpleSlash : SwordEffect
         foreach (Transform visibleTarget in indicator.visibleTargets)
         {
             Debug.Log(visibleTarget.name);
-            HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, damageType);
-            if (condition != null)
-                if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
-            HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+            if (visibleTarget.name != controls.name)
+            {
+                HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, damageType);
+                if (condition != null)
+                    if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
+                HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+            }
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;

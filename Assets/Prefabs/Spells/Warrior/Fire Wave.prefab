@@ -4879,6 +4879,7 @@ MonoBehaviour:
   damage: 50
   coneWidth: 35
   coneLength: 25
+  force: 5
   damageType: 0
 --- !u!1 &5606871902675668589
 GameObject:
@@ -5164,8 +5165,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.1
+      scalar: 0.4
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
