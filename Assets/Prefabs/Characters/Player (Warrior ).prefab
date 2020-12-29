@@ -931,6 +931,8 @@ MonoBehaviour:
   - {fileID: -4479016721527856258, guid: 6ec59932431e9a848af8bc5a7276e48b, type: 3}
   - {fileID: -6289235402279667394, guid: b97a26a784ab85d41b53d91a1095d3da, type: 3}
   - {fileID: 4024351014947971960, guid: f0a990b69bce8564389ffd8fb81c6a99, type: 3}
+  - {fileID: 7677451952699424561, guid: 7bd6fd30a2cb51e4f940b8acc7d79f56, type: 3}
+  - {fileID: 3396505380874556798, guid: 6b59af4405ac9834a9e721082481a9de, type: 3}
   delayBeforeSwing: 0.45
   delayBeforeStoppingSwing: 0.25
 --- !u!114 &1937735805

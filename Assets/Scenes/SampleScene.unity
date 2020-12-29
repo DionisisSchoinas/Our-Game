@@ -6566,17 +6566,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
-        type: 3}
-      propertyPath: swordEffects.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
-        type: 3}
-      propertyPath: swordEffects.Array.data[7]
-      value: 
-      objectReference: {fileID: 7677451952699424561, guid: 7bd6fd30a2cb51e4f940b8acc7d79f56,
-        type: 3}
     - target: {fileID: 8453002840709088356, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
       propertyPath: m_AnchorMax.x
