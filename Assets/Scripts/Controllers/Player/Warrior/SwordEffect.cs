@@ -57,7 +57,7 @@ public class SwordEffect : BasicSword
         }
     }
 
-    public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
+    public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
     }
 

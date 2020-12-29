@@ -38,7 +38,7 @@ public class ConeBurstSlash : SwordEffect
         Destroy(particles.gameObject);
     }
 
-    public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
+    public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
         StartCoroutine(PerformAttack(attackDelay, controls));
     }
@@ -48,8 +48,7 @@ public class ConeBurstSlash : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, coneWidth, coneLength, SpellIndicatorController.ConeIndicator);
-
-
+        indicatorController.DestroyIndicator(attackDelay + 0.1f);
 
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;
@@ -74,8 +73,6 @@ public class ConeBurstSlash : SwordEffect
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;
-
-        indicatorController.DestroyIndicator();
     }
 
     private GameObject[] FindTargets(Transform startingConePosition)

@@ -919,6 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c91cdb2cbf5a1419a23fdec72826b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMesh: {fileID: 1673759140785932843}
   swordObject: {fileID: 386261893381081028}
   swordMotionRoot: {fileID: 386261893380594660}
   tipPoint: {fileID: 2984568329429575283}
@@ -933,6 +934,11 @@ MonoBehaviour:
   - {fileID: 4024351014947971960, guid: f0a990b69bce8564389ffd8fb81c6a99, type: 3}
   - {fileID: 7677451952699424561, guid: 7bd6fd30a2cb51e4f940b8acc7d79f56, type: 3}
   - {fileID: 3396505380874556798, guid: 6b59af4405ac9834a9e721082481a9de, type: 3}
+  - {fileID: 6632909152524641594, guid: 8b4e1538dc3efda4d87b7c6b3a296e61, type: 3}
+  - {fileID: 203444275124626797, guid: 8cfe19119c8828c46b37620bd8ca1714, type: 3}
+  - {fileID: 8728570064525468946, guid: 53f50529d8dbe6548b24180d0e38b9bd, type: 3}
+  - {fileID: 1634098265976599967, guid: fee31bbd404e86648abc148a7798d172, type: 3}
+  - {fileID: 2887119829300636014, guid: ab09d254c8d18494e919fbc404070828, type: 3}
   delayBeforeSwing: 0.45
   delayBeforeStoppingSwing: 0.25
 --- !u!114 &1937735805

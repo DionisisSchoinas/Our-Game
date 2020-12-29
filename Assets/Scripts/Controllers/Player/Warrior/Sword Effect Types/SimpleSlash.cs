@@ -12,7 +12,7 @@ public class SimpleSlash : SwordEffect
     [HideInInspector]
     public Condition condition = null;
 
-    public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
+    public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
         StartCoroutine(PerformAttack(attackDelay, controls, indicator));
     }

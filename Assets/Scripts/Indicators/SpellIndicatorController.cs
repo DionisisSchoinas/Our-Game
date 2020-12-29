@@ -332,11 +332,22 @@ public class SpellIndicatorController : MonoBehaviour
         }
     }
 
+    public void DestroyIndicator(float delay)
+    {
+        StartCoroutine(DestroyIndicatorDelay(delay));
+    }
+
     public void DestroyIndicator()
     {
         if (tmpAoeIndicator != null) Destroy(tmpAoeIndicator);
         mode = -1;
         picking = false;
+    }
+
+    private IEnumerator DestroyIndicatorDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        DestroyIndicator();
     }
 
     public void SwapFaces()

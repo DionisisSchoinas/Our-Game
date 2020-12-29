@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
+    public SkinnedMeshRenderer playerMesh;
     public GameObject swordObject;
     public Transform swordMotionRoot;
     public Transform tipPoint;
@@ -36,7 +37,7 @@ public class Sword : MonoBehaviour
 
     public void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
     {
-        currentEffect.Attack(controls, indicator);
+        currentEffect.Attack(controls, indicator, playerMesh);
     }
 
     private void ChangeSwordEffect()
