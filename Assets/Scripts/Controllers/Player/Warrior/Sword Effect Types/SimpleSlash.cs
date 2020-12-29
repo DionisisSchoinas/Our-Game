@@ -5,6 +5,8 @@ using UnityEngine;
 public class SimpleSlash : SwordEffect
 {
     public float attackDelay = 0.5f;
+    public float force = 5f;
+
     [HideInInspector]
     public int damageType = DamageTypesManager.Physical;
     [HideInInspector]
@@ -26,7 +28,7 @@ public class SimpleSlash : SwordEffect
             HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, damageType);
             if (condition != null)
                 if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
-            HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, 5f);
+            HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;

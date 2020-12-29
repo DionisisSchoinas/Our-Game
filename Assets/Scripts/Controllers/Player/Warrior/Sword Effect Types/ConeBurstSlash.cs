@@ -8,6 +8,7 @@ public class ConeBurstSlash : SwordEffect
     public float damage = 50f;
     public float coneWidth = 5f;
     public float coneLength = 10f;
+    public float force = 5f;
 
     [HideInInspector]
     public int damageType = DamageTypesManager.Physical;
@@ -66,7 +67,7 @@ public class ConeBurstSlash : SwordEffect
             HealthEventSystem.current.TakeDamage(visibleTarget.name, damage, damageType);
             if (condition != null)
                 if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
-            HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, 10f);
+            HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;
@@ -92,27 +93,7 @@ public class ConeBurstSlash : SwordEffect
         }
         return targets.ToArray();
     }
-    /*
-    private void OnDrawGizmos()
-    {
-        if (t != null)
-        {
-            Gizmos.color = Color.green;
-            Vector3 edge1 = t.position + t.forward * coneLength + t.right * coneWidth / 2f;
-            Gizmos.DrawLine(t.position, edge1);
 
-            Gizmos.color = Color.blue;
-            Vector3 edge2 = t.position + t.forward * coneLength - t.right * coneWidth / 2f;
-            Gizmos.DrawLine(t.position, edge2);
-
-            Gizmos.color = Color.red;
-            foreach (GameObject col in colliders)
-            {
-                Gizmos.DrawLine(t.position + t.forward * coneLength / 2f, col.transform.position);
-            }
-        }
-    }
-    */
     public override string Name()
     {
         return "Default Cone Slash";
