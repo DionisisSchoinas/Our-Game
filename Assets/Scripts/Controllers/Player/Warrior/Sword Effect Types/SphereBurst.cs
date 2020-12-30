@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConeBurstSlash : SwordEffect
+public class SphereBurst : SwordEffect
 {
     public float attackDelay = 0.5f;
-    public float damage = 50f;
-    public float coneWidth = 35f;
-    public float coneLength = 25f;
-    public float force = 5f;
+    public float damage = 20f;
+    public float sphereRadius = 15f;
+    public float force = 10f;
 
     [HideInInspector]
     public int damageType = DamageTypesManager.Physical;
@@ -17,7 +16,6 @@ public class ConeBurstSlash : SwordEffect
 
     private SpellIndicatorController indicatorController;
     private ParticleSystem particles;
-    private float attackAngle;
 
     private new void Awake()
     {
@@ -26,11 +24,6 @@ public class ConeBurstSlash : SwordEffect
         particles = GetComponentInChildren<ParticleSystem>();
         particles.transform.parent = null;
         particles.transform.localScale = Vector3.one;
-
-        // Calculate Cone angle
-        Vector3 edge1 = Vector3.forward * coneLength + Vector3.right * coneWidth / 2f;
-        Vector3 edge2 = Vector3.forward * coneLength - Vector3.right * coneWidth / 2f;
-        attackAngle = Vector3.Angle(edge1, edge2);
     }
 
     private void OnDestroy()
@@ -47,14 +40,14 @@ public class ConeBurstSlash : SwordEffect
     {
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
-        indicatorController.SelectLocation(controls.transform, coneWidth, coneLength, SpellIndicatorController.ConeIndicator);
+        indicatorController.SelectLocation(controls.transform, sphereRadius * 2f, sphereRadius * 2f, SpellIndicatorController.CircleIndicator);
         indicatorController.DestroyIndicator(attackDelay + 0.1f);
 
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;
 
         // Spawns copy of particle system
-        ParticleSystem parts = Instantiate(particles, controls.transform.position + controls.transform.forward * 2f, controls.transform.rotation);
+        ParticleSystem parts = Instantiate(particles, controls.transform.position + controls.transform.forward, controls.transform.rotation);
         parts.Play();
         Destroy(parts.gameObject, 4f);
 
@@ -68,30 +61,19 @@ public class ConeBurstSlash : SwordEffect
                 HealthEventSystem.current.TakeDamage(visibleTarget.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
-                HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+                HealthEventSystem.current.ApplyForce(visibleTarget.name, visibleTarget.transform.position - controls.transform.position, force);
             }
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;
     }
 
-    private GameObject[] FindTargets(Transform startingConePosition)
+    private GameObject[] FindTargets(Transform sphereCenter)
     {
-        Vector3 boxCenter = startingConePosition.position + startingConePosition.forward * coneLength / 2f;
-        Vector3 boxSize = new Vector3(coneLength, 5f, coneWidth);
+        Collider[] sphereCollisions = Physics.OverlapSphere(sphereCenter.position, sphereRadius, BasicLayerMasks.DamageableEntities);
+        GameObject[] notBlocked = OverlapDetection.NoObstaclesLine(sphereCollisions, sphereCenter.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
 
-        Collider[] boxCollisions = Physics.OverlapBox(boxCenter, boxSize / 2f, startingConePosition.rotation, BasicLayerMasks.DamageableEntities);
-        GameObject[] notBlocked = OverlapDetection.NoObstaclesLine(boxCollisions, startingConePosition.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
-        List<GameObject> targets = new List<GameObject>();
-        foreach (GameObject target in notBlocked)
-        {
-            Vector3 dirToTarget = (target.transform.position - startingConePosition.position);
-            if (Vector3.Angle(startingConePosition.forward, dirToTarget) < attackAngle / 2)
-            {
-                targets.Add(target);
-            }
-        }
-        return targets.ToArray();
+        return notBlocked;
     }
 
     public override string Name()

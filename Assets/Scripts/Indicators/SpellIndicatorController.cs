@@ -5,6 +5,7 @@ public class SpellIndicatorController : MonoBehaviour
 {
     public static int SquareIndicator = 0;
     public static int ConeIndicator = 1;
+    public static int CircleIndicator = 2;
 
 
     public float indicatorDeleteTimer = 10f;
@@ -253,13 +254,19 @@ public class SpellIndicatorController : MonoBehaviour
         {
             tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeConeMaterial;
             tmpAoeIndicator.transform.Rotate(0f, 0f, 180f);
+            tmpAoeIndicator.transform.position += center.forward * backToForward / 2f + Vector3.down * 2f;
+        }
+        else if (aoeShape == CircleIndicator)
+        {
+            tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeCircleMaterial;
+            tmpAoeIndicator.transform.position += Vector3.down * 2f;
         }
         else
         {
             tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeSquareMaterial;
+            tmpAoeIndicator.transform.position += center.forward * backToForward / 2f + Vector3.down * 2f;
         }
         tmpAoeIndicator.transform.localScale = Vector3.right * leftToRight + Vector3.up * backToForward;
-        tmpAoeIndicator.transform.position += center.forward * backToForward / 2f + Vector3.down * 2f;
         tmpAoeIndicator.SetActive(true);
 
         picking = true;
