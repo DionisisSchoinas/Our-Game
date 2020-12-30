@@ -145,11 +145,10 @@ public class HealthController : MonoBehaviour
         if (gameObject.name == name)
         {
             if (invunarable)
-            {
                 return;
-            }
 
-            rigidbody.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
+            if (rigidbody != null)
+                rigidbody.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
         }
     }
 
