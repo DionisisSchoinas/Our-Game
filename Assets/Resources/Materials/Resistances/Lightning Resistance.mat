@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AOE Triangle Indicator Material
-  m_Shader: {fileID: -6465566751694194690, guid: f36287b0c7f5cb64e9410c8dd5602941,
+  m_Name: Lightning Resistance
+  m_Shader: {fileID: -6465566751694194690, guid: 549c5cab000e35d448948d63e5a30b18,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,12 +20,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_49C40DF6:
-        m_Texture: {fileID: 0}
+    - Texture2D_4B95EC26:
+        m_Texture: {fileID: 2800000, guid: 66adc70af2018a844b9ded1db9d90554, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_A6988387:
-        m_Texture: {fileID: 2800000, guid: 685afb26a2ba6c54f8c21dc8b6edbf0d, type: 3}
+    - Texture2D_59D01F11:
+        m_Texture: {fileID: 2800000, guid: 66adc70af2018a844b9ded1db9d90554, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_911E85C4:
+        m_Texture: {fileID: 2800000, guid: 66adc70af2018a844b9ded1db9d90554, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -57,14 +61,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_23424989: 0.77
-    - Vector1_3D839E5B: 0
-    - Vector1_42350565: 1.1
-    - Vector1_90CCD082: 0.73
-    - Vector1_AEA5D429: 0
-    - Vector1_B26BD09B: 0.02
-    - Vector1_B9E9879E: 0.9
-    - Vector1_D0FEB3AA: 180
+    - Vector1_172F406A: 0
+    - Vector1_542F7FAB: 0.424
+    - Vector1_5EBE93D0: 0.851
+    - Vector1_613B7DC5: 0.925
+    - Vector1_8BC80D45: 0
+    - Vector1_D39D1B61: 8
+    - Vector1_D82CA8DC: 4
+    - Vector1_E4412480: 1
+    - Vector1_E45996E5: 0.185
+    - Vector1_EF070E57: 0.315
+    - Vector1_F0DEBEC8: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -87,12 +94,21 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_84431A79: {r: 0.6597539, g: 0.007761811, b: 0, a: 0}
+    - Color_105D12B4: {r: 0.36744344, g: 1.2364764, b: 0.89397377, a: 0}
+    - Color_3447E8ED: {r: 2.4505568, g: 3.4415908, b: 0.5766016, a: 1}
+    - Color_358868B2: {r: 0, g: 0, b: 0, a: 0}
+    - Color_5C0837BE: {r: 2.19619, g: 3.61595, b: 4.237095, a: 0}
+    - Color_9B0201B5: {r: 0, g: 0.98833734, b: 0.70891213, a: 1}
+    - Vector2_3E192D2E: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_502C812D: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - Vector2_B9107C74: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_BD346D02: {r: 0.4, g: 0.4, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
---- !u!114 &8453395067554431672
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Speed: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &6056553877782065609
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

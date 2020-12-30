@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8814874201212390056
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 2
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AOE Triangle Indicator Material
-  m_Shader: {fileID: -6465566751694194690, guid: f36287b0c7f5cb64e9410c8dd5602941,
+  m_Name: Fire Resistance
+  m_Shader: {fileID: -6465566751694194690, guid: 549c5cab000e35d448948d63e5a30b18,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,12 +33,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_49C40DF6:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_A6988387:
-        m_Texture: {fileID: 2800000, guid: 685afb26a2ba6c54f8c21dc8b6edbf0d, type: 3}
+    - Texture2D_4B95EC26:
+        m_Texture: {fileID: 2800000, guid: 3c1b12c052fa43548970ac6dc58f9ea1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -57,14 +66,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_23424989: 0.77
-    - Vector1_3D839E5B: 0
-    - Vector1_42350565: 1.1
-    - Vector1_90CCD082: 0.73
-    - Vector1_AEA5D429: 0
-    - Vector1_B26BD09B: 0.02
-    - Vector1_B9E9879E: 0.9
-    - Vector1_D0FEB3AA: 180
+    - Vector1_5EBE93D0: 1
+    - Vector1_613B7DC5: 0.772
+    - Vector1_C4F961AA: 4.34
+    - Vector1_D82CA8DC: 4
+    - Vector1_E4412480: 0
+    - Vector1_EF070E57: 0
+    - Vector1_F0DEBEC8: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -79,6 +87,7 @@ Material:
     - _OcclusionStrength: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RippleDistortion: 18.4
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -87,21 +96,14 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_84431A79: {r: 0.6597539, g: 0.007761811, b: 0, a: 0}
+    - Color_3447E8ED: {r: 3.9533494, g: 0.33117065, b: 0, a: 1}
+    - Color_9B0201B5: {r: 6.4222345, g: 3.6314206, b: 1.2440978, a: 1}
+    - Vector2_3E192D2E: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_502C812D: {r: 0.05, g: 0.05, b: 0, a: 0}
+    - Vector2_7A0CB5EA: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_A7D32E31: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_BD346D02: {r: 0.1, g: 0.3, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
---- !u!114 &8453395067554431672
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 2
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

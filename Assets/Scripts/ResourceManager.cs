@@ -23,7 +23,7 @@ public class ResourceManager
 
         public class Sword
         {
-            private static string folder = Effects.folder+"Sword/";
+            private static string folder = Effects.folder + "Sword/";
             public class Trails
             {
                 private static string folder = Sword.folder + "Trails/";
@@ -42,6 +42,7 @@ public class ResourceManager
         public static Arc Arc = ((GameObject)Resources.Load(folder + "Arc", typeof(GameObject))).GetComponent<Arc>();
         public static GameObject IndicatorBase = (GameObject)Resources.Load(folder + "Quad Base Indicator", typeof(GameObject));
     }
+
     public class Materials
     {
         private static string folder = "Materials/";
@@ -49,7 +50,16 @@ public class ResourceManager
         public static Material LightningArc2 = (Material)Resources.Load(folder + "Lightning Arc 2", typeof(Material));
         public static Material IndicatorCircleAOE = (Material)Resources.Load(folder + "AOE Circle Indicator Material", typeof(Material));
         public static Material IndicatorSquareAOE = (Material)Resources.Load(folder + "AOE Square Indicator Material", typeof(Material));
-        public static Material IndicatorTriangleAOE = (Material)Resources.Load(folder + "AOE Trianlge Indicator Material", typeof(Material));
+        public static Material IndicatorTriangleAOE = (Material)Resources.Load(folder + "AOE Triangle Indicator Material", typeof(Material));
         public static Material IndicatorCirlceRange = (Material)Resources.Load(folder + "Range Circle Indicator Material", typeof(Material));
+
+        public class Resistances
+        {
+            private static string folder = Materials.folder + "Resistances/";
+            public static Material Fire = (Material)Resources.Load(folder + "Fire Resistance", typeof(Material));
+            public static Material Ice = (Material)Resources.Load(folder + "Ice Resistance", typeof(Material));
+            public static Material Lightning = (Material)Resources.Load(folder + "Lightning Resistance", typeof(Material));
+            public static Material Physical = (Material)Resources.Load(folder + "Physical Resistance", typeof(Material));
+        }
     }
 }

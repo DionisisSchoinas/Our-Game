@@ -9,6 +9,7 @@ public class MeleeController : MonoBehaviour
     private AnimationScriptControllerWarrior animations;
     private Sword sword;
 
+    public OverlayController overlayController;
     public AttackIndicator indicator;
     public float attackDelay;
     [HideInInspector]
@@ -42,25 +43,37 @@ public class MeleeController : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        if (controls.mousePressed_1)
+        if (controls.menu && !overlayController.isEnabled)
         {
-            if ( canHit && !comboLock)
-            {
-                if (comboQueue.Count < 3)
-                {
-
-                    AttackAnimations();
-                    comboQueue.Add(0);
-                    reset = 0f;
-                     
-                }
-                canHit = false;
-            }
-        }
-        else 
-        {
+            overlayController.Enable(true);
             canHit = true;
+        }
+        else if (!controls.menu && overlayController.isEnabled)
+        {
+            overlayController.Enable(false);
+        }
+
+        if (!overlayController.isEnabled)
+        {
+            if (controls.mousePressed_1)
+            {
+                if (canHit && !comboLock)
+                {
+                    if (comboQueue.Count < 3)
+                    {
+
+                        AttackAnimations();
+                        comboQueue.Add(0);
+                        reset = 0f;
+
+                    }
+                    canHit = false;
+                }
+            }
+            else
+            {
+                canHit = true;
+            }
         }
 
         if (comboQueue.Count != 0 && !attacking)

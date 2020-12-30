@@ -34,7 +34,7 @@ public class SpellTypeRay : Spell
         {
             tmpRay = Instantiate(gameObject, firePoint);
             indicatorController = tmpRay.AddComponent<SpellIndicatorController>();
-            indicatorController.SelectLocation(firePoint, 3f, 18f);
+            indicatorController.SelectLocation(firePoint, 3f, 18f, SpellIndicatorController.SquareIndicator);
             tmpRay.SetActive(true);
         }
         else

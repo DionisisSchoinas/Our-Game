@@ -159,5 +159,6 @@ public class HealthController : MonoBehaviour
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
+        HealthEventSystem.current.onForceApply -= ApplyForce;
     }
 }
