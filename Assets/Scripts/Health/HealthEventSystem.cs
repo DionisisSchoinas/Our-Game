@@ -51,7 +51,7 @@ public class HealthEventSystem : MonoBehaviour
     {
         if (onForceApply != null)
         {
-            onForceApply(name, direction, magnitude);
+            onForceApply(name, direction.normalized, magnitude);
         }
     }
 }
