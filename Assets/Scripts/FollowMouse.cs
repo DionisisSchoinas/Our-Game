@@ -10,8 +10,9 @@ public class FollowMouse : MonoBehaviour
     public Vector3 offset;
     //public Camera camera;
     public Transform player;
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane p = new Plane(Vector3.up, player.position);

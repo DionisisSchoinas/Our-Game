@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class OverlayControls : MonoBehaviour
 {
     public OverlayToWeaponAdapter overlayToWeaponAdapter;
+    public GameObject spellListDisplay;
 
     private Button[] buttons;
     private int lastSelected;
@@ -17,6 +18,8 @@ public class OverlayControls : MonoBehaviour
         selectedColorBlock.normalColor = Color.red;
         selectedColorBlock.highlightedColor = Color.magenta;
 
+        spellListDisplay.SetActive(false);
+        spellListDisplay.gameObject.AddComponent<ElementHover>();
 
         buttons = GetComponentsInChildren<Button>();
         foreach (Button obj in buttons)
@@ -53,6 +56,7 @@ public class OverlayControls : MonoBehaviour
             paused = !paused;
             UIEventSystem.current.SetHover(gameObject.name, paused);
             PauseGame(paused);
+            spellListDisplay.SetActive(paused);
         }
     }
 
