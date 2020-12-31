@@ -16,10 +16,15 @@ public class PlayerMovementScript : MonoBehaviour
     public float gravity = -9.81f;
     public float groundDistance = 0.4f;
     public float jumpHeight = 2f;
-    public float rollDistance = 10f;
     public float smoothing = 0.1f;
     float smoothVelocity;
     public float runspeed = 0f;
+
+    public ParticleSystem dodgeParticles;
+    public float dodgeDuration = 0.5f;
+    public float dodgeDistance = 10f;
+    public float dodgeCooldown = 0.5f;
+    public float stunAfterDodge = 0.05f;
 
     public Vector3 direction;
    
@@ -42,6 +47,12 @@ public class PlayerMovementScript : MonoBehaviour
     private float vertical;
     private bool running;
     private bool jump;
+    private bool dodge;
+    private bool dodging;
+    private float lastDodge;
+    private Vector3 dodgeDirection;
+    private ParticleSystem dodgeParticleSystem;
+    private CameraShake cameraShake;
 
     private void Start()
     {
@@ -55,6 +66,15 @@ public class PlayerMovementScript : MonoBehaviour
         vertical = 0f;
         running = false;
         jump = false;
+        dodge = false;
+        dodging = false;
+        lastDodge = Time.time;
+
+        dodgeParticleSystem = Instantiate(dodgeParticles);
+        dodgeParticleSystem.Stop();
+        dodgeParticleSystem.transform.localScale = Vector3.one;
+
+        cameraShake = FindObjectOfType<CameraShake>();
     }
 
     private void Update()
@@ -115,14 +135,16 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         running = Input.GetKey(KeyCode.LeftShift);
-        jump = Input.GetButton("Jump");
+        jump = Input.GetKey(KeyCode.C);
 
+        if (!dodging)
+            dodge = Input.GetKey(KeyCode.Space);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //===================GROUND CHECK=================== 
+        //=================== GROUND CHECK =================== 
         //check if its close to the ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         //Reset the velocity 
@@ -130,16 +152,34 @@ public class PlayerMovementScript : MonoBehaviour
         {
             if (velocity.y <= -20)
             {
-                StartCoroutine(stun(2f));
+                StartCoroutine(Stun(2f));
             }
             velocity.y = -2f;
         }
+        //=================== Dodge =================== 
+        if (dodge && lastDodge + dodgeCooldown <= Time.time)
+        {
+            dodgeDirection = Quaternion.Euler(0, 45, 0) * new Vector3(horizontal, 0f, vertical).normalized;
+            if (dodgeDirection == Vector3.zero)
+                dodgeDirection = transform.forward;
+            dodgeParticleSystem.transform.position = controller.transform.position;
+            dodgeParticleSystem.transform.rotation = Quaternion.LookRotation(dodgeDirection);
 
-        //===================Movement=================== 
+            StartCoroutine(DodgeTimer(dodgeDuration));
+        }
+
+        if (dodging)
+        {
+            controller.Move(dodgeDirection * (dodgeDistance / dodgeDuration) * Time.deltaTime);
+            dodgeParticleSystem.transform.position = controller.transform.position;
+        }
+
+
+        //=================== Movement =================== 
         if (canMove)
         {
             //calculate and normalize direction
-            direction = (Quaternion.Euler(0, 45, 0) * new Vector3(horizontal, 0f, vertical).normalized);
+            direction = Quaternion.Euler(0, 45, 0) * new Vector3(horizontal, 0f, vertical).normalized;
           
         }
         else
@@ -212,10 +252,43 @@ public class PlayerMovementScript : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-    IEnumerator stun(float second)
+    private void DodgeEffect(bool enable)
+    {
+        if (dodgeParticles == null)
+            return;
+
+        if (enable)
+        {
+            dodgeParticleSystem.Play();
+            cameraShake.Shake(dodgeDuration / 2f, 1f);
+        }
+        else
+        {
+            dodgeParticleSystem.Stop();
+        }
+    }
+
+    IEnumerator Stun(float second)
     {
         canMove = false;
         yield return new WaitForSeconds(second);
         canMove = true;
+    }
+
+    IEnumerator DodgeTimer(float seconds)
+    {
+        // Disable controls and enable particles
+        DodgeEffect(true);
+        canMove = false;
+        dodging = true;
+        dodge = false;
+        // Dodge duration
+        yield return new WaitForSeconds(seconds);
+        // Enable controls and disable particles
+        DodgeEffect(false);
+        dodging = false;
+        canMove = true;
+        lastDodge = Time.time;
+        StartCoroutine(Stun(stunAfterDodge));
     }
 }

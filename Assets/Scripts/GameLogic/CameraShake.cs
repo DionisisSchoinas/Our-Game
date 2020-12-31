@@ -30,11 +30,16 @@ public class CameraShake : MonoBehaviour
 		camTransform = Camera.main.transform;
 	}
 
-	
 	public void Shake(float duration)
 	{
 		originalPos = camTransform.localPosition;
 		shakeDuration = duration;
+	}
+
+	public void Shake(float duration, float amount)
+	{
+		Shake(duration);
+		shakeAmount = amount;
 	}
 
 	void Update()
