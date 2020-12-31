@@ -56,11 +56,13 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         UIEventSystem.current.onHover -= SetHover;
     }
 
-    public void ChangedSelection(int buttonPressed)
+    // 
+    public void SelectedOnQuickbar(int buttonPressed)
     {
         SetSelectedSpell(buttonPressed);
     }
 
+    // Triggers by the event when user hovers over a UI Element
     private void SetHover(string name, bool hovering)
     {
         if (playerMovementScript == null)
@@ -69,6 +71,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         playerMovementScript.lockMouseInputs = hovering;
     }
 
+    // Based on the total index triggers appropriate spell
     private void SetSelectedSpell(int value)
     {
         if (value < wandListLength)
@@ -81,6 +84,11 @@ public class OverlayToWeaponAdapter : MonoBehaviour
             sword.SetSelectedSwordEffect(value - wandListLength);
             spellNameDisplay.text = sword.GetSelectedEffect().Name;
         }
+    }
+
+    public Skill GetSkillFromIndex(int index)
+    {
+        return GetSkills()[index];
     }
 
     // Returns all the skills the Controller has

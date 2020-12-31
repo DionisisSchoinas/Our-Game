@@ -34,15 +34,20 @@ public class SkillListFill : MonoBehaviour
 
     [HideInInspector]
     public OverlayToWeaponAdapter weaponAdapter;
+    [HideInInspector]
+    public OverlayControls overlayControls;
+    [HideInInspector]
     public GameObject columnContentHolder;
-
-    private Skill[] skills;
     [HideInInspector]
     public List<SkillTypeContainer> skillColumns;
 
-    private void Start()
+    private Skill[] skills;
+    private List<Button> buttons;
+
+    private void Awake()
     {
         skillColumns = new List<SkillTypeContainer>();
+        buttons = new List<Button>();
     }
 
     public void FillList()
@@ -58,25 +63,37 @@ public class SkillListFill : MonoBehaviour
         
         foreach (SkillTypeContainer column in skillColumns)
         {
+            // Get Column prefab from Resources
             GameObject col = ResourceManager.UI.SkillListColumn;
             col = Instantiate(col, columnContentHolder.transform);
 
             for (int i=0; i<column.skills.Count; i++)
             {
+                // Get Button prefab fro Resources
                 int index = i;
                 GameObject btn = ResourceManager.UI.SkillListButton;
                 btn.GetComponentInChildren<Text>().text = column.skills[index].Name;
-                Instantiate(btn, col.transform)
-                    .GetComponent<Button>()
+
+                // Instantiate and save in list
+                Button b = Instantiate(btn, col.transform).GetComponent<Button>();
+                buttons.Add(b);
+                int indexInList = buttons.Count - 1;
+
+                // Add on click event
+                buttons[indexInList]
                     .onClick
                     .AddListener(
                         delegate {
-                            Debug.Log(index);
-                            Debug.Log(column.skills[index].Name + " -> " + column.indexes[index]);
+                            Clicked(column.indexes[index], indexInList);
                 });
             }
 
         }
+    }
+
+    private void Clicked(int indexInAdapter, int indexInList)
+    {
+        overlayControls.PickingKeyBind(indexInAdapter, buttons[indexInList]);
     }
 
     private List<SkillTypeContainer> SplitSkills(Skill[] skills)

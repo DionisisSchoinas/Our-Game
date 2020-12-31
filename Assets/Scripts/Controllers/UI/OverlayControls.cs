@@ -1,20 +1,40 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class OverlayControls : MonoBehaviour
 {
+    public struct ButtonData
+    {
+        public int quickBarIndex;
+        public int skillIndexInAdapter;
+        public Text buttonText;
+
+        public ButtonData(int quickBarIndex, int skillIndexInAdapter, Text buttonText)
+        {
+            this.quickBarIndex = quickBarIndex;
+            this.skillIndexInAdapter = skillIndexInAdapter;
+            this.buttonText = buttonText;
+        }
+    }
+
     public OverlayToWeaponAdapter overlayToWeaponAdapter;
     public GameObject spellListDisplay;
+    public GameObject columnContentHolder;
+    // Quickbar data
+    public Button[] quickbar;
+    private ButtonData[] buttonData;
 
     private SkillListFill skillList;
     private Button[] buttons;
-    private int lastSelected;
+    private Button lastSelected;
+    private int bindingSkillIndex;
     private ColorBlock selectedColorBlock;
     private bool paused;
+    private bool binding;
 
     private void Start()
     {
-        lastSelected = -1;
         selectedColorBlock = ColorBlock.defaultColorBlock;
         selectedColorBlock.normalColor = Color.red;
         selectedColorBlock.highlightedColor = Color.magenta;
@@ -25,35 +45,51 @@ public class OverlayControls : MonoBehaviour
             obj.gameObject.AddComponent<ElementHover>();
         }
 
-        skillList = GetComponent<SkillListFill>();
+        skillList = gameObject.AddComponent<SkillListFill>();
         skillList.weaponAdapter = overlayToWeaponAdapter;
+        skillList.overlayControls = this;
+        skillList.columnContentHolder = columnContentHolder;
+
         skillList.FillList();
 
         spellListDisplay.SetActive(false);
         spellListDisplay.gameObject.AddComponent<ElementHover>();
+
+        binding = false;
+
+        if (quickbar.Length < 5)
+            Debug.LogError("Quickbar needs at least 5 buttons");
+
+        buttonData = new ButtonData[quickbar.Length + 1];
+        for (int i=0; i<quickbar.Length; i++)
+        {
+            Text butttonText = quickbar[i].GetComponentInChildren<Text>();
+            butttonText.text = overlayToWeaponAdapter.GetSkillFromIndex(i).Name;
+            buttonData[i] = new ButtonData(i, i, butttonText);
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
-            SetSelected(0);
+            SetSelectedQuickBar(0);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
         {
-            SetSelected(1);
+            SetSelectedQuickBar(1);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
-            SetSelected(2);
+            SetSelectedQuickBar(2);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
-            SetSelected(3);
+            SetSelectedQuickBar(3);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
         {
-            SetSelected(4);
+            SetSelectedQuickBar(4);
         }
 
         if (Input.GetKeyDown(KeyCode.K))
@@ -62,20 +98,53 @@ public class OverlayControls : MonoBehaviour
             UIEventSystem.current.SetHover(gameObject.name, paused);
             PauseGame(paused);
             spellListDisplay.SetActive(paused);
+
+            ResetLastButton();
         }
     }
 
-    public void SetSelected(int selected)
+    public void PickingKeyBind(int indexInAdapter, Button button)
     {
-        // Update UI
-        if (lastSelected != -1)
-            buttons[lastSelected].colors = ColorBlock.defaultColorBlock;
-        buttons[selected].colors = selectedColorBlock;
+        button.colors = selectedColorBlock;
+        bindingSkillIndex = indexInAdapter;
+        lastSelected = button;
+        binding = true;
+    }
+
+    public void SetSelectedQuickBar(int selectedQuickBar)
+    {
+        if (binding)
+        {
+            buttonData[selectedQuickBar].skillIndexInAdapter = bindingSkillIndex;
+            buttonData[selectedQuickBar].buttonText.text = overlayToWeaponAdapter.GetSkillFromIndex(bindingSkillIndex).Name;
+
+            ResetLastButton();
+        }
+        else
+        {
+            // Update UI
+
+            // Do something with button
+
+            /*
+            if (lastSelected == null)
+                lastSelected.colors = ColorBlock.defaultColorBlock;
+            buttons[selectedQuickBar].colors = selectedColorBlock;
+            */
+        }
 
         // Update Adapter
-        overlayToWeaponAdapter.ChangedSelection(selected);
+        overlayToWeaponAdapter.SelectedOnQuickbar(buttonData[selectedQuickBar].skillIndexInAdapter);
+        //lastSelected = buttons[selectedQuickBar];
+    }
 
-        lastSelected = selected;
+    private void ResetLastButton()
+    {
+        if (lastSelected != null)
+            lastSelected.colors = ColorBlock.defaultColorBlock;
+        lastSelected = null;
+        binding = false;
+        bindingSkillIndex = -1;
     }
 
     private void PauseGame(bool pause)
