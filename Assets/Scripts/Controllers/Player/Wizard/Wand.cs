@@ -1,11 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Schema;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class Wand : MonoBehaviour
 {
@@ -57,12 +53,31 @@ public class Wand : MonoBehaviour
 
     public void SetSelectedSpell(int value)
     {
+
+        //CancelHold();  ==== THIS SHOULD BE USED TO CANCEL THE SPELL NOT UST RELEASE
+
+        // Release held spells
+        if (castingBasic)
+        {
+            Fire1(false);
+            StartCoroutine(ChangeSelectedIndex(castingAnimationSimple + castingAnimationSimpleReset / 2f, value));
+            return;
+        }
+        if (channeling)
+        {
+            Fire2(false);
+        }
+        selectedSpell = value;
+    }
+
+    IEnumerator ChangeSelectedIndex(float delay, int value)
+    {
+        yield return new WaitForSeconds(delay);
         selectedSpell = value;
     }
 
     public void Fire1(bool charge)
     {
-        //Debug.Log("Fire :" + charge);
         if (canCast & charge)
         {
             canCast = false;
@@ -89,9 +104,30 @@ public class Wand : MonoBehaviour
             if (runningCoroutine != null) StopCoroutine(runningCoroutine);
             runningCoroutine = StartCoroutine(castFire2( (holding ? castingAnimationChannel : castingAnimationChannelReset), holding));
         }
-
     }
-    
+    /*
+    private void CancelHold()
+    {
+        if (castingBasic)
+            StartCoroutine(cancelFire1(castingAnimationSimpleReset));
+        if (channeling)
+            StartCoroutine(cancelFire2(castingAnimationChannelReset));
+    }
+
+    IEnumerator cancelFire1(float reset)
+    {
+        animationController.HideSource();
+        yield return new WaitForSeconds(reset);
+        castingBasic = false;
+        canCast = true;
+    }
+    IEnumerator cancelFire2(float reset)
+    {
+        spells[selectedSpell].FireHold(false, channelingFirePoint);
+        yield return new WaitForSeconds(reset);
+        canCast = true;
+    }
+    */
     IEnumerator releaseFire1(float cast, float reset)
     {
         canRelease = false;

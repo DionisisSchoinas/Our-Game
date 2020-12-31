@@ -8,6 +8,7 @@ public class OverlayControls : MonoBehaviour
     private Button[] buttons;
     private int lastSelected;
     private ColorBlock selectedColorBlock;
+    private bool paused;
 
     private void Start()
     {
@@ -46,15 +47,33 @@ public class OverlayControls : MonoBehaviour
         {
             SetSelected(4);
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            paused = !paused;
+            UIEventSystem.current.SetHover(gameObject.name, paused);
+            PauseGame(paused);
+        }
     }
 
     public void SetSelected(int selected)
     {
+        // Update UI
         if (lastSelected != -1)
             buttons[lastSelected].colors = ColorBlock.defaultColorBlock;
-
-        overlayToWeaponAdapter.ChangedSelection(selected);
         buttons[selected].colors = selectedColorBlock;
+
+        // Update Adapter
+        overlayToWeaponAdapter.ChangedSelection(selected);
+
         lastSelected = selected;
+    }
+
+    private void PauseGame(bool pause)
+    {
+        if (pause)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
     }
 }
