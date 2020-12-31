@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WallOfIce : SpellTypeWall
 {
+    public override string Name => "Ice Wall";
+
     private void Start()
     {
         doDamage = false;
@@ -12,10 +14,5 @@ public class WallOfIce : SpellTypeWall
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Ice;
-    }
-
-    public override string Name()
-    {
-        return "Ice Wall";
     }
 }

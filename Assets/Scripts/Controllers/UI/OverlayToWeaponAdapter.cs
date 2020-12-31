@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +32,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         {
             foreach (Spell s in wand.GetSpells())
             {
-                spellNames.Add(s.Name());
+                spellNames.Add(s.Name);
             }
             wandListLength = wand.GetSpells().Count;
         }
@@ -40,7 +41,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         {
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
-                spellNames.Add(s.Name());
+                spellNames.Add(s.Name);
             }
             swordListLength = sword.GetSwordEffects().Count;
         }
@@ -73,33 +74,25 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         if (value < wandListLength)
         {
             wand.SetSelectedSpell(value);
-            spellNameDisplay.text = wand.GetSelectedSpell().Name();
+            spellNameDisplay.text = wand.GetSelectedSpell().Name;
         }
         else
         {
             sword.SetSelectedSwordEffect(value - wandListLength);
-            spellNameDisplay.text = sword.GetSelectedEffect().Name();
+            spellNameDisplay.text = sword.GetSelectedEffect().Name;
         }
     }
 
-    /*
-    void DropdownValueChanged(Dropdown change)
+    // Returns all the skills the Controller has
+    public Skill[] GetSkills()
     {
-        int value = change.value;
-        if (value < wandListLength)
-        {
-            wand.SetSelectedSpell(value);
-        }
+        if (wand != null && sword != null)
+            return wand.GetSpells().Union<Skill>(sword.GetSwordEffects()).ToArray<Skill>();
+        else if (wand != null)
+            return wand.GetSpells().ToArray<Skill>();
+        else if (sword != null)
+            return sword.GetSwordEffects().ToArray<Skill>();
         else
-        {
-            sword.SetSelectedSwordEffect(value - wandListLength);
-        }
+            return new Skill[0];
     }
-
-    public void Enable(bool state)
-    {
-        dropdown.interactable = state;
-        isEnabled = state;
-    }
-    */
 }

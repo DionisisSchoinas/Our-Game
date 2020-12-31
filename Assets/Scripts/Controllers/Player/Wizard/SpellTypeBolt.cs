@@ -14,6 +14,8 @@ public class SpellTypeBolt : Spell
 
     private Rigidbody rb;
     private SpellIndicatorController indicatorController;
+    public override string Type => "Bolt";
+    public override string Name => "Bolt";
 
     private void Awake()
     {
@@ -56,10 +58,5 @@ public class SpellTypeBolt : Spell
 
     public override void WakeUp()
     {
-    }
-
-    public override string Name()
-    {
-        throw new System.NotImplementedException();
     }
 }

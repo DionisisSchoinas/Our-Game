@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LightningBolt : SpellTypeBolt
 {
+    public override string Name => "Lightning Bolt";
+
     private void Start()
     {
         damageType = DamageTypesManager.Lightning;
@@ -28,9 +30,5 @@ public class LightningBolt : SpellTypeBolt
                 .BreakPoints(15)
                 .Enable();
         }
-    }
-    public override string Name()
-    {
-        return "Lightning Bolt";
     }
 }

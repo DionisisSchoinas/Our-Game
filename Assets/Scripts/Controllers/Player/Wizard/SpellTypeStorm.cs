@@ -23,6 +23,9 @@ public class SpellTypeStorm : Spell
     [HideInInspector]
     public GameObject[] collisions;
 
+    public override string Type => "Storm";
+    public override string Name => "Storm";
+
     private void Awake()
     {
         pickedSpot = false;
@@ -118,10 +121,5 @@ public class SpellTypeStorm : Spell
     }
     public override void WakeUp()
     {
-    }
-
-    public override string Name()
-    {
-        throw new System.NotImplementedException();
     }
 }

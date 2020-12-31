@@ -2,6 +2,8 @@
 
 public class Snowstorm : SpellTypeStorm
 {
+    public override string Name => "Ice Storm";
+
     private Vector3 capsuleBottom;
 
     private void Start()
@@ -22,10 +24,5 @@ public class Snowstorm : SpellTypeStorm
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Ice;
-    }
-
-    public override string Name()
-    {
-        return "Ice Storm";
     }
 }

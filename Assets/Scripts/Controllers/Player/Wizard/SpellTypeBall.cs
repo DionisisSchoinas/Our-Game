@@ -10,6 +10,9 @@ public class SpellTypeBall : Spell
     public Rigidbody rb;
     private SpellIndicatorController indicatorController;
 
+    public override string Type => "Ball";
+    public override string Name => "Ball";
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,11 +46,6 @@ public class SpellTypeBall : Spell
     }
 
     public override ParticleSystem GetSource()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override string Name()
     {
         throw new System.NotImplementedException();
     }

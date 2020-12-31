@@ -12,6 +12,9 @@ public class ResistanceEffect : SwordEffect
 
     private SkinnedMeshRenderer playerMesh;
 
+    public override string Type => "Resistance";
+    public override string Name => "Resistance";
+
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
         StartCoroutine(PerformAttack(attackDelay, controls, playerMesh));
@@ -42,9 +45,4 @@ public class ResistanceEffect : SwordEffect
         playerMesh.materials = new Material[] { playerMesh.materials[0] };
     }
     */
-
-    public override string Name()
-    {
-        return "No Resistance";
-    }
 }

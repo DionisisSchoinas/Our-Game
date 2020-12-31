@@ -25,6 +25,9 @@ public class Shield : Spell
     private Collider[] colliders;
     private int damageablesLayer;
 
+    public override string Type => "Shield";
+    public override string Name => "Shield";
+
     private void Start()
     {
         //ResetMaterial();
@@ -101,9 +104,5 @@ public class Shield : Spell
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Lightning;
-    }
-    public override string Name()
-    {
-        return "Shield";
     }
 }

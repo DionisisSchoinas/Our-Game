@@ -18,6 +18,9 @@ public class SwordEffect : BasicSword
     private SwordEffect currentEffect;
     private Transform tipPoint, basePoint;
 
+    public override string Type => "Sword Effect";
+    public override string Name => "Sword Effect";
+
     public void Awake()
     {
         trails = new List<SwingTrailRenderer>();
@@ -59,10 +62,5 @@ public class SwordEffect : BasicSword
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
-    }
-
-    public override string Name()
-    {
-        return "No name";
     }
 }

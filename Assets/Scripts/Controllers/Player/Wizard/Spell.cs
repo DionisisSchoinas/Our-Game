@@ -6,5 +6,4 @@ public abstract class Spell : Skill
     public abstract void FireHold(bool holding, Transform firePoint);
     public abstract void WakeUp();
     public abstract ParticleSystem GetSource();
-    public abstract string Name();
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LightningBall : SpellTypeBall
 {
+    public override string Name => "Lightning Ball";
+
     private void Start()
     {
         InvokeRepeating(nameof(SpawnArcs), 0f, 0.1f);
@@ -26,9 +28,5 @@ public class LightningBall : SpellTypeBall
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Lightning;
-    }
-    public override string Name()
-    {
-        return "Lightning Ball";
     }
 }

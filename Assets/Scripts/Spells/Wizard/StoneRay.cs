@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StoneRay : SpellTypeRay
 {
+    public override string Name => "Stone Ray";
+
     private void Start()
     {
         damageType = DamageTypesManager.Physical;
@@ -13,9 +15,5 @@ public class StoneRay : SpellTypeRay
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Earth;
-    }
-    public override string Name()
-    {
-        return "Stone Ray";
     }
 }

@@ -62,4 +62,11 @@ public class ResourceManager
             public static Material Physical = (Material)Resources.Load(folder + "Physical Resistance", typeof(Material));
         }
     }
+
+    public class UI
+    {
+        private static string folder = "UI/";
+        public static GameObject SkillListButton = ((GameObject)Resources.Load(folder + "Skill List Button", typeof(GameObject)));
+        public static GameObject SkillListColumn = ((GameObject)Resources.Load(folder + "Skill List Column", typeof(GameObject)));
+    }
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class LightningStorm : SpellTypeStorm
 {
+    public override string Name => "Lightning Storm";
+
     private void Start()
     {
         damageType = DamageTypesManager.Lightning;
@@ -12,10 +14,5 @@ public class LightningStorm : SpellTypeStorm
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Lightning;
-    }
-
-    public override string Name()
-    {
-        return "Lightning Storm";
     }
 }

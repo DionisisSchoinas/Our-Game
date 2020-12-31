@@ -28,7 +28,7 @@ public class OverlayController : MonoBehaviour
         {
             foreach (Spell s in wand.GetSpells())
             {
-                spellNames.Add(s.Name());
+                spellNames.Add(s.Name);
             }
             wandListLength = wand.GetSpells().Count;
         }
@@ -37,7 +37,7 @@ public class OverlayController : MonoBehaviour
         {
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
-                spellNames.Add(s.Name());
+                spellNames.Add(s.Name);
             }
             swordListLength = sword.GetSwordEffects().Count;
         }

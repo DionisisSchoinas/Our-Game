@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Iceray : SpellTypeRay
 {
+    public override string Name => "Ice Ray";
+
     private void Start()
     {
         damageType = DamageTypesManager.Cold;
@@ -13,10 +15,5 @@ public class Iceray : SpellTypeRay
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Ice;
-    }
-
-    public override string Name()
-    {
-        return "Ice Ray";
     }
 }

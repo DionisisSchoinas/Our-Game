@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StoneStorm : SpellTypeStorm
 {
+    public override string Name => "Stone Storm";
+
     private Vector3 capsuleBottom;
 
     private void Start()
@@ -24,11 +26,6 @@ public class StoneStorm : SpellTypeStorm
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Earth;
-    }
-
-    public override string Name()
-    {
-        return "Stone Storm";
     }
 }
 /*

@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class EarthSphereWave : SphereBurst
 {
+    public override string Name => "Earth Sphere Wave";
+
     void Start()
     {
         damageType = DamageTypesManager.Physical;
         condition = null;
-    }
-
-    public override string Name()
-    {
-        return "Earth Sphere Wave";
     }
 }

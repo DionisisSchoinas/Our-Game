@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class IceSphereWave : SphereBurst
 {
+    public override string Name => "Ice Sphere Wave";
+
     void Start()
     {
         damageType = DamageTypesManager.Cold;
         condition = ConditionsManager.Frozen;
-    }
-
-    public override string Name()
-    {
-        return "Ice Sphere Wave";
     }
 }

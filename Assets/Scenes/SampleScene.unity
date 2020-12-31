@@ -15465,6 +15465,7 @@ GameObject:
   - component: {fileID: 1697498327}
   - component: {fileID: 1697498326}
   - component: {fileID: 1697498329}
+  - component: {fileID: 1697498331}
   - component: {fileID: 1697498330}
   m_Layer: 5
   m_Name: Overlay
@@ -15581,6 +15582,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8c1590d69cf304087ed23aa8ef6f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1697498331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697498324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45ba7d271c4abc42b3061c3eadc7927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponAdapter: {fileID: 0}
+  columnContentHolder: {fileID: 0}
 --- !u!4 &1700715171 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
@@ -18087,9 +18102,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Balls Spells
-
-'
+  m_Text: Spells List
 --- !u!222 &2038128658
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19040,6 +19053,16 @@ PrefabInstance:
       propertyPath: dropdown
       value: 
       objectReference: {fileID: 1127225367}
+    - target: {fileID: 4964402965454966635, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: spells.Array.size
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4964402965454966635, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: spells.Array.data[23]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7205926950548252580, guid: bbdf2f0f859680c448dbd66b93f6f062,
         type: 3}
       propertyPath: m_AnchorMax.x

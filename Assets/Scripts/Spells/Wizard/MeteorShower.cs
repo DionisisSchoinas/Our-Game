@@ -20,6 +20,9 @@ public class MeteorShower : Spell
 
     private GameObject tmpIndicatorHolder;
 
+    public override string Type => "Meteors";
+    public override string Name => "Meteors";
+
     private void Start()
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Spells"), LayerMask.NameToLayer("SpellIgnoreLayer"));
@@ -113,9 +116,5 @@ public class MeteorShower : Spell
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Fire;
-    }
-    public override string Name()
-    {
-        return "Meteor Storm";
     }
 }

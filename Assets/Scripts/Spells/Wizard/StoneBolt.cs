@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StoneBolt : SpellTypeBolt
 {
+    public override string Name => "Stone Bolt";
+
     private void Start()
     {
         damageType = DamageTypesManager.Physical;
@@ -13,9 +15,5 @@ public class StoneBolt : SpellTypeBolt
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Earth;
-    }
-    public override string Name()
-    {
-        return "Stone Bolt";
     }
 }

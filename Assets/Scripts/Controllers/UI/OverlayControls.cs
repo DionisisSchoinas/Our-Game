@@ -6,6 +6,7 @@ public class OverlayControls : MonoBehaviour
     public OverlayToWeaponAdapter overlayToWeaponAdapter;
     public GameObject spellListDisplay;
 
+    private SkillListFill skillList;
     private Button[] buttons;
     private int lastSelected;
     private ColorBlock selectedColorBlock;
@@ -18,14 +19,18 @@ public class OverlayControls : MonoBehaviour
         selectedColorBlock.normalColor = Color.red;
         selectedColorBlock.highlightedColor = Color.magenta;
 
-        spellListDisplay.SetActive(false);
-        spellListDisplay.gameObject.AddComponent<ElementHover>();
-
         buttons = GetComponentsInChildren<Button>();
         foreach (Button obj in buttons)
         {
             obj.gameObject.AddComponent<ElementHover>();
         }
+
+        skillList = GetComponent<SkillListFill>();
+        skillList.weaponAdapter = overlayToWeaponAdapter;
+        skillList.FillList();
+
+        spellListDisplay.SetActive(false);
+        spellListDisplay.gameObject.AddComponent<ElementHover>();
     }
 
     private void Update()

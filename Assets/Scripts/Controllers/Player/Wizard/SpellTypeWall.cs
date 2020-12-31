@@ -24,6 +24,9 @@ public class SpellTypeWall : Spell
 
     private GameObject tmpIndicatorHolder;
 
+    public override string Type => "Wall";
+    public override string Name => "Wall";
+
     private void Awake()
     {
         pickedSpot = false;
@@ -125,10 +128,5 @@ public class SpellTypeWall : Spell
     }
     public override void WakeUp()
     {
-    }
-
-    public override string Name()
-    {
-        throw new System.NotImplementedException();
     }
 }

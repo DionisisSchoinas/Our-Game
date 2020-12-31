@@ -16,6 +16,9 @@ public class SpellTypeRay : Spell
     private GameObject tmpRay;
     private SpellIndicatorController indicatorController;
 
+    public override string Type => "Ray";
+    public override string Name => "Ray";
+
     private void Awake()
     {
         boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
@@ -69,10 +72,5 @@ public class SpellTypeRay : Spell
     }
     public override void FireSimple(Transform firePoint)
     {
-    }
-
-    public override string Name()
-    {
-        throw new System.NotImplementedException();
     }
 }
