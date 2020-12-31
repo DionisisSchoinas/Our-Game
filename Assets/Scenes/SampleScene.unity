@@ -7720,6 +7720,12 @@ MonoBehaviour:
   overlayToWeaponAdapter: {fileID: 1185152694}
   spellListDisplay: {fileID: 1981257795}
   columnContentHolder: {fileID: 1670486413}
+  quickbar:
+  - {fileID: 1541563126}
+  - {fileID: 1318593546}
+  - {fileID: 862875438}
+  - {fileID: 1685960373}
+  - {fileID: 22690342}
 --- !u!114 &1697498330
 MonoBehaviour:
   m_ObjectHideFlags: 0
