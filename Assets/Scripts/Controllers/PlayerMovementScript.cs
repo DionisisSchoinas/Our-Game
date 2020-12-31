@@ -42,6 +42,7 @@ public class PlayerMovementScript : MonoBehaviour
     public bool mouse_1;
     public bool mouse_2;
     // ---------------
+    public bool lockMouseInputs;
 
     private float horizontal;
     private float vertical;
@@ -61,6 +62,7 @@ public class PlayerMovementScript : MonoBehaviour
         mousedown_1 = false;
         mousedown_2 = false;
         menu = false;
+        lockMouseInputs = false;
 
         horizontal = 0f;
         vertical = 0f;
@@ -98,7 +100,7 @@ public class PlayerMovementScript : MonoBehaviour
         if (!menu)
         {
             // Controlled inputs which lock other if one is pressed
-            if (Input.GetMouseButtonDown(0) && !mousedown_2)
+            if (Input.GetMouseButtonDown(0) && !mousedown_2 && !lockMouseInputs)
             {
                 mousedown_1 = true;
             }
@@ -106,7 +108,7 @@ public class PlayerMovementScript : MonoBehaviour
             {
                 mousedown_1 = false;
             }
-            if (Input.GetMouseButtonDown(1) && !mousedown_1)
+            if (Input.GetMouseButtonDown(1) && !mousedown_1 && !lockMouseInputs)
             {
                 mousedown_2 = true;
             }
@@ -116,7 +118,7 @@ public class PlayerMovementScript : MonoBehaviour
             }
 
             // Raw inputs
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !lockMouseInputs)
             {
                 mouse_1 = true;
             }
@@ -124,7 +126,7 @@ public class PlayerMovementScript : MonoBehaviour
             {
                 mouse_1 = false;
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && !lockMouseInputs)
             {
                 mouse_2 = true;
             }

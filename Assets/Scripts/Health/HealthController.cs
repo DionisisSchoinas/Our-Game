@@ -51,6 +51,14 @@ public class HealthController : MonoBehaviour
         HealthEventSystem.current.onConditionHit += SetCondition;
         HealthEventSystem.current.onForceApply += ApplyForce;
     }
+    private void OnDestroy()
+    {
+        HealthEventSystem.current.onDamageTaken -= TakeDamage;
+        HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
+        HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
+        HealthEventSystem.current.onConditionHit -= SetCondition;
+        HealthEventSystem.current.onForceApply -= ApplyForce;
+    }
 
     public void Damage(float damage, int damageType)
     {
@@ -150,14 +158,5 @@ public class HealthController : MonoBehaviour
             if (rigidbody != null)
                 rigidbody.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
         }
-    }
-
-    private void OnDestroy()
-    {
-        HealthEventSystem.current.onDamageTaken -= TakeDamage;
-        HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
-        HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
-        HealthEventSystem.current.onConditionHit -= SetCondition;
-        HealthEventSystem.current.onForceApply -= ApplyForce;
     }
 }

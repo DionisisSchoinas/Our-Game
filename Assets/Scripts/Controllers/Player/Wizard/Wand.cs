@@ -50,6 +50,11 @@ public class Wand : MonoBehaviour
         return spells.ToList();
     }
 
+    public Spell GetSelectedSpell()
+    {
+        return spells[selectedSpell];
+    }
+
     public void SetSelectedSpell(int value)
     {
         selectedSpell = value;
