@@ -98,8 +98,4 @@ public class SwingTrailRenderer : MonoBehaviour
         return Vector3.Cross(dir, Vector3.up).normalized + center;
     }
     */
-    private void OnDestroy()
-    {
-        Destroy(trailHolder.gameObject);
-    }
 }

@@ -16,7 +16,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     private int wandListLength;
     private int swordListLength;
 
-    private PlayerMovementScriptWizard playerMovementScript;
+    private PlayerMovementScript playerMovementScript;
     
 
     // Start is called before the first frame update
@@ -44,7 +44,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
             swordListLength = sword.GetSwordEffects().Count;
         }
 
-        playerMovementScript = GetComponent<PlayerMovementScriptWizard>();
+        playerMovementScript = GetComponent<PlayerMovementScript>();
 
         UIEventSystem.current.onHover += SetHover;
     }
