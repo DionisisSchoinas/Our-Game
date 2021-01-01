@@ -4,29 +4,15 @@ using UnityEngine.UI;
 
 public class OverlayControls : MonoBehaviour
 {
-    public struct ButtonData
-    {
-        public int quickBarIndex;
-        public int skillIndexInAdapter;
-        public Text buttonText;
-
-        public ButtonData(int quickBarIndex, int skillIndexInAdapter, Text buttonText)
-        {
-            this.quickBarIndex = quickBarIndex;
-            this.skillIndexInAdapter = skillIndexInAdapter;
-            this.buttonText = buttonText;
-        }
-    }
 
     public OverlayToWeaponAdapter overlayToWeaponAdapter;
     public GameObject spellListDisplay;
     public GameObject columnContentHolder;
     // Quickbar data
     public Button[] quickbar;
-    private ButtonData[] buttonData;
+    private ButtonContainer[] buttonContainer;
 
     private SkillListFill skillList;
-    private Button[] buttons;
     private Button lastSelected;
     private int bindingSkillIndex;
     private ColorBlock selectedColorBlock;
@@ -38,12 +24,6 @@ public class OverlayControls : MonoBehaviour
         selectedColorBlock = ColorBlock.defaultColorBlock;
         selectedColorBlock.normalColor = Color.red;
         selectedColorBlock.highlightedColor = Color.magenta;
-
-        buttons = GetComponentsInChildren<Button>();
-        foreach (Button obj in buttons)
-        {
-            obj.gameObject.AddComponent<ElementHover>();
-        }
 
         skillList = gameObject.AddComponent<SkillListFill>();
         skillList.weaponAdapter = overlayToWeaponAdapter;
@@ -60,12 +40,16 @@ public class OverlayControls : MonoBehaviour
         if (quickbar.Length < 5)
             Debug.LogError("Quickbar needs at least 5 buttons");
 
-        buttonData = new ButtonData[quickbar.Length + 1];
+        buttonContainer = new ButtonContainer[quickbar.Length + 1];
         for (int i=0; i<quickbar.Length; i++)
         {
             Text butttonText = quickbar[i].GetComponentInChildren<Text>();
-            butttonText.text = overlayToWeaponAdapter.GetSkillFromIndex(i).Name;
-            buttonData[i] = new ButtonData(i, i, butttonText);
+            Skill skill = overlayToWeaponAdapter.GetSkillFromIndex(i);
+            // Put container script on the quickbar buttons
+            buttonContainer[i] = quickbar[i].gameObject.AddComponent<QuickbarButton>();
+            // Save values on the buttons script
+            buttonContainer[i].buttonData = new ButtonData(skill, i, i, butttonText);
+            buttonContainer[i].overlayControls = this;
         }
     }
 
@@ -115,8 +99,8 @@ public class OverlayControls : MonoBehaviour
     {
         if (binding)
         {
-            buttonData[selectedQuickBar].skillIndexInAdapter = bindingSkillIndex;
-            buttonData[selectedQuickBar].buttonText.text = overlayToWeaponAdapter.GetSkillFromIndex(bindingSkillIndex).Name;
+            // Update selected buttons values
+            buttonContainer[selectedQuickBar].buttonData.NewValues(overlayToWeaponAdapter.GetSkillFromIndex(bindingSkillIndex), bindingSkillIndex);
 
             ResetLastButton();
         }
@@ -134,7 +118,8 @@ public class OverlayControls : MonoBehaviour
         }
 
         // Update Adapter
-        overlayToWeaponAdapter.SelectedOnQuickbar(buttonData[selectedQuickBar].skillIndexInAdapter);
+        overlayToWeaponAdapter.SelectedOnQuickbar(buttonContainer[selectedQuickBar].buttonData.skillIndexInAdapter);
+
         //lastSelected = buttons[selectedQuickBar];
     }
 

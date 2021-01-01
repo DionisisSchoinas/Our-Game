@@ -76,24 +76,16 @@ public class SkillListFill : MonoBehaviour
 
                 // Instantiate and save in list
                 Button b = Instantiate(btn, col.transform).GetComponent<Button>();
+
                 buttons.Add(b);
                 int indexInList = buttons.Count - 1;
 
-                // Add on click event
-                buttons[indexInList]
-                    .onClick
-                    .AddListener(
-                        delegate {
-                            Clicked(column.indexes[index], indexInList);
-                });
+                ButtonContainer btnContainer = buttons[indexInList].gameObject.AddComponent<SkillListButton>();
+                btnContainer.buttonData = new ButtonData(column.skills[index], -1, column.indexes[index]);
+                btnContainer.overlayControls = overlayControls;
             }
 
         }
-    }
-
-    private void Clicked(int indexInAdapter, int indexInList)
-    {
-        overlayControls.PickingKeyBind(indexInAdapter, buttons[indexInList]);
     }
 
     private List<SkillTypeContainer> SplitSkills(Skill[] skills)
