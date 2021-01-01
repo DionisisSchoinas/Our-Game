@@ -7,7 +7,6 @@ public class SpellIndicatorController : MonoBehaviour
     public static int ConeIndicator = 1;
     public static int CircleIndicator = 2;
 
-
     public float indicatorDeleteTimer = 10f;
 
     private GameObject indicator;
@@ -168,6 +167,9 @@ public class SpellIndicatorController : MonoBehaviour
 
     private void RotateToLookAtPlayer()
     {
+        if (tmpAoeIndicator == null)
+            return;
+
         //Look at player
         if (wizardControls != null)
             tmpAoeIndicator.transform.LookAt(wizardControls.transform, Vector3.up);
@@ -210,6 +212,7 @@ public class SpellIndicatorController : MonoBehaviour
         tmpRangeIndicator.transform.localScale = Vector3.one * castingRadius * 2f;
         tmpAoeIndicator = Instantiate(indicator);
         tmpAoeIndicator.SetActive(false);
+        tmpAoeIndicator.AddComponent<KillOnDelayScript>();
         tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeCircleMaterial;
         tmpAoeIndicator.transform.localScale = Vector3.one * aoeRadius * 2f;
         tmpAoeIndicator.SetActive(true);
@@ -232,6 +235,7 @@ public class SpellIndicatorController : MonoBehaviour
         tmpRangeIndicator.transform.localScale = Vector3.one * castingRadius * 2f;
         tmpAoeIndicator = Instantiate(indicator);
         tmpAoeIndicator.SetActive(false);
+        tmpAoeIndicator.AddComponent<KillOnDelayScript>();
         tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeSquareMaterial;
         tmpAoeIndicator.transform.localScale = Vector3.right * leftToRight + Vector3.up * backToForward;
         tmpAoeIndicator.SetActive(true);
@@ -250,6 +254,7 @@ public class SpellIndicatorController : MonoBehaviour
         // New indicators
         tmpAoeIndicator = Instantiate(indicator, center);
         tmpAoeIndicator.SetActive(false);
+        tmpAoeIndicator.AddComponent<KillOnDelayScript>();
         if (aoeShape == ConeIndicator)
         {
             tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeConeMaterial;
@@ -290,6 +295,7 @@ public class SpellIndicatorController : MonoBehaviour
         tmpRangeIndicator.transform.localScale = Vector3.one * castingRadius * 2f;
         tmpAoeIndicator = Instantiate(indicator);
         tmpAoeIndicator.SetActive(false);
+        tmpAoeIndicator.AddComponent<KillOnDelayScript>();
         tmpAoeIndicator.GetComponent<MeshRenderer>().material = aoeSquareMaterial;
         tmpAoeIndicator.transform.localScale = Vector3.right * aoeLength + Vector3.up * aoeWidth;
         tmpAoeIndicator.SetActive(true);
@@ -341,7 +347,11 @@ public class SpellIndicatorController : MonoBehaviour
 
     public void DestroyIndicator(float delay)
     {
-        StartCoroutine(DestroyIndicatorDelay(delay));
+        if (tmpAoeIndicator == null)
+            return;
+
+        KillOnDelayScript killScript = tmpAoeIndicator.GetComponent<KillOnDelayScript>();
+        killScript.KillAfter(delay);
     }
 
     public void DestroyIndicator()
@@ -351,10 +361,11 @@ public class SpellIndicatorController : MonoBehaviour
         picking = false;
     }
 
-    private IEnumerator DestroyIndicatorDelay(float delay)
+    private IEnumerator DestroyIndicatorDelay(float delay, GameObject indicator)
     {
         yield return new WaitForSeconds(delay);
-        DestroyIndicator();
+        mode = -1;
+        picking = false;
     }
 
     public void SwapFaces()
