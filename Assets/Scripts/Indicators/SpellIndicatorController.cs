@@ -34,7 +34,7 @@ public class SpellIndicatorController : MonoBehaviour
     private int layerMasks;
     //private Plane plane;
 
-    private PlayerMovementScript wizardControls;
+    private PlayerMovementScriptWizard wizardControls;
     private PlayerMovementScriptWarrior warriorControls;
     private bool mouse_1_clicked;
     private bool mouse_1_locked;
@@ -57,7 +57,7 @@ public class SpellIndicatorController : MonoBehaviour
         mouse_1_clicked = false;
         mouse_1_locked = false;
         picking = false;
-        wizardControls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
+        wizardControls = GameObject.FindObjectOfType<PlayerMovementScriptWizard>() as PlayerMovementScriptWizard;
         warriorControls = GameObject.FindObjectOfType<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
         layerMasks = LayerMask.GetMask("Ground");
 

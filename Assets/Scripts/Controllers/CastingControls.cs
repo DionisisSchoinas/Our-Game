@@ -4,32 +4,19 @@ public class CastingControls : MonoBehaviour
 {
     [SerializeField]
     private Wand wand;
-    [SerializeField]
-    private OverlayController overlayController;
 
-    private PlayerMovementScript controls;
+    private PlayerMovementScriptWizard controls;
 
     private bool fire1 = false;
     private bool fire2 = false;
 
     private void Start()
     {
-        controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
+        controls = GameObject.FindObjectOfType<PlayerMovementScriptWizard>() as PlayerMovementScriptWizard;
     }
 
     private void FixedUpdate()
     {
-        if (controls.menu && !overlayController.isEnabled)
-        {
-            overlayController.Enable(true);
-            fire1 = false;
-            fire2 = false;
-        }
-        else if (!controls.menu && overlayController.isEnabled)
-        {
-            overlayController.Enable(false);
-        }
-
         if (!controls.menu)
         {
             fire1 = controls.mousedown_1;

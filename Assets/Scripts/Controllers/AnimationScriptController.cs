@@ -11,14 +11,14 @@ public class AnimationScriptController : MonoBehaviour
     public GameObject rightHandForChannelingSpells;
     public bool allowStopCasting;
 
-    private PlayerMovementScript controls;
+    private PlayerMovementScriptWizard controls;
     private ParticleSystem tmpSource;
 
     // Start is called before the first frame update
     void Start()
     {
         allowStopCasting = true;
-        controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
+        controls = GameObject.FindObjectOfType<PlayerMovementScriptWizard>() as PlayerMovementScriptWizard;
     }
     
     // Update is called once per frame

@@ -16,9 +16,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     private int wandListLength;
     private int swordListLength;
 
-    private PlayerMovementScript playerMovementScript;
-
-    public bool isEnabled = false;
+    private PlayerMovementScriptWizard playerMovementScript;
     
 
     // Start is called before the first frame update
@@ -46,7 +44,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
             swordListLength = sword.GetSwordEffects().Count;
         }
 
-        playerMovementScript = GetComponent<PlayerMovementScript>();
+        playerMovementScript = GetComponent<PlayerMovementScriptWizard>();
 
         UIEventSystem.current.onHover += SetHover;
     }
@@ -63,7 +61,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     }
 
     // Triggers by the event when user hovers over a UI Element
-    private void SetHover(string name, bool hovering)
+    private void SetHover(bool hovering)
     {
         if (playerMovementScript == null)
             return;

@@ -5,11 +5,11 @@ public class ElementHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UIEventSystem.current.SetHover(gameObject.name, true);
+        UIEventSystem.current.SetHover(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UIEventSystem.current.SetHover(gameObject.name, false);
+        UIEventSystem.current.SetHover(false);
     }
 }

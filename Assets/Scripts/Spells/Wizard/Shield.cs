@@ -98,7 +98,7 @@ public class Shield : Spell
 
     public override void WakeUp()
     {
-        center = (FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript).transform;
+        center = (FindObjectOfType<PlayerMovementScriptWizard>() as PlayerMovementScriptWizard).transform;
     }
 
     public override ParticleSystem GetSource()

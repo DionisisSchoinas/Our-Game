@@ -11,7 +11,7 @@ public abstract class ButtonContainer : ElementHover, IPointerClickHandler
     [HideInInspector]
     public Button button;
 
-    private void Awake()
+    public void Awake()
     {
         button = gameObject.GetComponent<Button>();
         if (overlayControls == null)

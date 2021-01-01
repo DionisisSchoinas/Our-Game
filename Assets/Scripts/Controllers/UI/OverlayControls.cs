@@ -4,23 +4,27 @@ using UnityEngine.UI;
 
 public class OverlayControls : MonoBehaviour
 {
-
-    public OverlayToWeaponAdapter overlayToWeaponAdapter;
     public GameObject spellListDisplay;
     public GameObject columnContentHolder;
     // Quickbar data
     public Button[] quickbar;
+    private RectTransform[] quickbarTransforms;
     private ButtonContainer[] buttonContainer;
 
+    private OverlayToWeaponAdapter overlayToWeaponAdapter;
     private SkillListFill skillList;
     private Button lastSelected;
     private int bindingSkillIndex;
     private ColorBlock selectedColorBlock;
     private bool paused;
     private bool binding;
+    private int currentHoveringQuickbar;
+
 
     private void Start()
     {
+        overlayToWeaponAdapter = FindObjectOfType<OverlayToWeaponAdapter>();
+
         selectedColorBlock = ColorBlock.defaultColorBlock;
         selectedColorBlock.normalColor = Color.red;
         selectedColorBlock.highlightedColor = Color.magenta;
@@ -40,7 +44,8 @@ public class OverlayControls : MonoBehaviour
         if (quickbar.Length < 5)
             Debug.LogError("Quickbar needs at least 5 buttons");
 
-        buttonContainer = new ButtonContainer[quickbar.Length + 1];
+        buttonContainer = new ButtonContainer[quickbar.Length];
+        quickbarTransforms = new RectTransform[quickbar.Length];
         for (int i=0; i<quickbar.Length; i++)
         {
             Text butttonText = quickbar[i].GetComponentInChildren<Text>();
@@ -50,7 +55,19 @@ public class OverlayControls : MonoBehaviour
             // Save values on the buttons script
             buttonContainer[i].buttonData = new ButtonData(skill, i, i, butttonText);
             buttonContainer[i].overlayControls = this;
+
+            // Transforms
+            quickbarTransforms[i] = quickbar[i].GetComponent<RectTransform>();
         }
+
+        ResetLastButton();
+
+        UIEventSystem.current.onDragging += Dragging;
+    }
+
+    private void OnDestroy()
+    {
+        UIEventSystem.current.onDragging -= Dragging;
     }
 
     private void Update()
@@ -79,11 +96,49 @@ public class OverlayControls : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             paused = !paused;
-            UIEventSystem.current.SetHover(gameObject.name, paused);
+            UIEventSystem.current.SetHover(paused);
             PauseGame(paused);
             spellListDisplay.SetActive(paused);
 
             ResetLastButton();
+        }
+
+        if (binding && bindingSkillIndex != -1)
+        {
+            for (int i=0; i<quickbarTransforms.Length; i++) {
+                Vector2 localMousePosition = quickbarTransforms[i].InverseTransformPoint(Input.mousePosition);
+                if (quickbarTransforms[i].rect.Contains(localMousePosition))
+                {
+                    HoverQuickbar(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void Dragging(int bindingSkillIndex, bool dragging)
+    {
+        if (dragging)
+        {
+            this.bindingSkillIndex = bindingSkillIndex;
+        }
+        else
+        {
+            if (currentHoveringQuickbar != -1)
+            {
+                SetSelectedQuickBar(currentHoveringQuickbar);
+            }
+            this.bindingSkillIndex = -1;
+        }
+
+        binding = dragging;
+    }
+
+    private void HoverQuickbar(int index)
+    {
+        if (currentHoveringQuickbar != index)
+        {
+            currentHoveringQuickbar = index;
         }
     }
 
@@ -130,6 +185,7 @@ public class OverlayControls : MonoBehaviour
         lastSelected = null;
         binding = false;
         bindingSkillIndex = -1;
+        currentHoveringQuickbar = -1;
     }
 
     private void PauseGame(bool pause)

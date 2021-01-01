@@ -13,7 +13,7 @@ public class ResistanceEffect : SwordEffect
     private SkinnedMeshRenderer playerMesh;
 
     public override string Type => "Resistance";
-    public override string Name => "Resistance";
+    public override string Name => "No Resistance";
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {

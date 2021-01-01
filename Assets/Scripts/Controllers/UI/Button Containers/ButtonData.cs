@@ -5,6 +5,7 @@ public class ButtonData : MonoBehaviour
 {
     public int quickBarIndex;
     public int skillIndexInAdapter;
+    public int skillIndexInColumn;
     public Text buttonText;
     public Skill skill;
 
@@ -15,7 +16,18 @@ public class ButtonData : MonoBehaviour
         this.skillIndexInAdapter = skillIndexInAdapter;
     }
 
+    public ButtonData(Skill skill, int quickBarIndex, int skillIndexInAdapter, int skillIndexInColumn) : this(skill, quickBarIndex, skillIndexInAdapter)
+    {
+        this.skillIndexInColumn = skillIndexInColumn;
+    }
+
     public ButtonData(Skill skill, int quickBarIndex, int skillIndexInAdapter, Text buttonText) : this(skill, quickBarIndex, skillIndexInAdapter)
+    {
+        this.buttonText = buttonText;
+        this.buttonText.text = skill.Name;
+    }
+
+    public ButtonData(Skill skill, int quickBarIndex, int skillIndexInAdapter, int skillIndexInColumn, Text buttonText) : this(skill, quickBarIndex, skillIndexInAdapter, skillIndexInColumn)
     {
         this.buttonText = buttonText;
         this.buttonText.text = skill.Name;

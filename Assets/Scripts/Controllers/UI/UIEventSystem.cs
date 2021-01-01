@@ -10,12 +10,21 @@ public class UIEventSystem : MonoBehaviour
         current = this;
     }
 
-    public event Action<string, bool> onHover;
-    public void SetHover(string name, bool hovering)
+    public event Action<bool> onHover;
+    public void SetHover(bool hovering)
     {
         if (onHover != null)
         {
-            onHover(name, hovering);
+            onHover(hovering);
+        }
+    }
+
+    public event Action<int, bool> onDragging;
+    public void Dragging(int indexInAdapter, bool dragging)
+    {
+        if (onDragging != null)
+        {
+            onDragging(indexInAdapter, dragging);
         }
     }
 }
