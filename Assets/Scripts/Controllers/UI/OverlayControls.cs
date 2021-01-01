@@ -72,6 +72,7 @@ public class OverlayControls : MonoBehaviour
 
     private void Update()
     {
+        // Quick bar inptus
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             SetSelectedQuickBar(0);
@@ -93,14 +94,23 @@ public class OverlayControls : MonoBehaviour
             SetSelectedQuickBar(4);
         }
 
+        // Escape
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (paused)
+            {
+                ChangeSkillListState();
+            }
+            else
+            {
+                // Escape menu
+            }
+        }
+
+        // Spell List
         if (Input.GetKeyDown(KeyCode.K))
         {
-            paused = !paused;
-            UIEventSystem.current.SetHover(paused);
-            PauseGame(paused);
-            spellListDisplay.SetActive(paused);
-
-            ResetLastButton();
+            ChangeSkillListState();
         }
 
         if (binding && bindingSkillIndex != -1)
@@ -114,6 +124,16 @@ public class OverlayControls : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void ChangeSkillListState()
+    {
+        paused = !paused;
+        UIEventSystem.current.SetHover(paused);
+        PauseGame(paused);
+        spellListDisplay.SetActive(paused);
+
+        ResetLastButton();
     }
 
     private void Dragging(int bindingSkillIndex, bool dragging)
