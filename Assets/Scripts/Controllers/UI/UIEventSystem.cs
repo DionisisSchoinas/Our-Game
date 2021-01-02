@@ -36,4 +36,22 @@ public class UIEventSystem : MonoBehaviour
             skillListUp(up);
         }
     }
+
+    public event Action<int> highlightButtonInSkillList;
+    public void SetHighlight(int indexInAdapter)
+    {
+        if (highlightButtonInSkillList != null)
+        {
+            highlightButtonInSkillList(indexInAdapter);
+        }
+    }
+
+    public event Action unhighlightButtonsInSkillList;
+    public void UnHighlightSKillList()
+    {
+        if (highlightButtonInSkillList != null)
+        {
+            unhighlightButtonsInSkillList();
+        }
+    }
 }

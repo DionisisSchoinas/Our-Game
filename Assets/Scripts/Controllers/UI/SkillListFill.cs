@@ -10,24 +10,27 @@ public class SkillListFill : MonoBehaviour
     {
         public string type;
         public List<Skill> skills;
-        public List<int> indexes;
+        public List<int> indexesInAdapter;
+        public int columnIndex;
 
         public SkillTypeContainer()
         {
             this.type = "";
             this.skills = new List<Skill>();
-            this.indexes = new List<int>();
+            this.indexesInAdapter = new List<int>();
+            this.columnIndex = -1;
         }
 
-        public SkillTypeContainer(string type) : this()
+        public SkillTypeContainer(string type, int columnIndex) : this()
         {
             this.type = type;
+            this.columnIndex = columnIndex;
         }
 
-        public void Add(Skill skill, int index)
+        public void Add(Skill skill, int indexInAdapter)
         {
             skills.Add(skill);
-            indexes.Add(index);
+            indexesInAdapter.Add(indexInAdapter);
         }
     }
 
@@ -59,9 +62,9 @@ public class SkillListFill : MonoBehaviour
 
         skills = weaponAdapter.GetSkills();
         skillColumns = SplitSkills(skills);
-        
-        foreach (SkillTypeContainer column in skillColumns)
-        {
+
+        for (int j=0; j < skillColumns.Count; j++) {
+            SkillTypeContainer column = skillColumns[j];
             // Get Column prefab from Resources
             GameObject col = ResourceManager.UI.SkillListColumn;
             col = Instantiate(col, columnContentHolder.transform);
@@ -70,6 +73,7 @@ public class SkillListFill : MonoBehaviour
             {
                 // Get Button prefab fro Resources
                 int index = i;
+
                 GameObject btn = ResourceManager.UI.SkillListButton;
                 btn.GetComponentInChildren<Text>().text = column.skills[index].Name;
 
@@ -78,9 +82,10 @@ public class SkillListFill : MonoBehaviour
 
                 buttons.Add(b);
                 int indexInList = buttons.Count - 1;
+                int columnIndex = j;
 
                 SkillListButton btnContainer = buttons[indexInList].gameObject.AddComponent<SkillListButton>();
-                btnContainer.buttonData = new ButtonData(buttons[indexInList], column.skills[index], -1, column.indexes[index], index);
+                btnContainer.buttonData = new ButtonData(buttons[indexInList], column.skills[index], -1, column.indexesInAdapter[index], index, columnIndex);
                 btnContainer.overlayControls = overlayControls;
                 btnContainer.parent = col.transform;
             }
@@ -100,11 +105,20 @@ public class SkillListFill : MonoBehaviour
             }
             else
             {
-                columns.Add(new SkillTypeContainer(s.Type));
+                columns.Add(new SkillTypeContainer(s.Type, columns.Count));
                 columns[columns.Count - 1].Add(s, counter);
             }
             counter++;
         }
         return columns;
+    }
+
+    public void HightlightQuickbarSkills(List<int> indexInAdapter)
+    {
+        UIEventSystem.current.UnHighlightSKillList();
+        for (int i=0; i < indexInAdapter.Count; i++)
+        {
+            UIEventSystem.current.SetHighlight(indexInAdapter[i]);
+        }
     }
 }

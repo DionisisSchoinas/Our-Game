@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class OverlayControls : MonoBehaviour
 {
@@ -60,6 +61,8 @@ public class OverlayControls : MonoBehaviour
         }
 
         ResetLastButton();
+        // Hightlight the quickbar skills in the skill list
+        HighlightQuickbarInList();
 
         UIEventSystem.current.onDraggingButton += DraggingButton;
     }
@@ -126,6 +129,13 @@ public class OverlayControls : MonoBehaviour
         return -1;
     }
 
+    private void HighlightQuickbarInList()
+    {
+        List<int> indexInAdapter = quickbarButtonContainers.Select(cont => cont.buttonData.skillIndexInAdapter).ToList();
+
+        skillList.HightlightQuickbarSkills(indexInAdapter);
+    }
+
     private void ChangeSkillListState()
     {
         paused = !paused;
@@ -173,18 +183,14 @@ public class OverlayControls : MonoBehaviour
     private void BindSkillToQuickbar(ButtonContainer container, int selectedQuickbar)
     {
         quickbarButtonContainers[selectedQuickbar].buttonData.NewData(container.buttonData);
+        HighlightQuickbarInList();
         ResetLastButton();
     }
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
-        Debug.Log(selectedQuickbar);
-        quickbarButtonContainers[selectedQuickbar].buttonData.PrintData();
         // Update Adapter
         overlayToWeaponAdapter.SelectedOnQuickbar(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
-
-
-        //lastSelected = buttons[selectedQuickBar];
     }
 
     private void ResetLastButton()

@@ -2,10 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     private Vector2 clickPositionOffset;
+
+    public new void Awake()
+    {
+        base.Awake();
+        UIEventSystem.current.highlightButtonInSkillList += Highlight;
+        UIEventSystem.current.unhighlightButtonsInSkillList += UnHighlight;
+    }
+
+    private void OnDestroy()
+    {
+        UIEventSystem.current.highlightButtonInSkillList -= Highlight;
+        UIEventSystem.current.unhighlightButtonsInSkillList -= UnHighlight;
+    }
+
+    private void Highlight(int indexInAdapter)
+    {
+        if (buttonData.skillIndexInAdapter == indexInAdapter)
+        {
+            button.colors = selectedColorBlock;
+        }
+    }
+    private void UnHighlight()
+    {
+        button.colors = ColorBlock.defaultColorBlock;
+    }
 
     private SkillListButton ReInstantiate()
     {
@@ -30,18 +56,21 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        // Set new one to position
         ReInstantiate();
-
+        // Get offset of mouse from position of transform
         clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
+        // Move to canvas to allow drag around
         transform.parent = canvas;
-
+        // Notify event
         UIEventSystem.current.DraggingButton(this, true);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        // Notify event
         UIEventSystem.current.DraggingButton(this, false);
-
+        // Destroy drag around button
         Destroy(gameObject);
     }
 
