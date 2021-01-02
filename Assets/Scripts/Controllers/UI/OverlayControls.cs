@@ -9,8 +9,10 @@ public class OverlayControls : MonoBehaviour
     public GameObject columnContentHolder;
     // Quickbar data
     public Button[] quickbarButtons;
-    private RectTransform[] quickbarButtonTransforms;
-    private ButtonContainer[] quickbarButtonContainers;
+    [HideInInspector]
+    public RectTransform[] quickbarButtonTransforms;
+    [HideInInspector]
+    public ButtonContainer[] quickbarButtonContainers;
 
     private OverlayToWeaponAdapter overlayToWeaponAdapter;
     private SkillListFill skillList;
@@ -49,7 +51,7 @@ public class OverlayControls : MonoBehaviour
             // Put container script on the quickbar buttons
             quickbarButtonContainers[i] = quickbarButtons[i].gameObject.AddComponent<QuickbarButton>();
             // Save values on the buttons script
-            quickbarButtonContainers[i].buttonData = new ButtonData(skill, i, i, butttonText);
+            quickbarButtonContainers[i].buttonData = new ButtonData(quickbarButtons[i], skill, i, i, butttonText);
             quickbarButtonContainers[i].overlayControls = this;
             quickbarButtonContainers[i].parent = quickbar.transform;
 
@@ -140,35 +142,44 @@ public class OverlayControls : MonoBehaviour
         // Skill list button
         if (buttonContainer.buttonData.quickBarIndex == -1)
         {
-            if (dragging)
-            {
-                //this.bindingSkillIndex = buttonContainer.buttonData.skillIndexInAdapter;
-            }
-            else
+            if (!dragging)
             {
                 int hoveringOverButton = HoveringQuickbarButtons();
                 if (hoveringOverButton != -1)
                 {
                     BindSkillToQuickbar(buttonContainer, hoveringOverButton);
                 }
-                //this.bindingSkillIndex = -1;
             }
         }
         // Quickbar button
         else
         {
-
+            if (!dragging)
+            {
+                int hoveringOverButton = HoveringQuickbarButtons();
+                // If hovering a quickbar button and it's not the same button
+                if (hoveringOverButton != -1 && hoveringOverButton != buttonContainer.buttonData.quickBarIndex)
+                {
+                    // Set the hovering button to the button we are dragging around
+                    BindSkillToQuickbar(quickbarButtonContainers[hoveringOverButton], buttonContainer.buttonData.quickBarIndex);
+                    // Set the button we are dragging around to the hovering button
+                    BindSkillToQuickbar(buttonContainer, hoveringOverButton);
+                }
+            }
         }
     }
 
+    // Binds the container data to the button with this index -> selectedQuickbar
     private void BindSkillToQuickbar(ButtonContainer container, int selectedQuickbar)
     {
-        quickbarButtonContainers[selectedQuickbar].buttonData.NewValues(container.buttonData.skill, container.buttonData.skillIndexInAdapter);
+        quickbarButtonContainers[selectedQuickbar].buttonData.NewData(container.buttonData);
         ResetLastButton();
     }
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
+        Debug.Log(selectedQuickbar);
+        quickbarButtonContainers[selectedQuickbar].buttonData.PrintData();
         // Update Adapter
         overlayToWeaponAdapter.SelectedOnQuickbar(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
 

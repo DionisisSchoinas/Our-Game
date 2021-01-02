@@ -80,7 +80,7 @@ public class SkillListFill : MonoBehaviour
                 int indexInList = buttons.Count - 1;
 
                 SkillListButton btnContainer = buttons[indexInList].gameObject.AddComponent<SkillListButton>();
-                btnContainer.buttonData = new ButtonData(column.skills[index], -1, column.indexes[index], index);
+                btnContainer.buttonData = new ButtonData(buttons[indexInList], column.skills[index], -1, column.indexes[index], index);
                 btnContainer.overlayControls = overlayControls;
                 btnContainer.parent = col.transform;
             }

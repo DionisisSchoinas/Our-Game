@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class QuickbarButton : ButtonContainer, IPointerClickHandler//, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
+    [HideInInspector]
+    public bool skillListUp;
+
     private Vector2 clickPositionOffset;
-    private bool skillListUp;
+    private Vector2 lastPosition;
 
     public new void Awake()
     {
         base.Awake();
         skillListUp = false;
+    }
+
+    public void Start()
+    {
         UIEventSystem.current.skillListUp += BlockQuickbarSkillSelection;
     }
 
@@ -30,43 +38,67 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler//, IPointerD
         if (!skillListUp)
             overlayControls.SetSelectedQuickBar(buttonData.quickBarIndex);
     }
-    /*
-    private SkillListButton ReInstantiate()
+    
+    private QuickbarButton ReInstantiate()
     {
-        SkillListButton btn = Instantiate(gameObject, parent).GetComponent<SkillListButton>();
-        btn.buttonData = buttonData;
-        btn.overlayControls = overlayControls;
-        btn.parent = parent;
-        btn.transform.SetSiblingIndex(buttonData.skillIndexInColumn);
-        return btn;
+        // Instatiate new button and get components
+        GameObject btnGm = Instantiate(gameObject, parent);
+        Button btn = btnGm.GetComponent<Button>();
+        QuickbarButton btnScript = btnGm.GetComponent<QuickbarButton>();
+
+        // Set new values in script
+        btnScript.buttonData = new ButtonData();
+        btnScript.buttonData.CopyData(btn, buttonData);
+        btnScript.skillListUp = skillListUp;
+        btnScript.overlayControls = overlayControls;
+        btnScript.parent = parent;
+        btnScript.rect.position = lastPosition;
+
+        // Set values back in OverlayControls
+        overlayControls.quickbarButtons[buttonData.quickBarIndex] = btnScript.button;
+        overlayControls.quickbarButtonContainers[buttonData.quickBarIndex] = btnScript;
+        overlayControls.quickbarButtonTransforms[buttonData.quickBarIndex] = btnScript.rect;
+
+        return btnScript;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 currentMousePosition = eventData.position;
-        Vector3 oldPos = rect.position;
-        rect.position = currentMousePosition - clickPositionOffset;
-        if (!IsRectTransformInsideSreen())
+        if (skillListUp)
         {
-            rect.position = oldPos;
+            Vector2 currentMousePosition = eventData.position;
+            Vector3 oldPos = rect.position;
+            rect.position = currentMousePosition - clickPositionOffset;
+            if (!IsRectTransformInsideSreen())
+            {
+                rect.position = oldPos;
+            }
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        ReInstantiate();
+        if (skillListUp)
+        {
+            clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
+            transform.parent = canvas;
+            lastPosition = rect.position;
 
-        clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
-        transform.parent = canvas;
-
-        UIEventSystem.current.DraggingButton(this, true);
+            UIEventSystem.current.DraggingButton(this, true);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        UIEventSystem.current.DraggingButton(this, false);
+        if (skillListUp)
+        {
+            ReInstantiate();
 
-        Destroy(gameObject);
+            UIEventSystem.current.DraggingButton(this, false);
+
+            Destroy(gameObject);
+            
+        }
     }
 
     private bool IsRectTransformInsideSreen()
@@ -83,5 +115,4 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler//, IPointerD
         }
         return true;
     }
-    */
 }

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public abstract class ButtonContainer : ElementHover
+public class ButtonContainer : ElementHover
 {
     [HideInInspector]
     public ButtonData buttonData;
