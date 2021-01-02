@@ -27,4 +27,13 @@ public class UIEventSystem : MonoBehaviour
             onDraggingButton(buttonContainer, dragging);
         }
     }
+
+    public event Action<bool> skillListUp;
+    public void SetSkillListUp(bool up)
+    {
+        if (skillListUp != null)
+        {
+            skillListUp(up);
+        }
+    }
 }

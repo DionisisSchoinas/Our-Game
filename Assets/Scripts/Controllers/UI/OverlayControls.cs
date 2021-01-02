@@ -51,6 +51,7 @@ public class OverlayControls : MonoBehaviour
             // Save values on the buttons script
             quickbarButtonContainers[i].buttonData = new ButtonData(skill, i, i, butttonText);
             quickbarButtonContainers[i].overlayControls = this;
+            quickbarButtonContainers[i].parent = quickbar.transform;
 
             // Transforms
             quickbarButtonTransforms[i] = quickbarButtons[i].GetComponent<RectTransform>();
@@ -127,6 +128,7 @@ public class OverlayControls : MonoBehaviour
     {
         paused = !paused;
         UIEventSystem.current.SetHover(paused);
+        UIEventSystem.current.SetSkillListUp(paused);
         PauseGame(paused);
         spellListDisplay.SetActive(paused);
 

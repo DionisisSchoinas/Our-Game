@@ -5,19 +5,7 @@ using UnityEngine.EventSystems;
 
 public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    public Transform parent;
-
-    private RectTransform rect;
-    private Transform canvas;
-
     private Vector2 clickPositionOffset;
-
-    public new void Awake()
-    {
-        base.Awake();
-        rect = GetComponent<RectTransform>();
-        canvas = FindObjectOfType<OverlayControls>().transform;
-    }
 
     private SkillListButton ReInstantiate()
     {

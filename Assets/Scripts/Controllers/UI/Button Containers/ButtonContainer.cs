@@ -10,11 +10,19 @@ public abstract class ButtonContainer : ElementHover
     public OverlayControls overlayControls;
     [HideInInspector]
     public Button button;
+    [HideInInspector]
+    public Transform parent;
+
+    protected RectTransform rect;
+    protected Transform canvas;
 
     public void Awake()
     {
         button = gameObject.GetComponent<Button>();
         if (overlayControls == null)
             overlayControls = FindObjectOfType<OverlayControls>();
+
+        rect = GetComponent<RectTransform>();
+        canvas = FindObjectOfType<OverlayControls>().transform;
     }
 }
