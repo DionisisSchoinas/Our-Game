@@ -19,12 +19,12 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
-    public event Action<int, bool> onDragging;
-    public void Dragging(int indexInAdapter, bool dragging)
+    public event Action<ButtonContainer, bool> onDraggingButton;
+    public void DraggingButton(ButtonContainer buttonContainer, bool dragging)
     {
-        if (onDragging != null)
+        if (onDraggingButton != null)
         {
-            onDragging(indexInAdapter, dragging);
+            onDraggingButton(buttonContainer, dragging);
         }
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public abstract class ButtonContainer : ElementHover, IPointerClickHandler
+public abstract class ButtonContainer : ElementHover
 {
     [HideInInspector]
     public ButtonData buttonData;
@@ -17,11 +17,4 @@ public abstract class ButtonContainer : ElementHover, IPointerClickHandler
         if (overlayControls == null)
             overlayControls = FindObjectOfType<OverlayControls>();
     }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Clicked();
-    }
-
-    public abstract void Clicked();
 }

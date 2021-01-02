@@ -6725,9 +6725,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b446ee32a9663468ad4be9a3e0261c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quickbar: {fileID: 1819201548}
   spellListDisplay: {fileID: 1981257795}
   columnContentHolder: {fileID: 1670486413}
-  quickbar:
+  quickbarButtons:
   - {fileID: 1541563126}
   - {fileID: 1318593546}
   - {fileID: 862875438}
@@ -6945,7 +6946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1819201549}
   m_Layer: 5
-  m_Name: Spell Selection Bar
+  m_Name: Quickbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7504,7 +7505,7 @@ GameObject:
   - component: {fileID: 1981257797}
   - component: {fileID: 1981257799}
   m_Layer: 5
-  m_Name: Spell List Window
+  m_Name: Skill List Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

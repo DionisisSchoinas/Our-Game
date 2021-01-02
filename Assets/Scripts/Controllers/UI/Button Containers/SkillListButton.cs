@@ -19,11 +19,6 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
         canvas = FindObjectOfType<OverlayControls>().transform;
     }
 
-    public override void Clicked()
-    {
-        overlayControls.PickingKeyBind(buttonData.skillIndexInAdapter, button);
-    }
-
     private SkillListButton ReInstantiate()
     {
         SkillListButton btn = Instantiate(gameObject, parent).GetComponent<SkillListButton>();
@@ -52,12 +47,12 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
         clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
         transform.parent = canvas;
 
-        UIEventSystem.current.Dragging(buttonData.skillIndexInAdapter, true);
+        UIEventSystem.current.DraggingButton(this, true);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        UIEventSystem.current.Dragging(buttonData.skillIndexInAdapter, false);
+        UIEventSystem.current.DraggingButton(this, false);
 
         Destroy(gameObject);
     }

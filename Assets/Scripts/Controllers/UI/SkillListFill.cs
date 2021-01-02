@@ -31,7 +31,6 @@ public class SkillListFill : MonoBehaviour
         }
     }
 
-
     [HideInInspector]
     public OverlayToWeaponAdapter weaponAdapter;
     [HideInInspector]

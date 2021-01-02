@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class QuickbarButton : ButtonContainer
+public class QuickbarButton : ButtonContainer, IPointerClickHandler
 {
-    public override void Clicked()
+    public void OnPointerClick(PointerEventData eventData)
     {
         overlayControls.SetSelectedQuickBar(buttonData.quickBarIndex);
     }
-    
 }
