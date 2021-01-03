@@ -54,4 +54,13 @@ public class UIEventSystem : MonoBehaviour
             unhighlightButtonsInSkillList();
         }
     }
+
+    public event Action onSkillUsed;
+    public void SkillUsed()
+    {
+        if (onSkillUsed != null)
+        {
+            onSkillUsed();
+        }
+    }
 }

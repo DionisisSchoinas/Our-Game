@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class ButtonContainer : ElementHover
 {
@@ -12,7 +13,7 @@ public class ButtonContainer : ElementHover
     public Button button;
     [HideInInspector]
     public Transform parent;
-
+    
     protected RectTransform rect;
     protected Transform canvas;
     protected ColorBlock selectedColorBlock;
@@ -20,6 +21,7 @@ public class ButtonContainer : ElementHover
     public void Awake()
     {
         button = gameObject.GetComponent<Button>();
+
         if (overlayControls == null)
             overlayControls = FindObjectOfType<OverlayControls>();
 

@@ -13,7 +13,7 @@ public class OverlayControls : MonoBehaviour
     [HideInInspector]
     public RectTransform[] quickbarButtonTransforms;
     [HideInInspector]
-    public ButtonContainer[] quickbarButtonContainers;
+    public QuickbarButton[] quickbarButtonContainers;
 
     private OverlayToWeaponAdapter overlayToWeaponAdapter;
     private SkillListFill skillList;
@@ -40,10 +40,16 @@ public class OverlayControls : MonoBehaviour
         spellListDisplay.SetActive(false);
         spellListDisplay.gameObject.AddComponent<ElementHover>();
 
-        if (quickbarButtons.Length < 5)
-            Debug.LogError("Quickbar needs at least 5 buttons");
+        for (int i = 0; i < quickbarButtons.Length; i++)
+        {
+            if (quickbarButtons[i] == null)
+            {
+                Debug.LogError("Quickbar needs at least 5 buttons");
+                break;
+            }
+        }
 
-        quickbarButtonContainers = new ButtonContainer[quickbarButtons.Length];
+        quickbarButtonContainers = new QuickbarButton[quickbarButtons.Length];
         quickbarButtonTransforms = new RectTransform[quickbarButtons.Length];
         for (int i=0; i<quickbarButtons.Length; i++)
         {
@@ -189,8 +195,15 @@ public class OverlayControls : MonoBehaviour
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
+        if (quickbarButtonContainers[selectedQuickbar].coolingDown)
+        {
+            Debug.Log("On Cooldown");
+            return;
+        }
+
         // Update Adapter
         overlayToWeaponAdapter.SelectedOnQuickbar(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
+        UIEventSystem.current.SkillUsed();
     }
 
     private void ResetLastButton()

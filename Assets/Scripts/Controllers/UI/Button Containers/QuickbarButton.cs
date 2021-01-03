@@ -8,24 +8,33 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 {
     [HideInInspector]
     public bool skillListUp;
+    [HideInInspector]
+    public bool coolingDown;
 
     private Vector2 clickPositionOffset;
     private Vector2 lastPosition;
+    private Image buttonImageCooldown;
 
     public new void Awake()
     {
         base.Awake();
         skillListUp = false;
+        coolingDown = false;
+
+        buttonImageCooldown = gameObject.GetComponentsInChildren<Image>()[1];
+        buttonImageCooldown.fillAmount = 0;
     }
 
     public void Start()
     {
         UIEventSystem.current.skillListUp += BlockQuickbarSkillSelection;
+        UIEventSystem.current.onSkillUsed += SkillUsed;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.skillListUp -= BlockQuickbarSkillSelection;
+        UIEventSystem.current.onSkillUsed -= SkillUsed;
     }
 
     private void BlockQuickbarSkillSelection(bool block)
@@ -114,5 +123,28 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
             }
         }
         return true;
+    }
+
+    private void SkillUsed()
+    {
+        if (!coolingDown)
+        {
+            StartCoroutine(StartCooldown());
+        }
+    }
+
+    IEnumerator StartCooldown()
+    {
+        coolingDown = true;
+        float i = 0f;
+        float delayForEachStep = buttonData.skill.cooldown / 100f;
+        while (i < 1)
+        {
+            i += 0.01f;
+            buttonImageCooldown.fillAmount += 0.01f;
+            yield return new WaitForSeconds(delayForEachStep);
+        }
+        buttonImageCooldown.fillAmount = 0;
+        coolingDown = false;
     }
 }
