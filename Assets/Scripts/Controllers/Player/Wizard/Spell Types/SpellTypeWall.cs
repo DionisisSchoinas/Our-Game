@@ -16,9 +16,6 @@ public class SpellTypeWall : Spell
     private Vector3 boxSize;
 
     private GameObject currentWall;
-    private Vector3 spawningLocation;
-    private Vector3 spellRotation;
-    private bool pickedSpot;
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
 
@@ -26,10 +23,10 @@ public class SpellTypeWall : Spell
 
     public override string Type => "Wall";
     public override string Name => "Wall";
+    public override bool Channel => true;
 
     private void Awake()
     {
-        pickedSpot = false;
         boxSize = (new Vector3(23f, 10f, 3f)) / 2f;
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
@@ -43,21 +40,7 @@ public class SpellTypeWall : Spell
         }
     }
 
-    public override void FireSimple(Transform firePoint)
-    {
-        if (pickedSpot)
-        {
-            Clear();
-            pickedSpot = false;
-            currentWall = Instantiate(gameObject);
-            currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + spawningLocation;
-            currentWall.transform.eulerAngles = spellRotation;
-            currentWall.SetActive(true);
-            Invoke(nameof(DeactivateWall), 10f);
-        }
-    }
-
-    public override void FireHold(bool holding, Transform firePoint)
+    public override void CastSpell(Transform firePoint, bool holding)
     {
         if (currentWall == null)
         {
@@ -66,19 +49,20 @@ public class SpellTypeWall : Spell
                 tmpIndicatorHolder = new GameObject();
                 indicatorController = tmpIndicatorHolder.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(20f, 24f, 4f);
-                pickedSpot = false;
             }
             else
             {
                 if (indicatorController != null)
                 {
                     indicatorResponse = indicatorController.LockLocation();
+                    Clear();
                     if (!indicatorResponse.isNull)
                     {
-                        spawningLocation = indicatorResponse.centerOfAoe;
-                        spellRotation = indicatorResponse.spellRotation;
-                        pickedSpot = true;
-                        Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
+                        currentWall = Instantiate(gameObject);
+                        currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + indicatorResponse.centerOfAoe;
+                        currentWall.transform.eulerAngles = indicatorResponse.spellRotation;
+                        currentWall.SetActive(true);
+                        Invoke(nameof(DeactivateWall), 10f);
                     }
                 }
             }
@@ -103,15 +87,6 @@ public class SpellTypeWall : Spell
     private void DeactivateWall()
     {
         Destroy(currentWall);
-    }
-
-    private void CancelSpell()
-    {
-        if (currentWall == null && pickedSpot)
-        {
-            Clear();
-            pickedSpot = false;
-        }
     }
 
     private void Clear()

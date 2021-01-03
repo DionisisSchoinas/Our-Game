@@ -24,12 +24,16 @@ public class Wand : MonoBehaviour
     public static bool castingBasic;
     public static bool canRelease;
 
+    public static bool casting;
+
     private bool canCast;
     private int selectedSpell;
     private Coroutine runningCoroutine;
 
     private void Start()
     {
+        casting = false;
+
         castingBasic = false;
         channeling = false;
         canCast = true;
@@ -54,7 +58,7 @@ public class Wand : MonoBehaviour
     public void SetSelectedSpell(int value)
     {
 
-        //CancelHold();  ==== THIS SHOULD BE USED TO CANCEL THE SPELL NOT UST RELEASE
+        //CancelHold();  ==== THIS SHOULD BE USED TO CANCEL THE SPELL NOT USED TO RELEASE
 
         // Release held spells
         if (castingBasic)
@@ -76,12 +80,26 @@ public class Wand : MonoBehaviour
         selectedSpell = value;
     }
 
-    public void Fire1(bool charge)
+    public void Fire(bool holding)
+    {
+        // If selected Spell is a channel spell
+        if (spells[selectedSpell].Channel)
+        {
+            Fire2(holding);
+        }
+        else
+        {
+            Fire1(holding);
+        }
+    }
+
+    private void Fire1(bool charge)
     {
         if (canCast & charge)
         {
             canCast = false;
             castingBasic = true;
+            casting = true;
             canRelease = true;
             //start playing charging animation
             animationController.ChargeBasic(spells[selectedSpell].GetSource());
@@ -94,15 +112,23 @@ public class Wand : MonoBehaviour
         }
     }
 
-    public void Fire2(bool holding)
+    private void Fire2(bool holding)
     {
-        if (canCast || channeling)
+        if (canCast && !channeling && holding)
         {
             //start playing animation
-            animationController.CastChannel(holding, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
+            animationController.CastChannel(true, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
             //start spell attack
             if (runningCoroutine != null) StopCoroutine(runningCoroutine);
-            runningCoroutine = StartCoroutine(castFire2( (holding ? castingAnimationChannel : castingAnimationChannelReset), holding));
+            runningCoroutine = StartCoroutine(castFire2( castingAnimationChannel, true));
+        }
+        else if (channeling && !holding)
+        {
+            //start playing animation
+            animationController.CastChannel(false, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
+            //stop spell attack
+            if (runningCoroutine != null) StopCoroutine(runningCoroutine);
+            runningCoroutine = StartCoroutine(castFire2(castingAnimationChannelReset, false));
         }
     }
     /*
@@ -130,12 +156,14 @@ public class Wand : MonoBehaviour
     */
     IEnumerator releaseFire1(float cast, float reset)
     {
+        // Release spell after holding it
         canRelease = false;
         yield return new WaitForSeconds(cast);
-        spells[selectedSpell].FireSimple(simpleFirePoint);
+        spells[selectedSpell].CastSpell(simpleFirePoint, false);
         animationController.HideSource();
         yield return new WaitForSeconds(reset);
         castingBasic = false;
+        casting = false;
         canCast = true;
     }
     
@@ -144,13 +172,17 @@ public class Wand : MonoBehaviour
         channeling = holding;
         if (holding)
         {
+            // Start channel
+            casting = true;
             yield return new WaitForSeconds(seconds);
-            spells[selectedSpell].FireHold(holding, channelingFirePoint);
+            spells[selectedSpell].CastSpell(channelingFirePoint, true);
         }
         else
         {
-            spells[selectedSpell].FireHold(holding, channelingFirePoint);
+            // End channel
+            spells[selectedSpell].CastSpell(channelingFirePoint, false);
             yield return new WaitForSeconds(seconds);
+            casting = false;
         }
         canCast = !holding;
     }

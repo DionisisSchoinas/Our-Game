@@ -2,8 +2,10 @@
 
 public abstract class Spell : Skill
 {
-    public abstract void FireSimple(Transform firePoint);
-    public abstract void FireHold(bool holding, Transform firePoint);
+    public abstract bool Channel { get; }
+
+    public abstract void CastSpell(Transform firePoint, bool holding);
+
     public abstract void WakeUp();
     public abstract ParticleSystem GetSource();
 }

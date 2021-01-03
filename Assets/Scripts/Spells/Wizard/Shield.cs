@@ -15,10 +15,6 @@ public class Shield : Spell
     [SerializeField]
     private bool randomShapeChangeOnHit;
 
-    private Vector3 defaultShapeChange = new Vector3(0.01f, 0.01f, 0.01f);
-    private float defaultDisturbanceRate = 5f;
-
-    private Vector3 randomizedHitShape;
     private GameObject tmpShield;
     private Transform center;
 
@@ -27,6 +23,7 @@ public class Shield : Spell
 
     public override string Type => "Shield";
     public override string Name => "Shield";
+    public override bool Channel => true;
 
     private void Start()
     {
@@ -61,30 +58,7 @@ public class Shield : Spell
         }
     }
 
-    /*
-    public void Damaged()
-    {
-        if (randomShapeChangeOnHit)
-            randomizedHitShape = new Vector3(Random.Range(0.01f, hitShapeChangeOnHit.x), Random.Range(0.01f, hitShapeChangeOnHit.y), Random.Range(0.01f, hitShapeChangeOnHit.z));
-        else
-            randomizedHitShape = hitShapeChangeOnHit;
-
-        idleMaterial.SetFloat("_VertexOffsetFrequency", hitDisturbanceRateOnHit);
-        idleMaterial.SetVector("_VertexOffsetDirection", randomizedHitShape);
-        Invoke(nameof(ResetMaterial), hitDisturbanceDurationeOnHit);
-    }
-
-    void ResetMaterial()
-    {
-        idleMaterial.SetFloat("_VertexOffsetFrequency", defaultDisturbanceRate);
-        idleMaterial.SetVector("_VertexOffsetDirection", defaultShapeChange);
-    }
-    */
-    public override void FireSimple(Transform firePoint)
-    {
-    }
-
-    public override void FireHold(bool holding, Transform firePoint)
+    public override void CastSpell(Transform firePoint, bool holding)
     {
         if (holding)
         {
