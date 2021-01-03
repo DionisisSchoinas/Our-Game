@@ -8,6 +8,7 @@ public class OverlayControls : MonoBehaviour
     public GameObject buttonQuickbar;
     public GameObject spellListDisplay;
     public GameObject columnContentHolder;
+    public GameObject dodgeDisplay;
     public float secondsAfterPickingSkill = 0.02f;
     // Quickbar data
     [HideInInspector]

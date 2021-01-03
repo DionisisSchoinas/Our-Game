@@ -6,7 +6,7 @@ public abstract class Skill : MonoBehaviour
     [HideInInspector]
     public int uniqueOverlayToWeaponAdapterId;
     [HideInInspector]
-    public bool onCooldown = false;
+    public bool onCooldown;
 
     public abstract string type { get; }
 
@@ -14,10 +14,14 @@ public abstract class Skill : MonoBehaviour
 
     public abstract float cooldown { get; }
 
+    private void Awake()
+    {
+        onCooldown = false;
+    }
+
     public void StartCooldown()
     {
         onCooldown = true;
-        Debug.Log(cooldown);
         Invoke(nameof(CooledDown), cooldown);
     }
 

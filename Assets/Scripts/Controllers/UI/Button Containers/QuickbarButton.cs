@@ -149,11 +149,11 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     {
         coolingDown = true;
         float i = 0f;
-        float delayForEachStep = cooldown / 100f;
+        float delayForEachStep = cooldown / 50f;
         while (i < 1)
         {
-            i += 0.01f;
-            buttonImageCooldown.fillAmount += 0.01f;
+            i += 0.02f;
+            buttonImageCooldown.fillAmount += 0.02f;
             yield return new WaitForSeconds(delayForEachStep);
         }
         buttonImageCooldown.fillAmount = 0;
