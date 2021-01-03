@@ -28,13 +28,15 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     public void Start()
     {
         UIEventSystem.current.skillListUp += BlockQuickbarSkillSelection;
-        UIEventSystem.current.onSkillUsed += SkillUsed;
+        UIEventSystem.current.onSkillPicked += SkillUsed;
+        UIEventSystem.current.onSkillCast += SkillCast;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.skillListUp -= BlockQuickbarSkillSelection;
-        UIEventSystem.current.onSkillUsed -= SkillUsed;
+        UIEventSystem.current.onSkillPicked -= SkillUsed;
+        UIEventSystem.current.onSkillCast -= SkillCast;
     }
 
     private void BlockQuickbarSkillSelection(bool block)
@@ -131,15 +133,23 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     {
         if (!coolingDown)
         {
-            StartCoroutine(StartCooldown());
+            StartCoroutine(StartCooldown(overlayControls.secondsAfterPickingSkill));
         }
     }
 
-    IEnumerator StartCooldown()
+    private void SkillCast(int uniqueAdapterId)
+    {
+        if (buttonData.skill.uniqueOverlayToWeaponAdapterId == uniqueAdapterId)
+        {
+            StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+        }
+    }
+
+    IEnumerator StartCooldown(float cooldown)
     {
         coolingDown = true;
         float i = 0f;
-        float delayForEachStep = buttonData.skill.cooldown / 100f;
+        float delayForEachStep = cooldown / 100f;
         while (i < 1)
         {
             i += 0.01f;

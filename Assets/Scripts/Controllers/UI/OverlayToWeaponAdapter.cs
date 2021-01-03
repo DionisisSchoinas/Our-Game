@@ -26,11 +26,15 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         wandListLength = 0;
         swordListLength = 0;
 
+        int id = 0;
+
         if (wand != null)
         {
             foreach (Spell s in wand.GetSpells())
             {
                 spellNames.Add(s.Name);
+                s.uniqueOverlayToWeaponAdapterId = id;
+                id++;
             }
             wandListLength = wand.GetSpells().Count;
         }
@@ -40,6 +44,8 @@ public class OverlayToWeaponAdapter : MonoBehaviour
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
                 spellNames.Add(s.Name);
+                s.uniqueOverlayToWeaponAdapterId = id;
+                id++;
             }
             swordListLength = sword.GetSwordEffects().Count;
         }

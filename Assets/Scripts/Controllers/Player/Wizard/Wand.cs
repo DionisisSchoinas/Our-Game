@@ -95,7 +95,7 @@ public class Wand : MonoBehaviour
 
     private void Fire1(bool charge)
     {
-        if (canCast & charge)
+        if (canCast & charge && !spells[selectedSpell].onCooldown)
         {
             canCast = false;
             castingBasic = true;
@@ -109,6 +109,9 @@ public class Wand : MonoBehaviour
             //start playing reseting animation
             animationController.ReleaseBasic();
             StartCoroutine(releaseFire1(castingAnimationSimple, castingAnimationSimpleReset));
+
+            UIEventSystem.current.SkillCast(spells[selectedSpell].uniqueOverlayToWeaponAdapterId);
+            spells[selectedSpell].StartCooldown();
         }
     }
 

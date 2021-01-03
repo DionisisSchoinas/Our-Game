@@ -55,12 +55,21 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
-    public event Action onSkillUsed;
-    public void SkillUsed()
+    public event Action onSkillPicked;
+    public void SkillPicked()
     {
-        if (onSkillUsed != null)
+        if (onSkillPicked != null)
         {
-            onSkillUsed();
+            onSkillPicked();
+        }
+    }
+
+    public event Action<int> onSkillCast;
+    public void SkillCast(int uniqueId)
+    {
+        if (onSkillCast != null)
+        {
+            onSkillCast(uniqueId);
         }
     }
 }

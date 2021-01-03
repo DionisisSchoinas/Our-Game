@@ -8,6 +8,7 @@ public class OverlayControls : MonoBehaviour
     public GameObject buttonQuickbar;
     public GameObject spellListDisplay;
     public GameObject columnContentHolder;
+    public float secondsAfterPickingSkill = 0.02f;
     // Quickbar data
     [HideInInspector]
     public Button[] quickbarButtons;
@@ -207,7 +208,7 @@ public class OverlayControls : MonoBehaviour
 
         // Update Adapter
         overlayToWeaponAdapter.SelectedOnQuickbar(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
-        UIEventSystem.current.SkillUsed();
+        UIEventSystem.current.SkillPicked();
     }
 
     private void ResetLastButton()
