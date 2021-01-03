@@ -68,6 +68,8 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
         overlayControls.quickbarButtonContainers[buttonData.quickBarIndex] = btnScript;
         overlayControls.quickbarButtonTransforms[buttonData.quickBarIndex] = btnScript.rect;
 
+        btnScript.transform.SetSiblingIndex(btnScript.buttonData.quickBarIndex);
+
         return btnScript;
     }
 
@@ -89,6 +91,8 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     {
         if (skillListUp)
         {
+            ReInstantiate();
+
             clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
             transform.parent = canvas;
             lastPosition = rect.position;
@@ -101,8 +105,6 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     {
         if (skillListUp)
         {
-            ReInstantiate();
-
             UIEventSystem.current.DraggingButton(this, false);
 
             Destroy(gameObject);

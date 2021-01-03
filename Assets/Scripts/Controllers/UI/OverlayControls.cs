@@ -5,10 +5,11 @@ using System.Linq;
 
 public class OverlayControls : MonoBehaviour
 {
-    public GameObject quickbar;
+    public GameObject buttonQuickbar;
     public GameObject spellListDisplay;
     public GameObject columnContentHolder;
     // Quickbar data
+    [HideInInspector]
     public Button[] quickbarButtons;
     [HideInInspector]
     public RectTransform[] quickbarButtonTransforms;
@@ -40,6 +41,9 @@ public class OverlayControls : MonoBehaviour
         spellListDisplay.SetActive(false);
         spellListDisplay.gameObject.AddComponent<ElementHover>();
 
+        quickbarButtons = buttonQuickbar.GetComponentsInChildren<Button>();
+        Debug.Log(quickbarButtons.Length);
+
         for (int i = 0; i < quickbarButtons.Length; i++)
         {
             if (quickbarButtons[i] == null)
@@ -60,7 +64,7 @@ public class OverlayControls : MonoBehaviour
             // Save values on the buttons script
             quickbarButtonContainers[i].buttonData = new ButtonData(quickbarButtons[i], skill, i, i, butttonText);
             quickbarButtonContainers[i].overlayControls = this;
-            quickbarButtonContainers[i].parent = quickbar.transform;
+            quickbarButtonContainers[i].parent = buttonQuickbar.transform;
 
             // Transforms
             quickbarButtonTransforms[i] = quickbarButtons[i].GetComponent<RectTransform>();
