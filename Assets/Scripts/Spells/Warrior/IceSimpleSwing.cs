@@ -1,7 +1,7 @@
 ﻿
 public class IceSimpleSwing : SimpleSlash
 {
-    public override string Name => "Ice Slash";
+    public override string skillName => "Ice Slash";
 
     void Start()
     {

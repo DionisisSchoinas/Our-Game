@@ -16,9 +16,10 @@ public class SpellTypeRay : Spell
     private GameObject tmpRay;
     private SpellIndicatorController indicatorController;
 
-    public override string Type => "Ray";
-    public override string Name => "Ray";
-    public override bool Channel => true;
+    public override string type => "Ray";
+    public override string skillName => "Ray";
+    public override bool channel => true;
+    public override float cooldown { get => 2f; }
 
     private void Awake()
     {

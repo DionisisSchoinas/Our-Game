@@ -14340,8 +14340,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa285c5b08ee710479d82a9b70bd0726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 1
+  onCooldown: 1
   damage: 15
   speed: 40
-  rb: {fileID: 3956823411663701899}
   explosionParticles: {fileID: 8289330964062763208, guid: 72cb46b6b72bfa84c8c62d920af76b81,
     type: 3}
+  damageType: 0
+  col: 1.6

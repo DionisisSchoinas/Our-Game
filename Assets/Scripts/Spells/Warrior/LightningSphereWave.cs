@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightningSphereWave : SphereBurst
 {
-    public override string Name => "Lightning Sphere Wave";
+    public override string skillName => "Lightning Sphere Wave";
 
     void Start()
     {

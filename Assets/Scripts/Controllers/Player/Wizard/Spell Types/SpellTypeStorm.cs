@@ -21,9 +21,10 @@ public class SpellTypeStorm : Spell
     [HideInInspector]
     public GameObject[] collisions;
 
-    public override string Type => "Storm";
-    public override string Name => "Storm";
-    public override bool Channel => true;
+    public override string type => "Storm";
+    public override string skillName => "Storm";
+    public override bool channel => true;
+    public override float cooldown { get => 2f; }
 
     private void Awake()
     {

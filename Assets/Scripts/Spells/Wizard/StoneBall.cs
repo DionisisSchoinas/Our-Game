@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StoneBall : SpellTypeBall
 {
-    public override string Name => "Stone Ball";
+    public override string skillName => "Stone Ball";
 
     private GameObject path;
 

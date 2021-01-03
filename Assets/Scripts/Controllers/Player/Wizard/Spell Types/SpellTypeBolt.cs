@@ -15,9 +15,10 @@ public class SpellTypeBolt : Spell
     private Rigidbody rb;
     private SpellIndicatorController indicatorController;
 
-    public override string Type => "Bolt";
-    public override string Name => "Bolt";
-    public override bool Channel => false;
+    public override string type => "Bolt";
+    public override string skillName => "Bolt";
+    public override bool channel => false;
+    public override float cooldown { get => 2f; }
 
     private void Awake()
     {

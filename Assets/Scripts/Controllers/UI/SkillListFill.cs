@@ -75,7 +75,7 @@ public class SkillListFill : MonoBehaviour
                 int index = i;
 
                 GameObject btn = ResourceManager.UI.SkillListButton;
-                btn.GetComponentInChildren<Text>().text = column.skills[index].Name;
+                btn.GetComponentInChildren<Text>().text = column.skills[index].skillName;
 
                 // Instantiate and save in list
                 Button b = Instantiate(btn, col.transform).GetComponent<Button>();
@@ -99,13 +99,13 @@ public class SkillListFill : MonoBehaviour
         int counter = 0;
         foreach (Skill s in skills)
         {
-            if (columns.Any(cont => cont.type == s.Type)) // If skill type already registered
+            if (columns.Any(cont => cont.type == s.type)) // If skill type already registered
             {
-                columns[columns.FindIndex(cont => cont.type == s.Type)].Add(s, counter);
+                columns[columns.FindIndex(cont => cont.type == s.type)].Add(s, counter);
             }
             else
             {
-                columns.Add(new SkillTypeContainer(s.Type, columns.Count));
+                columns.Add(new SkillTypeContainer(s.type, columns.Count));
                 columns[columns.Count - 1].Add(s, counter);
             }
             counter++;

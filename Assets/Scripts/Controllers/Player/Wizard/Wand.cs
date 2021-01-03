@@ -83,7 +83,7 @@ public class Wand : MonoBehaviour
     public void Fire(bool holding)
     {
         // If selected Spell is a channel spell
-        if (spells[selectedSpell].Channel)
+        if (spells[selectedSpell].channel)
         {
             Fire2(holding);
         }
@@ -106,12 +106,15 @@ public class Wand : MonoBehaviour
         }
         else if (!canCast && canRelease && castingBasic)
         {
+            // Starts the cooldown of the released spell
+            // UI display cooldown
+            UIEventSystem.current.SkillCast(spells[selectedSpell].uniqueOverlayToWeaponAdapterId);
+            // Sepll cooldown
+            spells[selectedSpell].StartCooldown();
+
             //start playing reseting animation
             animationController.ReleaseBasic();
             StartCoroutine(releaseFire1(castingAnimationSimple, castingAnimationSimpleReset));
-
-            UIEventSystem.current.SkillCast(spells[selectedSpell].uniqueOverlayToWeaponAdapterId);
-            spells[selectedSpell].StartCooldown();
         }
     }
 

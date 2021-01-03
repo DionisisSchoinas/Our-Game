@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StoneRay : SpellTypeRay
 {
-    public override string Name => "Stone Ray";
+    public override string skillName => "Stone Ray";
 
     private void Start()
     {

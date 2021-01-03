@@ -3,25 +3,26 @@ using UnityEngine;
 
 public abstract class Skill : MonoBehaviour
 {
+    [HideInInspector]
     public int uniqueOverlayToWeaponAdapterId;
-
-    public float cooldown = 0.5f;
-
+    [HideInInspector]
     public bool onCooldown = false;
 
-    public abstract string Type { get; }
+    public abstract string type { get; }
 
-    public abstract string Name { get; }
+    public abstract string skillName { get; }
+
+    public abstract float cooldown { get; }
 
     public void StartCooldown()
     {
-
+        onCooldown = true;
+        Debug.Log(cooldown);
+        Invoke(nameof(CooledDown), cooldown);
     }
 
-    private IEnumerator StartCooling()
+    private void CooledDown()
     {
-        onCooldown = true;
-        yield return new WaitForSeconds(cooldown);
         onCooldown = false;
     } 
 }

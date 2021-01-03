@@ -40,19 +40,19 @@ public class ButtonData : MonoBehaviour
     public ButtonData(Button container, Skill skill, int quickBarIndex, int skillIndexInAdapter, Text buttonText) : this(container, skill, quickBarIndex, skillIndexInAdapter, -1)
     {
         this.buttonText = buttonText;
-        this.buttonText.text = skill.Name;
+        this.buttonText.text = skill.skillName;
     }
 
     public ButtonData(Button container, Skill skill, int quickBarIndex, int skillIndexInAdapter, int skillColumnIndex, Text buttonText) : this(container, skill, quickBarIndex, skillIndexInAdapter, skillColumnIndex)
     {
         this.buttonText = buttonText;
-        this.buttonText.text = skill.Name;
+        this.buttonText.text = skill.skillName;
     }
 
     public ButtonData(Button container, Skill skill, int quickBarIndex, int skillIndexInAdapter, int skillIndexInColumn, int skillColumnIndex, Text buttonText) : this(container, skill, quickBarIndex, skillIndexInAdapter, skillIndexInColumn, skillColumnIndex)
     {
         this.buttonText = buttonText;
-        this.buttonText.text = skill.Name;
+        this.buttonText.text = skill.skillName;
     }
 
     public void NewData(ButtonData data)
@@ -60,7 +60,7 @@ public class ButtonData : MonoBehaviour
         this.skill = data.skill;
         this.skillIndexInAdapter = data.skillIndexInAdapter;
         CheckForText();
-        this.buttonText.text = data.skill.Name;
+        this.buttonText.text = data.skill.skillName;
     }
 
     public void CopyData(Button newButton, ButtonData data)
@@ -72,7 +72,7 @@ public class ButtonData : MonoBehaviour
         this.skillColumnIndex = data.skillColumnIndex;
         this.skill = data.skill;
         CheckForText();
-        this.buttonText.text = data.skill.Name;
+        this.buttonText.text = data.skill.skillName;
     }
 
     private void CheckForText()
@@ -85,6 +85,6 @@ public class ButtonData : MonoBehaviour
 
     public void PrintData()
     {
-        Debug.Log(quickBarIndex + " " + skillIndexInAdapter + " " + skillIndexInColumn + " " + skillColumnIndex + " " + buttonText.text + " " + skill.Name + " " + container.name);
+        Debug.Log(quickBarIndex + " " + skillIndexInAdapter + " " + skillIndexInColumn + " " + skillColumnIndex + " " + buttonText.text + " " + skill.skillName + " " + container.name);
     }
 }

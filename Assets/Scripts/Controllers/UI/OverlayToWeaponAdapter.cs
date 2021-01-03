@@ -32,7 +32,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         {
             foreach (Spell s in wand.GetSpells())
             {
-                spellNames.Add(s.Name);
+                spellNames.Add(s.skillName);
                 s.uniqueOverlayToWeaponAdapterId = id;
                 id++;
             }
@@ -43,7 +43,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         {
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
-                spellNames.Add(s.Name);
+                spellNames.Add(s.skillName);
                 s.uniqueOverlayToWeaponAdapterId = id;
                 id++;
             }
@@ -81,12 +81,12 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         if (value < wandListLength)
         {
             wand.SetSelectedSpell(value);
-            spellNameDisplay.text = wand.GetSelectedSpell().Name;
+            spellNameDisplay.text = wand.GetSelectedSpell().skillName;
         }
         else
         {
             sword.SetSelectedSwordEffect(value - wandListLength);
-            spellNameDisplay.text = sword.GetSelectedEffect().Name;
+            spellNameDisplay.text = sword.GetSelectedEffect().skillName;
         }
     }
 

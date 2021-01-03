@@ -2,7 +2,7 @@
 
 public class Snowstorm : SpellTypeStorm
 {
-    public override string Name => "Ice Storm";
+    public override string skillName => "Ice Storm";
 
     private Vector3 capsuleBottom;
 

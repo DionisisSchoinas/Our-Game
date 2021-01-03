@@ -43,7 +43,6 @@ public class OverlayControls : MonoBehaviour
         spellListDisplay.gameObject.AddComponent<ElementHover>();
 
         quickbarButtons = buttonQuickbar.GetComponentsInChildren<Button>();
-        Debug.Log(quickbarButtons.Length);
 
         for (int i = 0; i < quickbarButtons.Length; i++)
         {

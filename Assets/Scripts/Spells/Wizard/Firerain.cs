@@ -2,7 +2,7 @@
 
 public class Firerain : SpellTypeStorm
 {
-    public override string Name => "Fire Storm";
+    public override string skillName => "Fire Storm";
 
     private void Start()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightningBall : SpellTypeBall
 {
-    public override string Name => "Lightning Ball";
+    public override string skillName => "Lightning Ball";
 
     private void Start()
     {

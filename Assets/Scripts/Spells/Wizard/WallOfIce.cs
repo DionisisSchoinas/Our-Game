@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallOfIce : SpellTypeWall
 {
-    public override string Name => "Ice Wall";
+    public override string skillName => "Ice Wall";
 
     private void Start()
     {

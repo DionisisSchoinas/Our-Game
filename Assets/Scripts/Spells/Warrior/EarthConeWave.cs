@@ -2,7 +2,7 @@
 
 public class EarthConeWave : ConeBurstSlash
 {
-    public override string Name => "Earth Cone Wave";
+    public override string skillName => "Earth Cone Wave";
 
     void Start()
     {

@@ -19,9 +19,10 @@ public class MeteorShower : Spell
 
     private GameObject tmpIndicatorHolder;
 
-    public override string Type => "Meteors";
-    public override string Name => "Meteors";
-    public override bool Channel => true;
+    public override string type => "Meteors";
+    public override string skillName => "Meteors";
+    public override bool channel => true;
+    public override float cooldown { get => 0.7f; }
 
     private void Start()
     {

@@ -21,9 +21,10 @@ public class SpellTypeWall : Spell
 
     private GameObject tmpIndicatorHolder;
 
-    public override string Type => "Wall";
-    public override string Name => "Wall";
-    public override bool Channel => true;
+    public override string type => "Wall";
+    public override string skillName => "Wall";
+    public override bool channel => true;
+    public override float cooldown { get => 2f; }
 
     private void Awake()
     {

@@ -2,7 +2,7 @@
 
 public class LightningResistance : ResistanceEffect
 {
-    public override string Name => "Lightning Resistance";
+    public override string skillName => "Lightning Resistance";
 
     private void Start()
     {

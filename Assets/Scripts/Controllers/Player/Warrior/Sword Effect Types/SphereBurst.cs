@@ -17,8 +17,8 @@ public class SphereBurst : SwordEffect
     private SpellIndicatorController indicatorController;
     private ParticleSystem particles;
 
-    public override string Type => "Sphere Burst";
-    public override string Name => "Sphere Burst";
+    public override string type => "Sphere Burst";
+    public override string skillName => "Sphere Burst";
 
     private new void Awake()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightningWall : SpellTypeWall
 {
-    public override string Name => "Lightning Wall";
+    public override string skillName => "Lightning Wall";
 
     private MeshRenderer[] pillars;
 

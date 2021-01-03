@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Icespike : SpellTypeBolt
 {
-    public override string Name => "Ice Bolt";
+    public override string skillName => "Ice Bolt";
 
     private void Start()
     {

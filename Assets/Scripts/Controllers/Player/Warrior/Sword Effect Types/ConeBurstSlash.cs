@@ -19,8 +19,8 @@ public class ConeBurstSlash : SwordEffect
     private ParticleSystem particles;
     private float attackAngle;
 
-    public override string Type => "Cone Burst";
-    public override string Name => "Cone Burst";
+    public override string type => "Cone Burst";
+    public override string skillName => "Cone Burst";
 
     private new void Awake()
     {

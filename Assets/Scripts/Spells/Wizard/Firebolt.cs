@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Firebolt : SpellTypeBolt
 {
-    public override string Name => "Fire Bolt";
+    public override string skillName => "Fire Bolt";
 
     private void Start()
     {
