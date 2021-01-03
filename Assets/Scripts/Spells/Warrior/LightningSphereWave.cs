@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class LightningSphereWave : SphereBurst
 {
+    public override string Name => "Lightning Sphere Wave";
+
     void Start()
     {
         damageType = DamageTypesManager.Lightning;
         condition = ConditionsManager.Electrified;
-    }
-
-    public override string Name()
-    {
-        return "Lightning Sphere Wave";
     }
 }

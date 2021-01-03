@@ -4,55 +4,30 @@ public class CastingControls : MonoBehaviour
 {
     [SerializeField]
     private Wand wand;
-    [SerializeField]
-    private OverlayController overlayController;
 
-    private PlayerMovementScript controls;
+    private PlayerMovementScriptWizard controls;
 
-    private bool fire1 = false;
-    private bool fire2 = false;
+    private bool fire = false;
 
     private void Start()
     {
-        controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
+        controls = GameObject.FindObjectOfType<PlayerMovementScriptWizard>() as PlayerMovementScriptWizard;
     }
 
     private void FixedUpdate()
     {
-        if (controls.menu && !overlayController.isEnabled)
-        {
-            overlayController.Enable(true);
-            fire1 = false;
-            fire2 = false;
-        }
-        else if (!controls.menu && overlayController.isEnabled)
-        {
-            overlayController.Enable(false);
-        }
-
         if (!controls.menu)
         {
-            fire1 = controls.mousedown_1;
-            fire2 = controls.mousedown_2;
-
+            fire = controls.mousedown_1;
         }
 
-        if (fire1 && !Wand.castingBasic)
+        if ((fire && !Wand.casting))
         {
-            wand.Fire1(true);
+            wand.Fire(true);
         }
-        else if (!fire1 && Wand.canRelease)
+        else if ((!fire && Wand.casting))
         {
-            wand.Fire1(false);
-        }
-
-        if (fire2 && !Wand.channeling)
-        {
-            wand.Fire2(true);
-        }
-        else if (!fire2 && Wand.channeling)
-        {
-            wand.Fire2(false);
+            wand.Fire(false);
         }
     }
 }

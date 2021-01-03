@@ -3,12 +3,11 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-public class PlayerMovementScript : MonoBehaviour
+public class PlayerMovementScriptWizard : PlayerMovementScript
 {
     public CharacterController controller;
     public Transform indicatorWheel;
     public Transform groundCheck;
-    public Transform Cylinder;
     public LayerMask groundMask;
     
     public float speed = 6f;
@@ -61,6 +60,7 @@ public class PlayerMovementScript : MonoBehaviour
         mousedown_1 = false;
         mousedown_2 = false;
         menu = false;
+        lockMouseInputs = false;
 
         horizontal = 0f;
         vertical = 0f;
@@ -83,55 +83,40 @@ public class PlayerMovementScript : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        //pciking spell
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        // Controlled inputs which lock other if one is pressed
+        if (Input.GetMouseButtonDown(0) && !mousedown_2 && !lockMouseInputs)
         {
-            menu = true;
+            mousedown_1 = true;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
             mousedown_1 = false;
+        }
+        if (Input.GetMouseButtonDown(1) && !mousedown_1 && !lockMouseInputs)
+        {
+            mousedown_2 = true;
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
             mousedown_2 = false;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftAlt))
+
+        // Raw inputs
+        if (Input.GetMouseButtonDown(0) && !lockMouseInputs)
         {
-            menu = false;
+            mouse_1 = true;
         }
-
-        if (!menu)
+        else if (Input.GetMouseButtonUp(0))
         {
-            // Controlled inputs which lock other if one is pressed
-            if (Input.GetMouseButtonDown(0) && !mousedown_2)
-            {
-                mousedown_1 = true;
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                mousedown_1 = false;
-            }
-            if (Input.GetMouseButtonDown(1) && !mousedown_1)
-            {
-                mousedown_2 = true;
-            }
-            else if (Input.GetMouseButtonUp(1))
-            {
-                mousedown_2 = false;
-            }
-
-            // Raw inputs
-            if (Input.GetMouseButtonDown(0))
-            {
-                mouse_1 = true;
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                mouse_1 = false;
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                mouse_2 = true;
-            }
-            else if (Input.GetMouseButtonUp(1))
-            {
-                mouse_2 = false;
-            }
+            mouse_1 = false;
+        }
+        if (Input.GetMouseButtonDown(1) && !lockMouseInputs)
+        {
+            mouse_2 = true;
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            mouse_2 = false;
         }
 
         running = Input.GetKey(KeyCode.LeftShift);

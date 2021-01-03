@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LightningWall : SpellTypeWall
 {
+    public override string Name => "Lightning Wall";
+
     private MeshRenderer[] pillars;
 
     private void Start()
@@ -37,9 +39,5 @@ public class LightningWall : SpellTypeWall
                 .ChangeTicksPerSecond(15)
                 .Enable();
         }
-    }
-    public override string Name()
-    {
-        return "Lightning Wall";
     }
 }

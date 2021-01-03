@@ -599,7 +599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2163392070315266485
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3630,19 +3630,19 @@ GameObject:
   - component: {fileID: 4964402965454966612}
   - component: {fileID: 4964402965454966614}
   - component: {fileID: 4964402965454966633}
-  - component: {fileID: 4964402965454966632}
   - component: {fileID: 4964402965454966635}
   - component: {fileID: 4964402965454966634}
   - component: {fileID: 4964402965454966636}
   - component: {fileID: 4964402965454966639}
   - component: {fileID: 8004408310699045391}
+  - component: {fileID: 1185152694}
   m_Layer: 12
   m_Name: Player (Wizard)
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4964402965454966615
 Transform:
   m_ObjectHideFlags: 0
@@ -3706,9 +3706,14 @@ MonoBehaviour:
   gravity: -19.62
   groundDistance: 0.5
   jumpHeight: 3
-  rollDistance: 10
   smoothing: 0.1
   runspeed: 0
+  dodgeParticles: {fileID: 7295584108599523631, guid: 39f85179482979b4c81090711a26cda4,
+    type: 3}
+  dodgeDuration: 0.2
+  dodgeDistance: 10
+  dodgeCooldown: 0.5
+  stunAfterDodge: 0.1
   direction: {x: 0, y: 0, z: 0}
   isGrounded: 0
   canMove: 1
@@ -3718,6 +3723,7 @@ MonoBehaviour:
   menu: 0
   mouse_1: 0
   mouse_2: 0
+  lockMouseInputs: 0
 --- !u!114 &4964402965454966633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3731,23 +3737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wand: {fileID: 4964402965454966635}
-  overlayController: {fileID: 4964402965454966632}
---- !u!114 &4964402965454966632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4964402965454966613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c81fdcd8b87a694795151c80766556e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropdown: {fileID: 2163392069855812090}
-  wand: {fileID: 4964402965454966635}
-  sword: {fileID: 0}
-  isEnabled: 0
+  overlayController: {fileID: 0}
 --- !u!114 &4964402965454966635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3856,6 +3846,21 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1185152694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4964402965454966613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f0cd3a207bed94ebad0a71d9ddcf06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wand: {fileID: 4964402965454966635}
+  sword: {fileID: 0}
+  spellNameDisplay: {fileID: 0}
 --- !u!1 &4964402965491255278
 GameObject:
   m_ObjectHideFlags: 0
@@ -4000,7 +4005,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

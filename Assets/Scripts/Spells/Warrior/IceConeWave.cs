@@ -2,14 +2,11 @@
 
 public class IceConeWave : ConeBurstSlash
 {
+    public override string Name => "Ice Cone Wave";
+
     void Start()
     {
         damageType = DamageTypesManager.Cold;
         condition = ConditionsManager.Frozen;
-    }
-
-    public override string Name()
-    {
-        return "Ice Cone Wave";
     }
 }

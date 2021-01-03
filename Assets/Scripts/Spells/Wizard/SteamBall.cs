@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SteamBall : SpellTypeBolt
 {
+    public override string Name => "Steam Ball";
+
     private void Start()
     {
         damage = 0f;
@@ -12,10 +14,5 @@ public class SteamBall : SpellTypeBolt
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Smoke;
-    }
-
-    public override string Name()
-    {
-        return "Steam Ball";
     }
 }

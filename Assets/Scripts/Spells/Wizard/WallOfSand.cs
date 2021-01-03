@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WallOfSand : SpellTypeWall
 {
+    public override string Name => "Sand Wall";
+
     private void Start()
     {
         doDamage = false;
@@ -12,10 +14,5 @@ public class WallOfSand : SpellTypeWall
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Earth;
-    }
-
-    public override string Name()
-    {
-        return "Sand Wall";
     }
 }

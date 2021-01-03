@@ -19,6 +19,9 @@ public class ConeBurstSlash : SwordEffect
     private ParticleSystem particles;
     private float attackAngle;
 
+    public override string Type => "Cone Burst";
+    public override string Name => "Cone Burst";
+
     private new void Awake()
     {
         base.Awake();
@@ -92,10 +95,5 @@ public class ConeBurstSlash : SwordEffect
             }
         }
         return targets.ToArray();
-    }
-
-    public override string Name()
-    {
-        return "Default Cone Slash";
     }
 }

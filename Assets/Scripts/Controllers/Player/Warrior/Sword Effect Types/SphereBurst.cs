@@ -17,6 +17,9 @@ public class SphereBurst : SwordEffect
     private SpellIndicatorController indicatorController;
     private ParticleSystem particles;
 
+    public override string Type => "Sphere Burst";
+    public override string Name => "Sphere Burst";
+
     private new void Awake()
     {
         base.Awake();
@@ -74,10 +77,5 @@ public class SphereBurst : SwordEffect
         GameObject[] notBlocked = OverlapDetection.NoObstaclesLine(sphereCollisions, sphereCenter.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
 
         return notBlocked;
-    }
-
-    public override string Name()
-    {
-        return "Default Cone Slash";
     }
 }

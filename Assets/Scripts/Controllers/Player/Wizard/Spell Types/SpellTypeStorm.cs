@@ -13,8 +13,6 @@ public class SpellTypeStorm : Spell
     public Condition condition;
 
     private GameObject tmpStorm;
-    private Vector3 spawningLocation;
-    private bool pickedSpot;
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
 
@@ -23,9 +21,12 @@ public class SpellTypeStorm : Spell
     [HideInInspector]
     public GameObject[] collisions;
 
+    public override string Type => "Storm";
+    public override string Name => "Storm";
+    public override bool Channel => true;
+
     private void Awake()
     {
-        pickedSpot = false;
         InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
     }
 
@@ -36,20 +37,9 @@ public class SpellTypeStorm : Spell
         collisions = OverlapDetection.NoObstaclesVertical(colliders, capsuleTop, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
-    public override void FireSimple(Transform firePoint)
+    public override void CastSpell(Transform firePoint, bool holding)
     {
-        if (pickedSpot)
-        {
-            pickedSpot = false;
-            tmpStorm = Instantiate(gameObject);
-            tmpStorm.transform.position = spawningLocation + Vector3.up * 40f;
-            tmpStorm.SetActive(true);
-            Invoke(nameof(StopStorm), 10f);
-        }
-    }
 
-    public override void FireHold(bool holding, Transform firePoint)
-    {
         if (tmpStorm == null)
         {
             if (holding)
@@ -57,7 +47,6 @@ public class SpellTypeStorm : Spell
                 tmpIndicatorHolder = new GameObject();
                 indicatorController = tmpIndicatorHolder.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(20f, 15f);
-                pickedSpot = false;
             }
             else
             {
@@ -66,9 +55,14 @@ public class SpellTypeStorm : Spell
                     indicatorResponse = indicatorController.LockLocation();
                     if (!indicatorResponse.isNull)
                     {
-                        spawningLocation = indicatorResponse.centerOfAoe;
-                        pickedSpot = true;
-                        Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
+                        tmpStorm = Instantiate(gameObject);
+                        tmpStorm.transform.position = indicatorResponse.centerOfAoe + Vector3.up * 40f;
+                        tmpStorm.SetActive(true);
+                        Invoke(nameof(StopStorm), 10f);
+                    }
+                    else
+                    {
+                        Clear();
                     }
                 }
             }
@@ -101,7 +95,6 @@ public class SpellTypeStorm : Spell
         if (tmpStorm == null)
         {
             Clear();
-            pickedSpot = false;
         }
     }
     private void Clear()
@@ -118,10 +111,5 @@ public class SpellTypeStorm : Spell
     }
     public override void WakeUp()
     {
-    }
-
-    public override string Name()
-    {
-        throw new System.NotImplementedException();
     }
 }

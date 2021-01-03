@@ -12,7 +12,6 @@ public class MeteorShower : Spell
     private float projectilesPerSecond;
 
     private Vector3 spellLocation;
-    private bool pickedSpot;
     private Vector3 spawningLocation;
     private SpellIndicatorController indicatorController;
     private IndicatorResponse indicatorResponse;
@@ -20,12 +19,15 @@ public class MeteorShower : Spell
 
     private GameObject tmpIndicatorHolder;
 
+    public override string Type => "Meteors";
+    public override string Name => "Meteors";
+    public override bool Channel => true;
+
     private void Start()
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Spells"), LayerMask.NameToLayer("SpellIgnoreLayer"));
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("SpellIgnoreLayer"), LayerMask.NameToLayer("SpellIgnoreLayer"));
 
-        pickedSpot = false;
         firing = false;
     }
 
@@ -34,19 +36,7 @@ public class MeteorShower : Spell
         Start();
     }
 
-    public override void FireSimple(Transform firePoint)
-    {
-        if (pickedSpot)
-        {
-            pickedSpot = false;
-            spellLocation = spawningLocation + Vector3.up * spawningHeight;
-            firing = true;
-            Fire();
-            Invoke(nameof(StopFiring), 10f);
-        }
-    }
-
-    public override void FireHold(bool holding, Transform firePoint)
+    public override void CastSpell(Transform firePoint, bool holding)
     {
         if (!firing)
         {
@@ -55,7 +45,6 @@ public class MeteorShower : Spell
                 tmpIndicatorHolder = new GameObject();
                 indicatorController = tmpIndicatorHolder.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(20f, 20f);
-                pickedSpot = false;
             }
             else
             {
@@ -64,9 +53,14 @@ public class MeteorShower : Spell
                     indicatorResponse = indicatorController.LockLocation();
                     if (!indicatorResponse.isNull)
                     {
-                        spawningLocation = indicatorResponse.centerOfAoe;
-                        pickedSpot = true;
-                        Invoke(nameof(CancelSpell), indicatorController.indicatorDeleteTimer);
+                        spellLocation = indicatorResponse.centerOfAoe + Vector3.up * spawningHeight;
+                        firing = true;
+                        Fire();
+                        Invoke(nameof(StopFiring), 10f);
+                    }
+                    else
+                    {
+                        Clear();
                     }
                 }
             }
@@ -96,14 +90,6 @@ public class MeteorShower : Spell
         firing = false;
     }
 
-    private void CancelSpell()
-    {
-        if (!firing)
-        {
-            Clear();
-            pickedSpot = false;
-        }
-    }
     private void Clear()
     {
         indicatorController.DestroyIndicator();
@@ -113,9 +99,5 @@ public class MeteorShower : Spell
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Fire;
-    }
-    public override string Name()
-    {
-        return "Meteor Storm";
     }
 }

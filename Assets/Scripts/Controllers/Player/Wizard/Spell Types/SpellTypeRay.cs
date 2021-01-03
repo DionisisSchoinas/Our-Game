@@ -16,6 +16,10 @@ public class SpellTypeRay : Spell
     private GameObject tmpRay;
     private SpellIndicatorController indicatorController;
 
+    public override string Type => "Ray";
+    public override string Name => "Ray";
+    public override bool Channel => true;
+
     private void Awake()
     {
         boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
@@ -28,14 +32,17 @@ public class SpellTypeRay : Spell
         collisions = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
-    public override void FireHold(bool holding, Transform firePoint)
+    public override void CastSpell(Transform firePoint, bool holding)
     {
         if (holding)
         {
-            tmpRay = Instantiate(gameObject, firePoint);
-            indicatorController = tmpRay.AddComponent<SpellIndicatorController>();
-            indicatorController.SelectLocation(firePoint, 3f, 18f, SpellIndicatorController.SquareIndicator);
-            tmpRay.SetActive(true);
+            if (tmpRay == null)
+            {
+                tmpRay = Instantiate(gameObject, firePoint);
+                indicatorController = tmpRay.AddComponent<SpellIndicatorController>();
+                indicatorController.SelectLocation(firePoint, 3f, 18f, SpellIndicatorController.SquareIndicator);
+                tmpRay.SetActive(true);
+            }
         }
         else
         {
@@ -66,13 +73,5 @@ public class SpellTypeRay : Spell
     }
     public override void WakeUp()
     {
-    }
-    public override void FireSimple(Transform firePoint)
-    {
-    }
-
-    public override string Name()
-    {
-        throw new System.NotImplementedException();
     }
 }

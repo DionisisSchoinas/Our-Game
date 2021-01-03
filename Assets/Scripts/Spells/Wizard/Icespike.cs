@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Icespike : SpellTypeBolt
 {
+    public override string Name => "Ice Bolt";
+
     private void Start()
     {
         damageType = DamageTypesManager.Cold;
@@ -13,9 +15,5 @@ public class Icespike : SpellTypeBolt
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Ice;
-    }
-    public override string Name()
-    {
-        return "Ice Bolt";
     }
 }

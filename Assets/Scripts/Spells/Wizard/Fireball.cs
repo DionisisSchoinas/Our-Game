@@ -5,12 +5,10 @@ using UnityEngine;
 
 public class Fireball : SpellTypeBall
 {
+    public override string Name => "Fire Ball";
+
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Fire;
-    }
-    public override string Name()
-    {
-        return "Fire Ball";
     }
 }

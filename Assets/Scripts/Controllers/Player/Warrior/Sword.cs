@@ -29,6 +29,11 @@ public class Sword : MonoBehaviour
         ChangeSwordEffect();
     }
 
+    public SwordEffect GetSelectedEffect()
+    {
+        return swordEffects[selectedEffect];
+    }
+
     public void SetSelectedSwordEffect(int value)
     {
         selectedEffect = value;

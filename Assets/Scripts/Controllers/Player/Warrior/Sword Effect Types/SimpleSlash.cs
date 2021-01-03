@@ -12,6 +12,9 @@ public class SimpleSlash : SwordEffect
     [HideInInspector]
     public Condition condition = null;
 
+    public override string Type => "Simple Slash";
+    public override string Name => "Simple Slash";
+
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
         StartCoroutine(PerformAttack(attackDelay, controls, indicator));
@@ -35,10 +38,5 @@ public class SimpleSlash : SwordEffect
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;
-    }
-
-    public override string Name()
-    {
-        return "Default Slash";
     }
 }

@@ -10,6 +10,10 @@ public class SpellTypeBall : Spell
     public Rigidbody rb;
     private SpellIndicatorController indicatorController;
 
+    public override string Type => "Ball";
+    public override string Name => "Ball";
+    public override bool Channel => false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,27 +31,23 @@ public class SpellTypeBall : Spell
         Destroy(gameObject);
     }
 
-    public override void FireSimple(Transform firePoint)
+
+    public override void CastSpell(Transform firePoint, bool holding)
     {
-        GameObject tmp = Instantiate(gameObject, firePoint.position, firePoint.rotation) as GameObject;
-        Destroy(tmp, 5f);
+        if (!holding)
+        {
+            GameObject tmp = Instantiate(gameObject, firePoint.position, firePoint.rotation) as GameObject;
+            Destroy(tmp, 5f);
+        }
     }
 
     //------------------ Irrelevant ------------------
-    public override void FireHold(bool holding, Transform firePoint)
-    {
-    }
 
     public override void WakeUp()
     {
     }
 
     public override ParticleSystem GetSource()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override string Name()
     {
         throw new System.NotImplementedException();
     }

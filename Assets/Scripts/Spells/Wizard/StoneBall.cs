@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StoneBall : SpellTypeBall
 {
+    public override string Name => "Stone Ball";
+
     private GameObject path;
 
     private void Start()
@@ -40,9 +42,5 @@ public class StoneBall : SpellTypeBall
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Earth;
-    }
-    public override string Name()
-    {
-        return "Stone Ball";
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Firebolt : SpellTypeBolt
 {
+    public override string Name => "Fire Bolt";
+
     private void Start()
     {
         damageType = DamageTypesManager.Fire;
@@ -13,9 +15,5 @@ public class Firebolt : SpellTypeBolt
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Fire;
-    }
-    public override string Name()
-    {
-        return "Fire Bolt";
     }
 }

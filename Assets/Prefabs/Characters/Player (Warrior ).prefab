@@ -655,7 +655,7 @@ Transform:
   m_Children:
   - {fileID: 2984568329240571784}
   m_Father: {fileID: 2984568328822126951}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2984568328732285141
 MeshFilter:
@@ -748,9 +748,9 @@ GameObject:
   - component: {fileID: 2984568328822126954}
   - component: {fileID: 2984568328822126957}
   - component: {fileID: 2984568329992020968}
-  - component: {fileID: 1937735805}
   - component: {fileID: 2778878702118060659}
   - component: {fileID: 2798218118270504238}
+  - component: {fileID: 4096420264601712552}
   m_Layer: 12
   m_Name: Player (Warrior )
   m_TagString: Player
@@ -769,10 +769,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 3, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4773245131412253101}
   - {fileID: 2984568328886566381}
   - {fileID: 2984568328732285137}
   - {fileID: 2984568329905822400}
-  - {fileID: 4773245131412253101}
   - {fileID: 8391360643042556017}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4190a9fa21a849a41af1ab47017c359c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overlayController: {fileID: 1937735805}
+  overlayController: {fileID: 0}
   indicator: {fileID: 2984568328822126950}
   attackDelay: 0.5
   attacking: 0
@@ -945,22 +945,6 @@ MonoBehaviour:
   - {fileID: 1554546875301820073, guid: d4a3fd16032271d4ea307e09a5d3da6c, type: 3}
   delayBeforeSwing: 0.45
   delayBeforeStoppingSwing: 0.25
---- !u!114 &1937735805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2984568328822126948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c81fdcd8b87a694795151c80766556e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropdown: {fileID: 8760488716643934679}
-  wand: {fileID: 0}
-  sword: {fileID: 2984568329992020968}
-  isEnabled: 0
 --- !u!114 &2778878702118060659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,6 +977,21 @@ CapsuleCollider:
   m_Height: 4.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.34, z: 0}
+--- !u!114 &4096420264601712552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2984568328822126948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f0cd3a207bed94ebad0a71d9ddcf06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wand: {fileID: 0}
+  sword: {fileID: 2984568329992020968}
+  spellNameDisplay: {fileID: 0}
 --- !u!1 &2984568328857393509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,7 +1198,7 @@ Transform:
   - {fileID: 4600586414215889942}
   - {fileID: 2984568328886566369}
   m_Father: {fileID: 2984568328822126951}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2984568328896172651
 Animator:
@@ -2945,7 +2944,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2984568328822126951}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2984568330029267504
 GameObject:
@@ -3975,7 +3974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4773245131412253101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3989,7 +3988,7 @@ RectTransform:
   m_Children:
   - {fileID: 598853226798018821}
   m_Father: {fileID: 2984568328822126951}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

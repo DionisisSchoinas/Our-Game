@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Fireray : SpellTypeRay
 {
+    public override string Name => "Fire Ray";
+
     private void Start()
     {
         damageType = DamageTypesManager.Fire;
@@ -13,9 +15,5 @@ public class Fireray : SpellTypeRay
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Fire;
-    }
-    public override string Name()
-    {
-        return "Fire Ray";
     }
 }

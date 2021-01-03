@@ -2,6 +2,8 @@
 
 public class Firewall : SpellTypeWall
 {
+    public override string Name => "Fire Wall";
+
     private void Start()
     {
         doDamage = true;
@@ -12,9 +14,5 @@ public class Firewall : SpellTypeWall
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Fire;
-    }
-    public override string Name()
-    {
-        return "Fire Wall";
     }
 }

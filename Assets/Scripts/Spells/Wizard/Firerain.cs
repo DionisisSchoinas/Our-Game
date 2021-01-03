@@ -2,6 +2,8 @@
 
 public class Firerain : SpellTypeStorm
 {
+    public override string Name => "Fire Storm";
+
     private void Start()
     {
         damageType = DamageTypesManager.Fire;
@@ -11,9 +13,5 @@ public class Firerain : SpellTypeStorm
     public override ParticleSystem GetSource()
     {
         return ResourceManager.Default.Fire;
-    }
-    public override string Name()
-    {
-        return "Fire Storm";
     }
 }
