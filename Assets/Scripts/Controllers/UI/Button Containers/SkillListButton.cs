@@ -36,9 +36,14 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
     private SkillListButton ReInstantiate()
     {
         SkillListButton btn = Instantiate(gameObject, parent).GetComponent<SkillListButton>();
+
         btn.buttonData = buttonData;
         btn.overlayControls = overlayControls;
         btn.parent = parent;
+        btn.cooldownPercentage = cooldownPercentage;
+
+        btn.CheckCooldown();
+
         btn.transform.SetSiblingIndex(buttonData.skillIndexInColumn);
         return btn;
     }

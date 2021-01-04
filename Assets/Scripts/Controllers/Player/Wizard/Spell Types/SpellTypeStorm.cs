@@ -25,8 +25,9 @@ public class SpellTypeStorm : Spell
     public override bool channel => true;
     public override float cooldown { get => 2f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
         cancelled = false;
         InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
     }

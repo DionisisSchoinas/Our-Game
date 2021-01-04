@@ -15,6 +15,8 @@ public class ButtonContainer : ElementHover, IDragHandler
     public Transform parent;
     [HideInInspector]
     public bool coolingDown;
+    [HideInInspector]
+    public float cooldownPercentage;
 
     protected RectTransform rect;
     protected Transform canvas;
@@ -39,7 +41,7 @@ public class ButtonContainer : ElementHover, IDragHandler
 
         coolingDown = false;
 
-        UIEventSystem.current.onSkillPicked += SkillUsed;
+        UIEventSystem.current.onSkillPicked += SkillPicked;
         UIEventSystem.current.onSkillCast += SkillCast;
         UIEventSystem.current.onFreezeAllSkills += Freeze;
     }
@@ -47,10 +49,17 @@ public class ButtonContainer : ElementHover, IDragHandler
 
     public void OnDestroy()
     {
-        UIEventSystem.current.onSkillPicked -= SkillUsed;
+        UIEventSystem.current.onSkillPicked -= SkillPicked;
         UIEventSystem.current.onSkillCast -= SkillCast;
         UIEventSystem.current.onFreezeAllSkills -= Freeze;
     }
+
+    //------------ Reset functions ------------
+    public void CheckCooldown()
+    {
+        StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+    }
+
 
     //------------ Drag functions ------------
     public void OnDrag(PointerEventData eventData)
@@ -86,7 +95,7 @@ public class ButtonContainer : ElementHover, IDragHandler
 
 
     //------------ Event functions ------------
-    private void SkillUsed(int skillIndexInAdapter)
+    private void SkillPicked(int skillIndexInAdapter)
     {
         if (!coolingDown && isActiveAndEnabled)
         {
@@ -113,15 +122,13 @@ public class ButtonContainer : ElementHover, IDragHandler
     private IEnumerator StartCooldown(float cooldown)
     {
         coolingDown = true;
-        float i = 0f;
-        float delayForEachStep = cooldown / 50f;
-        while (i < 1)
+        float delayForEachStep = cooldown / 100f;
+        while (buttonData.skill.onCooldown)
         {
-            i += 0.02f;
-            buttonImageCooldown.fillAmount += 0.02f;
-            yield return new WaitForSeconds(delayForEachStep);
+            buttonImageCooldown.fillAmount = buttonData.skill.cooldownPercentage;
+            yield return new WaitForSeconds(delayForEachStep / 2f);
         }
-        buttonImageCooldown.fillAmount = 0;
+        buttonImageCooldown.fillAmount = 0f;
         coolingDown = false;
 
         yield return null;

@@ -8,7 +8,7 @@ public abstract class Skill : MonoBehaviour
     [HideInInspector]
     public bool onCooldown;
     [HideInInspector]
-    public float startedCooldown;
+    public float cooldownPercentage;
 
     public abstract string type { get; }
 
@@ -16,21 +16,41 @@ public abstract class Skill : MonoBehaviour
 
     public abstract float cooldown { get; }
 
-    private void Awake()
+    public void Awake()
     {
         onCooldown = false;
+
+        UIEventSystem.current.onSkillPicked += PickedSkill;
+        UIEventSystem.current.onFreezeAllSkills += Freeze;
+    }
+
+    public void OnDestroy()
+    {
+        UIEventSystem.current.onSkillPicked -= PickedSkill;
+        UIEventSystem.current.onFreezeAllSkills -= Freeze;
+    }
+
+    private void PickedSkill(int indexInAdapter)
+    {
+        StartCooldownWithoutEvent(OverlayControls.skillFreezeDuration);
+    }
+
+    private void Freeze(float delay)
+    {
+        StartCooldownWithoutEvent(delay);
     }
 
     public void StartCooldown()
     {
         UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
         onCooldown = true;
-        startedCooldown = Time.time;
-        Invoke(nameof(CooledDown), cooldown);
+        UIEventSystem.current.StartCooldown(this, cooldown);
     }
 
-    protected void CooledDown()
+
+    public void StartCooldownWithoutEvent(float delay)
     {
-        onCooldown = false;
+        onCooldown = true;
+        UIEventSystem.current.StartCooldown(this, delay);
     }
 }

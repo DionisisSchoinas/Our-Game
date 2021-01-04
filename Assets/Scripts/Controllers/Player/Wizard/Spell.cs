@@ -19,10 +19,7 @@ public abstract class Spell : Skill
         // If the spell wasn't cancelled
         if (!cancelled)
         {
-            UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
-            onCooldown = true;
-            startedCooldown = Time.time;
-            Invoke(nameof(CooledDown), cooldown);
+            base.StartCooldown();
         }
     }
 }

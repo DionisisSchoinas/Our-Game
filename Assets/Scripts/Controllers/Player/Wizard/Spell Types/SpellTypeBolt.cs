@@ -20,8 +20,9 @@ public class SpellTypeBolt : Spell
     public override bool channel => false;
     public override float cooldown { get => 2f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody>();
         cancelled = false;
     }

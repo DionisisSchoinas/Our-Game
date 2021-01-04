@@ -12,7 +12,6 @@ public class WizardDodge : Skill
 
     public new void StartCooldown()
     {
-        onCooldown = true;
-        Invoke(nameof(CooledDown), cooldown);
+        StartCooldownWithoutEvent(cooldown);
     }
 }

@@ -15,10 +15,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     {
         base.Awake();
         skillListUp = false;
-    }
 
-    public void Start()
-    {
         UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
     }
 
@@ -48,7 +45,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
         // Set new values in script
         btnScript.buttonData = new ButtonData();
-        btnScript.buttonData.CopyData(btn, buttonData);
+        btnScript.buttonData.CopyData(btn, this);
         btnScript.skillListUp = skillListUp;
         btnScript.overlayControls = overlayControls;
         btnScript.parent = parent;

@@ -25,6 +25,8 @@ public class OverlayControls : MonoBehaviour
     private ButtonContainer lastSelected;
     private bool paused;
 
+    public static float skillFreezeDuration;
+
 
     private void Start()
     {
@@ -70,6 +72,10 @@ public class OverlayControls : MonoBehaviour
 
         // Hightlight the quickbar skills in the skill list
         HighlightQuickbarInList();
+
+        skillFreezeDuration = secondsAfterPickingSkill;
+
+        SetSelectedQuickBar(0);
 
         UIEventSystem.current.onDraggingButton += DraggingButton;
     }
@@ -203,13 +209,13 @@ public class OverlayControls : MonoBehaviour
     // Binds the container data to the button with this index -> selectedQuickbar
     private void BindSkillToQuickbar(ButtonContainer container, int selectedQuickbar)
     {
-        quickbarButtonContainers[selectedQuickbar].buttonData.NewData(container.buttonData);
+        quickbarButtonContainers[selectedQuickbar].buttonData.NewData(container);
         HighlightQuickbarInList();
     }
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
-        if (quickbarButtonContainers[selectedQuickbar].coolingDown)
+        if (quickbarButtonContainers[selectedQuickbar].buttonData.skill.onCooldown)
         {
             Debug.Log("On Cooldown");
             return;

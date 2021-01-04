@@ -26,8 +26,9 @@ public class SpellTypeWall : Spell
     public override bool channel => true;
     public override float cooldown { get => 2f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
         boxSize = (new Vector3(23f, 10f, 3f)) / 2f;
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }

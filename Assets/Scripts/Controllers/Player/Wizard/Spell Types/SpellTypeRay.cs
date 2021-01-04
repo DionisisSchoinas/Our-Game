@@ -21,8 +21,9 @@ public class SpellTypeRay : Spell
     public override bool channel => true;
     public override float cooldown { get => 2f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
         cancelled = false;
         boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
@@ -36,13 +37,10 @@ public class SpellTypeRay : Spell
 
     public new void StartCooldown()
     {
-        // If the spell wasn't cancelled and it wasn't a Ray type spell that was already firing a ray
-        if (!cancelled || isChanneling)
+        // If it was already firing a ray
+        if (isChanneling)
         {
-            UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
-            onCooldown = true;
-            startedCooldown = Time.time;
-            Invoke(nameof(CooledDown), cooldown);
+            base.StartCooldown();
         }
     }
 

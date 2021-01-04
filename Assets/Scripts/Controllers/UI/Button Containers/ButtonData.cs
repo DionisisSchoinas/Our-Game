@@ -10,6 +10,7 @@ public class ButtonData : MonoBehaviour
     public Text buttonText;
     public Skill skill;
     public Button container;
+    public ButtonContainer containerScript;
 
     public ButtonData()
     {
@@ -19,12 +20,14 @@ public class ButtonData : MonoBehaviour
         this.buttonText = null;
         this.skill = null;
         this.container = null;
+        this.containerScript = null;
     }
 
     // Base for all constructors
     public ButtonData(Button container, Skill skill, int quickBarIndex, int skillIndexInAdapter, int skillColumnIndex)
     {
         this.container = container;
+        this.containerScript = container.gameObject.GetComponent<ButtonContainer>();
         this.skill = skill;
         this.quickBarIndex = quickBarIndex;
         this.skillIndexInAdapter = skillIndexInAdapter;
@@ -55,17 +58,28 @@ public class ButtonData : MonoBehaviour
         this.buttonText.text = skill.skillName;
     }
 
-    public void NewData(ButtonData data)
+    public void NewData(ButtonContainer container)
     {
-        this.skill = data.skill;
+        ButtonData data = container.buttonData;
+
         this.skillIndexInAdapter = data.skillIndexInAdapter;
+        this.skillIndexInColumn = data.skillIndexInColumn;
+        this.skillColumnIndex = data.skillColumnIndex;
+        this.skill = data.skill;
         CheckForText();
         this.buttonText.text = data.skill.skillName;
+
+        this.containerScript.cooldownPercentage = container.cooldownPercentage;
+        this.containerScript.CheckCooldown();
     }
 
-    public void CopyData(Button newButton, ButtonData data)
+    public void CopyData(Button newButton, ButtonContainer container)
     {
+        ButtonData data = container.buttonData;
+
         this.container = newButton;
+        this.containerScript = newButton.gameObject.GetComponent<ButtonContainer>();
+
         this.quickBarIndex = data.quickBarIndex;
         this.skillIndexInAdapter = data.skillIndexInAdapter;
         this.skillIndexInColumn = data.skillIndexInColumn;
@@ -73,6 +87,9 @@ public class ButtonData : MonoBehaviour
         this.skill = data.skill;
         CheckForText();
         this.buttonText.text = data.skill.skillName;
+
+        this.containerScript.cooldownPercentage = container.cooldownPercentage;
+        this.containerScript.CheckCooldown();
     }
 
     private void CheckForText()

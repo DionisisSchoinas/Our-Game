@@ -81,12 +81,23 @@ public class UIEventSystem : MonoBehaviour
             onSkillCast(uniqueId);
         }
     }
+
     public event Action<float> onDodgeFinish;
     public void Dodged(float cooldown)
     {
         if (onDodgeFinish != null)
         {
             onDodgeFinish(cooldown);
+        }
+    }
+
+
+    public event Action<Skill, float> onStartCooldown;
+    public void StartCooldown(Skill skill, float delay)
+    {
+        if (onStartCooldown != null)
+        {
+            onStartCooldown(skill, delay);
         }
     }
 }

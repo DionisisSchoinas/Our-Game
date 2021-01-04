@@ -13,10 +13,11 @@ public class SpellTypeBall : Spell
     public override string type => "Ball";
     public override string skillName => "Ball";
     public override bool channel => false;
-    public override float cooldown { get => 2f; }
+    public override float cooldown { get => 20f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody>();
         cancelled = false;
     }
