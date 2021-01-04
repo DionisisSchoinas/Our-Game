@@ -41,6 +41,7 @@ public class SpellTypeRay : Spell
         {
             UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
             onCooldown = true;
+            startedCooldown = Time.time;
             Invoke(nameof(CooledDown), cooldown);
         }
     }

@@ -24,6 +24,8 @@ public class Wand : MonoBehaviour
     public static bool castingBasic;
     public bool canRelease;
     public bool casting;
+    //=============
+    public float delayUiAfterCasting;
 
     private bool canCast;
     private int selectedSpell;
@@ -118,6 +120,7 @@ public class Wand : MonoBehaviour
         {
             // Starts the cooldown of the released spell
             spells[selectedSpell].StartCooldown();
+            UIEventSystem.current.FreezeAllSkills(delayUiAfterCasting);
 
             //start playing reseting animation
             animationController.ReleaseBasic();
@@ -139,6 +142,7 @@ public class Wand : MonoBehaviour
         {
             // Starts the cooldown of the released spell
             spells[selectedSpell].StartCooldown();
+            UIEventSystem.current.FreezeAllSkills(delayUiAfterCasting);
 
             //start playing animation
             animationController.CastChannel(false, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);

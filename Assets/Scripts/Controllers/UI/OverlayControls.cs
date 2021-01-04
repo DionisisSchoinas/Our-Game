@@ -6,7 +6,7 @@ using System.Linq;
 public class OverlayControls : MonoBehaviour
 {
     public GameObject buttonQuickbar;
-    public GameObject spellListDisplay;
+    public CanvasGroup spellListDisplay;
     public GameObject columnContentHolder;
     public GameObject dodgeDisplay;
     public float secondsAfterPickingSkill = 0.02f;
@@ -18,7 +18,9 @@ public class OverlayControls : MonoBehaviour
     [HideInInspector]
     public QuickbarButton[] quickbarButtonContainers;
 
-    private OverlayToWeaponAdapter overlayToWeaponAdapter;
+    [HideInInspector]
+    public OverlayToWeaponAdapter overlayToWeaponAdapter;
+
     private SkillListFill skillList;
     private ButtonContainer lastSelected;
     private bool paused;
@@ -35,7 +37,7 @@ public class OverlayControls : MonoBehaviour
 
         skillList.FillList();
 
-        spellListDisplay.SetActive(false);
+        SetSkillListState(false);
         spellListDisplay.gameObject.AddComponent<ElementHover>();
 
         quickbarButtons = buttonQuickbar.GetComponentsInChildren<Button>();
@@ -147,7 +149,23 @@ public class OverlayControls : MonoBehaviour
         UIEventSystem.current.SetHover(paused);
         UIEventSystem.current.SetSkillListUp(paused);
         PauseGame(paused);
-        spellListDisplay.SetActive(paused);
+        SetSkillListState(paused);
+    }
+
+    private void SetSkillListState(bool show)
+    {
+        if (show)
+        {
+            spellListDisplay.alpha = 1f;
+            spellListDisplay.interactable = true;
+            spellListDisplay.blocksRaycasts = true;
+        }
+        else
+        {
+            spellListDisplay.alpha = 0f;
+            spellListDisplay.interactable = false;
+            spellListDisplay.blocksRaycasts = false;
+        }
     }
 
     private void DraggingButton(ButtonContainer buttonContainer, bool dragging)

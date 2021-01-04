@@ -8,35 +8,24 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 {
     [HideInInspector]
     public bool skillListUp;
-    [HideInInspector]
-    public bool coolingDown;
 
-    private Vector2 clickPositionOffset;
     private Vector2 lastPosition;
-    private Image buttonImageCooldown;
 
     public new void Awake()
     {
         base.Awake();
         skillListUp = false;
-        coolingDown = false;
-
-        buttonImageCooldown = gameObject.GetComponentsInChildren<Image>()[1];
-        buttonImageCooldown.fillAmount = 0;
     }
 
     public void Start()
     {
-        UIEventSystem.current.skillListUp += BlockQuickbarSkillSelection;
-        UIEventSystem.current.onSkillPicked += SkillUsed;
-        UIEventSystem.current.onSkillCast += SkillCast;
+        UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
     }
 
-    private void OnDestroy()
+    public new void OnDestroy()
     {
-        UIEventSystem.current.skillListUp -= BlockQuickbarSkillSelection;
-        UIEventSystem.current.onSkillPicked -= SkillUsed;
-        UIEventSystem.current.onSkillCast -= SkillCast;
+        base.OnDestroy();
+        UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
     }
 
     private void BlockQuickbarSkillSelection(bool block)
@@ -75,17 +64,11 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
         return btnScript;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public new void OnDrag(PointerEventData eventData)
     {
         if (skillListUp)
         {
-            Vector2 currentMousePosition = eventData.position;
-            Vector3 oldPos = rect.position;
-            rect.position = currentMousePosition - clickPositionOffset;
-            if (!IsRectTransformInsideSreen())
-            {
-                rect.position = oldPos;
-            }
+            Drag(eventData);
         }
     }
 
@@ -112,51 +95,5 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
             Destroy(gameObject);
             
         }
-    }
-
-    private bool IsRectTransformInsideSreen()
-    {
-        Vector3[] corners = new Vector3[4];
-        rect.GetWorldCorners(corners);
-        Rect screen = new Rect(0, 0, Screen.width, Screen.height);
-        foreach (Vector3 corner in corners)
-        {
-            if (!screen.Contains(corner))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void SkillUsed(int skillIndexInAdapter)
-    {
-        if (!coolingDown)
-        {
-            StartCoroutine(StartCooldown(overlayControls.secondsAfterPickingSkill));
-        }
-    }
-
-    private void SkillCast(int uniqueAdapterId)
-    {
-        if (buttonData.skill.uniqueOverlayToWeaponAdapterId == uniqueAdapterId)
-        {
-            StartCoroutine(StartCooldown(buttonData.skill.cooldown));
-        }
-    }
-
-    private IEnumerator StartCooldown(float cooldown)
-    {
-        coolingDown = true;
-        float i = 0f;
-        float delayForEachStep = cooldown / 50f;
-        while (i < 1)
-        {
-            i += 0.02f;
-            buttonImageCooldown.fillAmount += 0.02f;
-            yield return new WaitForSeconds(delayForEachStep);
-        }
-        buttonImageCooldown.fillAmount = 0;
-        coolingDown = false;
     }
 }

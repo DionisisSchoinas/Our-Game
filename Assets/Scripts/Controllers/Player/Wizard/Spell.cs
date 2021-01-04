@@ -21,6 +21,7 @@ public abstract class Spell : Skill
         {
             UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
             onCooldown = true;
+            startedCooldown = Time.time;
             Invoke(nameof(CooledDown), cooldown);
         }
     }

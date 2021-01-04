@@ -28,30 +28,39 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
-    public event Action<bool> skillListUp;
+    public event Action<bool> onSkillListUp;
     public void SetSkillListUp(bool up)
     {
-        if (skillListUp != null)
+        if (onSkillListUp != null)
         {
-            skillListUp(up);
+            onSkillListUp(up);
         }
     }
 
-    public event Action<int> highlightButtonInSkillList;
+    public event Action<int> onHighlightButtonInSkillList;
     public void SetHighlight(int indexInAdapter)
     {
-        if (highlightButtonInSkillList != null)
+        if (onHighlightButtonInSkillList != null)
         {
-            highlightButtonInSkillList(indexInAdapter);
+            onHighlightButtonInSkillList(indexInAdapter);
         }
     }
 
-    public event Action unhighlightButtonsInSkillList;
+    public event Action onUnhighlightButtonsInSkillList;
     public void UnHighlightSKillList()
     {
-        if (highlightButtonInSkillList != null)
+        if (onHighlightButtonInSkillList != null)
         {
-            unhighlightButtonsInSkillList();
+            onUnhighlightButtonsInSkillList();
+        }
+    }
+
+    public event Action<float> onFreezeAllSkills;
+    public void FreezeAllSkills(float delay)
+    {
+        if (onHighlightButtonInSkillList != null)
+        {
+            onFreezeAllSkills(delay);
         }
     }
 

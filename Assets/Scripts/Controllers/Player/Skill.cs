@@ -7,6 +7,8 @@ public abstract class Skill : MonoBehaviour
     public int uniqueOverlayToWeaponAdapterId;
     [HideInInspector]
     public bool onCooldown;
+    [HideInInspector]
+    public float startedCooldown;
 
     public abstract string type { get; }
 
@@ -23,6 +25,7 @@ public abstract class Skill : MonoBehaviour
     {
         UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
         onCooldown = true;
+        startedCooldown = Time.time;
         Invoke(nameof(CooledDown), cooldown);
     }
 
