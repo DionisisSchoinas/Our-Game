@@ -28,7 +28,7 @@ public class DodgeDisplay : MonoBehaviour
         StartCoroutine(StartCooldown(cooldown));
     }
 
-    IEnumerator StartCooldown(float cooldown)
+    private IEnumerator StartCooldown(float cooldown)
     {
         float i = 0f;
         float delayForEachStep = cooldown / 50f;

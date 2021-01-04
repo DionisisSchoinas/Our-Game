@@ -8,6 +8,7 @@ public class CastingControls : MonoBehaviour
     private PlayerMovementScriptWizard controls;
 
     private bool fire = false;
+    private bool cancel = false;
 
     private void Start()
     {
@@ -16,18 +17,27 @@ public class CastingControls : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!controls.menu)
+        // After cancelling don't fire again until Mouse1 has been released
+        if (cancel && controls.mousedown_1)
         {
-            fire = controls.mousedown_1;
+            return;
         }
+                
+        fire = controls.mousedown_1;
+        cancel = controls.mouse_2;
 
-        if ((fire && !Wand.casting))
+        if ((fire && !wand.casting))
         {
             wand.Fire(true);
         }
-        else if ((!fire && Wand.casting))
+        else if ((!fire && wand.casting))
         {
             wand.Fire(false);
+        }
+
+        if (cancel)
+        {
+            wand.Cancel();
         }
     }
 }

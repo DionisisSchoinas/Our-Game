@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MeteorShower : Spell
+public class MeteorShower : SpellTypeStorm
 {
     [SerializeField]
     private GameObject meteorPrefab;
@@ -13,16 +13,9 @@ public class MeteorShower : Spell
 
     private Vector3 spellLocation;
     private Vector3 spawningLocation;
-    private SpellIndicatorController indicatorController;
-    private IndicatorResponse indicatorResponse;
     private bool firing;
 
-    private GameObject tmpIndicatorHolder;
-
-    public override string type => "Meteors";
-    public override string skillName => "Meteors";
-    public override bool channel => true;
-    public override float cooldown { get => 0.7f; }
+    public override string skillName => "Meteor Storm";
 
     private void Start()
     {
@@ -45,14 +38,14 @@ public class MeteorShower : Spell
             {
                 tmpIndicatorHolder = new GameObject();
                 indicatorController = tmpIndicatorHolder.AddComponent<SpellIndicatorController>();
-                indicatorController.SelectLocation(20f, 20f);
+                indicatorController.SelectLocation(30f, 20f);
             }
             else
             {
                 if (indicatorController != null)
                 {
                     indicatorResponse = indicatorController.LockLocation();
-                    if (!indicatorResponse.isNull)
+                    if (!indicatorResponse.isNull && !cancelled)
                     {
                         spellLocation = indicatorResponse.centerOfAoe + Vector3.up * spawningHeight;
                         firing = true;
@@ -61,6 +54,9 @@ public class MeteorShower : Spell
                     }
                     else
                     {
+                        if (cancelled)
+                            cancelled = false;
+
                         Clear();
                     }
                 }
@@ -89,12 +85,6 @@ public class MeteorShower : Spell
     {
         Clear();
         firing = false;
-    }
-
-    private void Clear()
-    {
-        indicatorController.DestroyIndicator();
-        Destroy(tmpIndicatorHolder.gameObject);
     }
 
     public override ParticleSystem GetSource()

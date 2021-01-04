@@ -18,6 +18,7 @@ public class SpellTypeBall : Spell
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        cancelled = false;
     }
 
     private void FixedUpdate()
@@ -35,11 +36,22 @@ public class SpellTypeBall : Spell
 
     public override void CastSpell(Transform firePoint, bool holding)
     {
+        if (cancelled)
+        {
+            cancelled = false;
+            return;
+        }
+
         if (!holding)
         {
             GameObject tmp = Instantiate(gameObject, firePoint.position, firePoint.rotation) as GameObject;
             Destroy(tmp, 5f);
         }
+    }
+
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     //------------------ Irrelevant ------------------

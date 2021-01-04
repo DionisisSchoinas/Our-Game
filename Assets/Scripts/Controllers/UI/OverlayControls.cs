@@ -21,17 +21,12 @@ public class OverlayControls : MonoBehaviour
     private OverlayToWeaponAdapter overlayToWeaponAdapter;
     private SkillListFill skillList;
     private ButtonContainer lastSelected;
-    private ColorBlock selectedColorBlock;
     private bool paused;
 
 
     private void Start()
     {
         overlayToWeaponAdapter = FindObjectOfType<OverlayToWeaponAdapter>();
-
-        selectedColorBlock = ColorBlock.defaultColorBlock;
-        selectedColorBlock.normalColor = Color.red;
-        selectedColorBlock.highlightedColor = Color.magenta;
 
         skillList = gameObject.AddComponent<SkillListFill>();
         skillList.weaponAdapter = overlayToWeaponAdapter;
@@ -71,7 +66,6 @@ public class OverlayControls : MonoBehaviour
             quickbarButtonTransforms[i] = quickbarButtons[i].GetComponent<RectTransform>();
         }
 
-        ResetLastButton();
         // Hightlight the quickbar skills in the skill list
         HighlightQuickbarInList();
 
@@ -154,8 +148,6 @@ public class OverlayControls : MonoBehaviour
         UIEventSystem.current.SetSkillListUp(paused);
         PauseGame(paused);
         spellListDisplay.SetActive(paused);
-
-        ResetLastButton();
     }
 
     private void DraggingButton(ButtonContainer buttonContainer, bool dragging)
@@ -195,7 +187,6 @@ public class OverlayControls : MonoBehaviour
     {
         quickbarButtonContainers[selectedQuickbar].buttonData.NewData(container.buttonData);
         HighlightQuickbarInList();
-        ResetLastButton();
     }
 
     public void SetSelectedQuickBar(int selectedQuickbar)
@@ -207,15 +198,7 @@ public class OverlayControls : MonoBehaviour
         }
 
         // Update Adapter
-        overlayToWeaponAdapter.SelectedOnQuickbar(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
-        UIEventSystem.current.SkillPicked();
-    }
-
-    private void ResetLastButton()
-    {
-        if (lastSelected != null)
-            lastSelected.button.colors = ColorBlock.defaultColorBlock;
-        lastSelected = null;
+        UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
     }
 
     private void PauseGame(bool pause)

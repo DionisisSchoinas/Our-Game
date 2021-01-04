@@ -28,6 +28,8 @@ public class Shield : Spell
 
     private void Start()
     {
+        cancelled = false;
+
         //ResetMaterial();
         damageablesLayer = 1 << LayerMask.NameToLayer("Damageables");
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Shield"));
@@ -67,8 +69,16 @@ public class Shield : Spell
         }
         else if (tmpShield != null)
         {
+            if (cancelled)
+                cancelled = false;
+
             Destroy(tmpShield);
         }
+    }
+
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     public override void WakeUp()

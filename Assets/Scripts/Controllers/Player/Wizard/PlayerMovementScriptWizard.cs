@@ -36,8 +36,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
     // Controlled inputs which lock other if one is pressed
     public bool mousedown_1;
     public bool mousedown_2;
-    // ---------------
-    public bool menu;
     // Raw inputs
     public bool mouse_1;
     public bool mouse_2;
@@ -60,7 +58,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         casting = false;
         mousedown_1 = false;
         mousedown_2 = false;
-        menu = false;
         lockMouseInputs = false;
 
         horizontal = 0f;

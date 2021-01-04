@@ -56,8 +56,7 @@ public class SpellTypeWall : Spell
                 if (indicatorController != null)
                 {
                     indicatorResponse = indicatorController.LockLocation();
-                    Clear();
-                    if (!indicatorResponse.isNull)
+                    if (!indicatorResponse.isNull && !cancelled)
                     {
                         currentWall = Instantiate(gameObject);
                         currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + indicatorResponse.centerOfAoe;
@@ -65,9 +64,20 @@ public class SpellTypeWall : Spell
                         currentWall.SetActive(true);
                         Invoke(nameof(DeactivateWall), 10f);
                     }
+                    else
+                    {
+                        if (cancelled)
+                            cancelled = false;
+
+                        Clear();
+                    }
                 }
             }
         }
+    }
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     private void Damage()
@@ -87,12 +97,14 @@ public class SpellTypeWall : Spell
 
     private void DeactivateWall()
     {
+        Clear();
         Destroy(currentWall);
     }
 
     private void Clear()
     {
-        indicatorController.DestroyIndicator();
+        if (indicatorController != null)
+            indicatorController.DestroyIndicator();
         Destroy(tmpIndicatorHolder.gameObject);
     }
 

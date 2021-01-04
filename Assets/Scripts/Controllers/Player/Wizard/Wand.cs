@@ -20,11 +20,10 @@ public class Wand : MonoBehaviour
     public float castingAnimationChannel = 1.3f;
     public float castingAnimationChannelReset = 1f;
     //=============
-    public static bool channeling;
+    public bool channeling;
     public static bool castingBasic;
-    public static bool canRelease;
-
-    public static bool casting;
+    public bool canRelease;
+    public bool casting;
 
     private bool canCast;
     private int selectedSpell;
@@ -57,27 +56,29 @@ public class Wand : MonoBehaviour
 
     public void SetSelectedSpell(int value)
     {
-
-        //CancelHold();  ==== THIS SHOULD BE USED TO CANCEL THE SPELL NOT USED TO RELEASE
-
         // Release held spells
         if (castingBasic)
         {
-            Fire1(false);
+            Cancel();
             StartCoroutine(ChangeSelectedIndex(castingAnimationSimple + castingAnimationSimpleReset / 2f, value));
             return;
         }
         if (channeling)
         {
-            Fire2(false);
+            Cancel();
         }
+        SetSpellIndex(value);
+    }
+
+    private void SetSpellIndex(int value)
+    {
         selectedSpell = value;
     }
 
     IEnumerator ChangeSelectedIndex(float delay, int value)
     {
         yield return new WaitForSeconds(delay);
-        selectedSpell = value;
+        SetSpellIndex(value);
     }
 
     public void Fire(bool holding)
@@ -90,6 +91,15 @@ public class Wand : MonoBehaviour
         else
         {
             Fire1(holding);
+        }
+    }
+
+    public void Cancel()
+    {
+        if (casting)
+        {
+            spells[selectedSpell].CancelCast();
+            Fire(false);
         }
     }
 
@@ -107,9 +117,6 @@ public class Wand : MonoBehaviour
         else if (!canCast && canRelease && castingBasic)
         {
             // Starts the cooldown of the released spell
-            // UI display cooldown
-            UIEventSystem.current.SkillCast(spells[selectedSpell].uniqueOverlayToWeaponAdapterId);
-            // Sepll cooldown
             spells[selectedSpell].StartCooldown();
 
             //start playing reseting animation
@@ -130,6 +137,9 @@ public class Wand : MonoBehaviour
         }
         else if (channeling && !holding)
         {
+            // Starts the cooldown of the released spell
+            spells[selectedSpell].StartCooldown();
+
             //start playing animation
             animationController.CastChannel(false, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
             //stop spell attack

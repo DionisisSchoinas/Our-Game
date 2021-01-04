@@ -129,7 +129,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
         return true;
     }
 
-    private void SkillUsed()
+    private void SkillUsed(int skillIndexInAdapter)
     {
         if (!coolingDown)
         {
@@ -145,7 +145,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
         }
     }
 
-    IEnumerator StartCooldown(float cooldown)
+    private IEnumerator StartCooldown(float cooldown)
     {
         coolingDown = true;
         float i = 0f;

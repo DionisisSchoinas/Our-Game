@@ -21,12 +21,13 @@ public abstract class Skill : MonoBehaviour
 
     public void StartCooldown()
     {
+        UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
         onCooldown = true;
         Invoke(nameof(CooledDown), cooldown);
     }
 
-    private void CooledDown()
+    protected void CooledDown()
     {
         onCooldown = false;
-    } 
+    }
 }

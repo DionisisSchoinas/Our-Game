@@ -7,10 +7,14 @@ using UnityEngine.UI;
 public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     private Vector2 clickPositionOffset;
+    private Image buttonBackground;
 
     public new void Awake()
     {
         base.Awake();
+
+        buttonBackground = gameObject.GetComponent<Image>();
+
         UIEventSystem.current.highlightButtonInSkillList += Highlight;
         UIEventSystem.current.unhighlightButtonsInSkillList += UnHighlight;
     }
@@ -25,12 +29,12 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
     {
         if (buttonData.skillIndexInAdapter == indexInAdapter)
         {
-            button.colors = selectedColorBlock;
+            buttonBackground.color = Color.red;
         }
     }
     private void UnHighlight()
     {
-        button.colors = ColorBlock.defaultColorBlock;
+        buttonBackground.color = Color.white;
     }
 
     private SkillListButton ReInstantiate()

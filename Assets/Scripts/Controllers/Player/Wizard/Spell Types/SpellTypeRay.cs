@@ -23,6 +23,7 @@ public class SpellTypeRay : Spell
 
     private void Awake()
     {
+        cancelled = false;
         boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
@@ -33,9 +34,20 @@ public class SpellTypeRay : Spell
         collisions = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
+    public new void StartCooldown()
+    {
+        // If the spell wasn't cancelled and it wasn't a Ray type spell that was already firing a ray
+        if (!cancelled || isChanneling)
+        {
+            UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
+            onCooldown = true;
+            Invoke(nameof(CooledDown), cooldown);
+        }
+    }
+
     public override void CastSpell(Transform firePoint, bool holding)
     {
-        if (holding)
+        if (holding && !cancelled)
         {
             if (tmpRay == null)
             {
@@ -43,13 +55,24 @@ public class SpellTypeRay : Spell
                 indicatorController = tmpRay.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(firePoint, 3f, 18f, SpellIndicatorController.SquareIndicator);
                 tmpRay.SetActive(true);
+                isChanneling = true;
             }
         }
         else
         {
-            indicatorController.DestroyIndicator();
-            Destroy(tmpRay);
+            if (cancelled)
+                cancelled = false;
+
+            if (indicatorController != null)
+                indicatorController.DestroyIndicator();
+            Destroy(tmpRay.gameObject);
+            isChanneling = false;
         }
+    }
+
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     private void Damage()

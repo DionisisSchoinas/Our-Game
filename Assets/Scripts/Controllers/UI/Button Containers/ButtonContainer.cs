@@ -16,7 +16,6 @@ public class ButtonContainer : ElementHover
     
     protected RectTransform rect;
     protected Transform canvas;
-    protected ColorBlock selectedColorBlock;
 
     public void Awake()
     {
@@ -27,9 +26,5 @@ public class ButtonContainer : ElementHover
 
         rect = GetComponent<RectTransform>();
         canvas = FindObjectOfType<OverlayControls>().transform;
-
-        selectedColorBlock = ColorBlock.defaultColorBlock;
-        selectedColorBlock.normalColor = Color.red;
-        selectedColorBlock.highlightedColor = Color.magenta;
     }
 }
