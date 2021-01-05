@@ -33,13 +33,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
     public bool isGrounded;
     public bool canMove;
     public bool casting;
-    // Controlled inputs which lock other if one is pressed
-    public bool mousedown_1;
-    public bool mousedown_2;
-    // Raw inputs
-    public bool mouse_1;
-    public bool mouse_2;
-    // ---------------
 
     private float horizontal;
     private float vertical;

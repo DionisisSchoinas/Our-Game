@@ -127,6 +127,7 @@ public class Wand : MonoBehaviour
             canRelease = true;
             //start playing charging animation
             animationController.ChargeBasic(spells[selectedSpell].GetSource());
+            spells[selectedSpell].CastSpell(simpleFirePoint, gameObject.transform, true, gameObject.name);
         }
         else if (!canCast && canRelease && castingBasic)
         {
@@ -207,7 +208,7 @@ public class Wand : MonoBehaviour
             // Start channel
             casting = true;
             yield return new WaitForSeconds(seconds);
-            spells[selectedSpell].CastSpell(channelingFirePoint, true);
+            spells[selectedSpell].CastSpell(channelingFirePoint, true, gameObject.name);
         }
         else
         {

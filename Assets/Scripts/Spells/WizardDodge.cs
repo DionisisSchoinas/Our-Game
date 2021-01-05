@@ -8,7 +8,7 @@ public class WizardDodge : Skill
 
     public override string skillName => "Dash";
 
-    public override float cooldown => 3f;
+    public override float cooldown => 2f;
 
     public new void StartCooldown()
     {

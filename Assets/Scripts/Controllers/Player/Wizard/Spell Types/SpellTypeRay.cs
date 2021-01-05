@@ -24,7 +24,6 @@ public class SpellTypeRay : Spell
     public new void Awake()
     {
         base.Awake();
-        cancelled = false;
         boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }

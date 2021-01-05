@@ -106,6 +106,7 @@ public class SpellTypeStorm : Spell
             Clear();
         }
     }
+
     protected void Clear()
     {
         if (indicatorController != null)
