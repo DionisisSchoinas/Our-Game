@@ -99,22 +99,24 @@ public class ButtonContainer : ElementHover, IDragHandler
     {
         if (!coolingDown && isActiveAndEnabled)
         {
+            buttonData.skill.StartCooldownWithoutEvent(overlayControls.secondsAfterPickingSkill);
             StartCoroutine(StartCooldown(overlayControls.secondsAfterPickingSkill));
         }
     }
 
     private void SkillCast(int uniqueAdapterId)
     {
-        if (buttonData.skill.uniqueOverlayToWeaponAdapterId == uniqueAdapterId && isActiveAndEnabled)
+        if (!coolingDown && buttonData.skill.uniqueOverlayToWeaponAdapterId == uniqueAdapterId && isActiveAndEnabled)
         {
             StartCoroutine(StartCooldown(buttonData.skill.cooldown));
         }
     }
 
-    private void Freeze(float delay)
+    private void Freeze(int uniqueAdapterIndex, float delay)
     {
-        if (!coolingDown && isActiveAndEnabled)
+        if (!coolingDown && isActiveAndEnabled && buttonData.skill.uniqueOverlayToWeaponAdapterId != uniqueAdapterIndex)
         {
+            buttonData.skill.StartCooldownWithoutEvent(delay);
             StartCoroutine(StartCooldown(delay));
         }
     }

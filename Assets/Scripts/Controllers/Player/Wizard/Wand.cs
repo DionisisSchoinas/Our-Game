@@ -30,10 +30,12 @@ public class Wand : MonoBehaviour
     private bool canCast;
     private int selectedSpell;
     private Coroutine runningCoroutine;
+    private float lastCooldownDisplayMessage;
 
     private void Start()
     {
         casting = false;
+        lastCooldownDisplayMessage = Time.time; 
 
         castingBasic = false;
         channeling = false;
@@ -85,6 +87,16 @@ public class Wand : MonoBehaviour
 
     public void Fire(bool holding)
     {
+        if (spells[selectedSpell].onCooldown)
+        {
+            if (holding && Time.time - lastCooldownDisplayMessage >= 1f)
+            {
+                Debug.Log("On Cooldown");
+                lastCooldownDisplayMessage = Time.time;
+            }
+            return;
+        }
+
         // If selected Spell is a channel spell
         if (spells[selectedSpell].channel)
         {
@@ -120,7 +132,7 @@ public class Wand : MonoBehaviour
         {
             // Starts the cooldown of the released spell
             spells[selectedSpell].StartCooldown();
-            UIEventSystem.current.FreezeAllSkills(delayUiAfterCasting);
+            UIEventSystem.current.FreezeAllSkills(spells[selectedSpell].uniqueOverlayToWeaponAdapterId, delayUiAfterCasting);
 
             //start playing reseting animation
             animationController.ReleaseBasic();
@@ -142,7 +154,7 @@ public class Wand : MonoBehaviour
         {
             // Starts the cooldown of the released spell
             spells[selectedSpell].StartCooldown();
-            UIEventSystem.current.FreezeAllSkills(delayUiAfterCasting);
+            UIEventSystem.current.FreezeAllSkills(spells[selectedSpell].uniqueOverlayToWeaponAdapterId, delayUiAfterCasting);
 
             //start playing animation
             animationController.CastChannel(false, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);

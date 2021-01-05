@@ -55,12 +55,12 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
-    public event Action<float> onFreezeAllSkills;
-    public void FreezeAllSkills(float delay)
+    public event Action<int, float> onFreezeAllSkills;
+    public void FreezeAllSkills(int uniqueAdapterIndex, float delay)
     {
         if (onHighlightButtonInSkillList != null)
         {
-            onFreezeAllSkills(delay);
+            onFreezeAllSkills(uniqueAdapterIndex, delay);
         }
     }
 

@@ -23,7 +23,7 @@ public class OverlayControls : MonoBehaviour
 
     private SkillListFill skillList;
     private ButtonContainer lastSelected;
-    private bool paused;
+    private bool skillListUp;
 
     public static float skillFreezeDuration;
 
@@ -112,7 +112,7 @@ public class OverlayControls : MonoBehaviour
         // Escape
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (paused)
+            if (skillListUp)
             {
                 ChangeSkillListState();
             }
@@ -151,11 +151,10 @@ public class OverlayControls : MonoBehaviour
 
     private void ChangeSkillListState()
     {
-        paused = !paused;
-        UIEventSystem.current.SetHover(paused);
-        UIEventSystem.current.SetSkillListUp(paused);
-        PauseGame(paused);
-        SetSkillListState(paused);
+        skillListUp = !skillListUp;
+        UIEventSystem.current.SetHover(skillListUp);
+        UIEventSystem.current.SetSkillListUp(skillListUp);
+        SetSkillListState(skillListUp);
     }
 
     private void SetSkillListState(bool show)
@@ -215,11 +214,12 @@ public class OverlayControls : MonoBehaviour
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
+        /*
         if (quickbarButtonContainers[selectedQuickbar].buttonData.skill.onCooldown)
         {
             Debug.Log("On Cooldown");
             return;
-        }
+        }*/
 
         // Update Adapter
         UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
