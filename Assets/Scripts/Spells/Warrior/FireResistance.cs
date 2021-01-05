@@ -2,7 +2,7 @@
 
 public class FireResistance : ResistanceEffect
 {
-    public override string Name => "Fire Resistance";
+    public override string skillName => "Fire Resistance";
 
     private void Start()
     {

@@ -14,6 +14,7 @@ public class SpellIndicatorController : MonoBehaviour
     private Material aoeCircleMaterial;
     private Material aoeSquareMaterial;
     private Material aoeConeMaterial;
+    private Material defaultMaterial;
 
     private int mode;
     private int face;
@@ -33,10 +34,14 @@ public class SpellIndicatorController : MonoBehaviour
     private int layerMasks;
     //private Plane plane;
 
-    private PlayerMovementScriptWizard wizardControls;
-    private PlayerMovementScriptWarrior warriorControls;
+    private PlayerMovementScript controls;
     private bool mouse_1_clicked;
     private bool mouse_1_locked;
+
+    private Transform startLocation;
+    private Transform rayDirection;
+    private float maxDistance;
+    private Material lineMaterial;
 
     /*------------     Modes    ------------
 
@@ -46,6 +51,7 @@ public class SpellIndicatorController : MonoBehaviour
     mode : 3  -  1 circle range and 1 square aoe with face swapping     ===== NOT USED =====
             face : 0  -  short and wide
             face : 1  -  tall and narrow
+    mode : 4  -  spawns a lineRender to show hit position
 
     --------------------------------------*/
 
@@ -56,8 +62,7 @@ public class SpellIndicatorController : MonoBehaviour
         mouse_1_clicked = false;
         mouse_1_locked = false;
         picking = false;
-        wizardControls = GameObject.FindObjectOfType<PlayerMovementScriptWizard>() as PlayerMovementScriptWizard;
-        warriorControls = GameObject.FindObjectOfType<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
+        controls = GameObject.FindObjectOfType<PlayerMovementScript>() as PlayerMovementScript;
         layerMasks = LayerMask.GetMask("Ground");
 
         indicator = ResourceManager.Components.IndicatorBase;
@@ -65,16 +70,13 @@ public class SpellIndicatorController : MonoBehaviour
         aoeCircleMaterial = ResourceManager.Materials.IndicatorCircleAOE;
         aoeSquareMaterial = ResourceManager.Materials.IndicatorSquareAOE;
         aoeConeMaterial = ResourceManager.Materials.IndicatorTriangleAOE;
-
-        //plane = new Plane(Vector3.up, controls.transform.position);
+        defaultMaterial = ResourceManager.Materials.DefaultMaterial;
     }
 
     private void Update()
     {
-        if (wizardControls != null)
-            mouse_1_clicked = wizardControls.mouse_1;
-        else
-            mouse_1_clicked = warriorControls.mouse_1;
+        if (controls != null)
+            mouse_1_clicked = controls.mouse_1;
     }
 
     // Update is called once per frame
@@ -92,12 +94,11 @@ public class SpellIndicatorController : MonoBehaviour
             // Center on player
             if (mode != 2)
             {
-                if (wizardControls != null)
-                    centerOfRadius = wizardControls.transform.position;
-                else
-                    centerOfRadius = warriorControls.transform.position;
+                if (controls != null)
+                    centerOfRadius = controls.transform.position;
                 tmpRangeIndicator.transform.position = centerOfRadius;
             }
+
             // Center on mouse
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -108,6 +109,19 @@ public class SpellIndicatorController : MonoBehaviour
             else if (mode == 2)
             {
                 SetIndicators(new RaycastHit(), centerOfRadius, 0f);
+            }
+        }
+        else if (mode == 4)
+        {
+            Ray ray = new Ray(startLocation.position, rayDirection.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, maxDistance))
+            {
+                SetLine(Color.red, startLocation.position, hit.point);
+            }
+            else
+            {
+                SetLine(Color.white, startLocation.position, ray.GetPoint(maxDistance));
             }
         }
     }
@@ -141,10 +155,9 @@ public class SpellIndicatorController : MonoBehaviour
                 {
                     //Rotate to look up
                     //Look at player
-                    if (wizardControls != null)
-                        tmpAoeIndicator.transform.LookAt(wizardControls.transform);
-                    else
-                        tmpAoeIndicator.transform.LookAt(warriorControls.transform);
+                    if (controls != null)
+                        tmpAoeIndicator.transform.LookAt(controls.transform);
+
                     tmpAoeIndicator.transform.eulerAngles = new Vector3(
                         90f,
                         tmpAoeIndicator.transform.eulerAngles.y,
@@ -171,10 +184,9 @@ public class SpellIndicatorController : MonoBehaviour
             return;
 
         //Look at player
-        if (wizardControls != null)
-            tmpAoeIndicator.transform.LookAt(wizardControls.transform, Vector3.up);
-        else
-            tmpAoeIndicator.transform.LookAt(warriorControls.transform, Vector3.up);
+        if (controls != null)
+            tmpAoeIndicator.transform.LookAt(controls.transform, Vector3.up);
+
         //Rotate to look up
         tmpAoeIndicator.transform.eulerAngles = new Vector3(
             90f,
@@ -304,6 +316,39 @@ public class SpellIndicatorController : MonoBehaviour
         picking = true;
     }
 
+    public void DisplayTargeting(Transform startLocation, Transform rayDirection, float width, float maxDistance)
+    {
+        // Show a line
+        mode = 4;
+
+        // Reset previous indicators
+        if (tmpRangeIndicator != null) Destroy(tmpRangeIndicator);
+        if (tmpAoeIndicator != null) Destroy(tmpAoeIndicator);
+        // New indicators
+        tmpAoeIndicator = Instantiate(indicator, rayDirection);
+        tmpAoeIndicator.SetActive(false);
+        tmpAoeIndicator.AddComponent<KillOnDelayScript>();
+        tmpAoeIndicator.GetComponent<MeshRenderer>().material = defaultMaterial;
+        tmpAoeIndicator.transform.localScale = Vector3.right * width;
+        tmpAoeIndicator.SetActive(true);
+
+        lineMaterial = tmpAoeIndicator.GetComponent<MeshRenderer>().material;
+
+        this.startLocation = startLocation;
+        this.rayDirection = rayDirection;
+        this.maxDistance = maxDistance;
+    }
+
+    private void SetLine(Color color, Vector3 start, Vector3 end)
+    {
+        lineMaterial.SetColor("_Color", color);
+
+        lineMaterial.SetFloat("_Alpha", 1.2f - (end - start).magnitude / maxDistance);
+
+        tmpAoeIndicator.transform.position = start + rayDirection.forward * (end - start).magnitude / 2f;
+        tmpAoeIndicator.transform.localScale = Vector3.right * tmpAoeIndicator.transform.localScale.x + Vector3.up * (end - start).magnitude;
+    }
+
     public IndicatorResponse LockLocation()
     {
         picking = false;
@@ -352,6 +397,8 @@ public class SpellIndicatorController : MonoBehaviour
 
         KillOnDelayScript killScript = tmpAoeIndicator.GetComponent<KillOnDelayScript>();
         killScript.KillAfter(delay);
+
+        mode = -1;
     }
 
     public void DestroyIndicator()

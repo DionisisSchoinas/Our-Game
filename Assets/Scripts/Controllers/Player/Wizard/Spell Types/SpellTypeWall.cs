@@ -21,12 +21,14 @@ public class SpellTypeWall : Spell
 
     private GameObject tmpIndicatorHolder;
 
-    public override string Type => "Wall";
-    public override string Name => "Wall";
-    public override bool Channel => true;
+    public override string type => "Wall";
+    public override string skillName => "Wall";
+    public override bool channel => true;
+    public override float cooldown { get => 2f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
         boxSize = (new Vector3(23f, 10f, 3f)) / 2f;
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
@@ -55,8 +57,7 @@ public class SpellTypeWall : Spell
                 if (indicatorController != null)
                 {
                     indicatorResponse = indicatorController.LockLocation();
-                    Clear();
-                    if (!indicatorResponse.isNull)
+                    if (!indicatorResponse.isNull && !cancelled)
                     {
                         currentWall = Instantiate(gameObject);
                         currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + indicatorResponse.centerOfAoe;
@@ -64,9 +65,20 @@ public class SpellTypeWall : Spell
                         currentWall.SetActive(true);
                         Invoke(nameof(DeactivateWall), 10f);
                     }
+                    else
+                    {
+                        if (cancelled)
+                            cancelled = false;
+
+                        Clear();
+                    }
                 }
             }
         }
+    }
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     private void Damage()
@@ -86,12 +98,14 @@ public class SpellTypeWall : Spell
 
     private void DeactivateWall()
     {
+        Clear();
         Destroy(currentWall);
     }
 
     private void Clear()
     {
-        indicatorController.DestroyIndicator();
+        if (indicatorController != null)
+            indicatorController.DestroyIndicator();
         Destroy(tmpIndicatorHolder.gameObject);
     }
 

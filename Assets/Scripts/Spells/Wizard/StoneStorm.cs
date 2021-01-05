@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StoneStorm : SpellTypeStorm
 {
-    public override string Name => "Stone Storm";
+    public override string skillName => "Stone Storm";
 
     private Vector3 capsuleBottom;
 

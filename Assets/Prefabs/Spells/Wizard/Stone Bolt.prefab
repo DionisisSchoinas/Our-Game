@@ -14781,7 +14781,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8586578332219649734}
   - component: {fileID: 8586578332219649785}
-  - component: {fileID: 8586578332219649784}
   - component: {fileID: 3198053249123018824}
   m_Layer: 8
   m_Name: Stone Bolt
@@ -14822,20 +14821,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!136 &8586578332219649784
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8586578332219649787}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3198053249123018824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14848,11 +14833,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750ce36eba91e7b4bacd4d28a1fd72e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 16
+  onCooldown: 0
+  cooldownPercentage: 0
+  cancelled: 0
   damage: 15
   speed: 40
-  rb: {fileID: 8586578332219649785}
+  range: 50
   explosionParticles: {fileID: 5721515848377235621, guid: ae271a9b7d8caf24987b8c7e1c93e946,
     type: 3}
+  damageType: 0
 --- !u!1 &8586578332295613690
 GameObject:
   m_ObjectHideFlags: 0

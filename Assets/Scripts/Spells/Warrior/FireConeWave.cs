@@ -2,7 +2,7 @@
 
 public class FireConeWave : ConeBurstSlash
 {
-    public override string Name => "Fire Cone Wave";
+    public override string skillName => "Fire Cone Wave";
 
     void Start()
     {

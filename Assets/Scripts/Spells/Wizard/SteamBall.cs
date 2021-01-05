@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SteamBall : SpellTypeBolt
 {
-    public override string Name => "Steam Ball";
+    public override string skillName => "Steam Ball";
 
     private void Start()
     {

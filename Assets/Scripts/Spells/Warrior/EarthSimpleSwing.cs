@@ -1,7 +1,7 @@
 ﻿
 public class EarthSimpleSwing : SimpleSlash
 {
-    public override string Name => "Earth Slash";
+    public override string skillName => "Earth Slash";
 
     void Start()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Fireray : SpellTypeRay
 {
-    public override string Name => "Fire Ray";
+    public override string skillName => "Fire Ray";
 
     private void Start()
     {

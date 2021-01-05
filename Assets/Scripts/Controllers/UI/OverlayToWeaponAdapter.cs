@@ -26,11 +26,16 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         wandListLength = 0;
         swordListLength = 0;
 
+        int id = 0;
+
         if (wand != null)
         {
             foreach (Spell s in wand.GetSpells())
             {
-                spellNames.Add(s.Name);
+                spellNames.Add(s.skillName);
+                s.onCooldown = false;
+                s.uniqueOverlayToWeaponAdapterId = id;
+                id++;
             }
             wandListLength = wand.GetSpells().Count;
         }
@@ -39,7 +44,10 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         {
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
-                spellNames.Add(s.Name);
+                spellNames.Add(s.skillName);
+                s.onCooldown = false;
+                s.uniqueOverlayToWeaponAdapterId = id;
+                id++;
             }
             swordListLength = sword.GetSwordEffects().Count;
         }
@@ -47,17 +55,13 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         playerMovementScript = GetComponent<PlayerMovementScript>();
 
         UIEventSystem.current.onHover += SetHover;
+        UIEventSystem.current.onSkillPicked += SetSelectedSpell;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.onHover -= SetHover;
-    }
-
-    // 
-    public void SelectedOnQuickbar(int buttonPressed)
-    {
-        SetSelectedSpell(buttonPressed);
+        UIEventSystem.current.onSkillPicked -= SetSelectedSpell;
     }
 
     // Triggers by the event when user hovers over a UI Element
@@ -70,18 +74,23 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     }
 
     // Based on the total index triggers appropriate spell
-    private void SetSelectedSpell(int value)
+    private void SetSelectedSpell(int skillIndexInAdapter)
     {
-        if (value < wandListLength)
+        if (skillIndexInAdapter < wandListLength)
         {
-            wand.SetSelectedSpell(value);
-            spellNameDisplay.text = wand.GetSelectedSpell().Name;
+            wand.SetSelectedSpell(skillIndexInAdapter);
         }
         else
         {
-            sword.SetSelectedSwordEffect(value - wandListLength);
-            spellNameDisplay.text = sword.GetSelectedEffect().Name;
+            sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength);
         }
+        DisplaySkillName(skillIndexInAdapter);
+    }
+
+    // Displays the picked skill name
+    private void DisplaySkillName(int indexInAdapter)
+    {
+        spellNameDisplay.text = GetSkillFromIndex(indexInAdapter).name;
     }
 
     public Skill GetSkillFromIndex(int index)

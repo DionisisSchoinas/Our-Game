@@ -9528,7 +9528,6 @@ GameObject:
   - component: {fileID: 9206832886829214629}
   - component: {fileID: 4031482676458629305}
   - component: {fileID: 2777572981645948766}
-  - component: {fileID: 4524784261083075791}
   - component: {fileID: 2166230741485534137}
   - component: {fileID: 3707389610335417720}
   m_Layer: 8
@@ -14276,20 +14275,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!136 &4524784261083075791
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8347748453192151727}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2166230741485534137
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14318,8 +14303,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6efb027c7317e184e9d6d135f875067c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 6
+  onCooldown: 0
+  cooldownPercentage: 0
+  cancelled: 0
   damage: 15
   speed: 40
-  rb: {fileID: 2166230741485534137}
+  range: 50
   explosionParticles: {fileID: 8564859762798733995, guid: 8c1f22899fd486d4da0e08a80f557473,
     type: 3}
+  damageType: 0

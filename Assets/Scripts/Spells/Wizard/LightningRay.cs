@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LightningRay : SpellTypeRay
 {
-    public override string Name => "Lightning Ray";
+    public override string skillName => "Lightning Ray";
 
     private void Start()
     {

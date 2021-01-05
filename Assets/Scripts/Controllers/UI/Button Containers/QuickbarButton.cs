@@ -9,23 +9,20 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     [HideInInspector]
     public bool skillListUp;
 
-    private Vector2 clickPositionOffset;
     private Vector2 lastPosition;
 
     public new void Awake()
     {
         base.Awake();
         skillListUp = false;
+
+        UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
     }
 
-    public void Start()
+    public new void OnDestroy()
     {
-        UIEventSystem.current.skillListUp += BlockQuickbarSkillSelection;
-    }
-
-    private void OnDestroy()
-    {
-        UIEventSystem.current.skillListUp -= BlockQuickbarSkillSelection;
+        base.OnDestroy();
+        UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
     }
 
     private void BlockQuickbarSkillSelection(bool block)
@@ -48,7 +45,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
         // Set new values in script
         btnScript.buttonData = new ButtonData();
-        btnScript.buttonData.CopyData(btn, buttonData);
+        btnScript.buttonData.CopyData(btn, this);
         btnScript.skillListUp = skillListUp;
         btnScript.overlayControls = overlayControls;
         btnScript.parent = parent;
@@ -59,20 +56,16 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
         overlayControls.quickbarButtonContainers[buttonData.quickBarIndex] = btnScript;
         overlayControls.quickbarButtonTransforms[buttonData.quickBarIndex] = btnScript.rect;
 
+        btnScript.transform.SetSiblingIndex(btnScript.buttonData.quickBarIndex);
+
         return btnScript;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public new void OnDrag(PointerEventData eventData)
     {
         if (skillListUp)
         {
-            Vector2 currentMousePosition = eventData.position;
-            Vector3 oldPos = rect.position;
-            rect.position = currentMousePosition - clickPositionOffset;
-            if (!IsRectTransformInsideSreen())
-            {
-                rect.position = oldPos;
-            }
+            Drag(eventData);
         }
     }
 
@@ -80,6 +73,8 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     {
         if (skillListUp)
         {
+            ReInstantiate();
+
             clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
             transform.parent = canvas;
             lastPosition = rect.position;
@@ -92,27 +87,10 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
     {
         if (skillListUp)
         {
-            ReInstantiate();
-
             UIEventSystem.current.DraggingButton(this, false);
 
             Destroy(gameObject);
             
         }
-    }
-
-    private bool IsRectTransformInsideSreen()
-    {
-        Vector3[] corners = new Vector3[4];
-        rect.GetWorldCorners(corners);
-        Rect screen = new Rect(0, 0, Screen.width, Screen.height);
-        foreach (Vector3 corner in corners)
-        {
-            if (!screen.Contains(corner))
-            {
-                return false;
-            }
-        }
-        return true;
     }
 }

@@ -19,7 +19,8 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
     float smoothVelocity;
     public float runspeed = 0f;
 
-    public ParticleSystem dodgeParticles;
+    public GameObject dodgeSkill;
+    private WizardDodge dodgeScript;
     public float dodgeDuration = 0.5f;
     public float dodgeDistance = 10f;
     public float dodgeCooldown = 0.5f;
@@ -32,15 +33,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
     public bool isGrounded;
     public bool canMove;
     public bool casting;
-    // Controlled inputs which lock other if one is pressed
-    public bool mousedown_1;
-    public bool mousedown_2;
-    // ---------------
-    public bool menu;
-    // Raw inputs
-    public bool mouse_1;
-    public bool mouse_2;
-    // ---------------
 
     private float horizontal;
     private float vertical;
@@ -59,7 +51,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         casting = false;
         mousedown_1 = false;
         mousedown_2 = false;
-        menu = false;
         lockMouseInputs = false;
 
         horizontal = 0f;
@@ -70,9 +61,10 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         dodging = false;
         lastDodge = Time.time;
 
-        dodgeParticleSystem = Instantiate(dodgeParticles);
+        dodgeParticleSystem = Instantiate(dodgeSkill).GetComponent<ParticleSystem>();
         dodgeParticleSystem.Stop();
         dodgeParticleSystem.transform.localScale = Vector3.one;
+        dodgeScript = dodgeParticleSystem.gameObject.GetComponent<WizardDodge>();
 
         cameraShake = FindObjectOfType<CameraShake>();
     }
@@ -122,7 +114,7 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         running = Input.GetKey(KeyCode.LeftShift);
         jump = Input.GetKey(KeyCode.C);
 
-        if (!dodging)
+        if (!dodging && !dodgeScript.onCooldown)
             dodge = Input.GetKey(KeyCode.Space);
     }
 
@@ -150,6 +142,7 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
             dodgeParticleSystem.transform.position = controller.transform.position;
             dodgeParticleSystem.transform.rotation = Quaternion.LookRotation(dodgeDirection);
 
+            HealthEventSystem.current.SetInvunerable(gameObject.name, true);
             StartCoroutine(DodgeTimer(dodgeDuration));
         }
 
@@ -239,7 +232,7 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
 
     private void DodgeEffect(bool enable)
     {
-        if (dodgeParticles == null)
+        if (dodgeParticleSystem == null)
             return;
 
         if (enable)
@@ -274,6 +267,11 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         dodging = false;
         canMove = true;
         lastDodge = Time.time;
+
+        dodgeScript.StartCooldown();
+        UIEventSystem.current.Dodged(dodgeScript.cooldown);
+        HealthEventSystem.current.SetInvunerable(gameObject.name, false);
+
         StartCoroutine(Stun(stunAfterDodge));
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LightningStorm : SpellTypeStorm
 {
-    public override string Name => "Lightning Storm";
+    public override string skillName => "Lightning Storm";
 
     private void Start()
     {

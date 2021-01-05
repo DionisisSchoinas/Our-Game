@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 199185188785216948}
   - component: {fileID: -6315393374685689038}
   - component: {fileID: -6733406041930164486}
-  - component: {fileID: 5614509829695606003}
   m_Layer: 8
   m_Name: Steam
   m_TagString: Untagged
@@ -4785,22 +4784,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284b43fd1922183439e55fb1311843e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 15
+  uniqueOverlayToWeaponAdapterId: 22
+  onCooldown: 0
+  cooldownPercentage: 0
+  cancelled: 0
+  damage: 0
   speed: 40
+  range: 50
   explosionParticles: {fileID: 8952321711452038130, guid: f196feeebe2653e44a9d2ad98c187c53,
     type: 3}
   damageType: 0
---- !u!136 &5614509829695606003
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735024089641582}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

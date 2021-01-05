@@ -12,8 +12,8 @@ public class SimpleSlash : SwordEffect
     [HideInInspector]
     public Condition condition = null;
 
-    public override string Type => "Simple Slash";
-    public override string Name => "Simple Slash";
+    public override string type => "Simple Slash";
+    public override string skillName => "Simple Slash";
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {

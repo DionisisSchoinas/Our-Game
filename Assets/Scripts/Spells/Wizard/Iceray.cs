@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Iceray : SpellTypeRay
 {
-    public override string Name => "Ice Ray";
+    public override string skillName => "Ice Ray";
 
     private void Start()
     {

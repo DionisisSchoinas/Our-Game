@@ -3642,7 +3642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4964402965454966615
 Transform:
   m_ObjectHideFlags: 0
@@ -3694,10 +3694,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11fb1fd4ee15af04ebee95c6c942735e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockMouseInputs: 0
   controller: {fileID: 4964402965454966612}
   indicatorWheel: {fileID: 4964402965307281510}
   groundCheck: {fileID: 4964402965153488016}
-  Cylinder: {fileID: 4964402965090587996}
   groundMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -3708,7 +3708,7 @@ MonoBehaviour:
   jumpHeight: 3
   smoothing: 0.1
   runspeed: 0
-  dodgeParticles: {fileID: 7295584108599523631, guid: 39f85179482979b4c81090711a26cda4,
+  dodgeSkill: {fileID: 7295584108599523629, guid: 39f85179482979b4c81090711a26cda4,
     type: 3}
   dodgeDuration: 0.2
   dodgeDistance: 10
@@ -3720,10 +3720,8 @@ MonoBehaviour:
   casting: 0
   mousedown_1: 0
   mousedown_2: 0
-  menu: 0
   mouse_1: 0
   mouse_2: 0
-  lockMouseInputs: 0
 --- !u!114 &4964402965454966633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3737,7 +3735,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wand: {fileID: 4964402965454966635}
-  overlayController: {fileID: 0}
 --- !u!114 &4964402965454966635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3781,6 +3778,10 @@ MonoBehaviour:
   castingAnimationSimpleReset: 0.6
   castingAnimationChannel: 1.3
   castingAnimationChannelReset: 1
+  channeling: 0
+  canRelease: 0
+  casting: 0
+  delayUiAfterCasting: 0.5
 --- !u!114 &4964402965454966634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4005,7 +4006,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6558112592143082812}
   - component: {fileID: 6014783670045370662}
   - component: {fileID: 5459327006205054554}
-  - component: {fileID: 6313814581290397247}
   - component: {fileID: 8833042690760647632}
   m_Layer: 8
   m_Name: Lightning Bolt
@@ -4773,20 +4772,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &6313814581290397247
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856657770994966794}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8833042690760647632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4799,8 +4784,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb1ad4a169a3304d84e7ad412b6fe3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 11
+  onCooldown: 0
+  cooldownPercentage: 0
+  cancelled: 0
   damage: 15
   speed: 40
-  rb: {fileID: 5459327006205054554}
+  range: 50
   explosionParticles: {fileID: 5779976989579067745, guid: 2e28e4991e97a94498c9ebe5d042e34f,
     type: 3}
+  damageType: 0

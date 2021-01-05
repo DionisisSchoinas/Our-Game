@@ -21,12 +21,15 @@ public class Shield : Spell
     private Collider[] colliders;
     private int damageablesLayer;
 
-    public override string Type => "Shield";
-    public override string Name => "Shield";
-    public override bool Channel => true;
+    public override string type => "Shield";
+    public override string skillName => "Shield";
+    public override bool channel => true;
+    public override float cooldown { get => 0.7f; }
 
     private void Start()
     {
+        cancelled = false;
+
         //ResetMaterial();
         damageablesLayer = 1 << LayerMask.NameToLayer("Damageables");
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Shield"));
@@ -66,8 +69,16 @@ public class Shield : Spell
         }
         else if (tmpShield != null)
         {
+            if (cancelled)
+                cancelled = false;
+
             Destroy(tmpShield);
         }
+    }
+
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     public override void WakeUp()

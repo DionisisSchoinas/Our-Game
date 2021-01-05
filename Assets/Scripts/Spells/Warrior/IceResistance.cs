@@ -2,7 +2,7 @@
 
 public class IceResistance : ResistanceEffect
 {
-    public override string Name => "Ice Resistance";
+    public override string skillName => "Ice Resistance";
 
     private void Start()
     {

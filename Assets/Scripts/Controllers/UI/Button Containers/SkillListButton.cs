@@ -4,54 +4,48 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpHandler
 {
-    private Vector2 clickPositionOffset;
-
     public new void Awake()
     {
         base.Awake();
-        UIEventSystem.current.highlightButtonInSkillList += Highlight;
-        UIEventSystem.current.unhighlightButtonsInSkillList += UnHighlight;
+
+        UIEventSystem.current.onHighlightButtonInSkillList += Highlight;
+        UIEventSystem.current.onUnhighlightButtonsInSkillList += UnHighlight;
     }
 
-    private void OnDestroy()
+    public new void OnDestroy()
     {
-        UIEventSystem.current.highlightButtonInSkillList -= Highlight;
-        UIEventSystem.current.unhighlightButtonsInSkillList -= UnHighlight;
+        base.OnDestroy();
+        UIEventSystem.current.onHighlightButtonInSkillList -= Highlight;
+        UIEventSystem.current.onUnhighlightButtonsInSkillList -= UnHighlight;
     }
 
     private void Highlight(int indexInAdapter)
     {
         if (buttonData.skillIndexInAdapter == indexInAdapter)
         {
-            button.colors = selectedColorBlock;
+            buttonBackground.color = Color.red;
         }
     }
     private void UnHighlight()
     {
-        button.colors = ColorBlock.defaultColorBlock;
+        buttonBackground.color = Color.white;
     }
 
     private SkillListButton ReInstantiate()
     {
         SkillListButton btn = Instantiate(gameObject, parent).GetComponent<SkillListButton>();
+
         btn.buttonData = buttonData;
         btn.overlayControls = overlayControls;
         btn.parent = parent;
+        btn.cooldownPercentage = cooldownPercentage;
+
+        btn.CheckCooldown();
+
         btn.transform.SetSiblingIndex(buttonData.skillIndexInColumn);
         return btn;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        Vector2 currentMousePosition = eventData.position;
-        Vector3 oldPos = rect.position;
-        rect.position = currentMousePosition - clickPositionOffset;
-        if (!IsRectTransformInsideSreen())
-        {
-            rect.position = oldPos;
-        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -72,20 +66,5 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
         UIEventSystem.current.DraggingButton(this, false);
         // Destroy drag around button
         Destroy(gameObject);
-    }
-
-    private bool IsRectTransformInsideSreen()
-    {
-        Vector3[] corners = new Vector3[4];
-        rect.GetWorldCorners(corners);
-        Rect screen = new Rect(0, 0, Screen.width, Screen.height);
-        foreach (Vector3 corner in corners)
-        {
-            if (!screen.Contains(corner))
-            {
-                return false;
-            }
-        }
-        return true;
     }
 }

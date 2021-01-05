@@ -1,7 +1,7 @@
 ﻿
 public class LightningSimpleSwing : SimpleSlash
 {
-    public override string Name => "Lightning Slash";
+    public override string skillName => "Lightning Slash";
 
     void Start()
     {

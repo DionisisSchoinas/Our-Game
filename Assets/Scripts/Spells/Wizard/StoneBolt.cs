@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StoneBolt : SpellTypeBolt
 {
-    public override string Name => "Stone Bolt";
+    public override string skillName => "Stone Bolt";
 
     private void Start()
     {

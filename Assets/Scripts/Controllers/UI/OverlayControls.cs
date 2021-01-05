@@ -5,30 +5,32 @@ using System.Linq;
 
 public class OverlayControls : MonoBehaviour
 {
-    public GameObject quickbar;
-    public GameObject spellListDisplay;
+    public GameObject buttonQuickbar;
+    public CanvasGroup spellListDisplay;
     public GameObject columnContentHolder;
+    public GameObject dodgeDisplay;
+    public float secondsAfterPickingSkill = 0.02f;
     // Quickbar data
+    [HideInInspector]
     public Button[] quickbarButtons;
     [HideInInspector]
     public RectTransform[] quickbarButtonTransforms;
     [HideInInspector]
-    public ButtonContainer[] quickbarButtonContainers;
+    public QuickbarButton[] quickbarButtonContainers;
 
-    private OverlayToWeaponAdapter overlayToWeaponAdapter;
+    [HideInInspector]
+    public OverlayToWeaponAdapter overlayToWeaponAdapter;
+
     private SkillListFill skillList;
     private ButtonContainer lastSelected;
-    private ColorBlock selectedColorBlock;
-    private bool paused;
+    private bool skillListUp;
+
+    public static float skillFreezeDuration;
 
 
     private void Start()
     {
         overlayToWeaponAdapter = FindObjectOfType<OverlayToWeaponAdapter>();
-
-        selectedColorBlock = ColorBlock.defaultColorBlock;
-        selectedColorBlock.normalColor = Color.red;
-        selectedColorBlock.highlightedColor = Color.magenta;
 
         skillList = gameObject.AddComponent<SkillListFill>();
         skillList.weaponAdapter = overlayToWeaponAdapter;
@@ -37,13 +39,21 @@ public class OverlayControls : MonoBehaviour
 
         skillList.FillList();
 
-        spellListDisplay.SetActive(false);
+        SetSkillListState(false);
         spellListDisplay.gameObject.AddComponent<ElementHover>();
 
-        if (quickbarButtons.Length < 5)
-            Debug.LogError("Quickbar needs at least 5 buttons");
+        quickbarButtons = buttonQuickbar.GetComponentsInChildren<Button>();
 
-        quickbarButtonContainers = new ButtonContainer[quickbarButtons.Length];
+        for (int i = 0; i < quickbarButtons.Length; i++)
+        {
+            if (quickbarButtons[i] == null)
+            {
+                Debug.LogError("Quickbar needs at least 5 buttons");
+                break;
+            }
+        }
+
+        quickbarButtonContainers = new QuickbarButton[quickbarButtons.Length];
         quickbarButtonTransforms = new RectTransform[quickbarButtons.Length];
         for (int i=0; i<quickbarButtons.Length; i++)
         {
@@ -54,15 +64,18 @@ public class OverlayControls : MonoBehaviour
             // Save values on the buttons script
             quickbarButtonContainers[i].buttonData = new ButtonData(quickbarButtons[i], skill, i, i, butttonText);
             quickbarButtonContainers[i].overlayControls = this;
-            quickbarButtonContainers[i].parent = quickbar.transform;
+            quickbarButtonContainers[i].parent = buttonQuickbar.transform;
 
             // Transforms
             quickbarButtonTransforms[i] = quickbarButtons[i].GetComponent<RectTransform>();
         }
 
-        ResetLastButton();
         // Hightlight the quickbar skills in the skill list
         HighlightQuickbarInList();
+
+        skillFreezeDuration = secondsAfterPickingSkill;
+
+        SetSelectedQuickBar(0);
 
         UIEventSystem.current.onDraggingButton += DraggingButton;
     }
@@ -99,7 +112,7 @@ public class OverlayControls : MonoBehaviour
         // Escape
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (paused)
+            if (skillListUp)
             {
                 ChangeSkillListState();
             }
@@ -138,13 +151,26 @@ public class OverlayControls : MonoBehaviour
 
     private void ChangeSkillListState()
     {
-        paused = !paused;
-        UIEventSystem.current.SetHover(paused);
-        UIEventSystem.current.SetSkillListUp(paused);
-        PauseGame(paused);
-        spellListDisplay.SetActive(paused);
+        skillListUp = !skillListUp;
+        UIEventSystem.current.SetHover(skillListUp);
+        UIEventSystem.current.SetSkillListUp(skillListUp);
+        SetSkillListState(skillListUp);
+    }
 
-        ResetLastButton();
+    private void SetSkillListState(bool show)
+    {
+        if (show)
+        {
+            spellListDisplay.alpha = 1f;
+            spellListDisplay.interactable = true;
+            spellListDisplay.blocksRaycasts = true;
+        }
+        else
+        {
+            spellListDisplay.alpha = 0f;
+            spellListDisplay.interactable = false;
+            spellListDisplay.blocksRaycasts = false;
+        }
     }
 
     private void DraggingButton(ButtonContainer buttonContainer, bool dragging)
@@ -182,22 +208,21 @@ public class OverlayControls : MonoBehaviour
     // Binds the container data to the button with this index -> selectedQuickbar
     private void BindSkillToQuickbar(ButtonContainer container, int selectedQuickbar)
     {
-        quickbarButtonContainers[selectedQuickbar].buttonData.NewData(container.buttonData);
+        quickbarButtonContainers[selectedQuickbar].buttonData.NewData(container);
         HighlightQuickbarInList();
-        ResetLastButton();
     }
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
-        // Update Adapter
-        overlayToWeaponAdapter.SelectedOnQuickbar(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
-    }
+        /*
+        if (quickbarButtonContainers[selectedQuickbar].buttonData.skill.onCooldown)
+        {
+            Debug.Log("On Cooldown");
+            return;
+        }*/
 
-    private void ResetLastButton()
-    {
-        if (lastSelected != null)
-            lastSelected.button.colors = ColorBlock.defaultColorBlock;
-        lastSelected = null;
+        // Update Adapter
+        UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
     }
 
     private void PauseGame(bool pause)

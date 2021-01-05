@@ -16,12 +16,14 @@ public class SpellTypeRay : Spell
     private GameObject tmpRay;
     private SpellIndicatorController indicatorController;
 
-    public override string Type => "Ray";
-    public override string Name => "Ray";
-    public override bool Channel => true;
+    public override string type => "Ray";
+    public override string skillName => "Ray";
+    public override bool channel => true;
+    public override float cooldown { get => 2f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
         boxSize = (new Vector3(3f, 5f, 18f)) / 2f;
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
@@ -32,9 +34,18 @@ public class SpellTypeRay : Spell
         collisions = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
     }
 
+    public new void StartCooldown()
+    {
+        // If it was already firing a ray
+        if (isChanneling)
+        {
+            base.StartCooldown();
+        }
+    }
+
     public override void CastSpell(Transform firePoint, bool holding)
     {
-        if (holding)
+        if (holding && !cancelled)
         {
             if (tmpRay == null)
             {
@@ -42,13 +53,24 @@ public class SpellTypeRay : Spell
                 indicatorController = tmpRay.AddComponent<SpellIndicatorController>();
                 indicatorController.SelectLocation(firePoint, 3f, 18f, SpellIndicatorController.SquareIndicator);
                 tmpRay.SetActive(true);
+                isChanneling = true;
             }
         }
         else
         {
-            indicatorController.DestroyIndicator();
-            Destroy(tmpRay);
+            if (cancelled)
+                cancelled = false;
+
+            if (indicatorController != null)
+                indicatorController.DestroyIndicator();
+            Destroy(tmpRay.gameObject);
+            isChanneling = false;
         }
+    }
+
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     private void Damage()

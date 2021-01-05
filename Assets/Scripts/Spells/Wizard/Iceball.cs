@@ -5,7 +5,7 @@ using UnityEngine;
 public class Iceball : SpellTypeBall
 {
 
-    public override string Name => "Ice Ball";
+    public override string skillName => "Ice Ball";
 
     public override ParticleSystem GetSource()
     {

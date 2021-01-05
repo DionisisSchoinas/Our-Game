@@ -18,8 +18,9 @@ public class SwordEffect : BasicSword
     private SwordEffect currentEffect;
     private Transform tipPoint, basePoint;
 
-    public override string Type => "Sword Effect";
-    public override string Name => "Sword Effect";
+    public override string type => "Sword Effect";
+    public override string skillName => "Sword Effect";
+    public override float cooldown { get => 0.7f; }
 
     public void Awake()
     {

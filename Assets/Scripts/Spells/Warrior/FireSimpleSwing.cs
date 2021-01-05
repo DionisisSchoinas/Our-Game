@@ -1,7 +1,7 @@
 ﻿
 public class FireSimpleSwing : SimpleSlash
 {
-    public override string Name => "Fire Slash";
+    public override string skillName => "Fire Slash";
 
     void Start()
     {

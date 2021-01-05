@@ -13,20 +13,22 @@ public class SpellTypeStorm : Spell
     public Condition condition;
 
     private GameObject tmpStorm;
-    private SpellIndicatorController indicatorController;
-    private IndicatorResponse indicatorResponse;
-
-    private GameObject tmpIndicatorHolder;
+    protected SpellIndicatorController indicatorController;
+    protected IndicatorResponse indicatorResponse;
+    protected GameObject tmpIndicatorHolder;
 
     [HideInInspector]
     public GameObject[] collisions;
 
-    public override string Type => "Storm";
-    public override string Name => "Storm";
-    public override bool Channel => true;
+    public override string type => "Storm";
+    public override string skillName => "Storm";
+    public override bool channel => true;
+    public override float cooldown { get => 2f; }
 
-    private void Awake()
+    public new void Awake()
     {
+        base.Awake();
+        cancelled = false;
         InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
     }
 
@@ -39,7 +41,6 @@ public class SpellTypeStorm : Spell
 
     public override void CastSpell(Transform firePoint, bool holding)
     {
-
         if (tmpStorm == null)
         {
             if (holding)
@@ -53,7 +54,7 @@ public class SpellTypeStorm : Spell
                 if (indicatorController != null)
                 {
                     indicatorResponse = indicatorController.LockLocation();
-                    if (!indicatorResponse.isNull)
+                    if (!indicatorResponse.isNull && !cancelled)
                     {
                         tmpStorm = Instantiate(gameObject);
                         tmpStorm.transform.position = indicatorResponse.centerOfAoe + Vector3.up * 40f;
@@ -62,11 +63,19 @@ public class SpellTypeStorm : Spell
                     }
                     else
                     {
+                        if (cancelled)
+                            cancelled = false;
+
                         Clear();
                     }
                 }
             }
         }
+    }
+
+    public override void CancelCast()
+    {
+        cancelled = true;
     }
 
     private void Damage()
@@ -97,9 +106,11 @@ public class SpellTypeStorm : Spell
             Clear();
         }
     }
-    private void Clear()
+
+    protected void Clear()
     {
-        indicatorController.DestroyIndicator();
+        if (indicatorController != null)
+            indicatorController.DestroyIndicator();
         Destroy(tmpIndicatorHolder.gameObject);
     }
 

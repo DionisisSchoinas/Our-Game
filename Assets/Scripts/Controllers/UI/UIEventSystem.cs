@@ -28,30 +28,76 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
-    public event Action<bool> skillListUp;
+    public event Action<bool> onSkillListUp;
     public void SetSkillListUp(bool up)
     {
-        if (skillListUp != null)
+        if (onSkillListUp != null)
         {
-            skillListUp(up);
+            onSkillListUp(up);
         }
     }
 
-    public event Action<int> highlightButtonInSkillList;
+    public event Action<int> onHighlightButtonInSkillList;
     public void SetHighlight(int indexInAdapter)
     {
-        if (highlightButtonInSkillList != null)
+        if (onHighlightButtonInSkillList != null)
         {
-            highlightButtonInSkillList(indexInAdapter);
+            onHighlightButtonInSkillList(indexInAdapter);
         }
     }
 
-    public event Action unhighlightButtonsInSkillList;
+    public event Action onUnhighlightButtonsInSkillList;
     public void UnHighlightSKillList()
     {
-        if (highlightButtonInSkillList != null)
+        if (onHighlightButtonInSkillList != null)
         {
-            unhighlightButtonsInSkillList();
+            onUnhighlightButtonsInSkillList();
+        }
+    }
+
+    public event Action<int, float> onFreezeAllSkills;
+    public void FreezeAllSkills(int uniqueAdapterIndex, float delay)
+    {
+        if (onHighlightButtonInSkillList != null)
+        {
+            onFreezeAllSkills(uniqueAdapterIndex, delay);
+        }
+    }
+
+    public event Action<int> onSkillPicked;
+    public void SkillPicked(int skillIndexInAdapter)
+    {
+        if (onSkillPicked != null)
+        {
+            onSkillPicked(skillIndexInAdapter);
+        }
+    }
+
+    public event Action<int> onSkillCast;
+    public void SkillCast(int uniqueId)
+    {
+        if (onSkillCast != null)
+        {
+            onSkillCast(uniqueId);
+        }
+    }
+
+    public event Action<float> onDodgeFinish;
+    public void Dodged(float cooldown)
+    {
+        if (onDodgeFinish != null)
+        {
+            onDodgeFinish(cooldown);
+        }
+    }
+
+
+    public event Action<Skill, float> onStartCooldown;
+    public void StartCooldown(Skill skill, float delay)
+    {
+        if (onStartCooldown != null)
+        {
+            onStartCooldown(skill, delay);
         }
     }
 }

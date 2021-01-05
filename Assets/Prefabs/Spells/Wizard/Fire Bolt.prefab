@@ -14272,7 +14272,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3956823411663701898}
   - component: {fileID: 3956823411663701899}
-  - component: {fileID: 8047276160424979684}
   - component: {fileID: 5468378603873797052}
   m_Layer: 8
   m_Name: Fire Bolt
@@ -14314,20 +14313,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!136 &8047276160424979684
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3956823411663701910}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5468378603873797052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14340,8 +14325,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa285c5b08ee710479d82a9b70bd0726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 1
+  onCooldown: 0
+  cooldownPercentage: 0
+  cancelled: 0
   damage: 15
   speed: 40
-  rb: {fileID: 3956823411663701899}
+  range: 50
   explosionParticles: {fileID: 8289330964062763208, guid: 72cb46b6b72bfa84c8c62d920af76b81,
     type: 3}
+  damageType: 0

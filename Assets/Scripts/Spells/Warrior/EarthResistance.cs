@@ -2,7 +2,7 @@
 
 public class EarthResistance : ResistanceEffect
 {
-    public override string Name => "Physical Resistance";
+    public override string skillName => "Physical Resistance";
 
     private void Start()
     {

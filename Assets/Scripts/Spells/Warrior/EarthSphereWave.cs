@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EarthSphereWave : SphereBurst
 {
-    public override string Name => "Earth Sphere Wave";
+    public override string skillName => "Earth Sphere Wave";
 
     void Start()
     {

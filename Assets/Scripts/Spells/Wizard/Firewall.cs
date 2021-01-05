@@ -2,7 +2,7 @@
 
 public class Firewall : SpellTypeWall
 {
-    public override string Name => "Fire Wall";
+    public override string skillName => "Fire Wall";
 
     private void Start()
     {
