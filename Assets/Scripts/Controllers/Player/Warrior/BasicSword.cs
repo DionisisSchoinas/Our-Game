@@ -2,12 +2,12 @@
 
 public abstract class BasicSword : Skill
 {
-    public float swingCooldown => 0.7f;
+    public float swingCooldown => 0.8f;
 
     public abstract void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh);
 
     public void StartSwingCooldown()
     {
-        StartCooldownWithoutEvent(swingCooldown);
+        UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId, swingCooldown - 0.05f);
     }
 }

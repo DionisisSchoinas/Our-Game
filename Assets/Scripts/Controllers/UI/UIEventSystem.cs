@@ -73,12 +73,12 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
-    public event Action<int> onSkillCast;
-    public void SkillCast(int uniqueId)
+    public event Action<int, float> onSkillCast;
+    public void SkillCast(int uniqueId, float cooldown)
     {
         if (onSkillCast != null)
         {
-            onSkillCast(uniqueId);
+            onSkillCast(uniqueId, cooldown);
         }
     }
 

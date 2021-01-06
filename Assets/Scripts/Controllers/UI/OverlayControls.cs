@@ -217,15 +217,11 @@ public class OverlayControls : MonoBehaviour
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
-        /*
-        if (quickbarButtonContainers[selectedQuickbar].buttonData.skill.onCooldown)
+        if (!skillListUp)
         {
-            Debug.Log("On Cooldown");
-            return;
-        }*/
-
-        // Update Adapter
-        UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
+            // Update Adapter
+            UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
+        }
     }
 
     private void PauseGame(bool pause)

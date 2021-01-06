@@ -6083,7 +6083,7 @@ MonoBehaviour:
   spellListDisplay: {fileID: 1981257800}
   columnContentHolder: {fileID: 1670486413}
   dodgeDisplay: {fileID: 7384456461897142333}
-  secondsAfterPickingSkill: 0.02
+  secondsAfterPickingSkill: 0.1
   secondsAfterCastingSkill: 0.5
   quickbarButtons:
   - {fileID: 0}

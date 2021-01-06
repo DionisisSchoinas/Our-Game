@@ -14,7 +14,7 @@ public class MeleeController : MonoBehaviour
     [HideInInspector]
     public bool attacking = false;//check if already attacking
     public bool canAttack = true;//check if the cooldown has passed
-    public float meleeCooldown = 0.2f;
+    //public float meleeCooldown = 0.2f;
     bool canHit;
     //combo counters 
     /*
@@ -31,9 +31,14 @@ public class MeleeController : MonoBehaviour
     public float comboCoolDown;
     //direction lock
     public bool isDuringAttack;
+
+    private float lastSwingTime;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        lastSwingTime = Time.time;
         canHit = true;
         indicator = GetComponent<AttackIndicator>() as AttackIndicator;
         controls = GetComponent<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
@@ -44,37 +49,41 @@ public class MeleeController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (controls.mousePressed_1)
+        if (!sword.GetSelectedEffect().onCooldown && Time.time - lastSwingTime >= sword.GetSelectedEffect().swingCooldown)
         {
-            if (canHit && !comboLock)
+            if (controls.mousePressed_1)
             {
-                if (comboQueue.Count < 3)
+                if (canHit && !comboLock)
                 {
+                    if (comboQueue.Count < 3)
+                    {
 
-                    AttackAnimations();
-                    comboQueue.Add(0);
-                    //reset = 0f;
+                        AttackAnimations();
+                        comboQueue.Add(0);
+                        //reset = 0f;
 
+                    }
+                    canHit = false;
+                    lastSwingTime = Time.time;
                 }
-                canHit = false;
             }
-        }
-        else
-        {
-            canHit = true;
-        }
+            else
+            {
+                canHit = true;
+            }
 
-        if (comboQueue.Count != 0 && !attacking)
-        {
-            attacking = true;
-            isDuringAttack = true;
-            StartCoroutine(controls.Stun(0.5f));
+            if (comboQueue.Count != 0 && !attacking)
+            {
+                attacking = true;
+                isDuringAttack = true;
+                StartCoroutine(controls.Stun(0.5f));
 
-            //StartCoroutine(PerformAttack(attackDelay));
-            Attack();
+                //StartCoroutine(PerformAttack(attackDelay));
+                Attack();
 
-            comboCurrent = 0f;
+                comboCurrent = 0f;
 
+            }
         }
         // else if (comboQueue.Count != 0)
         //{
@@ -122,8 +131,6 @@ public class MeleeController : MonoBehaviour
     {
         AttackAnimations();
         sword.Attack(controls, indicator);
-
-        UIEventSystem.current.FreezeAllSkills(sword.GetSelectedEffect().uniqueOverlayToWeaponAdapterId, OverlayControls.skillFreezeAfterCasting);
     }
 
     IEnumerator ComboCooldown(float comboCooldown)

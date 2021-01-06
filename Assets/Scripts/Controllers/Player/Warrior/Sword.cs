@@ -42,7 +42,10 @@ public class Sword : MonoBehaviour
 
     public void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
     {
+        currentEffect.StartSwingCooldown();
         currentEffect.Attack(controls, indicator, playerMesh);
+
+        UIEventSystem.current.FreezeAllSkills(swordEffects[selectedEffect].uniqueOverlayToWeaponAdapterId, OverlayControls.skillFreezeAfterCasting);
     }
 
     private void ChangeSwordEffect()
