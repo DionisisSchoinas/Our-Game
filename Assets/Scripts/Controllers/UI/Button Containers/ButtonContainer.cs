@@ -57,7 +57,7 @@ public class ButtonContainer : ElementHover, IDragHandler
     //------------ Reset functions ------------
     public void CheckCooldown()
     {
-        StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+        StartCoroutine(StartCooldown());
     }
 
 
@@ -99,8 +99,10 @@ public class ButtonContainer : ElementHover, IDragHandler
     {
         if (!coolingDown && isActiveAndEnabled)
         {
-            buttonData.skill.StartCooldownWithoutEvent(overlayControls.secondsAfterPickingSkill);
-            StartCoroutine(StartCooldown(overlayControls.secondsAfterPickingSkill));
+            if (!buttonData.skill.onCooldown)
+                buttonData.skill.StartCooldownWithoutEvent(overlayControls.secondsAfterPickingSkill);
+
+            StartCoroutine(StartCooldown());
         }
     }
 
@@ -108,7 +110,7 @@ public class ButtonContainer : ElementHover, IDragHandler
     {
         if (!coolingDown && buttonData.skill.uniqueOverlayToWeaponAdapterId == uniqueAdapterId && isActiveAndEnabled)
         {
-            StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+            StartCoroutine(StartCooldown());
         }
     }
 
@@ -116,15 +118,17 @@ public class ButtonContainer : ElementHover, IDragHandler
     {
         if (!coolingDown && isActiveAndEnabled && buttonData.skill.uniqueOverlayToWeaponAdapterId != uniqueAdapterIndex)
         {
-            buttonData.skill.StartCooldownWithoutEvent(delay);
-            StartCoroutine(StartCooldown(delay));
+            if (!buttonData.skill.onCooldown)
+                buttonData.skill.StartCooldownWithoutEvent(delay);
+
+            StartCoroutine(StartCooldown());
         }
     }
 
-    private IEnumerator StartCooldown(float cooldown)
+    private IEnumerator StartCooldown()
     {
         coolingDown = true;
-        float delayForEachStep = cooldown / 100f;
+        float delayForEachStep = buttonData.skill.activeCooldown / 100f;
         while (buttonData.skill.onCooldown)
         {
             buttonImageCooldown.fillAmount = buttonData.skill.cooldownPercentage;

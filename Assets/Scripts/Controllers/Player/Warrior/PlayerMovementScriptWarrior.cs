@@ -66,7 +66,7 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
         }
 
        
-        if ( meleeController.isDuringAttack)  // if mouse down OR if already firing basic
+        if (meleeController.isDuringAttack)  // if mouse down OR if already firing basic
         {
             transform.rotation = indicatorWheel.rotation;
         }

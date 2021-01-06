@@ -10,6 +10,7 @@ public class OverlayControls : MonoBehaviour
     public GameObject columnContentHolder;
     public GameObject dodgeDisplay;
     public float secondsAfterPickingSkill = 0.02f;
+    public float secondsAfterCastingSkill = 0.02f;
     // Quickbar data
     [HideInInspector]
     public Button[] quickbarButtons;
@@ -25,7 +26,8 @@ public class OverlayControls : MonoBehaviour
     private ButtonContainer lastSelected;
     private bool skillListUp;
 
-    public static float skillFreezeDuration;
+    public static float skillFreezeAfterPicking;
+    public static float skillFreezeAfterCasting;
 
 
     private void Start()
@@ -73,7 +75,8 @@ public class OverlayControls : MonoBehaviour
         // Hightlight the quickbar skills in the skill list
         HighlightQuickbarInList();
 
-        skillFreezeDuration = secondsAfterPickingSkill;
+        skillFreezeAfterPicking = secondsAfterPickingSkill;
+        skillFreezeAfterCasting = secondsAfterCastingSkill;
 
         SetSelectedQuickBar(0);
 

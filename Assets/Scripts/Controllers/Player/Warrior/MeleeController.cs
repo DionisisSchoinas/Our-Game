@@ -17,11 +17,13 @@ public class MeleeController : MonoBehaviour
     public float meleeCooldown = 0.2f;
     bool canHit;
     //combo counters 
+    /*
     public float reset;
     public float resetTime;
+    */
     //combo spacers 
     public float comboCurrent;
-    public float comboTime=0.7f;
+    public float comboTime = 0.7f;
     //Combo queue 
     public List<int> comboQueue = new List<int>();
     //combo spam regulation
@@ -51,7 +53,7 @@ public class MeleeController : MonoBehaviour
 
                     AttackAnimations();
                     comboQueue.Add(0);
-                    reset = 0f;
+                    //reset = 0f;
 
                 }
                 canHit = false;
@@ -91,10 +93,9 @@ public class MeleeController : MonoBehaviour
             isDuringAttack = false;
             animations.ResetAttack();
         }
-        else if (comboQueue.Count == 3)
+        else if (comboQueue.Count >= 3)
         {
             StartCoroutine(ComboCooldown(comboCoolDown));
-           
         }
        
         if (attacking)
@@ -105,7 +106,6 @@ public class MeleeController : MonoBehaviour
             
             if (comboCurrent > comboTime)
             {
-               
                 comboQueue.RemoveAt(0);
                 attacking = false;
             }
@@ -122,24 +122,8 @@ public class MeleeController : MonoBehaviour
     {
         AttackAnimations();
         sword.Attack(controls, indicator);
-    }
 
-    IEnumerator PerformAttack(float attackDelay)
-    {
-
-        //AttackAnimations();
-        yield return new WaitForSeconds(attackDelay);
-        controls.sliding = true;
-        
-       
-        foreach (Transform visibleTarget in indicator.visibleTargets)
-        {
-            Debug.Log(visibleTarget.name);
-            HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, DamageTypesManager.Physical);
-            HealthEventSystem.current.ApplyForce(visibleTarget.name, transform.forward, 10f);
-        }
-        yield return new WaitForSeconds(0.1f);
-        controls.sliding = false;
+        UIEventSystem.current.FreezeAllSkills(sword.GetSelectedEffect().uniqueOverlayToWeaponAdapterId, OverlayControls.skillFreezeAfterCasting);
     }
 
     IEnumerator ComboCooldown(float comboCooldown)
