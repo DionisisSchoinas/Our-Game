@@ -5,39 +5,12 @@ using UnityEngine;
 
 public class PlayerMovementScriptWizard : PlayerMovementScript
 {
-    public CharacterController controller;
-    public Transform indicatorWheel;
-    public Transform groundCheck;
-    public LayerMask groundMask;
-    
-    public float speed = 6f;
-    public float maxRunSpeed = 12f;
-    public float gravity = -9.81f;
-    public float groundDistance = 0.4f;
-    public float jumpHeight = 2f;
-    public float smoothing = 0.1f;
-    float smoothVelocity;
-    public float runspeed = 0f;
-
     public GameObject dodgeSkill;
     private WizardDodge dodgeScript;
     public float dodgeDuration = 0.5f;
     public float dodgeDistance = 10f;
-    public float dodgeCooldown = 0.5f;
     public float stunAfterDodge = 0.05f;
 
-    public Vector3 direction;
-   
-    Vector3 velocity;
-
-    public bool isGrounded;
-    public bool canMove;
-    public bool casting;
-
-    private float horizontal;
-    private float vertical;
-    private bool running;
-    private bool jump;
     private bool dodge;
     private bool dodging;
     private float lastDodge;
@@ -45,18 +18,10 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
     private ParticleSystem dodgeParticleSystem;
     private CameraShake cameraShake;
 
-    private void Start()
+    public new void Start()
     {
-        canMove = true;
-        casting = false;
-        mousedown_1 = false;
-        mousedown_2 = false;
-        lockMouseInputs = false;
+        base.Start();
 
-        horizontal = 0f;
-        vertical = 0f;
-        running = false;
-        jump = false;
         dodge = false;
         dodging = false;
         lastDodge = Time.time;
@@ -69,50 +34,9 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         cameraShake = FindObjectOfType<CameraShake>();
     }
 
-    private void Update()
+    public new void Update()
     {
-        //get horizontal and vertical axes
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
-        // Controlled inputs which lock other if one is pressed
-        if (Input.GetMouseButtonDown(0) && !mousedown_2 && !lockMouseInputs)
-        {
-            mousedown_1 = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            mousedown_1 = false;
-        }
-        if (Input.GetMouseButtonDown(1) && !mousedown_1 && !lockMouseInputs)
-        {
-            mousedown_2 = true;
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            mousedown_2 = false;
-        }
-
-        // Raw inputs
-        if (Input.GetMouseButtonDown(0) && !lockMouseInputs)
-        {
-            mouse_1 = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            mouse_1 = false;
-        }
-        if (Input.GetMouseButtonDown(1) && !lockMouseInputs)
-        {
-            mouse_2 = true;
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            mouse_2 = false;
-        }
-
-        running = Input.GetKey(KeyCode.LeftShift);
-        jump = Input.GetKey(KeyCode.C);
+        base.Update();
 
         if (!dodging && !dodgeScript.onCooldown)
             dodge = Input.GetKey(KeyCode.Space);
@@ -134,7 +58,7 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
             velocity.y = -2f;
         }
         //=================== Dodge =================== 
-        if (dodge && lastDodge + dodgeCooldown <= Time.time)
+        if (dodge && lastDodge + dodgeScript.cooldown <= Time.time)
         {
             dodgeDirection = Quaternion.Euler(0, 45, 0) * new Vector3(horizontal, 0f, vertical).normalized;
             if (dodgeDirection == Vector3.zero)
@@ -244,13 +168,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         {
             dodgeParticleSystem.Stop();
         }
-    }
-
-    IEnumerator Stun(float second)
-    {
-        canMove = false;
-        yield return new WaitForSeconds(second);
-        canMove = true;
     }
 
     IEnumerator DodgeTimer(float seconds)
