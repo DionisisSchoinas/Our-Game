@@ -7990,6 +7990,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126953, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: comboCoolDown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126953, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swingDuration
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126953, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: attackDelay
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126953, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: comboTime
+      value: 0.85
+      objectReference: {fileID: 0}
     - target: {fileID: 4096420264601712552, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
       propertyPath: spellNameDisplay

@@ -133,9 +133,6 @@ public class ButtonContainer : ElementHover, IDragHandler
         buttonAlreadyDisplayingCooldown = true;
         float delayForEachStep = cooldown / 100f;
 
-        if (buttonData.skill.uniqueOverlayToWeaponAdapterId == 0)
-            Debug.Log(buttonAlreadyDisplayingCooldown + " " + cooldown + " " + buttonData.skill.onCooldown);
-
         while (buttonData.skill.cooldownPercentage < 1)
         {
             buttonImageCooldown.fillAmount = buttonData.skill.cooldownPercentage;

@@ -10,127 +10,149 @@ public class MeleeController : MonoBehaviour
     private Sword sword;
 
     public AttackIndicator indicator;
-    public float attackDelay;
-    [HideInInspector]
-    public bool attacking = false;//check if already attacking
-    public bool canAttack = true;//check if the cooldown has passed
-    //public float meleeCooldown = 0.2f;
-    bool canHit;
-    //combo counters 
-    /*
-    public float reset;
-    public float resetTime;
-    */
-    //combo spacers 
-    public float comboCurrent;
-    public float comboTime = 0.7f;
+
+    private bool attacking; //check if already attacking
+    private bool canHit;
+    //Combo spacers 
+    private float comboCurrent;
     //Combo queue 
-    public List<int> comboQueue = new List<int>();
-    //combo spam regulation
-    bool comboLock;
-    public float comboCoolDown;
-    //direction lock
+    private List<int> comboQueue;
+    // Combo spam regulation
+    public bool comboLock;
+    public float comboCooldown;
+    // Counters for swings and limit
+    private int comboSwings;
+    private int clicks;
+    // Direction lock
     public bool isDuringAttack;
-
-    private float lastSwingTime;
-
+    // Mosue lock
+    private bool lockedMouseClick;
 
     // Start is called before the first frame update
     void Start()
     {
-        lastSwingTime = Time.time;
-        canHit = true;
         indicator = GetComponent<AttackIndicator>() as AttackIndicator;
         controls = GetComponent<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
         animations = GetComponent<AnimationScriptControllerWarrior>() as AnimationScriptControllerWarrior;
         sword = GetComponent<Sword>() as Sword;
+
+        comboQueue = new List<int>();
+
+        attacking = false;
+        canHit = true;
+        comboLock = false;
         isDuringAttack = false;
+        lockedMouseClick = false;
+
+        comboCurrent = 0f;
+        comboSwings = 0;
+        clicks = 0;
     }
 
     void FixedUpdate()
     {
-        if (!sword.GetSelectedEffect().onCooldown && Time.time - lastSwingTime >= sword.GetSelectedEffect().swingCooldown)
+        // Detect mouse click and start animation
+        if (controls.mousePressed_1 && !lockedMouseClick)
         {
-            if (controls.mousePressed_1)
+            if (canHit && !comboLock)
             {
-                if (canHit && !comboLock)
+                // Lock hits
+                canHit = false;
+                if (comboQueue.Count < 3)
                 {
-                    if (comboQueue.Count < 3)
-                    {
+                    // Limit clicks to +2 of current swing
+                    if (clicks <= comboSwings + 1)
+                        clicks++;
 
-                        AttackAnimations();
-                        comboQueue.Add(0);
-                        //reset = 0f;
-
-                    }
-                    canHit = false;
-                    lastSwingTime = Time.time;
+                    // Animate with swing limit (stops a fake combo 3 from firing)
+                    AttackAnimations(clicks);
+                    comboQueue.Add(0);
                 }
             }
-            else
-            {
-                canHit = true;
-            }
-
-            if (comboQueue.Count != 0 && !attacking)
-            {
-                attacking = true;
-                isDuringAttack = true;
-                StartCoroutine(controls.Stun(0.5f));
-
-                //StartCoroutine(PerformAttack(attackDelay));
-                Attack();
-
-                comboCurrent = 0f;
-
-            }
         }
-        // else if (comboQueue.Count != 0)
-        //{
-        //    reset += Time.deltaTime;
-        //    if (reset > resetTime)
-        //    {
-        //        attacking = false;
-        //        //comboQueue.Clear();
-        //
-        //        animations.ResetAttack();
-        //    }
-        //}
+        else if (!controls.mousePressed_1) // Lock mouse to avoid spam going thorough the canHit lock
+        {
+            StartCoroutine(LockMouse(0.05f));
+        }
 
-        if (comboQueue.Count == 0)
+        // Start the actual attack function
+        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3)
+        {
+            attacking = true;
+            isDuringAttack = true;
+            StartCoroutine(controls.Stun(0.5f));
+
+            Attack();
+
+            comboCurrent = 0f;
+        }
+        else if (comboSwings >= 3 || comboQueue.Count > 3 || comboSwings >= clicks || clicks > 3)
+        {
+            StartCoroutine(ComboCooldown(comboCooldown));
+            comboQueue.Clear();
+
+            attacking = false;
+            canHit = true;
+
+            comboSwings = 0;
+            clicks = 0;
+        }
+
+
+        if (comboQueue.Count == 0 && comboSwings != 0)
+        {
+            comboSwings = 0;
+        }
+        
+        if (comboQueue.Count == 0 && clicks != 0)
+        {
+            clicks = 0;
+        }
+        
+        if (comboQueue.Count == 0 && isDuringAttack)
         {
             isDuringAttack = false;
             animations.ResetAttack();
         }
-        else if (comboQueue.Count >= 3)
-        {
-            StartCoroutine(ComboCooldown(comboCoolDown));
-        }
        
+        // While the attack animation is playing
         if (attacking)
         {
-           
+            // Add time each frame
             comboCurrent += Time.deltaTime;
        
-            
-            if (comboCurrent > comboTime)
+            // Check if the swing has ended
+            if (comboCurrent > sword.GetSelectedEffect().swingCooldown)
             {
+                comboSwings++;
                 comboQueue.RemoveAt(0);
                 attacking = false;
+            }
+            // Unlock input earlier
+            else if (comboCurrent > sword.GetSelectedEffect().swingCooldown * 0.6f && !canHit)
+            {
+                canHit = true;
             }
         }
     }
 
-    private void AttackAnimations()
+    private void AttackAnimations(int limit)
     {
         sword.StartSwing();
-        animations.Attack();
+        animations.Attack(limit);
     }
 
     private void Attack()
     {
-        AttackAnimations();
         sword.Attack(controls, indicator);
+    }
+
+
+    IEnumerator LockMouse(float duration)
+    {
+        lockedMouseClick = true;
+        yield return new WaitForSeconds(duration);
+        lockedMouseClick = false;
     }
 
     IEnumerator ComboCooldown(float comboCooldown)

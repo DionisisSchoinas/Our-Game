@@ -810,7 +810,6 @@ MonoBehaviour:
   controller: {fileID: 2984568328822126955}
   indicatorWheel: {fileID: 2984568328732285137}
   groundCheck: {fileID: 2984568329905822400}
-  Cylinder: {fileID: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -819,7 +818,6 @@ MonoBehaviour:
   gravity: -9.81
   groundDistance: 0.4
   jumpHeight: 2
-  rollDistance: 10
   smoothing: 0.1
   runspeed: 0
   direction: {x: 0, y: 0, z: 0}
@@ -828,10 +826,11 @@ MonoBehaviour:
   casting: 0
   mousedown_1: 0
   mousedown_2: 0
-  menu: 0
   mouse_1: 0
   mouse_2: 0
   mousePressed_1: 0
+  lockMouseInputs: 0
+  rollDistance: 10
   rolling: 0
   rollSpeed: 15
   sliding: 0
@@ -849,18 +848,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4190a9fa21a849a41af1ab47017c359c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overlayController: {fileID: 0}
   indicator: {fileID: 2984568328822126950}
-  attackDelay: 0.5
-  attacking: 0
-  canAttack: 1
-  meleeCooldown: 0.2
-  reset: 0
-  resetTime: 0.7
-  comboCurrent: 0
-  comboTime: 0.6
-  comboQueue: 
-  comboCoolDown: 3
+  comboLock: 0
+  comboCooldown: 1
   isDuringAttack: 0
 --- !u!114 &2984568328822126950
 MonoBehaviour:
