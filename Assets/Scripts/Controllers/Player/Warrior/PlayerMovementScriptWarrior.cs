@@ -5,34 +5,7 @@ using UnityEngine;
 
 public class PlayerMovementScriptWarrior : PlayerMovementScript
 {
-    public CharacterController controller;
-    public Transform indicatorWheel;
-    public Transform groundCheck;
-    public Transform Cylinder;
-    public LayerMask groundMask;
-    
-    public float speed = 6f;
-    public float maxRunSpeed = 12f;
-    public float gravity = -9.81f;
-    public float groundDistance = 0.4f;
-    public float jumpHeight = 2f;
     public float rollDistance = 10f;
-    public float smoothing = 0.1f;
-    float smoothVelocity;
-    public float runspeed = 0f;
-  
-    public Vector3 direction;
-   
-    Vector3 velocity;
-
-    public bool isGrounded;
-    public bool canMove;
-    public bool casting;
-
-    private float horizontal;
-    private float vertical;
-    private bool running;
-    private bool jump;
 
     //Dodge
     private bool roll;
@@ -53,82 +26,21 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
     private MeleeController meleeController;
     
 
-    private void Start()
+    public new void Start()
     {
+        base.Start();
+
         meleeController = GameObject.FindObjectOfType<MeleeController>() as MeleeController;
-        canMove = true;
-        casting = false;
-        mousedown_1 = false;
-        mousedown_2 = false;
-        mousePressed_1 = false;
-        menu = false;
-   
-        horizontal = 0f;
-        vertical = 0f;
-        running = false;
-        jump = false;
 
         //Roll
         canRoll = true ;
-
-        lockMouseInputs = false;
     }
 
-    private void Update()
+    public new void Update()
     {
-        //get horizontal and vertical axes
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        base.Update();
 
-        // Controlled inputs which lock other if one is pressed
-        if (Input.GetMouseButtonDown(0) && !mousedown_2 && !lockMouseInputs)
-        {
-            mousedown_1 = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            mousedown_1 = false;
-        }
-        if (Input.GetMouseButtonDown(1) && !mousedown_1 && !lockMouseInputs)
-        {
-            mousedown_2 = true;
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            mousedown_2 = false;
-        }
-
-        // Raw inputs
-        if (Input.GetMouseButtonDown(0) && !lockMouseInputs)
-        {
-            mouse_1 = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            mouse_1 = false;
-        }
-        if (Input.GetMouseButtonDown(1) && !lockMouseInputs)
-        {
-            mouse_2 = true;
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            mouse_2 = false;
-        }
-        if (Input.GetMouseButton(0) && !lockMouseInputs)
-        {
-            mousePressed_1 = true;
-        }
-        else
-        {
-            mousePressed_1 = false;
-        }
-
-
-        running = Input.GetKey(KeyCode.LeftShift);
         roll = Input.GetKey(KeyCode.Space);
-        jump = Input.GetKey(KeyCode.L);
-
     }
 
     // Update is called once per frame
@@ -142,7 +54,7 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
         {
             if (velocity.y <= -20)
             {
-                StartCoroutine(stun(2f));
+                StartCoroutine(Stun(2f));
             }
             velocity.y = -2f;
         }
@@ -226,12 +138,6 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
         controller.Move(velocity * Time.deltaTime);
     }
 
-    public IEnumerator stun(float second)
-    {
-        canMove = false;
-        yield return new WaitForSeconds(second);
-        canMove = true;
-    }
     private IEnumerator PerformRoll(float second)
     {
         rolling = true;

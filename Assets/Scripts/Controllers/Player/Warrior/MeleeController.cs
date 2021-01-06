@@ -66,7 +66,7 @@ public class MeleeController : MonoBehaviour
         {
             attacking = true;
             isDuringAttack = true;
-            StartCoroutine(controls.stun(0.5f));
+            StartCoroutine(controls.Stun(0.5f));
 
             //StartCoroutine(PerformAttack(attackDelay));
             Attack();
