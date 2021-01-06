@@ -24,6 +24,7 @@ public class SpellTypeStorm : Spell
     public override string skillName => "Storm";
     public override bool channel => true;
     public override float cooldown { get => 2f; }
+    public override float duration { get => 10f; }
 
     public new void Awake()
     {
@@ -32,7 +33,7 @@ public class SpellTypeStorm : Spell
         InvokeRepeating(nameof(Damage), 1f, 1f / damageTicksPerSecond);
     }
 
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
         Vector3 capsuleTop = transform.position + Vector3.up * 8f;
         Collider[] colliders = Physics.OverlapCapsule(capsuleTop, capsuleTop + Vector3.down * 60f, 14f, BasicLayerMasks.DamageableEntities);
@@ -59,7 +60,7 @@ public class SpellTypeStorm : Spell
                         tmpStorm = Instantiate(gameObject);
                         tmpStorm.transform.position = indicatorResponse.centerOfAoe + Vector3.up * 40f;
                         tmpStorm.SetActive(true);
-                        Invoke(nameof(StopStorm), 10f);
+                        Invoke(nameof(StopStorm), duration);
                     }
                     else
                     {

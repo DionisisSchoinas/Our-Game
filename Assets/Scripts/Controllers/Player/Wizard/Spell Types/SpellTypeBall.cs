@@ -14,6 +14,7 @@ public class SpellTypeBall : Spell
     public override string type => "Ball";
     public override string skillName => "Ball";
     public override bool channel => false;
+    public override float duration { get => 0f; }
     public override float cooldown { get => 20f; }
     public float range => 25f;
 

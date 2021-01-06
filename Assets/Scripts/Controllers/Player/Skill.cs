@@ -16,6 +16,8 @@ public abstract class Skill : MonoBehaviour
 
     public abstract float cooldown { get; }
 
+    public abstract float duration { get; }
+
     public void Awake()
     {
         onCooldown = false;

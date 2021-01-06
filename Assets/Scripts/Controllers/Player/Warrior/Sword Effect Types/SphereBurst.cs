@@ -19,6 +19,7 @@ public class SphereBurst : SwordEffect
 
     public override string type => "Sphere Burst";
     public override string skillName => "Sphere Burst";
+    public override float cooldown => 10f;
 
     private new void Awake()
     {

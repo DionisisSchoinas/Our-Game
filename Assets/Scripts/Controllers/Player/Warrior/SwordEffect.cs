@@ -21,9 +21,11 @@ public class SwordEffect : BasicSword
     public override string type => "Sword Effect";
     public override string skillName => "Sword Effect";
     public override float cooldown { get => 0.7f; }
+    public override float duration { get => 0f; }
 
-    public void Awake()
+    public new void Awake()
     {
+        base.Awake();
         trails = new List<SwingTrailRenderer>();
     }
 

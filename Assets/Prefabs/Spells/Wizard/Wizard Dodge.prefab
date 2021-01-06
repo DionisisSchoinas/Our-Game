@@ -14462,6 +14462,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47b70f6bdc0f3e4a911e446482e02ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 0
+  onCooldown: 0
+  cooldownPercentage: 0
+  dodgeDuration: 0.2
 --- !u!1 &7295584108972442907
 GameObject:
   m_ObjectHideFlags: 0

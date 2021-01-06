@@ -14,6 +14,8 @@ public class ResistanceEffect : SwordEffect
 
     public override string type => "Resistance";
     public override string skillName => "No Resistance";
+    public override float cooldown => 10f;
+    public override float duration => 10f;
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {

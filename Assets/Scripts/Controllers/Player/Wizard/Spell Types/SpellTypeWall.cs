@@ -25,6 +25,7 @@ public class SpellTypeWall : Spell
     public override string skillName => "Wall";
     public override bool channel => true;
     public override float cooldown { get => 2f; }
+    public override float duration { get => 10f; }
 
     public new void Awake()
     {
@@ -33,7 +34,7 @@ public class SpellTypeWall : Spell
         InvokeRepeating(nameof(Damage), 0f, 1f / damageTicksPerSecond);
     }
 
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
         if (doDamage)
         {
@@ -63,7 +64,7 @@ public class SpellTypeWall : Spell
                         currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + indicatorResponse.centerOfAoe;
                         currentWall.transform.eulerAngles = indicatorResponse.spellRotation;
                         currentWall.SetActive(true);
-                        Invoke(nameof(DeactivateWall), 10f);
+                        Invoke(nameof(DeactivateWall), duration);
                     }
                     else
                     {

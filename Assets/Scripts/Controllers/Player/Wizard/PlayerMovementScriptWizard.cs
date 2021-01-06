@@ -7,7 +7,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
 {
     public GameObject dodgeSkill;
     private WizardDodge dodgeScript;
-    public float dodgeDuration = 0.5f;
     public float dodgeDistance = 10f;
     public float stunAfterDodge = 0.05f;
 
@@ -67,12 +66,12 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
             dodgeParticleSystem.transform.rotation = Quaternion.LookRotation(dodgeDirection);
 
             HealthEventSystem.current.SetInvunerable(gameObject.name, true);
-            StartCoroutine(DodgeTimer(dodgeDuration));
+            StartCoroutine(DodgeTimer(dodgeScript.duration));
         }
 
         if (dodging)
         {
-            controller.Move(dodgeDirection * (dodgeDistance / dodgeDuration) * Time.deltaTime);
+            controller.Move(dodgeDirection * (dodgeDistance / dodgeScript.duration) * Time.deltaTime);
             dodgeParticleSystem.transform.position = controller.transform.position;
         }
 
@@ -162,7 +161,7 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         if (enable)
         {
             dodgeParticleSystem.Play();
-            cameraShake.Shake(dodgeDuration / 2f, 1f);
+            cameraShake.Shake(dodgeScript.duration / 2f, 1f);
         }
         else
         {
