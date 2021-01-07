@@ -73,6 +73,15 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
+    public event Action<int> onSkillPickedRegistered;
+    public void SkillPickedRegister(int skillIndexInAdapter)
+    {
+        if (onSkillPickedRegistered != null)
+        {
+            onSkillPickedRegistered(skillIndexInAdapter);
+        }
+    }
+
     public event Action<int, float> onSkillCast;
     public void SkillCast(int uniqueId, float cooldown)
     {

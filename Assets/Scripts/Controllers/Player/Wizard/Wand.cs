@@ -57,20 +57,21 @@ public class Wand : MonoBehaviour
         return spells[selectedSpell];
     }
 
-    public void SetSelectedSpell(int value)
+    public bool SetSelectedSpell(int value)
     {
         // Release held spells
         if (castingBasic)
         {
             Cancel();
             StartCoroutine(ChangeSelectedIndex(castingAnimationSimple + castingAnimationSimpleReset / 2f, value));
-            return;
+            return true;
         }
         if (channeling)
         {
             Cancel();
         }
         SetSpellIndex(value);
+        return true;
     }
 
     private void SetSpellIndex(int value)

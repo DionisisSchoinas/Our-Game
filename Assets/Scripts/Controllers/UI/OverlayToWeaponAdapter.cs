@@ -78,12 +78,21 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     {
         if (skillIndexInAdapter < wandListLength)
         {
-            wand.SetSelectedSpell(skillIndexInAdapter);
+            // CHeck if the skill coudln't be selected
+            if (!wand.SetSelectedSpell(skillIndexInAdapter))
+            {
+                return;
+            }
         }
         else
         {
-            sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength);
+            // CHeck if the skill coudln't be selected
+            if (!sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength))
+            {
+                return;
+            }
         }
+        UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter);
         DisplaySkillName(skillIndexInAdapter);
     }
 

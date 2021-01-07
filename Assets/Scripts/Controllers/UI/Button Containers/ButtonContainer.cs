@@ -41,7 +41,7 @@ public class ButtonContainer : ElementHover, IDragHandler
 
         buttonAlreadyDisplayingCooldown = false;
 
-        UIEventSystem.current.onSkillPicked += SkillPicked;
+        UIEventSystem.current.onSkillPickedRegistered += SkillPicked;
         UIEventSystem.current.onSkillCast += SkillCast;
         UIEventSystem.current.onFreezeAllSkills += Freeze;
     }
@@ -49,7 +49,7 @@ public class ButtonContainer : ElementHover, IDragHandler
 
     public void OnDestroy()
     {
-        UIEventSystem.current.onSkillPicked -= SkillPicked;
+        UIEventSystem.current.onSkillPickedRegistered -= SkillPicked;
         UIEventSystem.current.onSkillCast -= SkillCast;
         UIEventSystem.current.onFreezeAllSkills -= Freeze;
     }

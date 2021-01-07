@@ -47,7 +47,7 @@ public class SwordEffect : BasicSword
         }
     }
 
-    public void StartSwing()
+    public void StartSwingTrail()
     {
         foreach (SwingTrailRenderer t in trails)
         {
@@ -55,7 +55,7 @@ public class SwordEffect : BasicSword
         }
     }
 
-    public void StopSwing()
+    public void StopSwingTrail()
     {
         foreach (SwingTrailRenderer t in trails)
         {

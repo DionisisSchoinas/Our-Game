@@ -80,13 +80,14 @@ public class MeleeController : MonoBehaviour
         {
             attacking = true;
             isDuringAttack = true;
+
             StartCoroutine(controls.Stun(0.5f));
 
             Attack();
 
             comboCurrent = 0f;
         }
-        else if (comboSwings >= 3 || comboQueue.Count > 3 || comboSwings >= clicks || clicks > 3)
+        else if (isDuringAttack && ( comboSwings >= 3 || comboQueue.Count > 3 || comboSwings >= clicks || clicks > 3) )
         {
             StartCoroutine(ComboCooldown(comboCooldown));
             comboQueue.Clear();
@@ -138,13 +139,12 @@ public class MeleeController : MonoBehaviour
 
     private void AttackAnimations(int limit)
     {
-        sword.StartSwing();
         animations.Attack(limit);
     }
 
     private void Attack()
     {
-        sword.Attack(controls, indicator);
+        sword.Attack(controls, indicator, comboSwings);
     }
 
 
@@ -158,7 +158,9 @@ public class MeleeController : MonoBehaviour
     IEnumerator ComboCooldown(float comboCooldown)
     {
         comboLock = true;
-        yield return new WaitForSeconds(comboCooldown);
+        yield return new WaitForSeconds(comboCooldown * 0.75f);
+        sword.isSwinging = false;
+        yield return new WaitForSeconds(comboCooldown * 0.25f);
         comboLock = false;
     }
 }
