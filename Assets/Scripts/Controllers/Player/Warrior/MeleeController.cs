@@ -172,9 +172,9 @@ public class MeleeController : MonoBehaviour
     IEnumerator ComboCooldown(float comboCooldown)
     {
         comboLock = true;
-        yield return new WaitForSeconds(comboCooldown * 0.75f);
+        yield return new WaitForSeconds(comboCooldown * 0.5f);
         sword.isSwinging = false;
-        yield return new WaitForSeconds(comboCooldown * 0.25f);
+        yield return new WaitForSeconds(comboCooldown * 0.5f);
         comboLock = false;
     }
 }

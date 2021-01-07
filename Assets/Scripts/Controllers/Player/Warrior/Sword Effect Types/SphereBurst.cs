@@ -37,7 +37,7 @@ public class SphereBurst : SwordEffect
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
-        StartCoroutine(PerformAttack(attackDelay, controls));
+        StartCoroutine(PerformAttack(comboTrailTimings[comboPhase].delayToFireSpell, controls));
     }
 
     IEnumerator PerformAttack(float attackDelay, PlayerMovementScriptWarrior controls)
@@ -45,7 +45,7 @@ public class SphereBurst : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, sphereRadius * 2f, sphereRadius * 2f, SpellIndicatorController.CircleIndicator);
-        indicatorController.DestroyIndicator(attackDelay + 0.1f);
+        indicatorController.DestroyIndicator(swingCooldown * 0.8f);
 
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;

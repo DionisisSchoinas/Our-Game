@@ -49,7 +49,8 @@ public class Sword : MonoBehaviour
     {
         isSwinging = true;
 
-        StartSwingTrail(comboPhase);
+        currentEffect.comboPhase = comboPhase;
+        StartSwingTrail();
         currentEffect.StartSwingCooldown();
         currentEffect.Attack(controls, indicator, playerMesh);
 
@@ -67,19 +68,16 @@ public class Sword : MonoBehaviour
         swordRenderer.material = currentEffect.attributes.swordMaterial;
     }
 
-    public void StartSwingTrail(int comboPhase)
+    public void StartSwingTrail()
     {
-        StartCoroutine(DelayBeforeTrail(comboPhase));
+        StartCoroutine(DelayBeforeTrail());
     }
 
-    private IEnumerator DelayBeforeTrail(int comboPhase)
+    private IEnumerator DelayBeforeTrail()
     {
-        if (comboPhase >= currentEffect.comboTrailTimings.Count)
-            comboPhase = currentEffect.comboTrailTimings.Count - 1;
-
-        yield return new WaitForSeconds(currentEffect.comboTrailTimings[comboPhase].delayToStartTrail);
+        yield return new WaitForSeconds(currentEffect.comboTrailTimings[currentEffect.comboPhase].delayToStartTrail);
         currentEffect.StartSwingTrail();
-        yield return new WaitForSeconds(currentEffect.comboTrailTimings[comboPhase].delayToStopTrail);
+        yield return new WaitForSeconds(currentEffect.comboTrailTimings[currentEffect.comboPhase].delayToStopTrail);
         currentEffect.StopSwingTrail();
     }
 
