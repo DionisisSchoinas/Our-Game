@@ -31,6 +31,8 @@ public class Wand : MonoBehaviour
     private Coroutine runningCoroutine;
     private float lastCooldownDisplayMessage;
 
+    private bool skillListUp;
+
     private void Start()
     {
         casting = false;
@@ -45,6 +47,19 @@ public class Wand : MonoBehaviour
         {
             s.WakeUp();
         }
+
+        skillListUp = false;
+        UIEventSystem.current.onSkillListUp += SkillListUp;
+    }
+
+    private void OnDestroy()
+    {
+        UIEventSystem.current.onSkillListUp -= SkillListUp;
+    }
+
+    private void SkillListUp(bool up)
+    {
+        skillListUp = up;
     }
 
     public List<Spell> GetSpells()
@@ -87,6 +102,9 @@ public class Wand : MonoBehaviour
 
     public void Fire(bool holding)
     {
+        if (skillListUp)
+            return;
+
         if (spells[selectedSpell].onCooldown)
         {
             if (holding && Time.time - lastCooldownDisplayMessage >= 1f)
@@ -114,6 +132,7 @@ public class Wand : MonoBehaviour
         {
             spells[selectedSpell].CancelCast();
             Fire(false);
+            UIEventSystem.current.CancelSkill(spells[selectedSpell].uniqueOverlayToWeaponAdapterId, OverlayControls.skillFreezeAfterCasting);
         }
     }
 

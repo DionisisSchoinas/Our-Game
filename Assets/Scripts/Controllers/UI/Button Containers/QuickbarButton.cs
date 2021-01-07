@@ -6,29 +6,7 @@ using UnityEngine.UI;
 
 public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    [HideInInspector]
-    public bool skillListUp;
-
     private Vector2 lastPosition;
-
-    public new void Awake()
-    {
-        base.Awake();
-        skillListUp = false;
-
-        UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
-    }
-
-    public new void OnDestroy()
-    {
-        base.OnDestroy();
-        UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
-    }
-
-    private void BlockQuickbarSkillSelection(bool block)
-    {
-        skillListUp = block;
-    }
 
     public void OnPointerClick(PointerEventData eventData)
     {

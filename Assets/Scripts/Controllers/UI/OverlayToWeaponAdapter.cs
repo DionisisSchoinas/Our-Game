@@ -78,7 +78,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     {
         if (skillIndexInAdapter < wandListLength)
         {
-            // CHeck if the skill coudln't be selected
+            // Check if the skill coudln't be selected
             if (!wand.SetSelectedSpell(skillIndexInAdapter))
             {
                 return;
@@ -86,7 +86,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         }
         else
         {
-            // CHeck if the skill coudln't be selected
+            // Check if the skill coudln't be selected
             if (!sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength))
             {
                 return;

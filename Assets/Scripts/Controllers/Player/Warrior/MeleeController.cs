@@ -28,6 +28,8 @@ public class MeleeController : MonoBehaviour
     // Mosue lock
     private bool lockedMouseClick;
 
+    private bool skillListUp;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,12 +49,20 @@ public class MeleeController : MonoBehaviour
         comboCurrent = 0f;
         comboSwings = 0;
         clicks = 0;
+
+        skillListUp = false;
+        UIEventSystem.current.onSkillListUp += SkillListUp;
+    }
+
+    private void OnDestroy()
+    {
+        UIEventSystem.current.onSkillListUp -= SkillListUp;
     }
 
     void FixedUpdate()
     {
         // Detect mouse click and start animation
-        if (controls.mousePressed_1 && !lockedMouseClick)
+        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp)
         {
             if (canHit && !comboLock)
             {
@@ -147,6 +157,10 @@ public class MeleeController : MonoBehaviour
         sword.Attack(controls, indicator, comboSwings);
     }
 
+    private void SkillListUp(bool up)
+    {
+        skillListUp = up;
+    }
 
     IEnumerator LockMouse(float duration)
     {

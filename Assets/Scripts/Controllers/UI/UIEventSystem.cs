@@ -49,7 +49,7 @@ public class UIEventSystem : MonoBehaviour
     public event Action onUnhighlightButtonsInSkillList;
     public void UnHighlightSKillList()
     {
-        if (onHighlightButtonInSkillList != null)
+        if (onUnhighlightButtonsInSkillList != null)
         {
             onUnhighlightButtonsInSkillList();
         }
@@ -58,9 +58,18 @@ public class UIEventSystem : MonoBehaviour
     public event Action<int, float> onFreezeAllSkills;
     public void FreezeAllSkills(int uniqueAdapterIndex, float delay)
     {
-        if (onHighlightButtonInSkillList != null)
+        if (onFreezeAllSkills != null)
         {
             onFreezeAllSkills(uniqueAdapterIndex, delay);
+        }
+    }
+
+    public event Action<int, float> onCancelSkill;
+    public void CancelSkill(int uniqueAdapterIndex, float delay)
+    {
+        if (onCancelSkill != null)
+        {
+            onCancelSkill(uniqueAdapterIndex, delay);
         }
     }
 

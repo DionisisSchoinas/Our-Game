@@ -23,6 +23,7 @@ public class ButtonContainer : ElementHover, IDragHandler
     protected Image buttonBackground;
     protected Image buttonImageCooldown;
     protected Vector2 clickPositionOffset;
+    protected bool skillListUp;
 
     public void Awake()
     {
@@ -40,10 +41,13 @@ public class ButtonContainer : ElementHover, IDragHandler
         buttonImageCooldown.fillAmount = 0;
 
         buttonAlreadyDisplayingCooldown = false;
+        skillListUp = false;
 
         UIEventSystem.current.onSkillPickedRegistered += SkillPicked;
         UIEventSystem.current.onSkillCast += SkillCast;
         UIEventSystem.current.onFreezeAllSkills += Freeze;
+        UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
+        UIEventSystem.current.onCancelSkill += SkillCast;
     }
 
 
@@ -52,12 +56,22 @@ public class ButtonContainer : ElementHover, IDragHandler
         UIEventSystem.current.onSkillPickedRegistered -= SkillPicked;
         UIEventSystem.current.onSkillCast -= SkillCast;
         UIEventSystem.current.onFreezeAllSkills -= Freeze;
+        UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
+        UIEventSystem.current.onCancelSkill -= SkillCast;
+    }
+
+    private void BlockQuickbarSkillSelection(bool block)
+    {
+        skillListUp = block;
     }
 
     //------------ Reset functions ------------
     public void CheckCooldown()
     {
-        StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+        if (buttonData.skill.cooldownPercentage != 0)
+        {
+            StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+        }
     }
 
 
@@ -100,9 +114,13 @@ public class ButtonContainer : ElementHover, IDragHandler
         if (!buttonAlreadyDisplayingCooldown && isActiveAndEnabled)
         {
             if (!buttonData.skill.onCooldown)
-                buttonData.skill.StartCooldownWithoutEvent(overlayControls.secondsAfterPickingSkill);
+                buttonData.skill.StartCooldownWithoutEvent(OverlayControls.skillFreezeAfterPicking);
 
-            StartCoroutine(StartCooldown(overlayControls.secondsAfterPickingSkill));
+            StartCoroutine(StartCooldown(OverlayControls.skillFreezeAfterPicking));
+        }
+        else
+        {
+            Debug.Log(buttonData.skill.skillName + " : " + buttonAlreadyDisplayingCooldown);
         }
     }
 
