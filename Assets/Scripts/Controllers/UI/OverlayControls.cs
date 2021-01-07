@@ -11,6 +11,8 @@ public class OverlayControls : MonoBehaviour
     public GameObject dodgeDisplay;
     public float secondsAfterPickingSkill = 0.02f;
     public float secondsAfterCastingSkill = 0.02f;
+    public Color buttonColorSelected;
+
     // Quickbar data
     [HideInInspector]
     public Button[] quickbarButtons;
@@ -18,16 +20,16 @@ public class OverlayControls : MonoBehaviour
     public RectTransform[] quickbarButtonTransforms;
     [HideInInspector]
     public QuickbarButton[] quickbarButtonContainers;
-
     [HideInInspector]
     public OverlayToWeaponAdapter overlayToWeaponAdapter;
 
     private SkillListFill skillList;
-    private ButtonContainer lastSelected;
+    private int selectedQuickbarIndex;
     private bool skillListUp;
 
     public static float skillFreezeAfterPicking;
     public static float skillFreezeAfterCasting;
+    public static Color selectedButtonColor;
 
 
     private void Start()
@@ -72,11 +74,12 @@ public class OverlayControls : MonoBehaviour
             quickbarButtonTransforms[i] = quickbarButtons[i].GetComponent<RectTransform>();
         }
 
-        // Hightlight the quickbar skills in the skill list
-        HighlightQuickbarInList();
-
         skillFreezeAfterPicking = secondsAfterPickingSkill;
         skillFreezeAfterCasting = secondsAfterCastingSkill;
+        selectedButtonColor = buttonColorSelected;
+
+        // Hightlight the quickbar skills in the skill list
+        HighlightQuickbarInList();
 
         SetSelectedQuickBar(0);
 
@@ -158,6 +161,9 @@ public class OverlayControls : MonoBehaviour
         UIEventSystem.current.SetHover(skillListUp);
         UIEventSystem.current.SetSkillListUp(skillListUp);
         SetSkillListState(skillListUp);
+
+        if (!skillListUp)
+            SetSelectedQuickBar(selectedQuickbarIndex);
     }
 
     private void SetSkillListState(bool show)
@@ -219,6 +225,7 @@ public class OverlayControls : MonoBehaviour
     {
         if (!skillListUp)
         {
+            selectedQuickbarIndex = selectedQuickbar;
             // Update Adapter
             UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
         }

@@ -25,12 +25,12 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
     {
         if (buttonData.skillIndexInAdapter == indexInAdapter)
         {
-            buttonBackground.color = Color.red;
+            buttonSelection.color = OverlayControls.selectedButtonColor;
         }
     }
     private void UnHighlight()
     {
-        buttonBackground.color = Color.white;
+        buttonSelection.color = Color.white;
     }
 
     private SkillListButton ReInstantiate()

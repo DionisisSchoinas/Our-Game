@@ -56,12 +56,14 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
         UIEventSystem.current.onHover += SetHover;
         UIEventSystem.current.onSkillPicked += SetSelectedSpell;
+        UIEventSystem.current.onSkillListUp += SkillListUp;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.onHover -= SetHover;
         UIEventSystem.current.onSkillPicked -= SetSelectedSpell;
+        UIEventSystem.current.onSkillListUp -= SkillListUp;
     }
 
     // Triggers by the event when user hovers over a UI Element
@@ -94,6 +96,14 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         }
         UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter);
         DisplaySkillName(skillIndexInAdapter);
+    }
+
+    private void SkillListUp(bool up)
+    {
+        if (!up)
+        {
+
+        }
     }
 
     // Displays the picked skill name

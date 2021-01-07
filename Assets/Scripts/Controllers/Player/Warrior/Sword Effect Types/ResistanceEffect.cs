@@ -10,11 +10,9 @@ public class ResistanceEffect : SwordEffect
     [HideInInspector]
     public Material resistanceAppearance;
 
-    private SkinnedMeshRenderer playerMesh;
-
     public override string type => "Resistance";
     public override string skillName => "No Resistance";
-    public override float cooldown => 10f;
+    public override float cooldown => 20f;
     public override float duration => 10f;
     public override int comboPhaseMax => 1;
 
@@ -27,11 +25,15 @@ public class ResistanceEffect : SwordEffect
     {
         yield return new WaitForSeconds(attackDelay);
 
+        HealthEventSystem.current.ApplyResistance(controls.gameObject.name, playerMesh, resistanceAppearance, resistance, duration);
+
+        /*
         Debug.Log("Resisant to : " + resistance + " impliment resistance event");
 
         if (resistanceAppearance != null)
         {
             playerMesh.materials = new Material[] { playerMesh.materials[0], resistanceAppearance };
+            StartCoroutine(ResetSkinMesh());
         }
         else
         {
@@ -39,12 +41,6 @@ public class ResistanceEffect : SwordEffect
         }
 
         this.playerMesh = playerMesh;
+        */
     }
-
-    /*
-    private void OnDestroy()
-    {
-        playerMesh.materials = new Material[] { playerMesh.materials[0] };
-    }
-    */
 }

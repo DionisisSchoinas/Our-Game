@@ -54,4 +54,13 @@ public class HealthEventSystem : MonoBehaviour
             onForceApply(name, direction.normalized, magnitude);
         }
     }
+    // Applies resistance
+    public event Action<string, SkinnedMeshRenderer, Material, int, float> onResistanceApply;
+    public void ApplyResistance(string name, SkinnedMeshRenderer mesh, Material newMaterial, int resistance, float duration)
+    {
+        if (onResistanceApply != null)
+        {
+            onResistanceApply(name, mesh, newMaterial, resistance, duration);
+        }
+    }
 }

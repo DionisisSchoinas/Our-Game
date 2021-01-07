@@ -18,6 +18,8 @@ public class Sword : MonoBehaviour
     private SwordEffect currentEffect;
     private Renderer swordRenderer;
 
+    
+
     private void Start()
     {
         swordRenderer = swordObject.GetComponent<SkinnedMeshRenderer>();

@@ -21,8 +21,8 @@ public class MeleeController : MonoBehaviour
     public bool comboLock;
     public float comboCooldown;
     // Counters for swings and limit
-    private int comboSwings;
-    private int clicks;
+    private int comboSwings; // Counts the swings at their end
+    private int clicks;  // Counts the number of swing commands when the user gives them
     // Direction lock
     public bool isDuringAttack;
     // Mosue lock
@@ -92,6 +92,8 @@ public class MeleeController : MonoBehaviour
                     // Animate with swing limit (stops a fake combo 3 from firing)
                     AttackAnimations(clicks);
                     comboQueue.Add(0);
+
+                    lastCooldownDisplayMessage = Time.time;
                 }
             }
         }

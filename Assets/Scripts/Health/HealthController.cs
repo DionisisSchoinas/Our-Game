@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthController : MonoBehaviour
@@ -12,20 +9,17 @@ public class HealthController : MonoBehaviour
     private HealthBar healthBar;
     [SerializeField]
     private bool invunarable = false;
-    [SerializeField]
-    private int[] damageResistances;
-    [SerializeField]
-    private int[] damageImmunities;
 
     public bool respawn = false;
 
     private float currentHealth;
     private ConditionsHandler conditionsHandler;
+    private ResistanceHandler resistanceHandler;
     private HitStop hitStop;
     private CameraShake cameraShake;
 
     //temp
-    Rigidbody rigidbody;
+    Rigidbody rb;
 
 
 
@@ -34,15 +28,15 @@ public class HealthController : MonoBehaviour
     {
         if (healthBar == null)
             healthBar = gameObject.AddComponent<HealthBar>();
+        conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
+        resistanceHandler = gameObject.AddComponent<ResistanceHandler>();
 
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-        conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
-        rigidbody = gameObject.GetComponent<Rigidbody>() as Rigidbody;
+
+        rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         hitStop = FindObjectOfType<HitStop>();
         cameraShake = FindObjectOfType<CameraShake>();
-        if (damageResistances == null) damageResistances = new int[0];
-        if (damageImmunities == null) damageImmunities = new int[0];
         
         
         HealthEventSystem.current.onDamageTaken += TakeDamage;
@@ -89,7 +83,7 @@ public class HealthController : MonoBehaviour
     {
         float dmg = damage;
 
-        foreach (int type in damageImmunities)
+        foreach (int type in resistanceHandler.damageImmunities)
         {
             if (type == damageType)
             {
@@ -99,7 +93,7 @@ public class HealthController : MonoBehaviour
         }
         if (dmg != 0)
         {
-            foreach (int type in damageResistances)
+            foreach (int type in resistanceHandler.damageResistances)
             {
                 if (type == damageType)
                 {
@@ -155,8 +149,8 @@ public class HealthController : MonoBehaviour
             if (invunarable)
                 return;
 
-            if (rigidbody != null)
-                rigidbody.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
+            if (rb != null)
+                rb.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
         }
     }
 }

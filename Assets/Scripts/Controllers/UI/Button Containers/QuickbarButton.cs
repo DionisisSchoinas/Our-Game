@@ -8,6 +8,32 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 {
     private Vector2 lastPosition;
 
+    public new void Awake()
+    {
+        base.Awake();
+
+        UIEventSystem.current.onSkillPickedRegistered += SelectButton;
+    }
+
+    public new void OnDestroy()
+    {
+        base.OnDestroy();
+        UIEventSystem.current.onSkillPickedRegistered -= SelectButton;
+    }
+
+    private void SelectButton(int skillIndexInAdapter)
+    {
+        if (buttonData.skillIndexInAdapter == skillIndexInAdapter)
+        {
+            buttonSelection.color = OverlayControls.selectedButtonColor;
+        }
+        else
+        {
+            buttonSelection.color = Color.white;
+        }
+    }
+
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!skillListUp)

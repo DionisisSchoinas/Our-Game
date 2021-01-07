@@ -124,6 +124,8 @@ public class Wand : MonoBehaviour
         {
             Fire1(holding);
         }
+
+        lastCooldownDisplayMessage = Time.time;
     }
 
     public void Cancel()

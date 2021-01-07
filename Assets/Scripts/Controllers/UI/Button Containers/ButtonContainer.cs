@@ -20,6 +20,7 @@ public class ButtonContainer : ElementHover, IDragHandler
 
     protected RectTransform rect;
     protected Transform canvas;
+    protected Image buttonSelection;
     protected Image buttonBackground;
     protected Image buttonImageCooldown;
     protected Vector2 clickPositionOffset;
@@ -35,9 +36,10 @@ public class ButtonContainer : ElementHover, IDragHandler
         rect = GetComponent<RectTransform>();
         canvas = FindObjectOfType<OverlayControls>().transform;
 
-        buttonBackground = gameObject.GetComponent<Image>();
+        buttonSelection = gameObject.GetComponent<Image>();
+        buttonBackground = gameObject.GetComponentsInChildren<Image>()[1];
 
-        buttonImageCooldown = gameObject.GetComponentsInChildren<Image>()[1];
+        buttonImageCooldown = gameObject.GetComponentsInChildren<Image>()[2];
         buttonImageCooldown.fillAmount = 0;
 
         buttonAlreadyDisplayingCooldown = false;
