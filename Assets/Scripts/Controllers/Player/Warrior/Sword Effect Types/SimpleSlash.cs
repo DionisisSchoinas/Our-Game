@@ -14,8 +14,8 @@ public class SimpleSlash : SwordEffect
 
     public override string type => "Simple Slash";
     public override string skillName => "Simple Slash";
-    public override float cooldown { get => 5f; }
-    public override float duration { get => 0f; }
+    public override float cooldown => MeleeController.skillComboCooldown * 0.95f;
+    public override float duration => 0f;
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {

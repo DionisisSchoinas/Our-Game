@@ -5,8 +5,9 @@ public abstract class BasicSword : Skill
 {
     public float swingCooldown => 0.8f;
 
-    private int _comboPhase;
+    public abstract int comboPhaseMax { get; }
 
+    private int _comboPhase;
     public int comboPhase { 
         get
         {

@@ -16,6 +16,7 @@ public class ResistanceEffect : SwordEffect
     public override string skillName => "No Resistance";
     public override float cooldown => 10f;
     public override float duration => 10f;
+    public override int comboPhaseMax => 1;
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
@@ -38,7 +39,6 @@ public class ResistanceEffect : SwordEffect
         }
 
         this.playerMesh = playerMesh;
-        Debug.Log("Mesh count : " + playerMesh.materials.Length);
     }
 
     /*

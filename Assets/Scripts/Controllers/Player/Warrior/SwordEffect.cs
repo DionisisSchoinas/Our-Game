@@ -20,8 +20,9 @@ public class SwordEffect : BasicSword
 
     public override string type => "Sword Effect";
     public override string skillName => "Sword Effect";
-    public override float cooldown { get => 0.7f; }
-    public override float duration { get => 0f; }
+    public override float cooldown => 0.7f;
+    public override float duration => 0f;
+    public override int comboPhaseMax => 3;
 
     public new void Awake()
     {

@@ -29,6 +29,8 @@ public class MeleeController : MonoBehaviour
     private bool lockedMouseClick;
 
     private bool skillListUp;
+    private float lastCooldownDisplayMessage;
+    public static float skillComboCooldown;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,9 @@ public class MeleeController : MonoBehaviour
         comboCurrent = 0f;
         comboSwings = 0;
         clicks = 0;
+        lastCooldownDisplayMessage = Time.time;
+
+        skillComboCooldown = comboCooldown;
 
         skillListUp = false;
         UIEventSystem.current.onSkillListUp += SkillListUp;
@@ -61,8 +66,18 @@ public class MeleeController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Detect mouse click and start animation
-        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp)
+        /*  Detect mouse click and start animation
+         *
+         *  Locks :
+         *      lockedMouseClick -----> locked by coroutine to stop spamming
+         *      
+         *      skillListUp -----> list of skills is showing
+         *      
+         *      sword.GetSelectedEffect().onCooldown -----> the selected skill is on cooldown
+         *      
+         *      clicks < sword.GetSelectedEffect().comboPhaseMax -----> if the clicks are lower than the max allowed combo amount ( with a max of 2 you can do up to 2 combo hits )
+         */
+        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax)
         {
             if (canHit && !comboLock)
             {
@@ -85,8 +100,18 @@ public class MeleeController : MonoBehaviour
             StartCoroutine(LockMouse(0.05f));
         }
 
+        // Cooldown display message
+        if (sword.GetSelectedEffect().onCooldown && controls.mousePressed_1)
+        {
+            if (Time.time - lastCooldownDisplayMessage >= 1f)
+            {
+                Debug.Log("On Cooldown");
+                lastCooldownDisplayMessage = Time.time;
+            }
+        }
+
         // Start the actual attack function
-        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3)
+        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3 && comboSwings < sword.GetSelectedEffect().comboPhaseMax)
         {
             attacking = true;
             isDuringAttack = true;
@@ -97,9 +122,9 @@ public class MeleeController : MonoBehaviour
 
             comboCurrent = 0f;
         }
-        else if (isDuringAttack && ( comboSwings >= 3 || comboQueue.Count > 3 || comboSwings >= clicks || clicks > 3) )
+        else if (isDuringAttack && ( comboSwings >= 3 || comboQueue.Count > 3 || comboSwings >= clicks || clicks > 3 || comboSwings >= sword.GetSelectedEffect().comboPhaseMax) )
         {
-            StartCoroutine(ComboCooldown(comboCooldown));
+            StartCooldowns();
             comboQueue.Clear();
 
             attacking = false;
@@ -140,7 +165,7 @@ public class MeleeController : MonoBehaviour
                 attacking = false;
             }
             // Unlock input earlier
-            else if (comboCurrent > sword.GetSelectedEffect().swingCooldown * 0.6f && !canHit)
+            else if (comboCurrent > sword.GetSelectedEffect().swingCooldown * 0.52f && !canHit)
             {
                 canHit = true;
             }
@@ -167,6 +192,12 @@ public class MeleeController : MonoBehaviour
         lockedMouseClick = true;
         yield return new WaitForSeconds(duration);
         lockedMouseClick = false;
+    }
+
+    private void StartCooldowns()
+    {
+        sword.GetSelectedEffect().StartCooldown();
+        StartCoroutine(ComboCooldown(comboCooldown));
     }
 
     IEnumerator ComboCooldown(float comboCooldown)

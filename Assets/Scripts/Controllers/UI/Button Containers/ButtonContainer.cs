@@ -118,10 +118,6 @@ public class ButtonContainer : ElementHover, IDragHandler
 
             StartCoroutine(StartCooldown(OverlayControls.skillFreezeAfterPicking));
         }
-        else
-        {
-            Debug.Log(buttonData.skill.skillName + " : " + buttonAlreadyDisplayingCooldown);
-        }
     }
 
     private void SkillCast(int uniqueAdapterId, float cooldown)
