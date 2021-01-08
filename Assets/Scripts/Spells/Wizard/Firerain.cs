@@ -12,6 +12,6 @@ public class Firerain : SpellTypeStorm
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Fire;
+        return ResourceManager.Sources.Fire;
     }
 }

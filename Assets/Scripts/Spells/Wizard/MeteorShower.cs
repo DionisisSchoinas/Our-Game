@@ -89,6 +89,6 @@ public class MeteorShower : SpellTypeStorm
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Fire;
+        return ResourceManager.Sources.Fire;
     }
 }

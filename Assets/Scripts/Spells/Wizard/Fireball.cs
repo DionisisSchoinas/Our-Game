@@ -9,6 +9,6 @@ public class Fireball : SpellTypeBall
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Fire;
+        return ResourceManager.Sources.Fire;
     }
 }

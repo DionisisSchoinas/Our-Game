@@ -30,6 +30,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
         if (wand != null)
         {
+            wand.GetDefaultSpell().onCooldown = false;
             wand.GetDefaultSpell().uniqueOverlayToWeaponAdapterId = id;
             id++;
             foreach (Spell s in wand.GetSpells())
@@ -44,6 +45,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
         if (sword != null)
         {
+            sword.GetDefaultSwordEffect().onCooldown = false;
             sword.GetDefaultSwordEffect().uniqueOverlayToWeaponAdapterId = id;
             id++;
             foreach (SwordEffect s in sword.GetSwordEffects())

@@ -25,7 +25,7 @@ public class StoneStorm : SpellTypeStorm
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Earth;
+        return ResourceManager.Sources.Earth;
     }
 }
 /*

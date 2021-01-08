@@ -13,6 +13,6 @@ public class LightningRay : SpellTypeRay
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Lightning;
+        return ResourceManager.Sources.Lightning;
     }
 }

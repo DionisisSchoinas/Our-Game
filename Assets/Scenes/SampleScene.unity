@@ -3395,6 +3395,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Subject (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700972946874308675, guid: c0651748694f9bc4391c22d65399137d,
+        type: 3}
+      propertyPath: speedVector.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
       propertyPath: m_RootOrder
@@ -5661,6 +5666,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CollisionDetection
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700972946874308675, guid: c0651748694f9bc4391c22d65399137d,
+        type: 3}
+      propertyPath: speedVector.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
         type: 3}
@@ -8003,7 +8013,7 @@ PrefabInstance:
         type: 3}
       propertyPath: defaultSpell
       value: 
-      objectReference: {fileID: 5468378603873797052, guid: f38fc25572ffc0144a78d72bde5d03ff,
+      objectReference: {fileID: 2902454784366985862, guid: e9894615c2d9551428ac267549bb9cce,
         type: 3}
     - target: {fileID: 7205926950548252580, guid: bbdf2f0f859680c448dbd66b93f6f062,
         type: 3}

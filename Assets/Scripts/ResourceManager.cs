@@ -2,9 +2,11 @@
 
 public class ResourceManager
 {
-    public class Default
+    public class Sources
     {
-        private static string folder = "Spells/";
+        private static string folder = "Sources/";
+        public static ParticleSystem Default = ((GameObject)Resources.Load(folder + "Default Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        public static ParticleSystem DefaultStationary = ((GameObject)Resources.Load(folder + "Default Stationary Source", typeof(GameObject))).GetComponent<ParticleSystem>();
         public static ParticleSystem Fire = ((GameObject)Resources.Load(folder + "Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
         public static ParticleSystem Lightning = ((GameObject)Resources.Load(folder + "Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
         public static ParticleSystem Smoke = ((GameObject)Resources.Load(folder + "Default Smoke Source", typeof(GameObject))).GetComponent<ParticleSystem>();

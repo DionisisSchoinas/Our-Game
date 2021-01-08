@@ -14,6 +14,6 @@ public class StoneBolt : SpellTypeBolt
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Earth;
+        return ResourceManager.Sources.Earth;
     }
 }

@@ -15,7 +15,7 @@ public class LightningBolt : SpellTypeBolt
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Lightning;
+        return ResourceManager.Sources.Lightning;
     }
 
     private void SpawnArcs()

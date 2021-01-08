@@ -14,6 +14,6 @@ public class Icespike : SpellTypeBolt
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Ice;
+        return ResourceManager.Sources.Ice;
     }
 }
