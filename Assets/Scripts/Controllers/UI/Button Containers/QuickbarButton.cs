@@ -6,11 +6,15 @@ using UnityEngine.UI;
 
 public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
+    [HideInInspector]
+    public bool swappable;
+
     private Vector2 lastPosition;
 
     public new void Awake()
     {
         base.Awake();
+        swappable = true;
 
         UIEventSystem.current.onSkillPickedRegistered += SelectButton;
     }
@@ -67,7 +71,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
     public new void OnDrag(PointerEventData eventData)
     {
-        if (skillListUp)
+        if (skillListUp && swappable)
         {
             Drag(eventData);
         }
@@ -75,7 +79,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (skillListUp)
+        if (skillListUp && swappable)
         {
             ReInstantiate();
 
@@ -89,7 +93,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (skillListUp)
+        if (skillListUp && swappable)
         {
             UIEventSystem.current.DraggingButton(this, false);
 

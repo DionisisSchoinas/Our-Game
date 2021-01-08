@@ -10,6 +10,7 @@ public class Sword : MonoBehaviour
     public Transform swordMotionRoot;
     public Transform tipPoint;
     public Transform basePoint;
+    public SwordEffect defaultSwordEffect;
     public SwordEffect[] swordEffects;
     [HideInInspector]
     public bool isSwinging;
@@ -28,13 +29,20 @@ public class Sword : MonoBehaviour
 
         isSwinging = false;
 
-        selectedEffect = 0;
         ChangeSwordEffect();
+    }
+
+    public SwordEffect GetDefaultSwordEffect()
+    {
+        return defaultSwordEffect;
     }
 
     public SwordEffect GetSelectedEffect()
     {
-        return swordEffects[selectedEffect];
+        if (selectedEffect == -1)
+            return defaultSwordEffect;
+        else
+            return swordEffects[selectedEffect];
     }
 
     public bool SetSelectedSwordEffect(int value)
@@ -56,14 +64,21 @@ public class Sword : MonoBehaviour
         currentEffect.StartSwingCooldown();
         currentEffect.Attack(controls, indicator, playerMesh);
 
-        UIEventSystem.current.FreezeAllSkills(swordEffects[selectedEffect].uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
+        if (selectedEffect == -1)
+            UIEventSystem.current.FreezeAllSkills(defaultSwordEffect.uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
+        else
+            UIEventSystem.current.FreezeAllSkills(swordEffects[selectedEffect].uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
     }
 
     private void ChangeSwordEffect()
     {
         if (currentEffect != null) Destroy(currentEffect.gameObject);
 
-        currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
+        if (selectedEffect == -1)
+            currentEffect = defaultSwordEffect.InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
+        else
+            currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
+
         currentEffect.transform.position = swordObject.transform.position;
         currentEffect.transform.rotation = swordObject.transform.rotation;
 

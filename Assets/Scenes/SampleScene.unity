@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 168693153}
   - component: {fileID: 168693152}
   m_Layer: 5
-  m_Name: Effects List
+  m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -726,7 +726,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -20, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &168693152
@@ -6276,6 +6276,7 @@ MonoBehaviour:
   spellListDisplay: {fileID: 1981257800}
   columnContentHolder: {fileID: 1670486413}
   dodgeDisplay: {fileID: 7384456461897142333}
+  effectsDisplay: {fileID: 168693150}
   secondsAfterPickingSkill: 0.1
   secondsAfterCastingSkill: 0.5
   buttonColorSelected: {r: 0.96430343, g: 1, b: 0.37647057, a: 1}
@@ -7933,6 +7934,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (Wizard)
       objectReference: {fileID: 0}
+    - target: {fileID: 4964402965454966613, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4964402965454966615, guid: bbdf2f0f859680c448dbd66b93f6f062,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7988,6 +7994,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4964402965454966635, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: spells.Array.size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4964402965454966635, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: defaultSpell
+      value: 
+      objectReference: {fileID: 5468378603873797052, guid: f38fc25572ffc0144a78d72bde5d03ff,
+        type: 3}
+    - target: {fileID: 7205926950548252580, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205926950548252580, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbdf2f0f859680c448dbd66b93f6f062, type: 3}
 --- !u!1001 &2984568329238485089
@@ -8001,6 +8028,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player (Warrior )
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126948, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2984568328822126951, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
@@ -8057,6 +8089,124 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126952, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: hitBlockAfterDodge
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126953, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: defaultSlash
+      value: 
+      objectReference: {fileID: -88320675119019295, guid: ef10e8eef305db3499d284b60067cdb0,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: defaultSwing
+      value: 
+      objectReference: {fileID: -88320675119019295, guid: ef10e8eef305db3499d284b60067cdb0,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1612813705333380113, guid: e3e74d5c0a51f224eab86826b21783b6,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[1]
+      value: 
+      objectReference: {fileID: 203444275124626797, guid: 8cfe19119c8828c46b37620bd8ca1714,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[2]
+      value: 
+      objectReference: {fileID: 4980811821457603083, guid: 424a000c7ba61804598763e782cad676,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[3]
+      value: 
+      objectReference: {fileID: -6289235402279667394, guid: b97a26a784ab85d41b53d91a1095d3da,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[4]
+      value: 
+      objectReference: {fileID: 4211080902655888564, guid: 3a2b1a3d565706f4f93a9ed39f49aea2,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[5]
+      value: 
+      objectReference: {fileID: 8728570064525468946, guid: 53f50529d8dbe6548b24180d0e38b9bd,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[6]
+      value: 
+      objectReference: {fileID: 6983893879066494167, guid: f998c2b1405971b499012e421ccc58d0,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[7]
+      value: 
+      objectReference: {fileID: 4024351014947971960, guid: f0a990b69bce8564389ffd8fb81c6a99,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[8]
+      value: 
+      objectReference: {fileID: 5483912179118218006, guid: 6005f961cde652b4eaf39a6411d13d51,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[9]
+      value: 
+      objectReference: {fileID: 1634098265976599967, guid: fee31bbd404e86648abc148a7798d172,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[10]
+      value: 
+      objectReference: {fileID: 1514968510625225549, guid: d34d27976ce7fce449863093292df848,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[11]
+      value: 
+      objectReference: {fileID: 7677451952699424561, guid: 7bd6fd30a2cb51e4f940b8acc7d79f56,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[12]
+      value: 
+      objectReference: {fileID: -4479016721527856258, guid: 6ec59932431e9a848af8bc5a7276e48b,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[14]
+      value: 
+      objectReference: {fileID: 1554546875301820073, guid: d4a3fd16032271d4ea307e09a5d3da6c,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: swordEffects.Array.data[15]
+      value: 
+      objectReference: {fileID: 3396505380874556798, guid: 6b59af4405ac9834a9e721082481a9de,
+        type: 3}
+    - target: {fileID: 2984568329992020968, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: defaultSwordEffect
+      value: 
+      objectReference: {fileID: -88320675119019295, guid: ef10e8eef305db3499d284b60067cdb0,
+        type: 3}
     - target: {fileID: 4096420264601712552, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
       propertyPath: spellNameDisplay
@@ -8065,12 +8215,12 @@ PrefabInstance:
     - target: {fileID: 8453002840709088356, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8453002840709088356, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ec92abf451697428bfa85ae1f56038, type: 3}

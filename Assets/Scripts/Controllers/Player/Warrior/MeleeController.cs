@@ -25,7 +25,7 @@ public class MeleeController : MonoBehaviour
     private int clicks;  // Counts the number of swing commands when the user gives them
     // Direction lock
     public bool isDuringAttack;
-    // Mosue lock
+    // Mouse lock
     private bool lockedMouseClick;
 
     private bool skillListUp;

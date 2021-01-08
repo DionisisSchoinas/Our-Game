@@ -23,13 +23,15 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     void Start()
     {
         List<string> spellNames = new List<string>();
-        wandListLength = 0;
-        swordListLength = 0;
+        wandListLength = -1;
+        swordListLength = -1;
 
         int id = 0;
 
         if (wand != null)
         {
+            wand.GetDefaultSpell().uniqueOverlayToWeaponAdapterId = id;
+            id++;
             foreach (Spell s in wand.GetSpells())
             {
                 spellNames.Add(s.skillName);
@@ -42,6 +44,8 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
         if (sword != null)
         {
+            sword.GetDefaultSwordEffect().uniqueOverlayToWeaponAdapterId = id;
+            id++;
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
                 spellNames.Add(s.skillName);
@@ -56,14 +60,12 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
         UIEventSystem.current.onHover += SetHover;
         UIEventSystem.current.onSkillPicked += SetSelectedSpell;
-        UIEventSystem.current.onSkillListUp += SkillListUp;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.onHover -= SetHover;
         UIEventSystem.current.onSkillPicked -= SetSelectedSpell;
-        UIEventSystem.current.onSkillListUp -= SkillListUp;
     }
 
     // Triggers by the event when user hovers over a UI Element
@@ -89,21 +91,14 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         else
         {
             // Check if the skill coudln't be selected
-            if (!sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength))
+            if (!sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength - 1))
             {
                 return;
             }
         }
+
         UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter);
         DisplaySkillName(skillIndexInAdapter);
-    }
-
-    private void SkillListUp(bool up)
-    {
-        if (!up)
-        {
-
-        }
     }
 
     // Displays the picked skill name
@@ -114,6 +109,13 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
     public Skill GetSkillFromIndex(int index)
     {
+        if (index == -1) // Looking for the default
+        {
+            if (wand != null)
+                return wand.GetDefaultSpell();
+            else if (sword != null)
+                return sword.GetDefaultSwordEffect();
+        }
         return GetSkills()[index];
     }
 
