@@ -23,6 +23,6 @@ public class StoneExplosion : MonoBehaviour
     {
         if (gm == null) return;
 
-        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Physical);
+        HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Physical);
     }
 }

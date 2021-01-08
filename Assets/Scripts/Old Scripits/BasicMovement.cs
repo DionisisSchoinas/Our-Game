@@ -9,9 +9,8 @@ public class BasicMovement : MonoBehaviour
     [SerializeField]
     private Vector3 speedVector = new Vector3(-2f, 0f, 0f);
 
-    // Start is called before the first frame update
-    void Start()
+    private void FixedUpdate()
     {
-        rb.AddForce(speedVector, ForceMode.Impulse);
+        rb.AddForce(speedVector);
     }
 }

@@ -21,7 +21,7 @@ public class IceExplosion : MonoBehaviour
     {
         if (gm == null) return;
 
-        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Cold);
+        HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Cold);
         if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Frozen);
     }
 }

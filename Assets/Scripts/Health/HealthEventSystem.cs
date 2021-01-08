@@ -9,15 +9,14 @@ public class HealthEventSystem : MonoBehaviour
     {
         current = this;
     }
+
     // Deals damage
-    public event Action<string, float, int> onDamageTaken;
-    public void TakeDamage(string name, float damage, int damageType)
+    public void TakeDamage(GameObject target, float damage, int damageType)
     {
-        if (onDamageTaken != null)
-        {
-            onDamageTaken(name, damage, damageType);
-        }
+        if (LayerMask.GetMask(LayerMask.LayerToName(target.gameObject.layer)) == BasicLayerMasks.DamageableEntities)
+            target.GetComponent<HealthController>().Damage(damage, damageType);
     }
+
     // Deals damage ignoring invunarable
     public event Action<string, float, int> onDamageIgnoreInvunarableTaken;
     public void TakeDamageIgnoreShields(string name, float damage, int damageType)

@@ -16,7 +16,6 @@ public class HealthController : MonoBehaviour
     private ConditionsHandler conditionsHandler;
     private ResistanceHandler resistanceHandler;
     private HitStop hitStop;
-    private CameraShake cameraShake;
 
     //temp
     Rigidbody rb;
@@ -36,10 +35,7 @@ public class HealthController : MonoBehaviour
 
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         hitStop = FindObjectOfType<HitStop>();
-        cameraShake = FindObjectOfType<CameraShake>();
         
-        
-        HealthEventSystem.current.onDamageTaken += TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
@@ -47,7 +43,6 @@ public class HealthController : MonoBehaviour
     }
     private void OnDestroy()
     {
-        HealthEventSystem.current.onDamageTaken -= TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
@@ -77,6 +72,8 @@ public class HealthController : MonoBehaviour
                 healthBar.SetHealth(maxHealth);
             }
         }
+
+        hitStop.Stop(0.05f);
     }
 
     private float CheckDamageTypes(float damage, int damageType)
@@ -104,17 +101,6 @@ public class HealthController : MonoBehaviour
         }
 
         return dmg;
-    }
-
-    public void TakeDamage(string name, float damage, int damageType)
-    {
-        
-        if (gameObject.name == name)
-        {
-            Damage(damage, damageType);
-        }
-        hitStop.Stop(0.05f);
-        cameraShake.Shake(0.05f);
     }
 
     public void TakeDamageIgnoreInvunarable(string name, float damage, int damageType)

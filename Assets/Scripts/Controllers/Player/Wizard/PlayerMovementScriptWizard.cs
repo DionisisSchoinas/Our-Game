@@ -160,7 +160,7 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         if (enable)
         {
             dodgeParticleSystem.Play();
-            cameraShake.Shake(dodgeScript.duration / 2f, 1f);
+            CameraShake.current.ShakeCamera(dodgeScript.duration / 2f, 1f);
         }
         else
         {

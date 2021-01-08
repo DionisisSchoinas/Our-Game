@@ -5,8 +5,12 @@ using UnityEngine;
 public class DefaultSpell : Spell
 {
     public float spawnBulletCooldown = 1f;
+    public float damageTicksPerSeconds = 5f;
     public GameObject homingMissile;
     public GameObject hitEffect;
+
+    [HideInInspector]
+    public List<GameObject> hitTargets;
 
     public float speed = 20f;
     public float damage = 5f;
@@ -28,12 +32,25 @@ public class DefaultSpell : Spell
     {
         Instantiate(ResourceManager.Sources.DefaultStationary, transform);
         InvokeRepeating(nameof(SpawnBullet), 0f, spawnBulletCooldown);
+        InvokeRepeating(nameof(DoDamage), 0f, 1f / damageTicksPerSeconds);
+    }
+
+    private void DoDamage()
+    {
+        foreach (GameObject target in hitTargets)
+        {
+            HealthEventSystem.current.TakeDamage(target, damage, damageType);
+
+            if (condition != null)
+                if (Random.value <= 0.1f) HealthEventSystem.current.SetCondition(target.name, condition);
+        }
+        hitTargets.Clear();
     }
 
     private void SpawnBullet()
     {
         Missile missile = Instantiate(homingMissile, transform.position + Random.onUnitSphere / 2f, transform.rotation).AddComponent<Missile>();
-        missile.SetValues(speed, damage, maxRotation, homingRange, damageType, condition, casterName, hitEffect);
+        missile.SetValues(this, hitEffect, casterName);
         Destroy(missile.gameObject, 3f);
     }
 

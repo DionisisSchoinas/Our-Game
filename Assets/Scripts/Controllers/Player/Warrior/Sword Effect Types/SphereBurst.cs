@@ -54,6 +54,7 @@ public class SphereBurst : SwordEffect
         ParticleSystem parts = Instantiate(particles, controls.transform.position + controls.transform.forward, controls.transform.rotation);
         parts.Play();
         Destroy(parts.gameObject, 4f);
+        CameraShake.current.ShakeCamera(1f, 1f);
 
         // Find targets
         GameObject[] targets = FindTargets(controls.transform);
@@ -62,7 +63,7 @@ public class SphereBurst : SwordEffect
         {
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.name, damage, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, visibleTarget.transform.position - controls.transform.position, force);

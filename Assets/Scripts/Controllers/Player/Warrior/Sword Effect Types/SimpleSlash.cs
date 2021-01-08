@@ -28,13 +28,13 @@ public class SimpleSlash : SwordEffect
 
         foreach (Transform visibleTarget in indicator.visibleTargets)
         {
-            Debug.Log(visibleTarget.name);
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, 30, damageType);
                 if (condition != null)
                     if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+                CameraShake.current.ShakeCamera(0.5f, 0.2f);
             }
         }
         yield return new WaitForSeconds(0.1f);
