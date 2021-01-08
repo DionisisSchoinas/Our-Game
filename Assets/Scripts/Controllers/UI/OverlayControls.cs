@@ -9,6 +9,7 @@ public class OverlayControls : MonoBehaviour
     public CanvasGroup spellListDisplay;
     public GameObject columnContentHolder;
     public GameObject dodgeDisplay;
+    public GameObject effectsDisplay;
     public float secondsAfterPickingSkill = 0.02f;
     public float secondsAfterCastingSkill = 0.02f;
     public Color buttonColorSelected;
@@ -84,11 +85,13 @@ public class OverlayControls : MonoBehaviour
         SetSelectedQuickBar(0);
 
         UIEventSystem.current.onDraggingButton += DraggingButton;
+        UIEventSystem.current.onApplyResistance += ApplyResistance;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.onDraggingButton -= DraggingButton;
+        UIEventSystem.current.onApplyResistance -= ApplyResistance;
     }
 
     private void Update()
@@ -133,6 +136,13 @@ public class OverlayControls : MonoBehaviour
         {
             ChangeSkillListState();
         }
+    }
+
+    private void ApplyResistance(string resistanceName, float duration)
+    {
+        EffectDisplayContainer resistanceEffect = Instantiate(ResourceManager.UI.EffectDisplay, effectsDisplay.transform).AddComponent<EffectDisplayContainer>();
+        resistanceEffect.SetResistanceText(resistanceName);
+        resistanceEffect.StartCountdown(duration);
     }
 
     private int HoveringQuickbarButtons()

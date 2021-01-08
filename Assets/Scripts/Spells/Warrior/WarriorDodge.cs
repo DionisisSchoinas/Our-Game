@@ -11,7 +11,7 @@ public class WarriorDodge : Skill
 
     public override string skillName => "Roll";
 
-    public override float cooldown => 4f;
+    public override float cooldown => 3f;
 
     public override float duration => dodgeDuration;
 

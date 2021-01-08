@@ -118,4 +118,22 @@ public class UIEventSystem : MonoBehaviour
             onStartCooldown(skill, delay);
         }
     }
+
+    public event Action<string, float> onApplyResistance;
+    public void ApplyResistance(string resistanceName, float duration)
+    {
+        if (onApplyResistance != null)
+        {
+            onApplyResistance(resistanceName, duration);
+        }
+    }
+
+    public event Action onRemoveResistance;
+    public void RemoveResistance()
+    {
+        if (onRemoveResistance != null)
+        {
+            onRemoveResistance();
+        }
+    }
 }

@@ -45,6 +45,8 @@ public class ResistanceHandler : MonoBehaviour
 
         damageResistances.Add(resistance); // Add resistance to list
 
+        UIEventSystem.current.ApplyResistance(DamageTypesManager.Types[resistance] + " Resistance", duration);
+
         resistanceTimer = StartCoroutine(StartDuration(mesh, duration));
     }
 
@@ -60,6 +62,8 @@ public class ResistanceHandler : MonoBehaviour
         mesh.materials = mats.ToArray<Material>(); // Takes entire array except the last element
 
         damageResistances.Clear(); // Empty resistance list ( works since we only have 1 way to add resistances )
+
+        UIEventSystem.current.RemoveResistance();
     }
 
     private IEnumerator StartDuration(SkinnedMeshRenderer mesh, float duration)
