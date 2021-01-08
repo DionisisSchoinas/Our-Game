@@ -14,9 +14,16 @@ public class Missile : MonoBehaviour
     private int damageType;
     private Condition condition;
     private string casterName;
+    private GameObject hitEffect;
 
     private Quaternion rotation;
+    private float tmpSpeed;
+    private bool boost;
+    private float spawnTime;
+
     private Vector3 orbitPoint;
+    private float roamTime;
+    private Vector3 startPosition;
 
 
     private void Start()
@@ -28,11 +35,16 @@ public class Missile : MonoBehaviour
         rb.mass = 0.1f;
         rb.useGravity = false;
 
-        orbitPoint = transform.position;
+        boost = false;
+        spawnTime = Time.time;
+
+        roamTime = 0f;
+
+        startPosition = transform.position;
         transform.LookAt(transform.position + Random.onUnitSphere * 3f);
     }
 
-    public void SetValues(float speed, float damage, float maxRotation, float homingRange, int damageType, Condition condition, string casterName)
+    public void SetValues(float speed, float damage, float maxRotation, float homingRange, int damageType, Condition condition, string casterName, GameObject hitEffect)
     {
         this.speed = speed;
         this.damage = damage;
@@ -41,27 +53,26 @@ public class Missile : MonoBehaviour
         this.damageType = damageType;
         this.condition = condition;
         this.casterName = casterName;
+        this.hitEffect = hitEffect;
+
+        tmpSpeed = speed * 3f;
     }
 
     private void FixedUpdate()
     {
-        /*
         if (boost)
         {
-            if (Time.time - spawnTime < 0.5f)
-                return;
-
             if (Time.time - spawnTime >= 0.5f)
             {
                 boost = false;
-                rb.AddForce(new Vector3(Random.value, Random.value, Random.value) * 10f, ForceMode.Impulse);
+                tmpSpeed = speed;
             }
         }
-        */
+
         if (target == null)
         {
             target = SearchForCloserTarget();
-            MoveAround();
+            //MoveAround();
         }
 
         if (target != null)
@@ -69,11 +80,14 @@ public class Missile : MonoBehaviour
             // If target out of range
             if ((target.position - transform.position).sqrMagnitude > homingRange * homingRange)
             {
-                orbitPoint = transform.position;
+                roamTime = 0f;
                 target = null;
                 return;
             }
-
+            /*
+            if (!boost)
+                tmpSpeed = speed;
+            */
             MoveToTarget(target.position);
             CheckCollision();
         }
@@ -92,7 +106,18 @@ public class Missile : MonoBehaviour
 
     private void MoveAround()
     {
-        MoveToTarget(orbitPoint + Random.onUnitSphere * 2f);
+        if (roamTime == 0f)
+        {
+            orbitPoint = transform.position + Random.onUnitSphere * 2f;
+            roamTime += Time.deltaTime;
+        }
+        else if (roamTime <= 1f)
+        {
+            transform.position = Vector3.Lerp(startPosition, orbitPoint, roamTime);
+            roamTime += Time.deltaTime;
+        }
+        else
+            roamTime = 0;
     }
 
     private Collider FindClosestCollider(Collider[] targets)
@@ -116,7 +141,7 @@ public class Missile : MonoBehaviour
     {
         rotation = Quaternion.LookRotation(position - transform.position);
         rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, maxRotation));
-        rb.velocity = transform.forward * speed;
+        rb.velocity = transform.forward * tmpSpeed;
     }
 
     private void CheckCollision()
@@ -130,33 +155,10 @@ public class Missile : MonoBehaviour
                 HealthEventSystem.current.TakeDamage(closest.gameObject.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(closest.gameObject.name, condition);
+
+                Destroy(Instantiate(hitEffect, transform.position, transform.rotation), 2f);
                 Destroy(gameObject);
             }
-        }
-    }
-
-    private Vector3 SampleParabola(Vector3 start, Vector3 end, float height, float t)
-    {
-        float parabolicT = t * 2 - 1;
-        if (Mathf.Abs(start.y - end.y) < 0.1f)
-        {
-            //start and end are roughly level, pretend they are - simpler solution with less steps
-            Vector3 travelDirection = end - start;
-            Vector3 result = start + t * travelDirection;
-            result.y += (-parabolicT * parabolicT + 1) * height;
-            return result;
-        }
-        else
-        {
-            //start and end are not level, gets more complicated
-            Vector3 travelDirection = end - start;
-            Vector3 levelDirecteion = end - new Vector3(start.x, end.y, start.z);
-            Vector3 right = Vector3.Cross(travelDirection, levelDirecteion);
-            Vector3 up = Vector3.Cross(right, travelDirection);
-            if (end.y > start.y) up = -up;
-            Vector3 result = start + t * travelDirection;
-            result += ((-parabolicT * parabolicT + 1) * height) * up.normalized;
-            return result;
         }
     }
 }

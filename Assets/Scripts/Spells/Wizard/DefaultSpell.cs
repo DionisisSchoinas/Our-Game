@@ -6,6 +6,7 @@ public class DefaultSpell : Spell
 {
     public float spawnBulletCooldown = 1f;
     public GameObject homingMissile;
+    public GameObject hitEffect;
 
     public float speed = 20f;
     public float damage = 5f;
@@ -31,8 +32,8 @@ public class DefaultSpell : Spell
 
     private void SpawnBullet()
     {
-        Missile missile = Instantiate(homingMissile, transform.position + Random.onUnitSphere, transform.rotation).AddComponent<Missile>();
-        missile.SetValues(speed, damage, maxRotation, homingRange, damageType, condition, casterName);
+        Missile missile = Instantiate(homingMissile, transform.position + Random.onUnitSphere / 2f, transform.rotation).AddComponent<Missile>();
+        missile.SetValues(speed, damage, maxRotation, homingRange, damageType, condition, casterName, hitEffect);
         Destroy(missile.gameObject, 3f);
     }
 

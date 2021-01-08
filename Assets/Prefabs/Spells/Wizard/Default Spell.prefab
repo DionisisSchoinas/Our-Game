@@ -45,12 +45,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uniqueOverlayToWeaponAdapterId: 0
   onCooldown: 1
-  cooldownPercentage: 0.5099998
+  cooldownPercentage: 0.8099995
   cancelled: 0
   spawnBulletCooldown: 0.2
   homingMissile: {fileID: 7550764474743830903, guid: 746984ba7798dc043956287efe6e4187,
     type: 3}
-  speed: 30
+  hitEffect: {fileID: 767892279365793050, guid: 272bb36b8b0b93142a694e90decdf4af,
+    type: 3}
+  speed: 20
   damage: 5
   maxRotation: 20
   homingRange: 20
