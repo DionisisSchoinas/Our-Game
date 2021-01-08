@@ -97,7 +97,7 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
         }
         
         //Handles Running
-        if (running)
+        if (running && !meleeController.isDuringAttack)
         { 
             if (runspeed < maxRunSpeed - speed)
             {
