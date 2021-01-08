@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SphereBurst : SwordEffect
 {
-    public float attackDelay = 0.5f;
     public float damage = 20f;
     public float sphereRadius = 15f;
     public float force = 10f;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SimpleSlash : SwordEffect
 {
-    public float attackDelay = 0.5f;
     public float force = 5f;
 
     [HideInInspector]
@@ -19,7 +18,7 @@ public class SimpleSlash : SwordEffect
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
-        StartCoroutine(PerformAttack(attackDelay, controls, indicator));
+        StartCoroutine(PerformAttack(comboTrailTimings[comboPhase].delayToFireSpell, controls, indicator));
     }
 
     IEnumerator PerformAttack(float attackDelay, PlayerMovementScriptWarrior controls, AttackIndicator indicator)

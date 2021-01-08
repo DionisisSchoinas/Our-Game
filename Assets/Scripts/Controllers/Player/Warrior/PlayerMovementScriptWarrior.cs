@@ -5,23 +5,32 @@ using UnityEngine;
 
 public class PlayerMovementScriptWarrior : PlayerMovementScript
 {
+    public GameObject dodgeSkill;
+    private WarriorDodge dodgeScript;
     public float rollDistance = 10f;
+    public float hitBlockAfterDodge = 0.05f;
 
     //Dodge
     private bool roll;
     public bool rolling;
+    [HideInInspector]
+    public bool allowHitAfterRoll;
+    /*
     private float rollTime = 0.9f;
     public float rollSpeed=15f;
+    
     private Vector3 rollDirection;
     private float rollCooldown;
     private bool canRoll;
+    */
     //Slide(When attacking)
     public bool sliding;
  
-    private float slidingSpeed = 10f;
+    //private float slidingSpeed = 10f;
 
     //----------------
     public GameObject particlesOnHit;
+
     //temp
     private MeleeController meleeController;
     
@@ -30,10 +39,18 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
     {
         base.Start();
 
-        meleeController = GameObject.FindObjectOfType<MeleeController>() as MeleeController;
+        meleeController = FindObjectOfType<MeleeController>() as MeleeController;
+
+        dodgeScript = dodgeSkill.GetComponent<WarriorDodge>();
+        dodgeScript.onCooldown = false;
+
+        roll = false;
+        rolling = false;
+        sliding = false;
+        allowHitAfterRoll = true;
 
         //Roll
-        canRoll = true ;
+        //canRoll = true ;
     }
 
     public new void Update()
@@ -103,28 +120,23 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
             }
 
         }
-     
-        //Move player towords direction
-        if (roll && !rolling && canMove)
-        {
-           
-            StartCoroutine(PerformRoll(rollTime));
-           
-        }
 
-        
+
+        //Move player towords direction
+        if (roll && !rolling && canMove && !dodgeScript.onCooldown)
+        {
+            HealthEventSystem.current.SetInvunerable(gameObject.name, true);
+            StartCoroutine(PerformRoll(dodgeScript.duration));
+        }
 
         if (rolling|| sliding)
         {
-            controller.Move(transform.forward * rollSpeed * Time.deltaTime);
+            controller.Move(transform.forward * (rollDistance / dodgeScript.duration) * Time.deltaTime);
         }
         else
         {
             if (canMove) controller.Move(direction * (speed + runspeed) * Time.deltaTime);
         }
-           
-       
-            
        
         if (jump && isGrounded)
         {
@@ -141,22 +153,15 @@ public class PlayerMovementScriptWarrior : PlayerMovementScript
     private IEnumerator PerformRoll(float second)
     {
         rolling = true;
+        allowHitAfterRoll = false;
         yield return new WaitForSeconds(second);
         rolling = false;
-    }
-   
-    private IEnumerator ResetCooldown(float second)
-    {
-        canRoll = false;
-        yield return new WaitForSeconds(second);
-        canRoll = true;
-    }
-    //public void getHit()
-    //{
-    //    FindObjectOfType<HitStop>().Stop(0.05f);
-    //    FindObjectOfType<CameraShake>().Shake(0.05f);
-    //    Destroy(Instantiate(particlesOnHit, transform.position + new Vector3(0, 1f, 0), transform.rotation), 1f);
-    //    
-    //}
 
+        dodgeScript.StartCooldown();
+        UIEventSystem.current.Dodged(dodgeScript.cooldown);
+        HealthEventSystem.current.SetInvunerable(gameObject.name, false);
+
+        yield return new WaitForSeconds(hitBlockAfterDodge);
+        allowHitAfterRoll = true;
+    }
 }

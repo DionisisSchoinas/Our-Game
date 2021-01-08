@@ -12,7 +12,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
 
     private bool dodge;
     private bool dodging;
-    private float lastDodge;
     private Vector3 dodgeDirection;
     private ParticleSystem dodgeParticleSystem;
     private CameraShake cameraShake;
@@ -23,12 +22,12 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
 
         dodge = false;
         dodging = false;
-        lastDodge = Time.time;
 
         dodgeParticleSystem = Instantiate(dodgeSkill).GetComponent<ParticleSystem>();
         dodgeParticleSystem.Stop();
         dodgeParticleSystem.transform.localScale = Vector3.one;
         dodgeScript = dodgeParticleSystem.gameObject.GetComponent<WizardDodge>();
+        dodgeScript.onCooldown = false;
 
         cameraShake = FindObjectOfType<CameraShake>();
     }
@@ -57,7 +56,7 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
             velocity.y = -2f;
         }
         //=================== Dodge =================== 
-        if (dodge && lastDodge + dodgeScript.cooldown <= Time.time)
+        if (dodge && !dodgeScript.onCooldown)
         {
             dodgeDirection = Quaternion.Euler(0, 45, 0) * new Vector3(horizontal, 0f, vertical).normalized;
             if (dodgeDirection == Vector3.zero)
@@ -182,7 +181,6 @@ public class PlayerMovementScriptWizard : PlayerMovementScript
         DodgeEffect(false);
         dodging = false;
         canMove = true;
-        lastDodge = Time.time;
 
         dodgeScript.StartCooldown();
         UIEventSystem.current.Dodged(dodgeScript.cooldown);

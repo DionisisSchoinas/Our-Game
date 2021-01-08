@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ResistanceEffect : SwordEffect
 {
-    public float attackDelay = 0.5f;
     [HideInInspector]
     public int resistance = -1;
     [HideInInspector]

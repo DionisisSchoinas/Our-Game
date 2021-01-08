@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ConeBurstSlash : SwordEffect
 {
-    public float attackDelay = 0.5f;
     public float damage = 50f;
     public float coneWidth = 35f;
     public float coneLength = 25f;

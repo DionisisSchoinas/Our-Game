@@ -76,8 +76,10 @@ public class MeleeController : MonoBehaviour
          *      sword.GetSelectedEffect().onCooldown -----> the selected skill is on cooldown
          *      
          *      clicks < sword.GetSelectedEffect().comboPhaseMax -----> if the clicks are lower than the max allowed combo amount ( with a max of 2 you can do up to 2 combo hits )
+         *      
+         *      controls.allowHitAfterRoll -----> check if mid roll
          */
-        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax)
+        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll)
         {
             if (canHit && !comboLock)
             {

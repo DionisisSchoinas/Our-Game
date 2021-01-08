@@ -69,5 +69,6 @@ public class ResourceManager
         private static string folder = "UI/";
         public static GameObject SkillListButton = ((GameObject)Resources.Load(folder + "Skill Button", typeof(GameObject)));
         public static GameObject SkillListColumn = ((GameObject)Resources.Load(folder + "Skill List Column", typeof(GameObject)));
+        public static GameObject EffectDisplay = ((GameObject)Resources.Load(folder + "Effect Display", typeof(GameObject)));
     }
 }

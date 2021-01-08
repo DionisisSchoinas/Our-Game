@@ -18,6 +18,8 @@ public class SwordEffect : BasicSword
     private SwordEffect currentEffect;
     private Transform tipPoint, basePoint;
 
+    protected float attackDelay;
+
     public override string type => "Sword Effect";
     public override string skillName => "Sword Effect";
     public override float cooldown => 0.7f;

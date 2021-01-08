@@ -371,9 +371,12 @@ MonoBehaviour:
   mouse_2: 0
   mousePressed_1: 0
   lockMouseInputs: 0
+  dodgeSkill: {fileID: 7171224450421549850, guid: 2f10e608275c6c44897188cda51bc20a,
+    type: 3}
   rollDistance: 10
+  hitBlockAfterDodge: 0.05
   rolling: 0
-  rollSpeed: 15
+  allowHitAfterRoll: 0
   sliding: 0
   particlesOnHit: {fileID: 3599422779471010124, guid: 5165b0af378bb7a4fbc4784dfb8deb68,
     type: 3}
@@ -391,7 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicator: {fileID: 2984568328822126950}
   comboLock: 0
-  comboCooldown: 1
+  comboCooldown: 0.2
   isDuringAttack: 0
 --- !u!114 &2984568328822126950
 MonoBehaviour:
