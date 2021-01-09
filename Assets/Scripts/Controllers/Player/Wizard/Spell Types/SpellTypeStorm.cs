@@ -25,6 +25,8 @@ public class SpellTypeStorm : Spell
     public override bool channel => true;
     public override float cooldown { get => 2f; }
     public override float duration { get => 10f; }
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void Awake()
     {

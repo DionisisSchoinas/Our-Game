@@ -25,6 +25,9 @@ public class DefaultSpell : Spell
     public override string skillName => "Default Spell";
     public override float cooldown => 2f;
     public override float duration => 0f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
+
 
     private GameObject tmpSpell;
 

@@ -26,6 +26,8 @@ public class Shield : Spell
     public override bool channel => true;
     public override float cooldown => 0.7f;
     public override float duration => 0f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     private void Start()
     {

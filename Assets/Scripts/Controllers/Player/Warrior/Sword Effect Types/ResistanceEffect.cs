@@ -14,32 +14,17 @@ public class ResistanceEffect : SwordEffect
     public override float cooldown => 20f;
     public override float duration => 10f;
     public override int comboPhaseMax => 1;
+    public override bool instaCast => true;
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
-        StartCoroutine(PerformAttack(attackDelay, controls, playerMesh));
+        StartCoroutine(PerformAttack(comboTrailTimings[comboPhase].delayToFireSpell, controls, playerMesh));
     }
 
     IEnumerator PerformAttack(float attackDelay, PlayerMovementScriptWarrior controls, SkinnedMeshRenderer playerMesh)
     {
-        yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(0f);
 
         HealthEventSystem.current.ApplyResistance(controls.gameObject.name, playerMesh, resistanceAppearance, resistance, duration);
-
-        /*
-        Debug.Log("Resisant to : " + resistance + " impliment resistance event");
-
-        if (resistanceAppearance != null)
-        {
-            playerMesh.materials = new Material[] { playerMesh.materials[0], resistanceAppearance };
-            StartCoroutine(ResetSkinMesh());
-        }
-        else
-        {
-            playerMesh.materials = new Material[] { playerMesh.materials[0] };
-        }
-
-        this.playerMesh = playerMesh;
-        */
     }
 }

@@ -20,6 +20,7 @@ public class SphereBurst : SwordEffect
     public override string skillName => "Sphere Burst";
     public override float cooldown => 10f;
     public override int comboPhaseMax => 1;
+    public override bool instaCast => true;
 
     private new void Awake()
     {
@@ -47,8 +48,7 @@ public class SphereBurst : SwordEffect
         indicatorController.SelectLocation(controls.transform, sphereRadius * 2f, sphereRadius * 2f, SpellIndicatorController.CircleIndicator);
         indicatorController.DestroyIndicator(swingCooldown * 0.8f);
 
-        yield return new WaitForSeconds(attackDelay);
-        controls.sliding = true;
+        yield return new WaitForSeconds(0);
 
         // Spawns copy of particle system
         ParticleSystem parts = Instantiate(particles, controls.transform.position + controls.transform.forward, controls.transform.rotation);
@@ -70,7 +70,6 @@ public class SphereBurst : SwordEffect
             }
         }
         yield return new WaitForSeconds(0.1f);
-        controls.sliding = false;
     }
 
     private GameObject[] FindTargets(Transform sphereCenter)

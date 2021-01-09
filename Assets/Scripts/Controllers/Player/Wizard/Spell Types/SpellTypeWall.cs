@@ -24,8 +24,10 @@ public class SpellTypeWall : Spell
     public override string type => "Wall";
     public override string skillName => "Wall";
     public override bool channel => true;
-    public override float cooldown { get => 2f; }
-    public override float duration { get => 10f; }
+    public override float cooldown => 2f;
+    public override float duration => 10f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void Awake()
     {

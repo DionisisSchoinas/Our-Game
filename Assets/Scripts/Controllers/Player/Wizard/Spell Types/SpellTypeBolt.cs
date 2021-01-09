@@ -22,6 +22,8 @@ public class SpellTypeBolt : Spell
     public override float duration { get => 0f; }
     public override float cooldown { get => 2f; }
     public float range => 50f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void Awake()
     {

@@ -17,6 +17,8 @@ public class SpellTypeBall : Spell
     public override float duration { get => 0f; }
     public override float cooldown { get => 20f; }
     public float range => 25f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void Awake()
     {

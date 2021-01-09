@@ -79,8 +79,11 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
             animator.SetFloat("Velocity Z", velocityZ);
             animator.SetFloat("Velocity X", velocityX);
         }
+    }
 
-        
+    public void PlaySkillSelectAnimation()
+    {
+        Debug.Log("do sth with animations here");
     }
 
     public void Attack(int limit)

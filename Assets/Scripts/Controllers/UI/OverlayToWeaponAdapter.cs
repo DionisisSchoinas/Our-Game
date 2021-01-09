@@ -98,8 +98,11 @@ public class OverlayToWeaponAdapter : MonoBehaviour
                 return;
             }
         }
+        if (GetSkillFromIndex(skillIndexInAdapter).instaCast)
+            UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter, false); // If the skill will also "attack" after picking don't freeze it
+        else
+            UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter, true);
 
-        UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter);
         DisplaySkillName(skillIndexInAdapter);
     }
 

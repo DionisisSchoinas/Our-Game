@@ -8,12 +8,11 @@ public class WizardDodge : Skill
     private float dodgeDuration = 0.2f;
 
     public override string type => "Dodge";
-
     public override string skillName => "Dash";
-
     public override float cooldown => 2f;
-
     public override float duration => dodgeDuration;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void StartCooldown()
     {

@@ -183,7 +183,7 @@ public class MeleeController : MonoBehaviour
 
     private void Attack()
     {
-        sword.Attack(controls, indicator, comboSwings);
+        sword.Attack(indicator, comboSwings);
     }
 
     private void SkillListUp(bool up)

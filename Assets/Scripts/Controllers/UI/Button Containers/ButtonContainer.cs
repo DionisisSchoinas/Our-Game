@@ -111,8 +111,11 @@ public class ButtonContainer : ElementHover, IDragHandler
 
 
     //------------ Event functions ------------
-    private void SkillPicked(int skillIndexInAdapter)
+    private void SkillPicked(int skillIndexInAdapter, bool startCooldown)
     {
+        if (buttonData.skillIndexInAdapter == skillIndexInAdapter && !startCooldown)
+            return;
+
         if (!buttonAlreadyDisplayingCooldown && isActiveAndEnabled)
         {
             if (!buttonData.skill.onCooldown)

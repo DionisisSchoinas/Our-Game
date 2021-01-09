@@ -19,13 +19,17 @@ public class Sword : MonoBehaviour
     private SwordEffect currentEffect;
     private Renderer swordRenderer;
 
-    
+    private PlayerMovementScriptWarrior controls;
+    private AnimationScriptControllerWarrior animator;
 
     private void Start()
     {
         swordRenderer = swordObject.GetComponent<SkinnedMeshRenderer>();
         if (swordRenderer == null)
             swordRenderer = swordObject.GetComponent<MeshRenderer>();
+
+        controls = GetComponent<PlayerMovementScriptWarrior>();
+        animator = GetComponent<AnimationScriptControllerWarrior>();
 
         isSwinging = false;
 
@@ -55,7 +59,7 @@ public class Sword : MonoBehaviour
         return true;
     }
 
-    public void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, int comboPhase)
+    public void Attack(AttackIndicator indicator, int comboPhase)
     {
         isSwinging = true;
 
@@ -64,10 +68,7 @@ public class Sword : MonoBehaviour
         currentEffect.StartSwingCooldown();
         currentEffect.Attack(controls, indicator, playerMesh);
 
-        if (selectedEffect == -1)
-            UIEventSystem.current.FreezeAllSkills(defaultSwordEffect.uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
-        else
-            UIEventSystem.current.FreezeAllSkills(swordEffects[selectedEffect].uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
+        UIEventSystem.current.FreezeAllSkills(currentEffect.uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
     }
 
     private void ChangeSwordEffect()
@@ -75,14 +76,14 @@ public class Sword : MonoBehaviour
         if (currentEffect != null) Destroy(currentEffect.gameObject);
 
         if (selectedEffect == -1)
-            currentEffect = defaultSwordEffect.InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
+            currentEffect = defaultSwordEffect.InstaCast(controls, null, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
         else
-            currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
+            currentEffect = swordEffects[selectedEffect].InstaCast(controls, null, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
 
         currentEffect.transform.position = swordObject.transform.position;
         currentEffect.transform.rotation = swordObject.transform.rotation;
 
-        swordRenderer.material = currentEffect.attributes.swordMaterial;
+        animator.PlaySkillSelectAnimation();
     }
 
     public void StartSwingTrail()

@@ -4871,11 +4871,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552dcf822a015d849a74b4e2832bac65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 3
+  onCooldown: 0
+  cooldownPercentage: 0
   attributes:
     trails:
     - {fileID: 8215892400159611791, guid: 73dce3ee91a19f249af5a865c5cda15d, type: 3}
-    swordMaterial: {fileID: 2100000, guid: 2d229da0c3e4d874ba735f72dc414b71, type: 2}
-  attackDelay: 0.5
+    swordMaterial: {fileID: 2100000, guid: 6d73a9dc708008c4887583475cdd6e45, type: 2}
   damage: 20
   sphereRadius: 15
   force: 10

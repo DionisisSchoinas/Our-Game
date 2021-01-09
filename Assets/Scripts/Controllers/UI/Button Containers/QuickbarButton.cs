@@ -25,7 +25,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
         UIEventSystem.current.onSkillPickedRegistered -= SelectButton;
     }
 
-    private void SelectButton(int skillIndexInAdapter)
+    private void SelectButton(int skillIndexInAdapter, bool startCooldown)
     {
         if (buttonData.skillIndexInAdapter == skillIndexInAdapter)
         {

@@ -8,12 +8,11 @@ public class WarriorDodge : Skill
     private float dodgeDuration = 0.2f;
 
     public override string type => "Dodge";
-
     public override string skillName => "Roll";
-
     public override float cooldown => 3f;
-
     public override float duration => dodgeDuration;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void StartCooldown()
     {
