@@ -14,6 +14,6 @@ public class Iceray : SpellTypeRay
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Ice;
+        return ResourceManager.Sources.Spells.Ice;
     }
 }

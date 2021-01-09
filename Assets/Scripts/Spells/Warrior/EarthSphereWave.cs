@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EarthSphereWave : SphereBurst
 {
@@ -10,5 +8,10 @@ public class EarthSphereWave : SphereBurst
     {
         damageType = DamageTypesManager.Physical;
         condition = null;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Earth;
     }
 }

@@ -13,6 +13,6 @@ public class LightningStorm : SpellTypeStorm
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Lightning;
+        return ResourceManager.Sources.Spells.Lightning;
     }
 }

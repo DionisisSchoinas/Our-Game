@@ -5,13 +5,26 @@ public class ResourceManager
     public class Sources
     {
         private static string folder = "Sources/";
-        public static ParticleSystem Default = ((GameObject)Resources.Load(folder + "Default Source", typeof(GameObject))).GetComponent<ParticleSystem>();
-        public static ParticleSystem DefaultStationary = ((GameObject)Resources.Load(folder + "Default Stationary Source", typeof(GameObject))).GetComponent<ParticleSystem>();
-        public static ParticleSystem Fire = ((GameObject)Resources.Load(folder + "Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
-        public static ParticleSystem Lightning = ((GameObject)Resources.Load(folder + "Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
-        public static ParticleSystem Smoke = ((GameObject)Resources.Load(folder + "Default Smoke Source", typeof(GameObject))).GetComponent<ParticleSystem>();
-        public static ParticleSystem Earth = ((GameObject)Resources.Load(folder + "Default Earth Source", typeof(GameObject))).GetComponent<ParticleSystem>();
-        public static ParticleSystem Ice = ((GameObject)Resources.Load(folder + "Default Ice Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        public class Spells
+        {
+            private static string folder = Sources.folder + "Spells/";
+            public static ParticleSystem Default = ((GameObject)Resources.Load(folder + "Default Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem DefaultStationary = ((GameObject)Resources.Load(folder + "Default Stationary Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Fire = ((GameObject)Resources.Load(folder + "Default Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Lightning = ((GameObject)Resources.Load(folder + "Default Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Smoke = ((GameObject)Resources.Load(folder + "Default Smoke Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Earth = ((GameObject)Resources.Load(folder + "Default Earth Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Ice = ((GameObject)Resources.Load(folder + "Default Ice Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        }
+
+        public class SwordEffects
+        {
+            private static string folder = Sources.folder + "Sword Skills/";
+            public static ParticleSystem Fire = ((GameObject)Resources.Load(folder + "Fire Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Ice = ((GameObject)Resources.Load(folder + "Ice Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Lightning = ((GameObject)Resources.Load(folder + "Lightning Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+            public static ParticleSystem Earth = ((GameObject)Resources.Load(folder + "Earth Source", typeof(GameObject))).GetComponent<ParticleSystem>();
+        }
     }
 
     public class Effects

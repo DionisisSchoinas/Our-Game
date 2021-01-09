@@ -11,4 +11,9 @@ public class LightningSphereWave : SphereBurst
         damageType = DamageTypesManager.Lightning;
         condition = ConditionsManager.Electrified;
     }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Lightning;
+    }
 }

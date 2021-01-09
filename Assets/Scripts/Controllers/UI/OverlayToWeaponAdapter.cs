@@ -82,6 +82,10 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     // Based on the total index triggers appropriate spell
     private void SetSelectedSpell(int skillIndexInAdapter)
     {
+        // Check if skill is on cooldown
+        if (GetSkillFromIndex(skillIndexInAdapter).onCooldown)
+            return;
+
         if (skillIndexInAdapter < wandListLength)
         {
             // Check if the skill coudln't be selected
@@ -98,6 +102,7 @@ public class OverlayToWeaponAdapter : MonoBehaviour
                 return;
             }
         }
+
         if (GetSkillFromIndex(skillIndexInAdapter).instaCast)
             UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter, false); // If the skill will also "attack" after picking don't freeze it
         else

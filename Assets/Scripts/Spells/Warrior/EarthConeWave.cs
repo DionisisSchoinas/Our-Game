@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 public class EarthConeWave : ConeBurstSlash
 {
@@ -8,5 +8,10 @@ public class EarthConeWave : ConeBurstSlash
     {
         damageType = DamageTypesManager.Physical;
         condition = null;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Earth;
     }
 }

@@ -6292,7 +6292,7 @@ MonoBehaviour:
   columnContentHolder: {fileID: 1670486413}
   dodgeDisplay: {fileID: 7384456461897142333}
   effectsDisplay: {fileID: 168693150}
-  secondsAfterPickingSkill: 0.1
+  secondsAfterPickingSkill: 0.3
   secondsAfterCastingSkill: 0.5
   buttonColorSelected: {r: 0.96430343, g: 1, b: 0.37647057, a: 1}
   quickbarButtons:

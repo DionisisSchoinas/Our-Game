@@ -21,6 +21,7 @@ public class Sword : MonoBehaviour
 
     private PlayerMovementScriptWarrior controls;
     private AnimationScriptControllerWarrior animator;
+    public bool lockHits;
 
     private void Start()
     {
@@ -32,6 +33,7 @@ public class Sword : MonoBehaviour
         animator = GetComponent<AnimationScriptControllerWarrior>();
 
         isSwinging = false;
+        lockHits = false;
 
         ChangeSwordEffect();
     }
@@ -76,14 +78,28 @@ public class Sword : MonoBehaviour
         if (currentEffect != null) Destroy(currentEffect.gameObject);
 
         if (selectedEffect == -1)
-            currentEffect = defaultSwordEffect.InstaCast(controls, null, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
+            currentEffect = defaultSwordEffect.InstaCast(controls, swordObject, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
         else
-            currentEffect = swordEffects[selectedEffect].InstaCast(controls, null, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
+            currentEffect = swordEffects[selectedEffect].InstaCast(controls, swordObject, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
 
         currentEffect.transform.position = swordObject.transform.position;
         currentEffect.transform.rotation = swordObject.transform.rotation;
 
+        //LockHits();
+    }
+
+    private void LockHits()
+    {
+        lockHits = true;
         animator.PlaySkillSelectAnimation();
+        StartCoroutine(UnLockHits());
+    }
+
+    private IEnumerator UnLockHits()
+    {
+        yield return new WaitForSeconds(1f);
+        animator.StopSkillSelectAnimation();
+        lockHits = false;
     }
 
     public void StartSwingTrail()

@@ -36,8 +36,9 @@ public class ConeBurstSlash : SwordEffect
         attackAngle = Vector3.Angle(edge1, edge2);
     }
 
-    private void OnDestroy()
+    private new void OnDestroy()
     {
+        base.OnDestroy();
         Destroy(particles.gameObject);
     }
 

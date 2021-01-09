@@ -14,6 +14,6 @@ public class Firebolt : SpellTypeBolt
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Fire;
+        return ResourceManager.Sources.Spells.Fire;
     }
 }

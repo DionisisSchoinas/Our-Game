@@ -78,6 +78,8 @@ public class MeleeController : MonoBehaviour
          *      clicks < sword.GetSelectedEffect().comboPhaseMax -----> if the clicks are lower than the max allowed combo amount ( with a max of 2 you can do up to 2 combo hits )
          *      
          *      controls.allowHitAfterRoll -----> check if mid roll
+         *      
+         *      !sword.lockHits -----> checks for sword being occupied
          */
         if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll)
         {

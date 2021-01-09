@@ -39,4 +39,9 @@ public class SimpleSlash : SwordEffect
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;
     }
+
+    public override ParticleSystem GetSource()
+    {
+        return null;
+    }
 }

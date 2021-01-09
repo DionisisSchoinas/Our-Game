@@ -9,6 +9,6 @@ public class Iceball : SpellTypeBall
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Ice;
+        return ResourceManager.Sources.Spells.Ice;
     }
 }

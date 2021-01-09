@@ -1,4 +1,5 @@
-﻿
+﻿using UnityEngine;
+
 public class FireSimpleSwing : SimpleSlash
 {
     public override string skillName => "Fire Slash";
@@ -7,5 +8,10 @@ public class FireSimpleSwing : SimpleSlash
     {
         damageType = DamageTypesManager.Fire;
         condition = ConditionsManager.Burning;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Fire;
     }
 }

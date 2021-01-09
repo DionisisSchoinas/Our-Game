@@ -17,6 +17,9 @@ public class SwordEffect : BasicSword
     private List<SwingTrailRenderer> trails;
     private SwordEffect currentEffect;
     private Transform tipPoint, basePoint;
+    private GameObject swordParticles;
+
+    protected bool instaCasting;
 
     public override string type => "Sword Effect";
     public override string skillName => "Sword Effect";
@@ -30,6 +33,13 @@ public class SwordEffect : BasicSword
     {
         base.Awake();
         trails = new List<SwingTrailRenderer>();
+        instaCasting = false;
+    }
+
+    protected void OnDestroy()
+    {
+        if (swordParticles != null)
+            Destroy(swordParticles);
     }
 
     public SwordEffect InstantiateEffect(Transform tPoint, Transform bPoint, Transform parent)
@@ -66,48 +76,56 @@ public class SwordEffect : BasicSword
         }
     }
 
-
-    public SwordEffect InstaCast(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh, Renderer swordRenderer, Transform swordTopPoint, Transform swordBasePoint, Transform swordParent)
+    // This function instanitates a cipy of itself and calls the coroutine FROM THE COPY
+    public SwordEffect InstaCast(PlayerMovementScriptWarrior controls, GameObject swordObject, SkinnedMeshRenderer playerMesh, Renderer swordRenderer, Transform swordTopPoint, Transform swordBasePoint, Transform swordParent)
     {
         SwordEffect current = InstantiateEffect(swordTopPoint, swordBasePoint, swordParent);
-        ParticleSystem[] particles = current.GetComponentsInChildren<ParticleSystem>();
-        foreach (ParticleSystem ps in particles)
-        {
-            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        }
-
-        current.StartCast(particles, controls, indicator, playerMesh, swordRenderer);
+        current.StartCast(controls, swordObject, playerMesh, swordRenderer);
 
         return current;
     }
 
-    public void StartCast(ParticleSystem[] particles, PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh, Renderer swordRenderer)
+    // Called in the copy of the object
+    public void StartCast(PlayerMovementScriptWarrior controls, GameObject swordObject, SkinnedMeshRenderer playerMesh, Renderer swordRenderer)
     {
         if (isActiveAndEnabled)
-            StartCoroutine(DelayInstaCast(particles, controls, indicator, playerMesh, swordRenderer));
+            StartCoroutine(DelayInstaCast(controls, swordObject, playerMesh, swordRenderer));
     }
 
-    private IEnumerator DelayInstaCast(ParticleSystem[] particles, PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh, Renderer swordRenderer)
+    private IEnumerator DelayInstaCast(PlayerMovementScriptWarrior controls, GameObject swordObject, SkinnedMeshRenderer playerMesh, Renderer swordRenderer)
     {
+        instaCasting = true;
+
         yield return new WaitForSeconds(instaCastDelay);
-        foreach (ParticleSystem ps in particles)
+
+        if (swordParticles != null)
+            Destroy(swordParticles);
+
+        if (GetSource() != null)
         {
-            ps.Play();
+            swordParticles = Instantiate(GetSource().gameObject, swordObject.transform);
+            swordParticles.transform.rotation = swordObject.transform.rotation;
         }
 
         swordRenderer.material = attributes.swordMaterial;
 
         if (instaCast)
         {
-            Attack(controls, indicator, playerMesh);
+            Attack(controls, null, playerMesh);
             
             StartCooldown();
             UIEventSystem.current.FreezeAllSkills(uniqueOverlayToWeaponAdapterId, swingCooldown * 0.5f);
-            
         }
+
+        instaCasting = false;
     }
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return null;
     }
 }

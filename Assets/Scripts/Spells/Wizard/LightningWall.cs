@@ -20,7 +20,7 @@ public class LightningWall : SpellTypeWall
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Lightning;
+        return ResourceManager.Sources.Spells.Lightning;
     }
     private void SpawnArcs()
     {

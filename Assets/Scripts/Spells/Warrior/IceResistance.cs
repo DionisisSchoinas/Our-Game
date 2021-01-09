@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 public class IceResistance : ResistanceEffect
 {
@@ -8,5 +8,10 @@ public class IceResistance : ResistanceEffect
     {
         resistance = DamageTypesManager.Cold;
         resistanceAppearance = ResourceManager.Materials.Resistances.Ice;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Ice;
     }
 }

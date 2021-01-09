@@ -13,6 +13,6 @@ public class Firewall : SpellTypeWall
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Fire;
+        return ResourceManager.Sources.Spells.Fire;
     }
 }

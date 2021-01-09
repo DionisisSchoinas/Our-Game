@@ -14,6 +14,6 @@ public class StoneRay : SpellTypeRay
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Earth;
+        return ResourceManager.Sources.Spells.Earth;
     }
 }

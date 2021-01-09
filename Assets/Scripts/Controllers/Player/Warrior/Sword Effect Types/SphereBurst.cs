@@ -31,8 +31,9 @@ public class SphereBurst : SwordEffect
         particles.transform.localScale = Vector3.one;
     }
 
-    private void OnDestroy()
+    private new void OnDestroy()
     {
+        base.OnDestroy();
         Destroy(particles.gameObject);
     }
 
@@ -48,7 +49,10 @@ public class SphereBurst : SwordEffect
         indicatorController.SelectLocation(controls.transform, sphereRadius * 2f, sphereRadius * 2f, SpellIndicatorController.CircleIndicator);
         indicatorController.DestroyIndicator(swingCooldown * 0.8f);
 
-        yield return new WaitForSeconds(0);
+        if (instaCasting)
+            yield return null;
+        else
+            yield return new WaitForSeconds(attackDelay);
 
         // Spawns copy of particle system
         ParticleSystem parts = Instantiate(particles, controls.transform.position + controls.transform.forward, controls.transform.rotation);

@@ -23,7 +23,10 @@ public class ResistanceEffect : SwordEffect
 
     IEnumerator PerformAttack(float attackDelay, PlayerMovementScriptWarrior controls, SkinnedMeshRenderer playerMesh)
     {
-        yield return new WaitForSeconds(0f);
+        if (instaCasting)
+            yield return null;
+        else
+            yield return new WaitForSeconds(attackDelay);
 
         HealthEventSystem.current.ApplyResistance(controls.gameObject.name, playerMesh, resistanceAppearance, resistance, duration);
     }

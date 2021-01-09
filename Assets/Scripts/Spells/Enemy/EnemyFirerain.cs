@@ -50,7 +50,7 @@ public class EnemyFirerain : EnemySpell
             if (holding)
             {
                 pickedSpot = false;
-                tmpSource = Instantiate(ResourceManager.Sources.Fire, firePoint.position, firePoint.rotation);
+                tmpSource = Instantiate(ResourceManager.Sources.Spells.Fire, firePoint.position, firePoint.rotation);
             }
             else
             {

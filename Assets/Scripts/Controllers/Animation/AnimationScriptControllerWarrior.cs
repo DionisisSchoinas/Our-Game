@@ -83,7 +83,12 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
 
     public void PlaySkillSelectAnimation()
     {
-        Debug.Log("do sth with animations here");
+        animator.SetBool("Cast Spell", true);
+    }
+
+    public void StopSkillSelectAnimation()
+    {
+        animator.SetBool("Cast Spell", false);
     }
 
     public void Attack(int limit)

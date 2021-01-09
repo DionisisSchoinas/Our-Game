@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 public class IceConeWave : ConeBurstSlash
 {
@@ -8,5 +8,10 @@ public class IceConeWave : ConeBurstSlash
     {
         damageType = DamageTypesManager.Cold;
         condition = ConditionsManager.Frozen;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Ice;
     }
 }

@@ -13,6 +13,6 @@ public class WallOfSand : SpellTypeWall
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Earth;
+        return ResourceManager.Sources.Spells.Earth;
     }
 }

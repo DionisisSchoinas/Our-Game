@@ -33,7 +33,7 @@ public class DefaultSpell : Spell
 
     private void Start()
     {
-        Instantiate(ResourceManager.Sources.DefaultStationary, transform);
+        Instantiate(ResourceManager.Sources.Spells.DefaultStationary, transform);
         InvokeRepeating(nameof(SpawnBullet), 0f, spawnBulletCooldown);
         InvokeRepeating(nameof(DoDamage), 0f, 1f / damageTicksPerSeconds);
     }
@@ -82,7 +82,7 @@ public class DefaultSpell : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Sources.Default;
+        return ResourceManager.Sources.Spells.Default;
     }
 
     public override void WakeUp()

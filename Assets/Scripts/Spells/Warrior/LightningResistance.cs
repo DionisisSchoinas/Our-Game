@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 public class LightningResistance : ResistanceEffect
 {
@@ -8,5 +8,9 @@ public class LightningResistance : ResistanceEffect
     {
         resistance = DamageTypesManager.Lightning;
         resistanceAppearance = ResourceManager.Materials.Resistances.Lightning;
+    }
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Lightning;
     }
 }

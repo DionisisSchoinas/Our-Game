@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 public class FireResistance : ResistanceEffect
 {
@@ -8,5 +8,10 @@ public class FireResistance : ResistanceEffect
     {
         resistance = DamageTypesManager.Fire;
         resistanceAppearance = ResourceManager.Materials.Resistances.Fire;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Fire;
     }
 }
