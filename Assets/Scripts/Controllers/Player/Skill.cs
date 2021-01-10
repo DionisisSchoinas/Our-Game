@@ -18,6 +18,8 @@ public abstract class Skill : MonoBehaviour
 
     public abstract float duration { get; }
 
+    public abstract float manaCost { get; }
+
     public abstract float instaCastDelay { get; }
     public abstract bool instaCast { get; }
 

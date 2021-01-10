@@ -31,10 +31,4 @@ public class PlayerResourcesController : MonoBehaviour
             manaController.SetValues(maxMana, manaRegenPerSecond, manaBar, manaBarColor);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

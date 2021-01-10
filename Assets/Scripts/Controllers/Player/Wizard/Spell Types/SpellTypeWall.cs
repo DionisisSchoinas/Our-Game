@@ -28,6 +28,7 @@ public class SpellTypeWall : Spell
     public override float duration => 10f;
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 35f;
 
     public new void Awake()
     {
@@ -62,6 +63,8 @@ public class SpellTypeWall : Spell
                     indicatorResponse = indicatorController.LockLocation();
                     if (!indicatorResponse.isNull && !cancelled)
                     {
+                        ManaEventSystem.current.UseMana(manaCost);
+
                         currentWall = Instantiate(gameObject);
                         currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + indicatorResponse.centerOfAoe;
                         currentWall.transform.eulerAngles = indicatorResponse.spellRotation;

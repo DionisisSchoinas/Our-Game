@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EarthSimpleSwing : SimpleSlash
+public class EarthSimpleSwing : ElementalSlash
 {
     public override string skillName => "Earth Slash";
 

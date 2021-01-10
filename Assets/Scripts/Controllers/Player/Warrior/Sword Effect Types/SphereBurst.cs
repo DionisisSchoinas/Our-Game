@@ -21,6 +21,7 @@ public class SphereBurst : SwordEffect
     public override float cooldown => 10f;
     public override int comboPhaseMax => 1;
     public override bool instaCast => true;
+    public override float manaCost => 20f;
 
     private new void Awake()
     {

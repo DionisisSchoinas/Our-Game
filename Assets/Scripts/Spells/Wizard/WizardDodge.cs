@@ -13,6 +13,7 @@ public class WizardDodge : Skill
     public override float duration => dodgeDuration;
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 0f;
 
     public new void StartCooldown()
     {

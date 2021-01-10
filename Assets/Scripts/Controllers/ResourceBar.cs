@@ -25,7 +25,6 @@ public class ResourceBar : MonoBehaviour
     {
         if (resourceDisplay != null)
         {
-            Debug.Log(gameObject.name);
             resourceBarColor = barColor;
             resourceDisplay.color = barColor;
         }

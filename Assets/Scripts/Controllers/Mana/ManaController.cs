@@ -9,12 +9,20 @@ public class ManaController : EntityResource
         base.Awake();
     }
 
+    private new void Start()
+    {
+        base.Start();
+
+        ManaEventSystem.current.onManaUsed += ReduceMana;
+    }
+
     private void OnDestroy()
     {
+        ManaEventSystem.current.onManaUsed -= ReduceMana;
     }
 
     public void ReduceMana(float reduction)
     {
-        currentValue -= reduction;
+        currentValue = currentValue - reduction;
     }
 }

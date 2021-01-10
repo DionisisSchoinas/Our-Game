@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class IceSimpleSwing : SimpleSlash
+public class IceSimpleSwing : ElementalSlash
 {
     public override string skillName => "Ice Slash";
 

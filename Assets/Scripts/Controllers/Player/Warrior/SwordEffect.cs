@@ -28,6 +28,7 @@ public class SwordEffect : BasicSword
     public override int comboPhaseMax => 3;
     public override float instaCastDelay => 0.4f;
     public override bool instaCast => false;
+    public override float manaCost => 0f;
 
     public new void Awake()
     {

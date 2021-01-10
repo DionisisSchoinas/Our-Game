@@ -19,6 +19,7 @@ public class SpellTypeBall : Spell
     public float range => 25f;
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 20f;
 
     public new void Awake()
     {
@@ -64,6 +65,8 @@ public class SpellTypeBall : Spell
         }
         else
         {
+            ManaEventSystem.current.UseMana(manaCost);
+
             Spell script = Instantiate(gameObject, firePoint.position + firePoint.forward * 0.5f, firePoint.rotation).GetComponent<Spell>();
             script.DesrtoyAfterDistanceTravelled(range - 1.5f);
             script.TransferData(this);

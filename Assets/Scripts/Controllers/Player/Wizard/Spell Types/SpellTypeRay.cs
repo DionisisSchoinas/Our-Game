@@ -23,6 +23,7 @@ public class SpellTypeRay : Spell
     public override float duration { get => 0f; }
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 2f;
 
 
     public new void Awake()
@@ -90,6 +91,8 @@ public class SpellTypeRay : Spell
                     if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }
         }
+
+        ManaEventSystem.current.UseMana(manaCost);
     }
 
     //------------------ Irrelevant ------------------

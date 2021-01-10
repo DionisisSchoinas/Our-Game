@@ -27,6 +27,7 @@ public class SpellTypeStorm : Spell
     public override float duration { get => 10f; }
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 50f;
 
     public new void Awake()
     {
@@ -59,6 +60,8 @@ public class SpellTypeStorm : Spell
                     indicatorResponse = indicatorController.LockLocation();
                     if (!indicatorResponse.isNull && !cancelled)
                     {
+                        ManaEventSystem.current.UseMana(manaCost);
+
                         tmpStorm = Instantiate(gameObject);
                         tmpStorm.transform.position = indicatorResponse.centerOfAoe + Vector3.up * 40f;
                         tmpStorm.SetActive(true);
