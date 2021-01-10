@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityResource : MonoBehaviour
+public abstract class EntityResource : MonoBehaviour
 {
     public float maxValue = 100f;
     public ResourceBar resourceBar;
@@ -13,7 +13,7 @@ public class EntityResource : MonoBehaviour
 
     private Color barColor;
     private bool regening;
-    private bool finsihedRegen;
+    protected bool finsihedRegen;
 
     private float _currentValue;
     public float currentValue
@@ -68,7 +68,7 @@ public class EntityResource : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        if (currentValue < maxValue && !regening && Time.time - lastReduction >= 2f)
+        if (regenPerSecond != 0 && currentValue < maxValue && !regening && Time.time - lastReduction >= 2f)
         {
             regening = true;
             regenCoroutine = StartCoroutine(Regen());
@@ -81,15 +81,5 @@ public class EntityResource : MonoBehaviour
         }
     }
 
-    private IEnumerator Regen()
-    {
-        finsihedRegen = false;
-        while (currentValue < maxValue)
-        {
-            currentValue = currentValue + regenPerSecond / 10f;
-            yield return new WaitForSeconds(0.1f);
-        }
-        finsihedRegen = true;
-        yield return null;
-    }
+    protected abstract IEnumerator Regen();
 }

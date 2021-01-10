@@ -30,7 +30,10 @@ public class MeleeController : MonoBehaviour
 
     private bool skillListUp;
     private float lastCooldownDisplayMessage;
+    private float lastManaDisplayMessage;
     public static float skillComboCooldown;
+
+    private float currentMana;
 
     // Start is called before the first frame update
     void Start()
@@ -52,16 +55,24 @@ public class MeleeController : MonoBehaviour
         comboSwings = 0;
         clicks = 0;
         lastCooldownDisplayMessage = Time.time;
+        lastManaDisplayMessage = Time.time;
 
         skillComboCooldown = comboCooldown;
 
         skillListUp = false;
         UIEventSystem.current.onSkillListUp += SkillListUp;
+        ManaEventSystem.current.onManaUpdated += ManaUpdate;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.onSkillListUp -= SkillListUp;
+        ManaEventSystem.current.onManaUpdated -= ManaUpdate;
+    }
+
+    private void ManaUpdate(float mana)
+    {
+        currentMana = mana;
     }
 
     void FixedUpdate()
@@ -80,8 +91,10 @@ public class MeleeController : MonoBehaviour
          *      controls.allowHitAfterRoll -----> check if mid roll
          *      
          *      !sword.isCastinSkill -----> checks for sword being occupied
+         *      
+         *      sword.GetSelectedEffect().manaCost <= currentMana -----> checks if there is enough mana to cast the skill
          */
-        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll && !sword.isCastingSkill)
+        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll && !sword.isCastingSkill && sword.GetSelectedEffect().manaCost <= currentMana)
         {
             if (canHit && !comboLock)
             {
@@ -98,6 +111,7 @@ public class MeleeController : MonoBehaviour
                     comboQueue.Add(0);
 
                     lastCooldownDisplayMessage = Time.time;
+                    lastManaDisplayMessage = Time.time;
                 }
             }
         }
@@ -114,10 +128,21 @@ public class MeleeController : MonoBehaviour
                 Debug.Log("On Cooldown");
                 lastCooldownDisplayMessage = Time.time;
             }
+            return;
+        }
+
+        if (currentMana < sword.GetSelectedEffect().manaCost && controls.mousePressed_1)
+        {
+            if (Time.time - lastManaDisplayMessage >= 1f)
+            {
+                Debug.Log("Not enough mana");
+                lastManaDisplayMessage = Time.time;
+            }
+            return;
         }
 
         // Start the actual attack function
-        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3 && comboSwings < sword.GetSelectedEffect().comboPhaseMax && !sword.isCastingSkill)
+        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3 && comboSwings < sword.GetSelectedEffect().comboPhaseMax && !sword.isCastingSkill && sword.GetSelectedEffect().manaCost <= currentMana)
         {
             attacking = true;
             isDuringAttack = true;

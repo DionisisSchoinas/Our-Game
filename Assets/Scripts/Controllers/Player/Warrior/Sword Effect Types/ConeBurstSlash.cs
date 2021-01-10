@@ -21,7 +21,7 @@ public class ConeBurstSlash : SwordEffect
     public override string type => "Cone Burst";
     public override string skillName => "Cone Burst";
     public override float cooldown => 20f;
-    public override float manaCost => 15f;
+    public override float manaCost => 20f;
 
     private new void Awake()
     {

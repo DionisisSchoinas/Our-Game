@@ -15,7 +15,7 @@ public class ResistanceEffect : SwordEffect
     public override float duration => 10f;
     public override int comboPhaseMax => 1;
     public override bool instaCast => true;
-    public override float manaCost => 10f;
+    public override float manaCost => 20f;
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {

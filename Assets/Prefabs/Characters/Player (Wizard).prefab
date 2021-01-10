@@ -2475,13 +2475,14 @@ GameObject:
   - component: {fileID: 4964402965454966634}
   - component: {fileID: 8004408310699045391}
   - component: {fileID: 1185152694}
+  - component: {fileID: 611242018}
   m_Layer: 12
   m_Name: Player (Wizard)
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4964402965454966615
 Transform:
   m_ObjectHideFlags: 0
@@ -2666,6 +2667,28 @@ MonoBehaviour:
   wand: {fileID: 4964402965454966635}
   sword: {fileID: 0}
   spellNameDisplay: {fileID: 0}
+--- !u!114 &611242018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4964402965454966613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b00c10243f1e34097d6f4f61ca808e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  healthBarColor: {r: 1, g: 0, b: 0, a: 1}
+  maxHealth: 100
+  healthRegenPerSecond: 10
+  respawn: 1
+  invulnerable: 0
+  manaBar: {fileID: 0}
+  manaBarColor: {r: 0, g: 0.59463525, b: 1, a: 1}
+  maxMana: 100
+  manaRegenPerSecond: 5
 --- !u!1 &4964402965491255278
 GameObject:
   m_ObjectHideFlags: 0

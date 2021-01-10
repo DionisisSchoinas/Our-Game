@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 2984568329992020968}
   - component: {fileID: 2798218118270504238}
   - component: {fileID: 4096420264601712552}
+  - component: {fileID: 2096881562}
   m_Layer: 12
   m_Name: Player (Warrior )
   m_TagString: Player
@@ -371,7 +372,7 @@ MonoBehaviour:
   dodgeSkill: {fileID: 7171224450421549850, guid: 2f10e608275c6c44897188cda51bc20a,
     type: 3}
   rollDistance: 10
-  hitBlockAfterDodge: 0.05
+  hitBlockAfterDodge: 0.2
   rolling: 0
   allowHitAfterRoll: 0
   sliding: 0
@@ -443,26 +444,25 @@ MonoBehaviour:
   swordMotionRoot: {fileID: 386261893380594660}
   tipPoint: {fileID: 2984568329429575283}
   basePoint: {fileID: 2984568329755352924}
-  defaultSwordEffect: {fileID: 0}
+  defaultSwordEffect: {fileID: -88320675119019295, guid: ef10e8eef305db3499d284b60067cdb0,
+    type: 3}
   swordEffects:
-  - {fileID: -88320675119019295, guid: ef10e8eef305db3499d284b60067cdb0, type: 3}
   - {fileID: 1612813705333380113, guid: e3e74d5c0a51f224eab86826b21783b6, type: 3}
-  - {fileID: 4211080902655888564, guid: 3a2b1a3d565706f4f93a9ed39f49aea2, type: 3}
-  - {fileID: 5483912179118218006, guid: 6005f961cde652b4eaf39a6411d13d51, type: 3}
-  - {fileID: -4479016721527856258, guid: 6ec59932431e9a848af8bc5a7276e48b, type: 3}
-  - {fileID: -6289235402279667394, guid: b97a26a784ab85d41b53d91a1095d3da, type: 3}
-  - {fileID: 4024351014947971960, guid: f0a990b69bce8564389ffd8fb81c6a99, type: 3}
-  - {fileID: 7677451952699424561, guid: 7bd6fd30a2cb51e4f940b8acc7d79f56, type: 3}
-  - {fileID: 3396505380874556798, guid: 6b59af4405ac9834a9e721082481a9de, type: 3}
-  - {fileID: 6632909152524641594, guid: 8b4e1538dc3efda4d87b7c6b3a296e61, type: 3}
   - {fileID: 203444275124626797, guid: 8cfe19119c8828c46b37620bd8ca1714, type: 3}
-  - {fileID: 8728570064525468946, guid: 53f50529d8dbe6548b24180d0e38b9bd, type: 3}
-  - {fileID: 1634098265976599967, guid: fee31bbd404e86648abc148a7798d172, type: 3}
-  - {fileID: 2887119829300636014, guid: ab09d254c8d18494e919fbc404070828, type: 3}
   - {fileID: 4980811821457603083, guid: 424a000c7ba61804598763e782cad676, type: 3}
+  - {fileID: -6289235402279667394, guid: b97a26a784ab85d41b53d91a1095d3da, type: 3}
+  - {fileID: 4211080902655888564, guid: 3a2b1a3d565706f4f93a9ed39f49aea2, type: 3}
+  - {fileID: 8728570064525468946, guid: 53f50529d8dbe6548b24180d0e38b9bd, type: 3}
   - {fileID: 6983893879066494167, guid: f998c2b1405971b499012e421ccc58d0, type: 3}
+  - {fileID: 4024351014947971960, guid: f0a990b69bce8564389ffd8fb81c6a99, type: 3}
+  - {fileID: 5483912179118218006, guid: 6005f961cde652b4eaf39a6411d13d51, type: 3}
+  - {fileID: 1634098265976599967, guid: fee31bbd404e86648abc148a7798d172, type: 3}
   - {fileID: 1514968510625225549, guid: d34d27976ce7fce449863093292df848, type: 3}
+  - {fileID: 7677451952699424561, guid: 7bd6fd30a2cb51e4f940b8acc7d79f56, type: 3}
+  - {fileID: -4479016721527856258, guid: 6ec59932431e9a848af8bc5a7276e48b, type: 3}
+  - {fileID: 2887119829300636014, guid: ab09d254c8d18494e919fbc404070828, type: 3}
   - {fileID: 1554546875301820073, guid: d4a3fd16032271d4ea307e09a5d3da6c, type: 3}
+  - {fileID: 3396505380874556798, guid: 6b59af4405ac9834a9e721082481a9de, type: 3}
   isSwinging: 0
   isCastingSkill: 0
 --- !u!136 &2798218118270504238
@@ -494,6 +494,28 @@ MonoBehaviour:
   wand: {fileID: 0}
   sword: {fileID: 2984568329992020968}
   spellNameDisplay: {fileID: 0}
+--- !u!114 &2096881562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2984568328822126948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b00c10243f1e34097d6f4f61ca808e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  healthBarColor: {r: 1, g: 0, b: 0, a: 1}
+  maxHealth: 100
+  healthRegenPerSecond: 10
+  respawn: 1
+  invulnerable: 0
+  manaBar: {fileID: 0}
+  manaBarColor: {r: 0, g: 0.59463525, b: 1, a: 1}
+  maxMana: 100
+  manaRegenPerSecond: 5
 --- !u!1 &2984568328857393509
 GameObject:
   m_ObjectHideFlags: 0

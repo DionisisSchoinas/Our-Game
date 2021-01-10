@@ -157,4 +157,16 @@ public class HealthController : EntityResource
                 rb.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
         }
     }
+    
+    protected override IEnumerator Regen()
+    {
+        finsihedRegen = false;
+        while (currentValue < maxValue)
+        {
+            currentValue = currentValue + regenPerSecond / 10f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        finsihedRegen = true;
+        yield return null;
+    }
 }

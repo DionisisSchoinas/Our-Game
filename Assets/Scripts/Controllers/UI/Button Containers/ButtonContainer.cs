@@ -57,6 +57,7 @@ public class ButtonContainer : ElementHover, IDragHandler
         UIEventSystem.current.onFreezeAllSkills += Freeze;
         UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
         UIEventSystem.current.onCancelSkill += SkillCast;
+        ManaEventSystem.current.onManaUpdated += ManaUpdate;
     }
 
 
@@ -67,6 +68,7 @@ public class ButtonContainer : ElementHover, IDragHandler
         UIEventSystem.current.onFreezeAllSkills -= Freeze;
         UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
         UIEventSystem.current.onCancelSkill -= SkillCast;
+        ManaEventSystem.current.onManaUpdated -= ManaUpdate;
     }
 
     private void BlockQuickbarSkillSelection(bool block)
@@ -151,6 +153,18 @@ public class ButtonContainer : ElementHover, IDragHandler
                 buttonData.skill.StartCooldownWithoutEvent(delay);
 
             StartCoroutine(StartCooldown(delay));
+        }
+    }
+
+    private void ManaUpdate(float mana)
+    {
+        if (buttonData.skill.manaCost > mana)
+        {
+            buttonOutOfMana.fillAmount = 1f;
+        }
+        else if (buttonOutOfMana.fillAmount == 1f)
+        {
+            buttonOutOfMana.fillAmount = 0f;
         }
     }
 

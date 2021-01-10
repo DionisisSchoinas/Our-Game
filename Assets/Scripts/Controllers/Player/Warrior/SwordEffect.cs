@@ -115,6 +115,7 @@ public class SwordEffect : BasicSword
             Attack(controls, null, playerMesh);
             
             StartCooldown();
+            ManaEventSystem.current.UseMana(manaCost);
             UIEventSystem.current.FreezeAllSkills(uniqueOverlayToWeaponAdapterId, swingCooldown * 0.5f);
         }
 
