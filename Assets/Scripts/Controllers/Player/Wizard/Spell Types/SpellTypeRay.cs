@@ -85,7 +85,7 @@ public class SpellTypeRay : Spell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm, damage, damageType);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }

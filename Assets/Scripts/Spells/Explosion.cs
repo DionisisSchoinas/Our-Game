@@ -2,10 +2,14 @@
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField]
-    private float damage = 35f;
-    [SerializeField]
-    private float radius = 9f;
+    public float damage = 35f;
+    public float radius = 9f;
+    [HideInInspector]
+    public int damageType;
+    [HideInInspector]
+    public Condition condition;
+
+    private string casterName;
 
     private void Start()
     {
@@ -17,11 +21,16 @@ public class Explosion : MonoBehaviour
         }
     }
 
+    public void SetName(string casterName)
+    {
+        this.casterName = casterName;
+    }
+
     private void Damage(GameObject gm)
     {
-        if (gm == null)  return;
+        if (gm == null || gm.name == casterName)  return;
 
-        HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Fire);
+        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
         if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
     }
 }

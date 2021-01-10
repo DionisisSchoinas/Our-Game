@@ -16,42 +16,42 @@ public class HealthController : EntityResource
     //temp
     Rigidbody rb;
 
-
-    private new void Awake()
+    private void Start()
     {
-        base.Awake();
-
         conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
         resistanceHandler = gameObject.AddComponent<ResistanceHandler>();
 
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         hitStop = FindObjectOfType<HitStop>();
-        
+
+        HealthEventSystem.current.onDamageTaken += TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
         HealthEventSystem.current.onForceApply += ApplyForce;
     }
 
-    private void Start()
-    {
-        if (resourceBar == null)
-            resourceBar = gameObject.AddComponent<ResourceBar>();
-
-        currentValue = maxValue;
-    }
-
     private void OnDestroy()
     {
+        HealthEventSystem.current.onDamageTaken -= TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
         HealthEventSystem.current.onForceApply -= ApplyForce;
     }
 
-    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, bool respawn, bool invulnerable)
+    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, Color barColor, bool respawn, bool invulnerable)
     {
-        base.SetValues(maxValue, regenPerSecond, resourceBar);
+        //SetValues(maxValue, regenPerSecond, resourceBar, barColor);
+        
+        this.maxValue = maxValue;
+        this.resourceBar = resourceBar;
+        this.regenPerSecond = regenPerSecond;
+
+        this.resourceBar.SetColor(barColor);
+        this.resourceBar.SetMaxValue(maxValue);
+        currentValue = maxValue;
+        
         this.respawn = respawn;
         this.invulnerable = invulnerable;
     }
@@ -108,6 +108,13 @@ public class HealthController : EntityResource
         return dmg;
     }
 
+    public void TakeDamage(string name, float damage, int damageType)
+    {
+        if (gameObject.name == name)
+        {
+            Damage(damage, damageType);
+        }
+    }
     public void TakeDamageIgnoreInvunarable(string name, float damage, int damageType)
     {
         if (gameObject.name == name)

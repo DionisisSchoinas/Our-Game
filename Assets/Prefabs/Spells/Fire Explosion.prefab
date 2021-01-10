@@ -4830,7 +4830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8289330964062763209}
-  - component: {fileID: 7965673094263827599}
+  - component: {fileID: 576360371917553845}
   m_Layer: 8
   m_Name: Fire Explosion
   m_TagString: Untagged
@@ -4855,7 +4855,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7965673094263827599
+--- !u!114 &576360371917553845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4864,11 +4864,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8289330964062763208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 463098b3d3e9f904a855561dcaf55726, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a67dfdff8dafcd4f822a71cf6173530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 35
   radius: 9
+  explosionParticles: {fileID: 0}
+  damageType: 0
 --- !u!1 &8289330964096853650
 GameObject:
   m_ObjectHideFlags: 0

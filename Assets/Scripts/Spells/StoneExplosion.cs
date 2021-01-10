@@ -2,27 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoneExplosion : MonoBehaviour
+public class StoneExplosion : Explosion
 {
-    [SerializeField]
-    private float damage = 35f;
-    [SerializeField]
-    private float radius = 9f;
-
-    private void Start()
+    private void Awake()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, BasicLayerMasks.DamageableEntities);
-        GameObject[] hitObjects = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
-        foreach (GameObject gm in hitObjects)
-        {
-            Damage(gm);
-        }
-    }
-
-    private void Damage(GameObject gm)
-    {
-        if (gm == null) return;
-
-        HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Physical);
+        damageType = DamageTypesManager.Physical;
+        condition = null;
     }
 }

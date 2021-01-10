@@ -3,12 +3,14 @@
 public class PlayerResourcesController : MonoBehaviour
 {
     public ResourceBar healthBar;
+    public Color healthBarColor;
     public float maxHealth;
     public float healthRegenPerSecond;
     public bool respawn;
     public bool invulnerable;
 
     public ResourceBar manaBar;
+    public Color manaBarColor;
     public float maxMana;
     public float manaRegenPerSecond;
 
@@ -20,13 +22,13 @@ public class PlayerResourcesController : MonoBehaviour
         if (healthBar != null)
         {
             healthController = gameObject.AddComponent<HealthController>();
-            healthController.SetValues(maxHealth, healthRegenPerSecond, healthBar, respawn, invulnerable);
+            healthController.SetValues(maxHealth, healthRegenPerSecond, healthBar, healthBarColor, respawn, invulnerable);
         }
 
         if (manaBar != null)
         {
             manaController = gameObject.AddComponent<ManaController>();
-            manaController.SetValues(maxMana, manaRegenPerSecond, manaBar);
+            manaController.SetValues(maxMana, manaRegenPerSecond, manaBar, manaBarColor);
         }
     }
 

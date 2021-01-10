@@ -2187,11 +2187,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1860648913}
+  healthBarColor: {r: 1, g: 0, b: 0, a: 1}
   maxHealth: 100
   healthRegenPerSecond: 10
   respawn: 1
   invulnerable: 0
   manaBar: {fileID: 259111608}
+  manaBarColor: {r: 0, g: 0.59463525, b: 1, a: 1}
   maxMana: 100
   manaRegenPerSecond: 5
 --- !u!1 &624534234
@@ -8066,11 +8068,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1860648913}
+  healthBarColor: {r: 1, g: 0, b: 0, a: 1}
   maxHealth: 100
   healthRegenPerSecond: 10
   respawn: 1
   invulnerable: 0
   manaBar: {fileID: 259111608}
+  manaBarColor: {r: 0, g: 0.59463525, b: 1, a: 1}
   maxMana: 100
   manaRegenPerSecond: 5
 --- !u!1 &2102544654

@@ -39,17 +39,15 @@ public class SpellTypeBolt : Spell
         Collider[] colliders = Physics.OverlapSphere(transform.position, 1f);
         if (colliders.Length != 0)
         {
+            Collider collision = GetClosestCollider(colliders);
             // Ignore collisions with the caster
-            if (colliders.Length == 1 && colliders[0].gameObject.name != casterName)
+            if (collision.gameObject.name != casterName)
             {
-                Collider collision = GetClosestCollider(colliders);
-                if (collision.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
-                {
-                    HealthEventSystem.current.TakeDamage(collision.gameObject, damage, damageType);
-                    if (condition != null)
-                        if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(collision.gameObject.name, condition);
-                    HealthEventSystem.current.ApplyForce(collision.gameObject.name, gameObject.transform.forward.normalized, 5f);
-                }
+                HealthEventSystem.current.TakeDamage(collision.gameObject.name, damage, damageType);
+                if (condition != null)
+                    if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(collision.gameObject.name, condition);
+                HealthEventSystem.current.ApplyForce(collision.gameObject.name, gameObject.transform.forward.normalized, 5f);
+
                 CameraShake.current.ShakeCamera(0.1f, 0.2f);
                 Destroy(Instantiate(explosionParticles, transform.position, transform.rotation), 5f);
                 Destroy(gameObject);

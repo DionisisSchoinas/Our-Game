@@ -69,7 +69,7 @@ public class ConeBurstSlash : SwordEffect
         {
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, damage, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);

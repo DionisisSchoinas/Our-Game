@@ -62,6 +62,7 @@ public class SpellTypeStorm : Spell
                         tmpStorm = Instantiate(gameObject);
                         tmpStorm.transform.position = indicatorResponse.centerOfAoe + Vector3.up * 40f;
                         tmpStorm.SetActive(true);
+                        tmpStorm.GetComponent<Spell>().TransferData(this);
                         Invoke(nameof(StopStorm), duration);
                     }
                     else
@@ -87,9 +88,9 @@ public class SpellTypeStorm : Spell
 
         foreach (GameObject gm in collisions)
         {
-            if (gm != null)
+            if (gm != null && gm.name != casterName)
             {
-                HealthEventSystem.current.TakeDamage(gm, damage, damageType);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }

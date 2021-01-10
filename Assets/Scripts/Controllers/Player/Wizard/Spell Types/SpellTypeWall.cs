@@ -66,6 +66,7 @@ public class SpellTypeWall : Spell
                         currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + indicatorResponse.centerOfAoe;
                         currentWall.transform.eulerAngles = indicatorResponse.spellRotation;
                         currentWall.SetActive(true);
+                        currentWall.GetComponent<Spell>().TransferData(this);
                         Invoke(nameof(DeactivateWall), duration);
                     }
                     else
@@ -90,9 +91,9 @@ public class SpellTypeWall : Spell
 
         foreach (GameObject gm in collisions)
         {
-            if (gm != null)
+            if (gm != null && gm.name != casterName)
             {
-                HealthEventSystem.current.TakeDamage(gm, damage, damageType);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }

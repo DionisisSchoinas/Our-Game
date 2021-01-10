@@ -5,8 +5,8 @@ using UnityEngine;
 public class EntityResource : MonoBehaviour
 {
     public float maxValue = 100f;
-    public ResourceBar resourceBar;
-    public float regenPerSecond;
+    protected ResourceBar resourceBar;
+    protected float regenPerSecond;
 
     private Coroutine regenCoroutine;
     private float lastReduction;
@@ -26,7 +26,9 @@ public class EntityResource : MonoBehaviour
                 lastReduction = Time.time;
 
             _currentValue = value;
-            resourceBar.SetValue(value);
+
+            if (resourceBar != null)
+                resourceBar.SetValue(value);
         }
     }
 
@@ -35,16 +37,15 @@ public class EntityResource : MonoBehaviour
         regenCoroutine = null;
     }
 
-    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar)
+    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, Color barColor)
     {
         this.maxValue = maxValue;
         this.resourceBar = resourceBar;
         this.regenPerSecond = regenPerSecond;
 
+        this.resourceBar.SetColor(barColor);
         this.resourceBar.SetMaxValue(maxValue);
         currentValue = maxValue;
-
-        Debug.Log("function");
     }
 
     protected void FixedUpdate()

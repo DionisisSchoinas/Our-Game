@@ -1,27 +1,9 @@
-﻿using UnityEngine;
-
-public class IceExplosion : MonoBehaviour
+﻿
+public class IceExplosion : Explosion
 {
-    [SerializeField]
-    private float damage = 35f;
-    [SerializeField]
-    private float radius = 9f;
-
-    private void Start()
+    private void Awake()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, BasicLayerMasks.DamageableEntities);
-        GameObject[] hitObjects = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
-        foreach (GameObject gm in hitObjects)
-        {
-            Damage(gm);
-        }
-    }
-
-    private void Damage(GameObject gm)
-    {
-        if (gm == null) return;
-
-        HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Cold);
-        if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Frozen);
+        damageType = DamageTypesManager.Cold;
+        condition = ConditionsManager.Frozen;
     }
 }
