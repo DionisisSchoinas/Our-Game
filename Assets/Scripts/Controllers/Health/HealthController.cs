@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthController : MonoBehaviour
+public class HealthController : EntityResource
 {
     [SerializeField]
-    private float maxHealth = 100f;
-    [SerializeField]
-    private HealthBar healthBar;
-    [SerializeField]
-    private bool invunarable = false;
+    private bool invulnerable = false;
 
     public bool respawn = false;
 
-    private float currentHealth;
     private ConditionsHandler conditionsHandler;
     private ResistanceHandler resistanceHandler;
     private HitStop hitStop;
@@ -21,17 +17,12 @@ public class HealthController : MonoBehaviour
     Rigidbody rb;
 
 
-
-    // Start is called before the first frame update
-    void Start()
+    private new void Awake()
     {
-        if (healthBar == null)
-            healthBar = gameObject.AddComponent<HealthBar>();
+        base.Awake();
+
         conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
         resistanceHandler = gameObject.AddComponent<ResistanceHandler>();
-
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
 
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         hitStop = FindObjectOfType<HitStop>();
@@ -41,6 +32,15 @@ public class HealthController : MonoBehaviour
         HealthEventSystem.current.onConditionHit += SetCondition;
         HealthEventSystem.current.onForceApply += ApplyForce;
     }
+
+    private void Start()
+    {
+        if (resourceBar == null)
+            resourceBar = gameObject.AddComponent<ResourceBar>();
+
+        currentValue = maxValue;
+    }
+
     private void OnDestroy()
     {
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
@@ -49,9 +49,16 @@ public class HealthController : MonoBehaviour
         HealthEventSystem.current.onForceApply -= ApplyForce;
     }
 
+    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, bool respawn, bool invulnerable)
+    {
+        base.SetValues(maxValue, regenPerSecond, resourceBar);
+        this.respawn = respawn;
+        this.invulnerable = invulnerable;
+    }
+
     public void Damage(float damage, int damageType)
     {
-        if (!invunarable)
+        if (!invulnerable)
         {
             DamageIgnoreInvunarable(damage, damageType);
         }
@@ -59,17 +66,15 @@ public class HealthController : MonoBehaviour
 
     public void DamageIgnoreInvunarable(float damage, int damageType)
     {
-        currentHealth -= CheckDamageTypes(damage, damageType);
+        currentValue -= CheckDamageTypes(damage, damageType);
 
-        healthBar.SetHealth(currentHealth);
-        if (currentHealth <= 0)
+        if (currentValue <= 0)
         {
             if (!respawn)
                 Destroy(gameObject);
             else
             {
-                currentHealth = maxHealth;
-                healthBar.SetHealth(maxHealth);
+                currentValue = maxValue;
             }
         }
 
@@ -114,14 +119,14 @@ public class HealthController : MonoBehaviour
     {
         if (gameObject.name == name)
         {
-            invunarable = state;
+            invulnerable = state;
         }
     }
     public void SetCondition(string name, Condition condition)
     {
         if (gameObject.name == name)
         {
-            if (invunarable)
+            if (invulnerable)
             {
                 return;
             }
@@ -132,7 +137,7 @@ public class HealthController : MonoBehaviour
     {
         if (gameObject.name == name)
         {
-            if (invunarable)
+            if (invulnerable)
                 return;
 
             if (rb != null)

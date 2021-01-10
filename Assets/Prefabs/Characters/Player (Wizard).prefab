@@ -2473,8 +2473,6 @@ GameObject:
   - component: {fileID: 4964402965454966633}
   - component: {fileID: 4964402965454966635}
   - component: {fileID: 4964402965454966634}
-  - component: {fileID: 4964402965454966636}
-  - component: {fileID: 4964402965454966639}
   - component: {fileID: 8004408310699045391}
   - component: {fileID: 1185152694}
   m_Layer: 12
@@ -2640,34 +2638,6 @@ MonoBehaviour:
   leftHandForChannelingSpells: {fileID: 4140181253790957478}
   rightHandForChannelingSpells: {fileID: 4140181253790957560}
   allowStopCasting: 0
---- !u!114 &4964402965454966636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4964402965454966613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 733aff515ea07e840906277a3b99132b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4964402965454966639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4964402965454966613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbae1941b41f5bf4cb8547601b3c2521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthBar: {fileID: 3788272922322315788}
-  invunarable: 0
-  respawn: 1
 --- !u!136 &8004408310699045391
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3057,7 +3027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbdba2dbb465e7c40a4aed52693273be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 7205926952283509364}
+  resourceBarColor: {r: 0, g: 0, b: 0, a: 0}
+  resourceBar: {fileID: 0}
 --- !u!1 &7205926952487510894
 GameObject:
   m_ObjectHideFlags: 0

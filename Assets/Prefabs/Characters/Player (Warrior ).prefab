@@ -288,9 +288,7 @@ GameObject:
   - component: {fileID: 2984568328822126953}
   - component: {fileID: 2984568328822126950}
   - component: {fileID: 2984568328822126954}
-  - component: {fileID: 2984568328822126957}
   - component: {fileID: 2984568329992020968}
-  - component: {fileID: 2778878702118060659}
   - component: {fileID: 2798218118270504238}
   - component: {fileID: 4096420264601712552}
   m_Layer: 12
@@ -429,18 +427,6 @@ MonoBehaviour:
   velocityZ: 0
   velocityX: 0
   combonum: 0
---- !u!114 &2984568328822126957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2984568328822126948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 733aff515ea07e840906277a3b99132b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2984568329992020968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +444,7 @@ MonoBehaviour:
   swordMotionRoot: {fileID: 386261893380594660}
   tipPoint: {fileID: 2984568329429575283}
   basePoint: {fileID: 2984568329755352924}
+  defaultSwordEffect: {fileID: 0}
   swordEffects:
   - {fileID: -88320675119019295, guid: ef10e8eef305db3499d284b60067cdb0, type: 3}
   - {fileID: 1612813705333380113, guid: e3e74d5c0a51f224eab86826b21783b6, type: 3}
@@ -478,22 +465,7 @@ MonoBehaviour:
   - {fileID: 1514968510625225549, guid: d34d27976ce7fce449863093292df848, type: 3}
   - {fileID: 1554546875301820073, guid: d4a3fd16032271d4ea307e09a5d3da6c, type: 3}
   isSwinging: 0
---- !u!114 &2778878702118060659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2984568328822126948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbae1941b41f5bf4cb8547601b3c2521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthBar: {fileID: 4064786429684019765}
-  invunarable: 0
-  respawn: 1
+  isCastingSkill: 0
 --- !u!136 &2798218118270504238
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2657,7 +2629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbdba2dbb465e7c40a4aed52693273be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 8330723396495151805}
+  resourceBarColor: {r: 0, g: 0, b: 0, a: 0}
+  resourceBar: {fileID: 0}
 --- !u!1 &3155021845941893273
 GameObject:
   m_ObjectHideFlags: 0

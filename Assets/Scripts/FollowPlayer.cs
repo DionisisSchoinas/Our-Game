@@ -14,6 +14,9 @@ public class FollowPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (playerPosition == null)
+            return;
+
         Vector3 targerPosition = playerPosition.position + offset; ;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, targerPosition, smoothSpeed * Time.deltaTime);
         transform.position = smoothedPosition;

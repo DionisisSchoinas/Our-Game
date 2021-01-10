@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5700972946874308676}
   - component: {fileID: 5700972946874308677}
   - component: {fileID: 5700972946874308674}
-  - component: {fileID: 5700972946874308675}
   - component: {fileID: 5700972946874308681}
   m_Layer: 12
   m_Name: Subject
@@ -114,20 +113,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &5700972946874308675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5700972946874308672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea4b26855ae6d86459f3f753518b568d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 5700972946874308674}
-  speedVector: {x: 0, y: 0, z: 0}
 --- !u!114 &5700972946874308681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,12 +125,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbae1941b41f5bf4cb8547601b3c2521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthBar: {fileID: 4569553453667976850}
-  invunarable: 0
-  damageResistances: 
-  damageImmunities: 
-  respawn: 0
+  maxValue: 100
+  resourceBar: {fileID: 4569553453667976850}
+  regenPerSecond: 10
+  _currentValue: 0
+  invulnerable: 0
+  respawn: 1
 --- !u!1001 &5700972947623143022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -343,6 +328,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 8104152861668696316, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: resourceBar
+      value: 
+      objectReference: {fileID: 8068320655534145258}
+    - target: {fileID: 8104152861668696316, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: resourceBarColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104152861668696316, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: resourceBarColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104152861668696316, guid: e554486e94ddf2441a22c07f0c836276,
+        type: 3}
+      propertyPath: resourceBarColor.b
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e554486e94ddf2441a22c07f0c836276, type: 3}
 --- !u!224 &8068320655736885236 stripped
@@ -351,6 +356,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5700972947623143022}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8068320655534145258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2370444074931935364, guid: e554486e94ddf2441a22c07f0c836276,
+    type: 3}
+  m_PrefabInstance: {fileID: 5700972947623143022}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4569553453667976850 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8104152861668696316, guid: e554486e94ddf2441a22c07f0c836276,

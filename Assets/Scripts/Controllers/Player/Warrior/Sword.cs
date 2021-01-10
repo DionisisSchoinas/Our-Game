@@ -21,7 +21,7 @@ public class Sword : MonoBehaviour
 
     private PlayerMovementScriptWarrior controls;
     private AnimationScriptControllerWarrior animator;
-    public bool lockHits;
+    public bool isCastingSkill;
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class Sword : MonoBehaviour
         animator = GetComponent<AnimationScriptControllerWarrior>();
 
         isSwinging = false;
-        lockHits = false;
+        isCastingSkill = false;
 
         ChangeSwordEffect();
     }
@@ -85,21 +85,21 @@ public class Sword : MonoBehaviour
         currentEffect.transform.position = swordObject.transform.position;
         currentEffect.transform.rotation = swordObject.transform.rotation;
 
-        //LockHits();
+        StartCastAnimation();
     }
 
-    private void LockHits()
+    private void StartCastAnimation()
     {
-        lockHits = true;
+        isCastingSkill = true;
         animator.PlaySkillSelectAnimation();
-        StartCoroutine(UnLockHits());
+        StartCoroutine(StopCastAnimation());
     }
 
-    private IEnumerator UnLockHits()
+    private IEnumerator StopCastAnimation()
     {
         yield return new WaitForSeconds(1f);
         animator.StopSkillSelectAnimation();
-        lockHits = false;
+        isCastingSkill = false;
     }
 
     public void StartSwingTrail()

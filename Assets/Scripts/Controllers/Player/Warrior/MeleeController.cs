@@ -79,9 +79,9 @@ public class MeleeController : MonoBehaviour
          *      
          *      controls.allowHitAfterRoll -----> check if mid roll
          *      
-         *      !sword.lockHits -----> checks for sword being occupied
+         *      !sword.isCastinSkill -----> checks for sword being occupied
          */
-        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll)
+        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll && !sword.isCastingSkill)
         {
             if (canHit && !comboLock)
             {
@@ -117,7 +117,7 @@ public class MeleeController : MonoBehaviour
         }
 
         // Start the actual attack function
-        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3 && comboSwings < sword.GetSelectedEffect().comboPhaseMax)
+        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3 && comboSwings < sword.GetSelectedEffect().comboPhaseMax && !sword.isCastingSkill)
         {
             attacking = true;
             isDuringAttack = true;

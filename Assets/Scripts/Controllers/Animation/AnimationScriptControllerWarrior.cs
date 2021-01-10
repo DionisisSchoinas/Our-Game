@@ -21,9 +21,9 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
         controls = GameObject.FindObjectOfType<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
-            animator.SetLayerWeight(1, 0);
+        animator.SetLayerWeight(1, 0);
     }
 
     // Update is called once per frame
@@ -83,12 +83,14 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
 
     public void PlaySkillSelectAnimation()
     {
+        animator.SetLayerWeight(1, 1);
         animator.SetBool("Cast Spell", true);
     }
 
     public void StopSkillSelectAnimation()
     {
         animator.SetBool("Cast Spell", false);
+        animator.SetLayerWeight(1, 0);
     }
 
     public void Attack(int limit)
