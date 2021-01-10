@@ -24,7 +24,11 @@ public class ResourceBar : MonoBehaviour
     public void SetColor(Color barColor)
     {
         if (resourceDisplay != null)
+        {
+            Debug.Log(gameObject.name);
+            resourceBarColor = barColor;
             resourceDisplay.color = barColor;
+        }
     }
 
     public void SetMaxValue(float max)

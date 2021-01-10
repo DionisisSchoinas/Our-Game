@@ -19,7 +19,7 @@ public class SpellTypeRay : Spell
     public override string type => "Ray";
     public override string skillName => "Ray";
     public override bool channel => true;
-    public override float cooldown { get => 2f; }
+    public override float cooldown { get => 10f; }
     public override float duration { get => 0f; }
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;

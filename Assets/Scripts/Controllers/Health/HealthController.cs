@@ -16,13 +16,28 @@ public class HealthController : EntityResource
     //temp
     Rigidbody rb;
 
-    private void Start()
+    private new void Awake()
     {
+        base.Awake();
+
         conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
         resistanceHandler = gameObject.AddComponent<ResistanceHandler>();
 
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         hitStop = FindObjectOfType<HitStop>();
+    }
+
+    private new void Start()
+    {
+        base.Start();
+
+        if (currentValue != maxValue)
+        {
+            if (resourceBar != null)
+                resourceBar.SetMaxValue(maxValue);
+
+            currentValue = maxValue;
+        }
 
         HealthEventSystem.current.onDamageTaken += TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
@@ -42,16 +57,7 @@ public class HealthController : EntityResource
 
     public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, Color barColor, bool respawn, bool invulnerable)
     {
-        //SetValues(maxValue, regenPerSecond, resourceBar, barColor);
-        
-        this.maxValue = maxValue;
-        this.resourceBar = resourceBar;
-        this.regenPerSecond = regenPerSecond;
-
-        this.resourceBar.SetColor(barColor);
-        this.resourceBar.SetMaxValue(maxValue);
-        currentValue = maxValue;
-        
+        SetValues(maxValue, regenPerSecond, resourceBar, barColor);
         this.respawn = respawn;
         this.invulnerable = invulnerable;
     }

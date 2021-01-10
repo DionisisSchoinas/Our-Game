@@ -5,11 +5,13 @@ using UnityEngine;
 public class EntityResource : MonoBehaviour
 {
     public float maxValue = 100f;
-    protected ResourceBar resourceBar;
+    public ResourceBar resourceBar;
     protected float regenPerSecond;
 
     private Coroutine regenCoroutine;
     private float lastReduction;
+
+    private Color barColor;
 
     [SerializeField]
     private float _currentValue;
@@ -37,15 +39,22 @@ public class EntityResource : MonoBehaviour
         regenCoroutine = null;
     }
 
+    protected void Start()
+    {
+        if (resourceBar != null)
+        {
+            resourceBar.SetColor(barColor);
+            resourceBar.SetMaxValue(maxValue);
+        }
+        currentValue = maxValue;
+    }
+
     public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, Color barColor)
     {
         this.maxValue = maxValue;
         this.resourceBar = resourceBar;
         this.regenPerSecond = regenPerSecond;
-
-        this.resourceBar.SetColor(barColor);
-        this.resourceBar.SetMaxValue(maxValue);
-        currentValue = maxValue;
+        this.barColor = barColor;
     }
 
     protected void FixedUpdate()

@@ -23,7 +23,7 @@ public class SpellTypeStorm : Spell
     public override string type => "Storm";
     public override string skillName => "Storm";
     public override bool channel => true;
-    public override float cooldown { get => 2f; }
+    public override float cooldown { get => 30f; }
     public override float duration { get => 10f; }
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
