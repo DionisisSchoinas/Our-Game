@@ -23,13 +23,16 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     void Start()
     {
         List<string> spellNames = new List<string>();
-        wandListLength = 0;
-        swordListLength = 0;
+        wandListLength = -1;
+        swordListLength = -1;
 
         int id = 0;
 
         if (wand != null)
         {
+            wand.GetDefaultSpell().onCooldown = false;
+            wand.GetDefaultSpell().uniqueOverlayToWeaponAdapterId = id;
+            id++;
             foreach (Spell s in wand.GetSpells())
             {
                 spellNames.Add(s.skillName);
@@ -42,6 +45,9 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
         if (sword != null)
         {
+            sword.GetDefaultSwordEffect().onCooldown = false;
+            sword.GetDefaultSwordEffect().uniqueOverlayToWeaponAdapterId = id;
+            id++;
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
                 spellNames.Add(s.skillName);
@@ -76,14 +82,32 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     // Based on the total index triggers appropriate spell
     private void SetSelectedSpell(int skillIndexInAdapter)
     {
+        // Check if skill is on cooldown
+        if (GetSkillFromIndex(skillIndexInAdapter).onCooldown)
+            return;
+
         if (skillIndexInAdapter < wandListLength)
         {
-            wand.SetSelectedSpell(skillIndexInAdapter);
+            // Check if the skill coudln't be selected
+            if (!wand.SetSelectedSpell(skillIndexInAdapter))
+            {
+                return;
+            }
         }
         else
         {
-            sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength);
+            // Check if the skill coudln't be selected
+            if (!sword.SetSelectedSwordEffect(skillIndexInAdapter - wandListLength - 1))
+            {
+                return;
+            }
         }
+
+        if (GetSkillFromIndex(skillIndexInAdapter).instaCast)
+            UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter, false); // If the skill will also "attack" after picking don't freeze it
+        else
+            UIEventSystem.current.SkillPickedRegister(skillIndexInAdapter, true);
+
         DisplaySkillName(skillIndexInAdapter);
     }
 
@@ -95,6 +119,13 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
     public Skill GetSkillFromIndex(int index)
     {
+        if (index == -1) // Looking for the default
+        {
+            if (wand != null)
+                return wand.GetDefaultSpell();
+            else if (sword != null)
+                return sword.GetDefaultSwordEffect();
+        }
         return GetSkills()[index];
     }
 

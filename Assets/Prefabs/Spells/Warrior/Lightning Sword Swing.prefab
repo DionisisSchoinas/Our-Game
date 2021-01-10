@@ -28,7 +28,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3468896397486627650}
   m_Father: {fileID: 3468896397328525739}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4810,7 +4811,6 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 8946488930252768087}
-  - {fileID: 3468896397486627650}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4826,11 +4826,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02513e93ef4055845873bcb1ba509ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueOverlayToWeaponAdapterId: 0
+  onCooldown: 0
+  cooldownPercentage: 0
   attributes:
     trails:
     - {fileID: 3486273707487541875, guid: 0448321d2308e854e9b6ca02711f11d8, type: 3}
     swordMaterial: {fileID: 2100000, guid: f97a37a32a11e4e4a9aba123fb2ad98d, type: 2}
-  attackDelay: 0.5
+  force: 5
   damageType: 0
 --- !u!1 &3468896397486627651
 GameObject:
@@ -4857,13 +4860,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3468896397486627651}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2752597322816674346}
-  m_Father: {fileID: 3468896397328525739}
-  m_RootOrder: 1
+  m_Father: {fileID: 8946488930252768087}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &3468896397486627648
 ParticleSystem:

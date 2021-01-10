@@ -13,6 +13,6 @@ public class SteamBall : SpellTypeBolt
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Smoke;
+        return ResourceManager.Sources.Spells.Smoke;
     }
 }

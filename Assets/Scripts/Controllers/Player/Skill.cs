@@ -16,6 +16,11 @@ public abstract class Skill : MonoBehaviour
 
     public abstract float cooldown { get; }
 
+    public abstract float duration { get; }
+
+    public abstract float instaCastDelay { get; }
+    public abstract bool instaCast { get; }
+
     public void Awake()
     {
         onCooldown = false;
@@ -23,15 +28,11 @@ public abstract class Skill : MonoBehaviour
 
     public void StartCooldown()
     {
-        onCooldown = true;
-        UIEventSystem.current.StartCooldown(this, cooldown);
-        UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId);
+        UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId, cooldown);
     }
-
 
     public void StartCooldownWithoutEvent(float delay)
     {
-        onCooldown = true;
         UIEventSystem.current.StartCooldown(this, delay);
     }
 }

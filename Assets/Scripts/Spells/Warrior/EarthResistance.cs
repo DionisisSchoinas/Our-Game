@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 public class EarthResistance : ResistanceEffect
 {
@@ -8,5 +8,10 @@ public class EarthResistance : ResistanceEffect
     {
         resistance = DamageTypesManager.Physical;
         resistanceAppearance = ResourceManager.Materials.Resistances.Physical;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Earth;
     }
 }

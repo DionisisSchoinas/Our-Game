@@ -25,12 +25,12 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
     {
         if (buttonData.skillIndexInAdapter == indexInAdapter)
         {
-            buttonBackground.color = Color.red;
+            buttonSelection.color = OverlayControls.selectedButtonColor;
         }
     }
     private void UnHighlight()
     {
-        buttonBackground.color = Color.white;
+        buttonSelection.color = Color.white;
     }
 
     private SkillListButton ReInstantiate()
@@ -41,6 +41,7 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
         btn.overlayControls = overlayControls;
         btn.parent = parent;
         btn.cooldownPercentage = cooldownPercentage;
+        btn.skillListUp = skillListUp;
 
         btn.CheckCooldown();
 
@@ -50,6 +51,10 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        // If skill list not up
+        if (!skillListUp)
+            return;
+
         // Set new one to position
         ReInstantiate();
         // Get offset of mouse from position of transform
@@ -62,6 +67,10 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        // If skill list not up
+        if (!skillListUp)
+            return;
+
         // Notify event
         UIEventSystem.current.DraggingButton(this, false);
         // Destroy drag around button

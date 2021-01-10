@@ -23,7 +23,7 @@ public class LightningExplosion : MonoBehaviour
     {
         if (gm == null) return;
 
-        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Lightning);
+        HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Lightning);
         if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Electrified);
     }
 }

@@ -14,8 +14,11 @@ public class SpellTypeBall : Spell
     public override string type => "Ball";
     public override string skillName => "Ball";
     public override bool channel => false;
+    public override float duration { get => 0f; }
     public override float cooldown { get => 20f; }
     public float range => 25f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void Awake()
     {
@@ -35,6 +38,7 @@ public class SpellTypeBall : Spell
             if (colliders.Length == 1 && colliders[0].gameObject.name != casterName)
             {
                 GameObject exp = Instantiate(explosion, transform.position + transform.forward * 0.2f, transform.rotation) as GameObject;
+                CameraShake.current.ShakeCamera(1f, 1f);
                 Destroy(exp, 5f);
                 Destroy(gameObject);
             }

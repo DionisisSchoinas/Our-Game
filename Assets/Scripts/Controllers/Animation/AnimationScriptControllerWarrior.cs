@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
@@ -8,10 +7,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class AnimationScriptControllerWarrior : MonoBehaviour
 {
-
-
-
-
     public Animator animator;
     public CharacterController player;
     public Transform indicatorWheel;
@@ -26,8 +21,9 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
         controls = GameObject.FindObjectOfType<PlayerMovementScriptWarrior>() as PlayerMovementScriptWarrior;
+        animator.SetLayerWeight(1, 0);
     }
 
     // Update is called once per frame
@@ -59,8 +55,6 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
         if (!controls.casting && !controls.rolling)
         {
             animator.SetBool("Rolling", false);
-            //fireboltHand.SetActive(false);
-            animator.SetLayerWeight(1, 0);
             if (direction != new Vector3(0f, 0f, 0f))
             {
                 animator.SetFloat("Velocity X", 0f);
@@ -74,8 +68,6 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
         }
         else if (controls.casting)
         {
-        
-       
             animator.SetFloat("Velocity Z", velocityZ);
             animator.SetFloat("Velocity X", velocityX);
         }
@@ -87,33 +79,33 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
             animator.SetFloat("Velocity Z", velocityZ);
             animator.SetFloat("Velocity X", velocityX);
         }
-
-        
     }
 
-    public void Attack()
+    public void PlaySkillSelectAnimation()
     {
-       
-       
-        if (combonum < 3)
+        animator.SetLayerWeight(1, 1);
+        animator.SetBool("Cast Spell", true);
+    }
+
+    public void StopSkillSelectAnimation()
+    {
+        animator.SetBool("Cast Spell", false);
+        animator.SetLayerWeight(1, 0);
+    }
+
+    public void Attack(int limit)
+    {
+        if (combonum < 3 && combonum < limit)
         {
-         
-            animator.SetBool(combos[combonum],true);
+            animator.SetBool(combos[combonum], true);
             combonum++;
-          
         }
-       
-       
-
-
-
     }
 
     public void ResetAttack()
     {
         for (int cnum = 0; cnum < 3; cnum++)
         {
-
             animator.SetBool(combos[cnum], false);
         }
         combonum = 0;

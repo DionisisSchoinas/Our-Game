@@ -10,14 +10,18 @@ public class Sword : MonoBehaviour
     public Transform swordMotionRoot;
     public Transform tipPoint;
     public Transform basePoint;
+    public SwordEffect defaultSwordEffect;
     public SwordEffect[] swordEffects;
-
-    public float delayBeforeSwing;
-    public float delayBeforeStoppingSwing;
+    [HideInInspector]
+    public bool isSwinging;
 
     private int selectedEffect;
     private SwordEffect currentEffect;
     private Renderer swordRenderer;
+
+    private PlayerMovementScriptWarrior controls;
+    private AnimationScriptControllerWarrior animator;
+    public bool isCastingSkill;
 
     private void Start()
     {
@@ -25,53 +29,90 @@ public class Sword : MonoBehaviour
         if (swordRenderer == null)
             swordRenderer = swordObject.GetComponent<MeshRenderer>();
 
-        selectedEffect = 0;
+        controls = GetComponent<PlayerMovementScriptWarrior>();
+        animator = GetComponent<AnimationScriptControllerWarrior>();
+
+        isSwinging = false;
+        isCastingSkill = false;
+
         ChangeSwordEffect();
+    }
+
+    public SwordEffect GetDefaultSwordEffect()
+    {
+        return defaultSwordEffect;
     }
 
     public SwordEffect GetSelectedEffect()
     {
-        return swordEffects[selectedEffect];
+        if (selectedEffect == -1)
+            return defaultSwordEffect;
+        else
+            return swordEffects[selectedEffect];
     }
 
-    public void SetSelectedSwordEffect(int value)
+    public bool SetSelectedSwordEffect(int value)
     {
+        if (isSwinging)
+            return false;
+
         selectedEffect = value;
         ChangeSwordEffect();
+        return true;
     }
 
-    public void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator)
+    public void Attack(AttackIndicator indicator, int comboPhase)
     {
+        isSwinging = true;
+
+        currentEffect.comboPhase = comboPhase;
+        StartSwingTrail();
+        currentEffect.StartSwingCooldown();
         currentEffect.Attack(controls, indicator, playerMesh);
+
+        UIEventSystem.current.FreezeAllSkills(currentEffect.uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
     }
 
     private void ChangeSwordEffect()
     {
         if (currentEffect != null) Destroy(currentEffect.gameObject);
 
-        currentEffect = swordEffects[selectedEffect].InstantiateEffect(tipPoint, basePoint, swordMotionRoot).GetComponent<SwordEffect>();
+        if (selectedEffect == -1)
+            currentEffect = defaultSwordEffect.InstaCast(controls, swordObject, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
+        else
+            currentEffect = swordEffects[selectedEffect].InstaCast(controls, swordObject, playerMesh, swordRenderer, tipPoint, basePoint, swordMotionRoot);
+
         currentEffect.transform.position = swordObject.transform.position;
         currentEffect.transform.rotation = swordObject.transform.rotation;
 
-        swordRenderer.material = currentEffect.attributes.swordMaterial;
+        StartCastAnimation();
     }
 
-    public void StartSwing()
+    private void StartCastAnimation()
+    {
+        isCastingSkill = true;
+        animator.PlaySkillSelectAnimation();
+        StartCoroutine(StopCastAnimation());
+    }
+
+    private IEnumerator StopCastAnimation()
+    {
+        yield return new WaitForSeconds(1f);
+        animator.StopSkillSelectAnimation();
+        isCastingSkill = false;
+    }
+
+    public void StartSwingTrail()
     {
         StartCoroutine(DelayBeforeTrail());
     }
 
     private IEnumerator DelayBeforeTrail()
     {
-        yield return new WaitForSeconds(delayBeforeSwing);
-        currentEffect.StartSwing();
-        yield return new WaitForSeconds(delayBeforeStoppingSwing);
-        StopSwing();
-    }
-
-    public void StopSwing()
-    {
-        currentEffect.StopSwing();
+        yield return new WaitForSeconds(currentEffect.comboTrailTimings[currentEffect.comboPhase].delayToStartTrail);
+        currentEffect.StartSwingTrail();
+        yield return new WaitForSeconds(currentEffect.comboTrailTimings[currentEffect.comboPhase].delayToStopTrail);
+        currentEffect.StopSwingTrail();
     }
 
     public List<SwordEffect> GetSwordEffects()

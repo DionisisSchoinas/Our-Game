@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 public class FireConeWave : ConeBurstSlash
 {
@@ -8,5 +8,10 @@ public class FireConeWave : ConeBurstSlash
     {
         damageType = DamageTypesManager.Fire;
         condition = ConditionsManager.Burning;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Fire;
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SimpleSlash : SwordEffect
 {
-    public float attackDelay = 0.5f;
     public float force = 5f;
 
     [HideInInspector]
@@ -14,10 +13,11 @@ public class SimpleSlash : SwordEffect
 
     public override string type => "Simple Slash";
     public override string skillName => "Simple Slash";
+    public override float cooldown => MeleeController.skillComboCooldown * 0.95f;
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
-        StartCoroutine(PerformAttack(attackDelay, controls, indicator));
+        StartCoroutine(PerformAttack(comboTrailTimings[comboPhase].delayToFireSpell, controls, indicator));
     }
 
     IEnumerator PerformAttack(float attackDelay, PlayerMovementScriptWarrior controls, AttackIndicator indicator)
@@ -27,16 +27,21 @@ public class SimpleSlash : SwordEffect
 
         foreach (Transform visibleTarget in indicator.visibleTargets)
         {
-            Debug.Log(visibleTarget.name);
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.name, 30, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, 30, damageType);
                 if (condition != null)
                     if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+                CameraShake.current.ShakeCamera(0.5f, 0.2f);
             }
         }
         yield return new WaitForSeconds(0.1f);
         controls.sliding = false;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return null;
     }
 }

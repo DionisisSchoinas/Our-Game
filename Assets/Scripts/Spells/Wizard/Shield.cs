@@ -24,7 +24,10 @@ public class Shield : Spell
     public override string type => "Shield";
     public override string skillName => "Shield";
     public override bool channel => true;
-    public override float cooldown { get => 0.7f; }
+    public override float cooldown => 0.7f;
+    public override float duration => 0f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     private void Start()
     {
@@ -37,7 +40,7 @@ public class Shield : Spell
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Damageables"), LayerMask.NameToLayer("Shield"));
     }
 
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
         if (colliders != null)
         {
@@ -88,6 +91,6 @@ public class Shield : Spell
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Lightning;
+        return ResourceManager.Sources.Spells.Lightning;
     }
 }

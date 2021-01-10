@@ -12,6 +12,8 @@ public class Wand : MonoBehaviour
     [SerializeField]
     private Transform channelingFirePoint;
     [SerializeField]
+    private Spell defaultSpell;
+    [SerializeField]
     private Spell[] spells;
 
     //=== Values must be equal with AnimationScriptControler ===
@@ -25,12 +27,14 @@ public class Wand : MonoBehaviour
     public bool canRelease;
     public bool casting;
     //=============
-    public float delayUiAfterCasting;
 
     private bool canCast;
     private int selectedSpell;
+    private Spell currentSpell;
     private Coroutine runningCoroutine;
     private float lastCooldownDisplayMessage;
+
+    private bool skillListUp;
 
     private void Start()
     {
@@ -46,6 +50,24 @@ public class Wand : MonoBehaviour
         {
             s.WakeUp();
         }
+
+        skillListUp = false;
+        UIEventSystem.current.onSkillListUp += SkillListUp;
+    }
+
+    private void OnDestroy()
+    {
+        UIEventSystem.current.onSkillListUp -= SkillListUp;
+    }
+
+    private void SkillListUp(bool up)
+    {
+        skillListUp = up;
+    }
+
+    public Spell GetDefaultSpell()
+    {
+        return defaultSpell;
     }
 
     public List<Spell> GetSpells()
@@ -55,28 +77,33 @@ public class Wand : MonoBehaviour
 
     public Spell GetSelectedSpell()
     {
-        return spells[selectedSpell];
+        return currentSpell;
     }
 
-    public void SetSelectedSpell(int value)
+    public bool SetSelectedSpell(int value)
     {
         // Release held spells
         if (castingBasic)
         {
             Cancel();
             StartCoroutine(ChangeSelectedIndex(castingAnimationSimple + castingAnimationSimpleReset / 2f, value));
-            return;
+            return true;
         }
         if (channeling)
         {
             Cancel();
         }
         SetSpellIndex(value);
+        return true;
     }
 
     private void SetSpellIndex(int value)
     {
         selectedSpell = value;
+        if (value == -1)
+            currentSpell = defaultSpell;
+        else
+            currentSpell = spells[value];
     }
 
     IEnumerator ChangeSelectedIndex(float delay, int value)
@@ -87,7 +114,10 @@ public class Wand : MonoBehaviour
 
     public void Fire(bool holding)
     {
-        if (spells[selectedSpell].onCooldown)
+        if (skillListUp)
+            return;
+
+        if (currentSpell.onCooldown)
         {
             if (holding && Time.time - lastCooldownDisplayMessage >= 1f)
             {
@@ -98,7 +128,7 @@ public class Wand : MonoBehaviour
         }
 
         // If selected Spell is a channel spell
-        if (spells[selectedSpell].channel)
+        if (currentSpell.channel)
         {
             Fire2(holding);
         }
@@ -106,34 +136,37 @@ public class Wand : MonoBehaviour
         {
             Fire1(holding);
         }
+
+        lastCooldownDisplayMessage = Time.time;
     }
 
     public void Cancel()
     {
         if (casting)
         {
-            spells[selectedSpell].CancelCast();
+            currentSpell.CancelCast();
             Fire(false);
+            UIEventSystem.current.CancelSkill(currentSpell.uniqueOverlayToWeaponAdapterId, OverlayControls.skillFreezeAfterCasting);
         }
     }
 
     private void Fire1(bool charge)
     {
-        if (canCast & charge && !spells[selectedSpell].onCooldown)
+        if (canCast & charge && !currentSpell.onCooldown)
         {
             canCast = false;
             castingBasic = true;
             casting = true;
             canRelease = true;
             //start playing charging animation
-            animationController.ChargeBasic(spells[selectedSpell].GetSource());
-            spells[selectedSpell].CastSpell(simpleFirePoint, gameObject.transform, true, gameObject.name);
+            animationController.ChargeBasic(currentSpell.GetSource());
+            currentSpell.CastSpell(simpleFirePoint, gameObject.transform, true, gameObject.name);
         }
         else if (!canCast && canRelease && castingBasic)
         {
             // Starts the cooldown of the released spell
-            spells[selectedSpell].StartCooldown();
-            UIEventSystem.current.FreezeAllSkills(spells[selectedSpell].uniqueOverlayToWeaponAdapterId, delayUiAfterCasting);
+            currentSpell.StartCooldown();
+            UIEventSystem.current.FreezeAllSkills(currentSpell.uniqueOverlayToWeaponAdapterId, OverlayControls.skillFreezeAfterCasting);
 
             //start playing reseting animation
             animationController.ReleaseBasic();
@@ -146,19 +179,19 @@ public class Wand : MonoBehaviour
         if (canCast && !channeling && holding)
         {
             //start playing animation
-            animationController.CastChannel(true, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
+            animationController.CastChannel(true, currentSpell.GetSource(), castingAnimationChannel, castingAnimationChannelReset);
             //start spell attack
             if (runningCoroutine != null) StopCoroutine(runningCoroutine);
-            runningCoroutine = StartCoroutine(castFire2( castingAnimationChannel, true));
+            runningCoroutine = StartCoroutine(castFire2(castingAnimationChannel, true));
         }
         else if (channeling && !holding)
         {
             // Starts the cooldown of the released spell
-            spells[selectedSpell].StartCooldown();
-            UIEventSystem.current.FreezeAllSkills(spells[selectedSpell].uniqueOverlayToWeaponAdapterId, delayUiAfterCasting);
+            currentSpell.StartCooldown();
+            UIEventSystem.current.FreezeAllSkills(currentSpell.uniqueOverlayToWeaponAdapterId, OverlayControls.skillFreezeAfterCasting);
 
             //start playing animation
-            animationController.CastChannel(false, spells[selectedSpell].GetSource(), castingAnimationChannel, castingAnimationChannelReset);
+            animationController.CastChannel(false, currentSpell.GetSource(), castingAnimationChannel, castingAnimationChannelReset);
             //stop spell attack
             if (runningCoroutine != null) StopCoroutine(runningCoroutine);
             runningCoroutine = StartCoroutine(castFire2(castingAnimationChannelReset, false));
@@ -192,7 +225,7 @@ public class Wand : MonoBehaviour
         // Release spell after holding it
         canRelease = false;
         yield return new WaitForSeconds(cast);
-        spells[selectedSpell].CastSpell(simpleFirePoint, false);
+        currentSpell.CastSpell(simpleFirePoint, false);
         animationController.HideSource();
         yield return new WaitForSeconds(reset);
         castingBasic = false;
@@ -208,12 +241,12 @@ public class Wand : MonoBehaviour
             // Start channel
             casting = true;
             yield return new WaitForSeconds(seconds);
-            spells[selectedSpell].CastSpell(channelingFirePoint, true, gameObject.name);
+            currentSpell.CastSpell(channelingFirePoint, true, gameObject.name);
         }
         else
         {
             // End channel
-            spells[selectedSpell].CastSpell(channelingFirePoint, false);
+            currentSpell.CastSpell(channelingFirePoint, false);
             yield return new WaitForSeconds(seconds);
             casting = false;
         }

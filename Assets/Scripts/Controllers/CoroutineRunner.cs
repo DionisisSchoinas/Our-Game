@@ -24,12 +24,14 @@ public class CoroutineRunner : MonoBehaviour
     {
         skill.onCooldown = true;
         skill.cooldownPercentage = 0f;
+
         float delayForEachStep = delay / 100f;
         while (skill.cooldownPercentage < 1)
         {
             skill.cooldownPercentage += 0.01f;
             yield return new WaitForSeconds(delayForEachStep);
         }
+
         skill.cooldownPercentage = 0f;
         skill.onCooldown = false;
 

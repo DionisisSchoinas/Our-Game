@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FireSphereWave : SphereBurst
 {
@@ -10,5 +8,10 @@ public class FireSphereWave : SphereBurst
     {
         damageType = DamageTypesManager.Fire;
         condition = ConditionsManager.Burning;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Fire;
     }
 }

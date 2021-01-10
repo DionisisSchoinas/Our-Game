@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ConeBurstSlash : SwordEffect
 {
-    public float attackDelay = 0.5f;
     public float damage = 50f;
     public float coneWidth = 35f;
     public float coneLength = 25f;
@@ -21,6 +20,7 @@ public class ConeBurstSlash : SwordEffect
 
     public override string type => "Cone Burst";
     public override string skillName => "Cone Burst";
+    public override float cooldown => 20f;
 
     private new void Awake()
     {
@@ -36,14 +36,15 @@ public class ConeBurstSlash : SwordEffect
         attackAngle = Vector3.Angle(edge1, edge2);
     }
 
-    private void OnDestroy()
+    private new void OnDestroy()
     {
+        base.OnDestroy();
         Destroy(particles.gameObject);
     }
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
-        StartCoroutine(PerformAttack(attackDelay, controls));
+        StartCoroutine(PerformAttack(comboTrailTimings[comboPhase].delayToFireSpell, controls));
     }
 
     IEnumerator PerformAttack(float attackDelay, PlayerMovementScriptWarrior controls)
@@ -51,7 +52,7 @@ public class ConeBurstSlash : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, coneWidth, coneLength, SpellIndicatorController.ConeIndicator);
-        indicatorController.DestroyIndicator(attackDelay + 0.1f);
+        indicatorController.DestroyIndicator(swingCooldown * 0.8f);
 
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;
@@ -68,10 +69,11 @@ public class ConeBurstSlash : SwordEffect
         {
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.name, damage, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);
+                CameraShake.current.ShakeCamera(1f, 1f);
             }
         }
         yield return new WaitForSeconds(0.1f);

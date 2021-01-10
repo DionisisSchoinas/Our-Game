@@ -1,68 +1,64 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
-public class HealthController : MonoBehaviour
+public class HealthController : EntityResource
 {
     [SerializeField]
-    private float maxHealth = 100f;
-    [SerializeField]
-    private HealthBar healthBar;
-    [SerializeField]
-    private bool invunarable = false;
-    [SerializeField]
-    private int[] damageResistances;
-    [SerializeField]
-    private int[] damageImmunities;
+    private bool invulnerable = false;
 
     public bool respawn = false;
 
-    private float currentHealth;
     private ConditionsHandler conditionsHandler;
+    private ResistanceHandler resistanceHandler;
     private HitStop hitStop;
-    private CameraShake cameraShake;
 
     //temp
-    Rigidbody rigidbody;
+    Rigidbody rb;
 
 
-
-    // Start is called before the first frame update
-    void Start()
+    private new void Awake()
     {
-        if (healthBar == null)
-            healthBar = gameObject.AddComponent<HealthBar>();
+        base.Awake();
 
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
         conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
-        rigidbody = gameObject.GetComponent<Rigidbody>() as Rigidbody;
+        resistanceHandler = gameObject.AddComponent<ResistanceHandler>();
+
+        rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         hitStop = FindObjectOfType<HitStop>();
-        cameraShake = FindObjectOfType<CameraShake>();
-        if (damageResistances == null) damageResistances = new int[0];
-        if (damageImmunities == null) damageImmunities = new int[0];
         
-        
-        HealthEventSystem.current.onDamageTaken += TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
         HealthEventSystem.current.onForceApply += ApplyForce;
     }
+
+    private void Start()
+    {
+        if (resourceBar == null)
+            resourceBar = gameObject.AddComponent<ResourceBar>();
+
+        currentValue = maxValue;
+    }
+
     private void OnDestroy()
     {
-        HealthEventSystem.current.onDamageTaken -= TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
         HealthEventSystem.current.onForceApply -= ApplyForce;
     }
 
+    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, bool respawn, bool invulnerable)
+    {
+        base.SetValues(maxValue, regenPerSecond, resourceBar);
+        this.respawn = respawn;
+        this.invulnerable = invulnerable;
+    }
+
     public void Damage(float damage, int damageType)
     {
-        if (!invunarable)
+        if (!invulnerable)
         {
             DamageIgnoreInvunarable(damage, damageType);
         }
@@ -70,26 +66,26 @@ public class HealthController : MonoBehaviour
 
     public void DamageIgnoreInvunarable(float damage, int damageType)
     {
-        currentHealth -= CheckDamageTypes(damage, damageType);
+        currentValue -= CheckDamageTypes(damage, damageType);
 
-        healthBar.SetHealth(currentHealth);
-        if (currentHealth <= 0)
+        if (currentValue <= 0)
         {
             if (!respawn)
                 Destroy(gameObject);
             else
             {
-                currentHealth = maxHealth;
-                healthBar.SetHealth(maxHealth);
+                currentValue = maxValue;
             }
         }
+
+        hitStop.Stop(0.05f);
     }
 
     private float CheckDamageTypes(float damage, int damageType)
     {
         float dmg = damage;
 
-        foreach (int type in damageImmunities)
+        foreach (int type in resistanceHandler.damageImmunities)
         {
             if (type == damageType)
             {
@@ -99,7 +95,7 @@ public class HealthController : MonoBehaviour
         }
         if (dmg != 0)
         {
-            foreach (int type in damageResistances)
+            foreach (int type in resistanceHandler.damageResistances)
             {
                 if (type == damageType)
                 {
@@ -110,17 +106,6 @@ public class HealthController : MonoBehaviour
         }
 
         return dmg;
-    }
-
-    public void TakeDamage(string name, float damage, int damageType)
-    {
-        
-        if (gameObject.name == name)
-        {
-            Damage(damage, damageType);
-        }
-        hitStop.Stop(0.05f);
-        cameraShake.Shake(0.05f);
     }
 
     public void TakeDamageIgnoreInvunarable(string name, float damage, int damageType)
@@ -134,14 +119,14 @@ public class HealthController : MonoBehaviour
     {
         if (gameObject.name == name)
         {
-            invunarable = state;
+            invulnerable = state;
         }
     }
     public void SetCondition(string name, Condition condition)
     {
         if (gameObject.name == name)
         {
-            if (invunarable)
+            if (invulnerable)
             {
                 return;
             }
@@ -152,11 +137,11 @@ public class HealthController : MonoBehaviour
     {
         if (gameObject.name == name)
         {
-            if (invunarable)
+            if (invulnerable)
                 return;
 
-            if (rigidbody != null)
-                rigidbody.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
+            if (rb != null)
+                rb.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
         }
     }
 }

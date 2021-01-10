@@ -9,7 +9,11 @@ public class OverlayControls : MonoBehaviour
     public CanvasGroup spellListDisplay;
     public GameObject columnContentHolder;
     public GameObject dodgeDisplay;
+    public GameObject effectsDisplay;
     public float secondsAfterPickingSkill = 0.02f;
+    public float secondsAfterCastingSkill = 0.02f;
+    public Color buttonColorSelected;
+
     // Quickbar data
     [HideInInspector]
     public Button[] quickbarButtons;
@@ -17,15 +21,16 @@ public class OverlayControls : MonoBehaviour
     public RectTransform[] quickbarButtonTransforms;
     [HideInInspector]
     public QuickbarButton[] quickbarButtonContainers;
-
     [HideInInspector]
     public OverlayToWeaponAdapter overlayToWeaponAdapter;
 
     private SkillListFill skillList;
-    private ButtonContainer lastSelected;
+    private int selectedQuickbarIndex;
     private bool skillListUp;
 
-    public static float skillFreezeDuration;
+    public static float skillFreezeAfterPicking;
+    public static float skillFreezeAfterCasting;
+    public static Color selectedButtonColor;
 
 
     private void Start()
@@ -58,11 +63,22 @@ public class OverlayControls : MonoBehaviour
         for (int i=0; i<quickbarButtons.Length; i++)
         {
             Text butttonText = quickbarButtons[i].GetComponentInChildren<Text>();
-            Skill skill = overlayToWeaponAdapter.GetSkillFromIndex(i);
             // Put container script on the quickbar buttons
             quickbarButtonContainers[i] = quickbarButtons[i].gameObject.AddComponent<QuickbarButton>();
-            // Save values on the buttons script
-            quickbarButtonContainers[i].buttonData = new ButtonData(quickbarButtons[i], skill, i, i, butttonText);
+            Skill skill;
+            if (i == 0) // Set to 1st quickbar button the default skill
+            {
+                skill = overlayToWeaponAdapter.GetSkillFromIndex(-1);
+                quickbarButtonContainers[i].swappable = false;
+                // Save values on the buttons script
+                quickbarButtonContainers[i].buttonData = new ButtonData(quickbarButtons[i], skill, i, -1, butttonText);
+            }
+            else
+            {
+                skill = overlayToWeaponAdapter.GetSkillFromIndex(i-1);
+                // Save values on the buttons script
+                quickbarButtonContainers[i].buttonData = new ButtonData(quickbarButtons[i], skill, i, i-1, butttonText);
+            }
             quickbarButtonContainers[i].overlayControls = this;
             quickbarButtonContainers[i].parent = buttonQuickbar.transform;
 
@@ -70,19 +86,23 @@ public class OverlayControls : MonoBehaviour
             quickbarButtonTransforms[i] = quickbarButtons[i].GetComponent<RectTransform>();
         }
 
+        skillFreezeAfterPicking = secondsAfterPickingSkill;
+        skillFreezeAfterCasting = secondsAfterCastingSkill;
+        selectedButtonColor = buttonColorSelected;
+
         // Hightlight the quickbar skills in the skill list
         HighlightQuickbarInList();
-
-        skillFreezeDuration = secondsAfterPickingSkill;
 
         SetSelectedQuickBar(0);
 
         UIEventSystem.current.onDraggingButton += DraggingButton;
+        UIEventSystem.current.onApplyResistance += ApplyResistance;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.onDraggingButton -= DraggingButton;
+        UIEventSystem.current.onApplyResistance -= ApplyResistance;
     }
 
     private void Update()
@@ -129,14 +149,24 @@ public class OverlayControls : MonoBehaviour
         }
     }
 
+    private void ApplyResistance(string resistanceName, float duration)
+    {
+        EffectDisplayContainer resistanceEffect = Instantiate(ResourceManager.UI.EffectDisplay, effectsDisplay.transform).AddComponent<EffectDisplayContainer>();
+        resistanceEffect.SetResistanceText(resistanceName);
+        resistanceEffect.StartCountdown(duration);
+    }
+
     private int HoveringQuickbarButtons()
     {
         for (int i = 0; i < quickbarButtonTransforms.Length; i++)
         {
-            Vector2 localMousePosition = quickbarButtonTransforms[i].InverseTransformPoint(Input.mousePosition);
-            if (quickbarButtonTransforms[i].rect.Contains(localMousePosition))
+            if (quickbarButtonContainers[i].swappable)
             {
-                return i;
+                Vector2 localMousePosition = quickbarButtonTransforms[i].InverseTransformPoint(Input.mousePosition);
+                if (quickbarButtonTransforms[i].rect.Contains(localMousePosition))
+                {
+                    return i;
+                }
             }
         }
         return -1;
@@ -155,6 +185,9 @@ public class OverlayControls : MonoBehaviour
         UIEventSystem.current.SetHover(skillListUp);
         UIEventSystem.current.SetSkillListUp(skillListUp);
         SetSkillListState(skillListUp);
+
+        if (!skillListUp)
+            SetSelectedQuickBar(selectedQuickbarIndex);
     }
 
     private void SetSkillListState(bool show)
@@ -175,32 +208,26 @@ public class OverlayControls : MonoBehaviour
 
     private void DraggingButton(ButtonContainer buttonContainer, bool dragging)
     {
+        int hoveringOverButton = HoveringQuickbarButtons();
+
+        if (dragging || hoveringOverButton == -1)
+            return;
+
         // Skill list button
         if (buttonContainer.buttonData.quickBarIndex == -1)
         {
-            if (!dragging)
-            {
-                int hoveringOverButton = HoveringQuickbarButtons();
-                if (hoveringOverButton != -1)
-                {
-                    BindSkillToQuickbar(buttonContainer, hoveringOverButton);
-                }
-            }
+            BindSkillToQuickbar(buttonContainer, hoveringOverButton);
         }
         // Quickbar button
         else
         {
-            if (!dragging)
+            // If hovering a quickbar button and it's not the same button
+            if (hoveringOverButton != buttonContainer.buttonData.quickBarIndex)
             {
-                int hoveringOverButton = HoveringQuickbarButtons();
-                // If hovering a quickbar button and it's not the same button
-                if (hoveringOverButton != -1 && hoveringOverButton != buttonContainer.buttonData.quickBarIndex)
-                {
-                    // Set the hovering button to the button we are dragging around
-                    BindSkillToQuickbar(quickbarButtonContainers[hoveringOverButton], buttonContainer.buttonData.quickBarIndex);
-                    // Set the button we are dragging around to the hovering button
-                    BindSkillToQuickbar(buttonContainer, hoveringOverButton);
-                }
+                // Set the hovering button to the button we are dragging around
+                BindSkillToQuickbar(quickbarButtonContainers[hoveringOverButton], buttonContainer.buttonData.quickBarIndex);
+                // Set the button we are dragging around to the hovering button
+                BindSkillToQuickbar(buttonContainer, hoveringOverButton);
             }
         }
     }
@@ -214,15 +241,12 @@ public class OverlayControls : MonoBehaviour
 
     public void SetSelectedQuickBar(int selectedQuickbar)
     {
-        /*
-        if (quickbarButtonContainers[selectedQuickbar].buttonData.skill.onCooldown)
+        if (!skillListUp)
         {
-            Debug.Log("On Cooldown");
-            return;
-        }*/
-
-        // Update Adapter
-        UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
+            selectedQuickbarIndex = selectedQuickbar;
+            // Update Adapter
+            UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
+        }
     }
 
     private void PauseGame(bool pause)

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -202,14 +202,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c91cdb2cbf5a1419a23fdec72826b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMesh: {fileID: 0}
+  swordObject: {fileID: 0}
+  swordMotionRoot: {fileID: 0}
   tipPoint: {fileID: 983502051}
   basePoint: {fileID: 812344698}
+  defaultSwordEffect: {fileID: 0}
   swordEffects:
   - {fileID: 8693390843199564228, guid: ef10e8eef305db3499d284b60067cdb0, type: 3}
   - {fileID: 828744232977650402, guid: e3e74d5c0a51f224eab86826b21783b6, type: 3}
   - {fileID: 7430813239369119490, guid: 3a2b1a3d565706f4f93a9ed39f49aea2, type: 3}
   - {fileID: 7847851905616444867, guid: 6005f961cde652b4eaf39a6411d13d51, type: 3}
   - {fileID: 2450090024464767060, guid: 6ec59932431e9a848af8bc5a7276e48b, type: 3}
+  isSwinging: 0
 --- !u!1 &267946768
 GameObject:
   m_ObjectHideFlags: 0

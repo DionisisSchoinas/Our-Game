@@ -19,8 +19,11 @@ public class SpellTypeBolt : Spell
     public override string type => "Bolt";
     public override string skillName => "Bolt";
     public override bool channel => false;
+    public override float duration { get => 0f; }
     public override float cooldown { get => 2f; }
     public float range => 50f;
+    public override float instaCastDelay => 0f;
+    public override bool instaCast => false;
 
     public new void Awake()
     {
@@ -42,11 +45,12 @@ public class SpellTypeBolt : Spell
                 Collider collision = GetClosestCollider(colliders);
                 if (collision.gameObject.layer.Equals(LayerMask.NameToLayer("Damageables")))
                 {
-                    HealthEventSystem.current.TakeDamage(collision.gameObject.name, damage, damageType);
+                    HealthEventSystem.current.TakeDamage(collision.gameObject, damage, damageType);
                     if (condition != null)
                         if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(collision.gameObject.name, condition);
                     HealthEventSystem.current.ApplyForce(collision.gameObject.name, gameObject.transform.forward.normalized, 5f);
                 }
+                CameraShake.current.ShakeCamera(0.1f, 0.2f);
                 Destroy(Instantiate(explosionParticles, transform.position, transform.rotation), 5f);
                 Destroy(gameObject);
             }

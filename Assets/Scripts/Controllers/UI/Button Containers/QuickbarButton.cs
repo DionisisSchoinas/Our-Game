@@ -7,28 +7,36 @@ using UnityEngine.UI;
 public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [HideInInspector]
-    public bool skillListUp;
+    public bool swappable;
 
     private Vector2 lastPosition;
 
     public new void Awake()
     {
         base.Awake();
-        skillListUp = false;
+        swappable = true;
 
-        UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
+        UIEventSystem.current.onSkillPickedRegistered += SelectButton;
     }
 
     public new void OnDestroy()
     {
         base.OnDestroy();
-        UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
+        UIEventSystem.current.onSkillPickedRegistered -= SelectButton;
     }
 
-    private void BlockQuickbarSkillSelection(bool block)
+    private void SelectButton(int skillIndexInAdapter, bool startCooldown)
     {
-        skillListUp = block;
+        if (buttonData.skillIndexInAdapter == skillIndexInAdapter)
+        {
+            buttonSelection.color = OverlayControls.selectedButtonColor;
+        }
+        else
+        {
+            buttonSelection.color = Color.white;
+        }
     }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -63,7 +71,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
     public new void OnDrag(PointerEventData eventData)
     {
-        if (skillListUp)
+        if (skillListUp && swappable)
         {
             Drag(eventData);
         }
@@ -71,7 +79,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (skillListUp)
+        if (skillListUp && swappable)
         {
             ReInstantiate();
 
@@ -85,7 +93,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (skillListUp)
+        if (skillListUp && swappable)
         {
             UIEventSystem.current.DraggingButton(this, false);
 

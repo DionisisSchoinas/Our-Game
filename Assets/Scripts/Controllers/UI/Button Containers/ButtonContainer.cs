@@ -14,15 +14,17 @@ public class ButtonContainer : ElementHover, IDragHandler
     [HideInInspector]
     public Transform parent;
     [HideInInspector]
-    public bool coolingDown;
+    public bool buttonAlreadyDisplayingCooldown;
     [HideInInspector]
     public float cooldownPercentage;
 
     protected RectTransform rect;
     protected Transform canvas;
+    protected Image buttonSelection;
     protected Image buttonBackground;
     protected Image buttonImageCooldown;
     protected Vector2 clickPositionOffset;
+    protected bool skillListUp;
 
     public void Awake()
     {
@@ -34,30 +36,44 @@ public class ButtonContainer : ElementHover, IDragHandler
         rect = GetComponent<RectTransform>();
         canvas = FindObjectOfType<OverlayControls>().transform;
 
-        buttonBackground = gameObject.GetComponent<Image>();
+        buttonSelection = gameObject.GetComponent<Image>();
+        buttonBackground = gameObject.GetComponentsInChildren<Image>()[1];
 
-        buttonImageCooldown = gameObject.GetComponentsInChildren<Image>()[1];
+        buttonImageCooldown = gameObject.GetComponentsInChildren<Image>()[2];
         buttonImageCooldown.fillAmount = 0;
 
-        coolingDown = false;
+        buttonAlreadyDisplayingCooldown = false;
+        skillListUp = false;
 
-        UIEventSystem.current.onSkillPicked += SkillPicked;
+        UIEventSystem.current.onSkillPickedRegistered += SkillPicked;
         UIEventSystem.current.onSkillCast += SkillCast;
         UIEventSystem.current.onFreezeAllSkills += Freeze;
+        UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
+        UIEventSystem.current.onCancelSkill += SkillCast;
     }
 
 
     public void OnDestroy()
     {
-        UIEventSystem.current.onSkillPicked -= SkillPicked;
+        UIEventSystem.current.onSkillPickedRegistered -= SkillPicked;
         UIEventSystem.current.onSkillCast -= SkillCast;
         UIEventSystem.current.onFreezeAllSkills -= Freeze;
+        UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
+        UIEventSystem.current.onCancelSkill -= SkillCast;
+    }
+
+    private void BlockQuickbarSkillSelection(bool block)
+    {
+        skillListUp = block;
     }
 
     //------------ Reset functions ------------
     public void CheckCooldown()
     {
-        StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+        if (buttonData.skill.cooldownPercentage != 0)
+        {
+            StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+        }
     }
 
 
@@ -95,43 +111,54 @@ public class ButtonContainer : ElementHover, IDragHandler
 
 
     //------------ Event functions ------------
-    private void SkillPicked(int skillIndexInAdapter)
+    private void SkillPicked(int skillIndexInAdapter, bool startCooldown)
     {
-        if (!coolingDown && isActiveAndEnabled)
+        if (buttonData.skillIndexInAdapter == skillIndexInAdapter && !startCooldown)
+            return;
+
+        if (!buttonAlreadyDisplayingCooldown && isActiveAndEnabled)
         {
-            buttonData.skill.StartCooldownWithoutEvent(overlayControls.secondsAfterPickingSkill);
-            StartCoroutine(StartCooldown(overlayControls.secondsAfterPickingSkill));
+            if (!buttonData.skill.onCooldown)
+                buttonData.skill.StartCooldownWithoutEvent(OverlayControls.skillFreezeAfterPicking);
+
+            StartCoroutine(StartCooldown(OverlayControls.skillFreezeAfterPicking));
         }
     }
 
-    private void SkillCast(int uniqueAdapterId)
+    private void SkillCast(int uniqueAdapterId, float cooldown)
     {
-        if (!coolingDown && buttonData.skill.uniqueOverlayToWeaponAdapterId == uniqueAdapterId && isActiveAndEnabled)
+        if (!buttonAlreadyDisplayingCooldown && buttonData.skill.uniqueOverlayToWeaponAdapterId == uniqueAdapterId && isActiveAndEnabled)
         {
-            StartCoroutine(StartCooldown(buttonData.skill.cooldown));
+            if (!buttonData.skill.onCooldown)
+                buttonData.skill.StartCooldownWithoutEvent(cooldown);
+
+            StartCoroutine(StartCooldown(cooldown));
         }
     }
 
-    private void Freeze(int uniqueAdapterIndex, float delay)
+    private void Freeze(int uniqueAdapterId, float delay)
     {
-        if (!coolingDown && isActiveAndEnabled && buttonData.skill.uniqueOverlayToWeaponAdapterId != uniqueAdapterIndex)
+        if (!buttonAlreadyDisplayingCooldown && isActiveAndEnabled && buttonData.skill.uniqueOverlayToWeaponAdapterId != uniqueAdapterId)
         {
-            buttonData.skill.StartCooldownWithoutEvent(delay);
+            if (!buttonData.skill.onCooldown)
+                buttonData.skill.StartCooldownWithoutEvent(delay);
+
             StartCoroutine(StartCooldown(delay));
         }
     }
 
     private IEnumerator StartCooldown(float cooldown)
     {
-        coolingDown = true;
+        buttonAlreadyDisplayingCooldown = true;
         float delayForEachStep = cooldown / 100f;
-        while (buttonData.skill.onCooldown)
+
+        while (buttonData.skill.cooldownPercentage < 1)
         {
             buttonImageCooldown.fillAmount = buttonData.skill.cooldownPercentage;
             yield return new WaitForSeconds(delayForEachStep / 2f);
         }
         buttonImageCooldown.fillAmount = 0f;
-        coolingDown = false;
+        buttonAlreadyDisplayingCooldown = false;
 
         yield return null;
     }

@@ -27,6 +27,6 @@ public class LightningBall : SpellTypeBall
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Lightning;
+        return ResourceManager.Sources.Spells.Lightning;
     }
 }

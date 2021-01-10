@@ -37,6 +37,7 @@ public class PlayerMovementScript : MonoBehaviour
     // Raw inputs
     public bool mouse_1;
     public bool mouse_2;
+    // Raw input - hold
     public bool mousePressed_1;
     // ---------------
     public bool lockMouseInputs;

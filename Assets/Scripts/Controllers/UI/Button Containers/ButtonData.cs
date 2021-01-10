@@ -15,7 +15,7 @@ public class ButtonData : MonoBehaviour
     public ButtonData()
     {
         this.quickBarIndex = -1;
-        this.skillIndexInAdapter = -1;
+        this.skillIndexInAdapter = -2;
         this.skillIndexInColumn = -1;
         this.buttonText = null;
         this.skill = null;

@@ -16,7 +16,8 @@ public class SpellIndicatorController : MonoBehaviour
     private Material aoeConeMaterial;
     private Material defaultMaterial;
 
-    private int mode;
+    public int mode { private get; set; }
+    public bool picking { private get; set; }
     private int face;
 
     private Vector3 centerOfRadius;
@@ -28,7 +29,6 @@ public class SpellIndicatorController : MonoBehaviour
     private float aoeWidth;
     private float aoeHeight;
 
-    private bool picking;
     private GameObject tmpRangeIndicator;
     private GameObject tmpAoeIndicator;
     private int layerMasks;
@@ -91,6 +91,7 @@ public class SpellIndicatorController : MonoBehaviour
                 StartCoroutine(LockMouse_1(0.2f));
                 SwapFaces();
             }
+
             // Center on player
             if (mode != 2)
             {
@@ -396,9 +397,7 @@ public class SpellIndicatorController : MonoBehaviour
             return;
 
         KillOnDelayScript killScript = tmpAoeIndicator.GetComponent<KillOnDelayScript>();
-        killScript.KillAfter(delay);
-
-        mode = -1;
+        killScript.KillAfter(delay, this);
     }
 
     public void DestroyIndicator()

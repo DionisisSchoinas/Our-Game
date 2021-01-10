@@ -50,7 +50,7 @@ public class EnemyFirerain : EnemySpell
             if (holding)
             {
                 pickedSpot = false;
-                tmpSource = Instantiate(ResourceManager.Default.Fire, firePoint.position, firePoint.rotation);
+                tmpSource = Instantiate(ResourceManager.Sources.Spells.Fire, firePoint.position, firePoint.rotation);
             }
             else
             {
@@ -69,7 +69,7 @@ public class EnemyFirerain : EnemySpell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
+                HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Fire);
                 if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
             }
         }

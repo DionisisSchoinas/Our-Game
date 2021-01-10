@@ -47,7 +47,7 @@ public class EnemyFireray : EnemySpell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
+                HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Fire);
                 if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
             }
         }

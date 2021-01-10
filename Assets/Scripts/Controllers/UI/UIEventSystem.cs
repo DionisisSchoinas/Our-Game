@@ -49,7 +49,7 @@ public class UIEventSystem : MonoBehaviour
     public event Action onUnhighlightButtonsInSkillList;
     public void UnHighlightSKillList()
     {
-        if (onHighlightButtonInSkillList != null)
+        if (onUnhighlightButtonsInSkillList != null)
         {
             onUnhighlightButtonsInSkillList();
         }
@@ -58,9 +58,18 @@ public class UIEventSystem : MonoBehaviour
     public event Action<int, float> onFreezeAllSkills;
     public void FreezeAllSkills(int uniqueAdapterIndex, float delay)
     {
-        if (onHighlightButtonInSkillList != null)
+        if (onFreezeAllSkills != null)
         {
             onFreezeAllSkills(uniqueAdapterIndex, delay);
+        }
+    }
+
+    public event Action<int, float> onCancelSkill;
+    public void CancelSkill(int uniqueAdapterIndex, float delay)
+    {
+        if (onCancelSkill != null)
+        {
+            onCancelSkill(uniqueAdapterIndex, delay);
         }
     }
 
@@ -73,12 +82,21 @@ public class UIEventSystem : MonoBehaviour
         }
     }
 
-    public event Action<int> onSkillCast;
-    public void SkillCast(int uniqueId)
+    public event Action<int, bool> onSkillPickedRegistered;
+    public void SkillPickedRegister(int skillIndexInAdapter, bool startCooldownForThis)
+    {
+        if (onSkillPickedRegistered != null)
+        {
+            onSkillPickedRegistered(skillIndexInAdapter, startCooldownForThis);
+        }
+    }
+
+    public event Action<int, float> onSkillCast;
+    public void SkillCast(int uniqueId, float cooldown)
     {
         if (onSkillCast != null)
         {
-            onSkillCast(uniqueId);
+            onSkillCast(uniqueId, cooldown);
         }
     }
 
@@ -98,6 +116,24 @@ public class UIEventSystem : MonoBehaviour
         if (onStartCooldown != null)
         {
             onStartCooldown(skill, delay);
+        }
+    }
+
+    public event Action<string, float> onApplyResistance;
+    public void ApplyResistance(string resistanceName, float duration)
+    {
+        if (onApplyResistance != null)
+        {
+            onApplyResistance(resistanceName, duration);
+        }
+    }
+
+    public event Action onRemoveResistance;
+    public void RemoveResistance()
+    {
+        if (onRemoveResistance != null)
+        {
+            onRemoveResistance();
         }
     }
 }

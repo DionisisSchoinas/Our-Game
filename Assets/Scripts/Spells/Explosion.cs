@@ -21,7 +21,7 @@ public class Explosion : MonoBehaviour
     {
         if (gm == null)  return;
 
-        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
+        HealthEventSystem.current.TakeDamage(gm, damage, DamageTypesManager.Fire);
         if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
     }
 }

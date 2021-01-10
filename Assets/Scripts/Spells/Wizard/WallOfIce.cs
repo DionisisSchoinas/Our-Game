@@ -13,6 +13,6 @@ public class WallOfIce : SpellTypeWall
 
     public override ParticleSystem GetSource()
     {
-        return ResourceManager.Default.Ice;
+        return ResourceManager.Sources.Spells.Ice;
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SphereBurst : SwordEffect
 {
-    public float attackDelay = 0.5f;
     public float damage = 20f;
     public float sphereRadius = 15f;
     public float force = 10f;
@@ -19,6 +18,9 @@ public class SphereBurst : SwordEffect
 
     public override string type => "Sphere Burst";
     public override string skillName => "Sphere Burst";
+    public override float cooldown => 10f;
+    public override int comboPhaseMax => 1;
+    public override bool instaCast => true;
 
     private new void Awake()
     {
@@ -29,14 +31,15 @@ public class SphereBurst : SwordEffect
         particles.transform.localScale = Vector3.one;
     }
 
-    private void OnDestroy()
+    private new void OnDestroy()
     {
+        base.OnDestroy();
         Destroy(particles.gameObject);
     }
 
     public override void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh)
     {
-        StartCoroutine(PerformAttack(attackDelay, controls));
+        StartCoroutine(PerformAttack(comboTrailTimings[comboPhase].delayToFireSpell, controls));
     }
 
     IEnumerator PerformAttack(float attackDelay, PlayerMovementScriptWarrior controls)
@@ -44,15 +47,18 @@ public class SphereBurst : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, sphereRadius * 2f, sphereRadius * 2f, SpellIndicatorController.CircleIndicator);
-        indicatorController.DestroyIndicator(attackDelay + 0.1f);
+        indicatorController.DestroyIndicator(swingCooldown * 0.8f);
 
-        yield return new WaitForSeconds(attackDelay);
-        controls.sliding = true;
+        if (instaCasting)
+            yield return null;
+        else
+            yield return new WaitForSeconds(attackDelay);
 
         // Spawns copy of particle system
         ParticleSystem parts = Instantiate(particles, controls.transform.position + controls.transform.forward, controls.transform.rotation);
         parts.Play();
         Destroy(parts.gameObject, 4f);
+        CameraShake.current.ShakeCamera(1f, 1f);
 
         // Find targets
         GameObject[] targets = FindTargets(controls.transform);
@@ -61,14 +67,13 @@ public class SphereBurst : SwordEffect
         {
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.name, damage, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, visibleTarget.transform.position - controls.transform.position, force);
             }
         }
         yield return new WaitForSeconds(0.1f);
-        controls.sliding = false;
     }
 
     private GameObject[] FindTargets(Transform sphereCenter)

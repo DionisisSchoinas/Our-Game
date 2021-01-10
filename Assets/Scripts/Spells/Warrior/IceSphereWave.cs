@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IceSphereWave : SphereBurst
 {
@@ -10,5 +8,10 @@ public class IceSphereWave : SphereBurst
     {
         damageType = DamageTypesManager.Cold;
         condition = ConditionsManager.Frozen;
+    }
+
+    public override ParticleSystem GetSource()
+    {
+        return ResourceManager.Sources.SwordEffects.Ice;
     }
 }
