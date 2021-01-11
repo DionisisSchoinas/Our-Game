@@ -76,8 +76,8 @@ public class Missile : MonoBehaviour
 
         if (target == null)
         {
+            rb.velocity = Vector3.zero;
             target = SearchForCloserTarget();
-            //MoveAround();
         }
 
         if (target != null)

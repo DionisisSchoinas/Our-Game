@@ -93,6 +93,8 @@ public class OverlayControls : MonoBehaviour
         // Hightlight the quickbar skills in the skill list
         HighlightQuickbarInList();
 
+        skillListUp = false;
+
         SetSelectedQuickBar(0);
 
         UIEventSystem.current.onDraggingButton += DraggingButton;

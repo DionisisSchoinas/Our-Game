@@ -116,8 +116,6 @@ public class HealthController : EntityResource
 
     public void TakeDamage(string name, float damage, int damageType)
     {
-        Debug.Log("bong");
-
         if (gameObject.name == name)
         {
             Damage(damage, damageType);
