@@ -3,27 +3,31 @@ using UnityEngine;
 
 public abstract class BasicSword : Skill
 {
-    //public float swingCooldown => 0.85f;
-    public float swingCooldown => 1.5f;
-
     public abstract int comboPhaseMax { get; }
 
     private int _comboPhase;
-    public int comboPhase { 
+    public int comboPhase {
         get
         {
             return _comboPhase;
         }
-        set 
+        set
         {
-            if (value >= comboTrailTimings.Count)
-                _comboPhase = comboTrailTimings.Count - 1;
+            if (value >= comboTrailTimings.Length)
+                _comboPhase = comboTrailTimings.Length - 1;
             else
                 _comboPhase = value;
         }
     }
 
-    public List<ComboStage> comboTrailTimings => new List<ComboStage>()
+    public float[] swingCooldowns => new float[]
+    {
+        1.5f,
+        1.5f,
+        1f
+    };
+
+    public ComboStage[] comboTrailTimings => new ComboStage[]
     {
         new ComboStage(0, 0.45f, 0.25f, 0.55f),
         new ComboStage(1, 0.1f, 0.25f, 0.25f),

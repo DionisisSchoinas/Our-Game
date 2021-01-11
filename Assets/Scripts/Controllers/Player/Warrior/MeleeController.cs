@@ -164,7 +164,7 @@ public class MeleeController : MonoBehaviour
             attacking = true;
             isDuringAttack = true;
 
-            StartCoroutine(controls.Stun(0.5f));
+            StartCoroutine(controls.Stun(sword.GetSelectedEffect().swingCooldowns[comboSwings] * 0.8f));
 
             Attack();
 
@@ -213,17 +213,21 @@ public class MeleeController : MonoBehaviour
             comboCurrent += Time.deltaTime;
        
             // Check if the swing has ended
-            if (comboCurrent > sword.GetSelectedEffect().swingCooldown)
+            if (comboCurrent > sword.GetSelectedEffect().swingCooldowns[sword.GetSelectedEffect().comboPhase])
             {
                 comboSwings++;
                 comboQueue.RemoveAt(0);
                 attacking = false;
             }
             // Unlock input earlier
-            else if (comboCurrent > sword.GetSelectedEffect().swingCooldown * 0.5f && !canHit && canComboHit)
+            else if (comboCurrent > sword.GetSelectedEffect().swingCooldowns[sword.GetSelectedEffect().comboPhase] * 0.5f && !canHit && canComboHit)
             {
                 canHit = true;
-                comboParticles.Play();
+                if (comboSwings + 1 < sword.GetSelectedEffect().comboPhaseMax)
+                {
+                    comboParticles.Play();
+                    CameraShake.current.ShakeCamera(0.1f, 0.1f);
+                }
             }
         }
     }
@@ -231,11 +235,15 @@ public class MeleeController : MonoBehaviour
     private void AttackAnimations(int limit)
     {
         animations.Attack(limit);
+
+        Debug.Log("animations : " + Time.time);
     }
 
     private void Attack()
     {
         sword.Attack(indicator, comboSwings);
+
+        Debug.Log("damage : " + Time.time);
     }
 
     private void SkillListUp(bool up)

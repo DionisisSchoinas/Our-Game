@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Schema;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 public class AnimationScriptControllerWarrior : MonoBehaviour
 {
     public Animator animator;
@@ -118,7 +113,6 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
         }
         */
         combonum = 0;
-        Debug.Log("reset");
     }
 
 }

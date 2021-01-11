@@ -48,7 +48,7 @@ public class SphereBurst : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, sphereRadius * 2f, sphereRadius * 2f, SpellIndicatorController.CircleIndicator);
-        indicatorController.DestroyIndicator(swingCooldown * 0.8f);
+        indicatorController.DestroyIndicator(swingCooldowns[comboPhase] * 0.8f);
 
         if (instaCasting)
             yield return null;

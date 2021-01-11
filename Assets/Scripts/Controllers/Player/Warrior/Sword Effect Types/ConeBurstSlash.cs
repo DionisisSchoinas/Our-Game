@@ -53,7 +53,7 @@ public class ConeBurstSlash : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, coneWidth, coneLength, SpellIndicatorController.ConeIndicator);
-        indicatorController.DestroyIndicator(swingCooldown * 0.8f);
+        indicatorController.DestroyIndicator(swingCooldowns[comboPhase] * 0.8f);
 
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;
