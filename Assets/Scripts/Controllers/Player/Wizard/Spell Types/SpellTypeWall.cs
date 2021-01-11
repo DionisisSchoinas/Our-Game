@@ -24,10 +24,11 @@ public class SpellTypeWall : Spell
     public override string type => "Wall";
     public override string skillName => "Wall";
     public override bool channel => true;
-    public override float cooldown => 2f;
+    public override float cooldown => 15f;
     public override float duration => 10f;
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 35f;
 
     public new void Awake()
     {
@@ -62,10 +63,13 @@ public class SpellTypeWall : Spell
                     indicatorResponse = indicatorController.LockLocation();
                     if (!indicatorResponse.isNull && !cancelled)
                     {
+                        ManaEventSystem.current.UseMana(manaCost);
+
                         currentWall = Instantiate(gameObject);
                         currentWall.transform.position = Vector3.up * transform.localScale.y / 2 + indicatorResponse.centerOfAoe;
                         currentWall.transform.eulerAngles = indicatorResponse.spellRotation;
                         currentWall.SetActive(true);
+                        currentWall.GetComponent<Spell>().TransferData(this);
                         Invoke(nameof(DeactivateWall), duration);
                     }
                     else
@@ -90,9 +94,9 @@ public class SpellTypeWall : Spell
 
         foreach (GameObject gm in collisions)
         {
-            if (gm != null)
+            if (gm != null && gm.name != casterName)
             {
-                HealthEventSystem.current.TakeDamage(gm, damage, damageType);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }

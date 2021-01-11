@@ -23,6 +23,7 @@ public class ButtonContainer : ElementHover, IDragHandler
     protected Image buttonSelection;
     protected Image buttonBackground;
     protected Image buttonImageCooldown;
+    protected Image buttonOutOfMana;
     protected Vector2 clickPositionOffset;
     protected bool skillListUp;
 
@@ -36,11 +37,17 @@ public class ButtonContainer : ElementHover, IDragHandler
         rect = GetComponent<RectTransform>();
         canvas = FindObjectOfType<OverlayControls>().transform;
 
-        buttonSelection = gameObject.GetComponent<Image>();
-        buttonBackground = gameObject.GetComponentsInChildren<Image>()[1];
-
-        buttonImageCooldown = gameObject.GetComponentsInChildren<Image>()[2];
+        Image[] images = gameObject.GetComponentsInChildren<Image>();
+        // Highlight border
+        buttonSelection = images[0];
+        // Button background
+        buttonBackground = images[1];
+        // Spinning cooldown background
+        buttonImageCooldown = images[2];
         buttonImageCooldown.fillAmount = 0;
+        // Gray ouf of mana background
+        buttonOutOfMana = images[3];
+        buttonOutOfMana.fillAmount = 0;
 
         buttonAlreadyDisplayingCooldown = false;
         skillListUp = false;
@@ -50,6 +57,7 @@ public class ButtonContainer : ElementHover, IDragHandler
         UIEventSystem.current.onFreezeAllSkills += Freeze;
         UIEventSystem.current.onSkillListUp += BlockQuickbarSkillSelection;
         UIEventSystem.current.onCancelSkill += SkillCast;
+        ManaEventSystem.current.onManaUpdated += ManaUpdate;
     }
 
 
@@ -60,6 +68,7 @@ public class ButtonContainer : ElementHover, IDragHandler
         UIEventSystem.current.onFreezeAllSkills -= Freeze;
         UIEventSystem.current.onSkillListUp -= BlockQuickbarSkillSelection;
         UIEventSystem.current.onCancelSkill -= SkillCast;
+        ManaEventSystem.current.onManaUpdated -= ManaUpdate;
     }
 
     private void BlockQuickbarSkillSelection(bool block)
@@ -144,6 +153,18 @@ public class ButtonContainer : ElementHover, IDragHandler
                 buttonData.skill.StartCooldownWithoutEvent(delay);
 
             StartCoroutine(StartCooldown(delay));
+        }
+    }
+
+    private void ManaUpdate(float mana)
+    {
+        if (buttonData.skill.manaCost > mana)
+        {
+            buttonOutOfMana.fillAmount = 1f;
+        }
+        else if (buttonOutOfMana.fillAmount == 1f)
+        {
+            buttonOutOfMana.fillAmount = 0f;
         }
     }
 

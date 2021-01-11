@@ -33,13 +33,16 @@ public class Wand : MonoBehaviour
     private Spell currentSpell;
     private Coroutine runningCoroutine;
     private float lastCooldownDisplayMessage;
+    private float lastManaDisplayMessage;
 
     private bool skillListUp;
+    private float currentMana;
 
     private void Start()
     {
         casting = false;
-        lastCooldownDisplayMessage = Time.time; 
+        lastCooldownDisplayMessage = Time.time;
+        lastManaDisplayMessage = Time.time; 
 
         castingBasic = false;
         channeling = false;
@@ -53,11 +56,27 @@ public class Wand : MonoBehaviour
 
         skillListUp = false;
         UIEventSystem.current.onSkillListUp += SkillListUp;
+        ManaEventSystem.current.onManaUpdated += ManaUpdate;
     }
 
     private void OnDestroy()
     {
         UIEventSystem.current.onSkillListUp -= SkillListUp;
+        ManaEventSystem.current.onManaUpdated -= ManaUpdate;
+    }
+
+    private void FixedUpdate()
+    {
+        // Stop Ray spells when they are firing and they drain all mana
+        if (casting && currentSpell.type == "Ray" && currentMana < currentSpell.manaCost)
+        {
+            Fire2(false);
+        }
+    }
+
+    private void ManaUpdate(float mana)
+    {
+        currentMana = mana;
     }
 
     private void SkillListUp(bool up)
@@ -117,11 +136,21 @@ public class Wand : MonoBehaviour
         if (skillListUp)
             return;
 
+        if (currentMana < currentSpell.manaCost)
+        {
+            if (holding && Time.time - lastManaDisplayMessage >= 1f)
+            {
+                Debug.Log("Not enough mana");
+                lastManaDisplayMessage = Time.time;
+            }
+            return;
+        }
+
         if (currentSpell.onCooldown)
         {
             if (holding && Time.time - lastCooldownDisplayMessage >= 1f)
             {
-                Debug.Log("On Cooldown");
+                Debug.Log("On cooldown");
                 lastCooldownDisplayMessage = Time.time;
             }
             return;
@@ -138,6 +167,7 @@ public class Wand : MonoBehaviour
         }
 
         lastCooldownDisplayMessage = Time.time;
+        lastManaDisplayMessage = Time.time;
     }
 
     public void Cancel()
@@ -197,29 +227,7 @@ public class Wand : MonoBehaviour
             runningCoroutine = StartCoroutine(castFire2(castingAnimationChannelReset, false));
         }
     }
-    /*
-    private void CancelHold()
-    {
-        if (castingBasic)
-            StartCoroutine(cancelFire1(castingAnimationSimpleReset));
-        if (channeling)
-            StartCoroutine(cancelFire2(castingAnimationChannelReset));
-    }
 
-    IEnumerator cancelFire1(float reset)
-    {
-        animationController.HideSource();
-        yield return new WaitForSeconds(reset);
-        castingBasic = false;
-        canCast = true;
-    }
-    IEnumerator cancelFire2(float reset)
-    {
-        spells[selectedSpell].FireHold(false, channelingFirePoint);
-        yield return new WaitForSeconds(reset);
-        canCast = true;
-    }
-    */
     IEnumerator releaseFire1(float cast, float reset)
     {
         // Release spell after holding it

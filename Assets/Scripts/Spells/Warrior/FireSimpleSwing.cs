@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class FireSimpleSwing : SimpleSlash
+public class FireSimpleSwing : ElementalSlash
 {
     public override string skillName => "Fire Slash";
 

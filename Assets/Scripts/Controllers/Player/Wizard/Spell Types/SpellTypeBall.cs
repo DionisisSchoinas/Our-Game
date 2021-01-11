@@ -19,6 +19,7 @@ public class SpellTypeBall : Spell
     public float range => 25f;
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 20f;
 
     public new void Awake()
     {
@@ -38,7 +39,9 @@ public class SpellTypeBall : Spell
             if (colliders.Length == 1 && colliders[0].gameObject.name != casterName)
             {
                 GameObject exp = Instantiate(explosion, transform.position + transform.forward * 0.2f, transform.rotation) as GameObject;
-                CameraShake.current.ShakeCamera(1f, 1f);
+                exp.GetComponent<Explosion>().SetName(casterName);
+
+                CameraShake.current.ShakeCamera(0.5f, 0.5f);
                 Destroy(exp, 5f);
                 Destroy(gameObject);
             }
@@ -62,6 +65,8 @@ public class SpellTypeBall : Spell
         }
         else
         {
+            ManaEventSystem.current.UseMana(manaCost);
+
             Spell script = Instantiate(gameObject, firePoint.position + firePoint.forward * 0.5f, firePoint.rotation).GetComponent<Spell>();
             script.DesrtoyAfterDistanceTravelled(range - 1.5f);
             script.TransferData(this);

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LightningSimpleSwing : SimpleSlash
+public class LightningSimpleSwing : ElementalSlash
 {
     public override string skillName => "Lightning Slash";
 

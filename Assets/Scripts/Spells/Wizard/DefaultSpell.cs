@@ -27,6 +27,7 @@ public class DefaultSpell : Spell
     public override float duration => 0f;
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 0f;
 
 
     private GameObject tmpSpell;
@@ -42,7 +43,7 @@ public class DefaultSpell : Spell
     {
         foreach (GameObject target in hitTargets)
         {
-            HealthEventSystem.current.TakeDamage(target, damage, damageType);
+            HealthEventSystem.current.TakeDamageWithoutEvent(target, damage, damageType);
 
             if (condition != null)
                 if (Random.value <= 0.1f) HealthEventSystem.current.SetCondition(target.name, condition);

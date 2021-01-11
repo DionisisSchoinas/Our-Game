@@ -28,6 +28,7 @@ public class Shield : Spell
     public override float duration => 0f;
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 0f;
 
     private void Start()
     {

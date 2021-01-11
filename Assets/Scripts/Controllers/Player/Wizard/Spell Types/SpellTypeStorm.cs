@@ -23,10 +23,11 @@ public class SpellTypeStorm : Spell
     public override string type => "Storm";
     public override string skillName => "Storm";
     public override bool channel => true;
-    public override float cooldown { get => 2f; }
+    public override float cooldown { get => 30f; }
     public override float duration { get => 10f; }
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 50f;
 
     public new void Awake()
     {
@@ -59,9 +60,12 @@ public class SpellTypeStorm : Spell
                     indicatorResponse = indicatorController.LockLocation();
                     if (!indicatorResponse.isNull && !cancelled)
                     {
+                        ManaEventSystem.current.UseMana(manaCost);
+
                         tmpStorm = Instantiate(gameObject);
                         tmpStorm.transform.position = indicatorResponse.centerOfAoe + Vector3.up * 40f;
                         tmpStorm.SetActive(true);
+                        tmpStorm.GetComponent<Spell>().TransferData(this);
                         Invoke(nameof(StopStorm), duration);
                     }
                     else
@@ -87,9 +91,9 @@ public class SpellTypeStorm : Spell
 
         foreach (GameObject gm in collisions)
         {
-            if (gm != null)
+            if (gm != null && gm.name != casterName)
             {
-                HealthEventSystem.current.TakeDamage(gm, damage, damageType);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.2f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }

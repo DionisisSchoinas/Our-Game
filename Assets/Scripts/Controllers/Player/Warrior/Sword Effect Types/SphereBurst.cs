@@ -21,6 +21,7 @@ public class SphereBurst : SwordEffect
     public override float cooldown => 10f;
     public override int comboPhaseMax => 1;
     public override bool instaCast => true;
+    public override float manaCost => 30f;
 
     private new void Awake()
     {
@@ -47,7 +48,7 @@ public class SphereBurst : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, sphereRadius * 2f, sphereRadius * 2f, SpellIndicatorController.CircleIndicator);
-        indicatorController.DestroyIndicator(swingCooldown * 0.8f);
+        indicatorController.DestroyIndicator(swingCooldowns[comboPhase] * 0.8f);
 
         if (instaCasting)
             yield return null;
@@ -67,7 +68,7 @@ public class SphereBurst : SwordEffect
         {
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, damage, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, visibleTarget.transform.position - controls.transform.position, force);

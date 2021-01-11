@@ -16,7 +16,6 @@ public class HealthController : EntityResource
     //temp
     Rigidbody rb;
 
-
     private new void Awake()
     {
         base.Awake();
@@ -26,32 +25,39 @@ public class HealthController : EntityResource
 
         rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
         hitStop = FindObjectOfType<HitStop>();
-        
+    }
+
+    private new void Start()
+    {
+        base.Start();
+
+        if (currentValue != maxValue)
+        {
+            if (resourceBar != null)
+                resourceBar.SetMaxValue(maxValue);
+
+            currentValue = maxValue;
+        }
+
+        HealthEventSystem.current.onDamageTaken += TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
         HealthEventSystem.current.onForceApply += ApplyForce;
     }
 
-    private void Start()
-    {
-        if (resourceBar == null)
-            resourceBar = gameObject.AddComponent<ResourceBar>();
-
-        currentValue = maxValue;
-    }
-
     private void OnDestroy()
     {
+        HealthEventSystem.current.onDamageTaken -= TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
         HealthEventSystem.current.onForceApply -= ApplyForce;
     }
 
-    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, bool respawn, bool invulnerable)
+    public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, Color barColor, bool respawn, bool invulnerable)
     {
-        base.SetValues(maxValue, regenPerSecond, resourceBar);
+        SetValues(maxValue, regenPerSecond, resourceBar, barColor);
         this.respawn = respawn;
         this.invulnerable = invulnerable;
     }
@@ -108,6 +114,13 @@ public class HealthController : EntityResource
         return dmg;
     }
 
+    public void TakeDamage(string name, float damage, int damageType)
+    {
+        if (gameObject.name == name)
+        {
+            Damage(damage, damageType);
+        }
+    }
     public void TakeDamageIgnoreInvunarable(string name, float damage, int damageType)
     {
         if (gameObject.name == name)
@@ -143,5 +156,17 @@ public class HealthController : EntityResource
             if (rb != null)
                 rb.AddForce(direction.normalized * magnitude, ForceMode.Impulse);
         }
+    }
+    
+    protected override IEnumerator Regen()
+    {
+        finsihedRegen = false;
+        while (currentValue < maxValue)
+        {
+            currentValue = currentValue + regenPerSecond / 10f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        finsihedRegen = true;
+        yield return null;
     }
 }

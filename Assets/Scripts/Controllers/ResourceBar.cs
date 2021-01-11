@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ResourceBar : MonoBehaviour
 {
-    public Color resourceBarColor;
     public Slider resourceBar;
+    private Color resourceBarColor;
 
     private Image resourceDisplay;
     private float maxValue;
@@ -18,6 +18,15 @@ public class ResourceBar : MonoBehaviour
         {
             resourceDisplay.color = resourceBarColor;
             resourceDisplay.fillAmount = 1f;
+        }
+    }
+
+    public void SetColor(Color barColor)
+    {
+        if (resourceDisplay != null)
+        {
+            resourceBarColor = barColor;
+            resourceDisplay.color = barColor;
         }
     }
 

@@ -29,7 +29,7 @@ public class SimpleSlash : SwordEffect
         {
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, 30, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject.name, 30, damageType);
                 if (condition != null)
                     if (Random.value <= 0.2f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);

@@ -21,6 +21,7 @@ public class ConeBurstSlash : SwordEffect
     public override string type => "Cone Burst";
     public override string skillName => "Cone Burst";
     public override float cooldown => 20f;
+    public override float manaCost => 20f;
 
     private new void Awake()
     {
@@ -52,7 +53,7 @@ public class ConeBurstSlash : SwordEffect
         // Spawns Indicator
         indicatorController = gameObject.AddComponent<SpellIndicatorController>();
         indicatorController.SelectLocation(controls.transform, coneWidth, coneLength, SpellIndicatorController.ConeIndicator);
-        indicatorController.DestroyIndicator(swingCooldown * 0.8f);
+        indicatorController.DestroyIndicator(swingCooldowns[comboPhase] * 0.8f);
 
         yield return new WaitForSeconds(attackDelay);
         controls.sliding = true;
@@ -69,7 +70,7 @@ public class ConeBurstSlash : SwordEffect
         {
             if (visibleTarget.name != controls.name)
             {
-                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject, damage, damageType);
+                HealthEventSystem.current.TakeDamage(visibleTarget.gameObject.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(visibleTarget.name, condition);
                 HealthEventSystem.current.ApplyForce(visibleTarget.name, controls.transform.forward, force);

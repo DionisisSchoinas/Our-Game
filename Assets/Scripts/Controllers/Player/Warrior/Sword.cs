@@ -70,7 +70,8 @@ public class Sword : MonoBehaviour
         currentEffect.StartSwingCooldown();
         currentEffect.Attack(controls, indicator, playerMesh);
 
-        UIEventSystem.current.FreezeAllSkills(currentEffect.uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldown * 0.5f);
+        ManaEventSystem.current.UseMana(currentEffect.manaCost);
+        UIEventSystem.current.FreezeAllSkills(currentEffect.uniqueOverlayToWeaponAdapterId, currentEffect.swingCooldowns[currentEffect.comboPhase] * 0.5f);
     }
 
     private void ChangeSwordEffect()

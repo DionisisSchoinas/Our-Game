@@ -19,10 +19,11 @@ public class SpellTypeRay : Spell
     public override string type => "Ray";
     public override string skillName => "Ray";
     public override bool channel => true;
-    public override float cooldown { get => 2f; }
+    public override float cooldown { get => 10f; }
     public override float duration { get => 0f; }
     public override float instaCastDelay => 0f;
     public override bool instaCast => false;
+    public override float manaCost => 2f;
 
 
     public new void Awake()
@@ -85,11 +86,13 @@ public class SpellTypeRay : Spell
         {
             if (gm != null)
             {
-                HealthEventSystem.current.TakeDamage(gm, damage, damageType);
+                HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
                 if (condition != null)
                     if (Random.value <= 0.25f / damageTicksPerSecond) HealthEventSystem.current.SetCondition(gm.name, condition);
             }
         }
+
+        ManaEventSystem.current.UseMana(manaCost);
     }
 
     //------------------ Irrelevant ------------------

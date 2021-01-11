@@ -28,6 +28,7 @@ public class SwordEffect : BasicSword
     public override int comboPhaseMax => 3;
     public override float instaCastDelay => 0.4f;
     public override bool instaCast => false;
+    public override float manaCost => 0f;
 
     public new void Awake()
     {
@@ -114,7 +115,8 @@ public class SwordEffect : BasicSword
             Attack(controls, null, playerMesh);
             
             StartCooldown();
-            UIEventSystem.current.FreezeAllSkills(uniqueOverlayToWeaponAdapterId, swingCooldown * 0.5f);
+            ManaEventSystem.current.UseMana(manaCost);
+            UIEventSystem.current.FreezeAllSkills(uniqueOverlayToWeaponAdapterId, swingCooldowns[comboPhase] * 0.5f);
         }
 
         instaCasting = false;
