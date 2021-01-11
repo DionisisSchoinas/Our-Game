@@ -40,7 +40,7 @@ public class MeleeController : MonoBehaviour
 
     private float currentMana;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         indicator = GetComponent<AttackIndicator>() as AttackIndicator;
@@ -70,8 +70,8 @@ public class MeleeController : MonoBehaviour
         canComboHit = false;
 
         skillListUp = false;
-        UIEventSystem.current.onSkillListUp += SkillListUp;
         ManaEventSystem.current.onManaUpdated += ManaUpdate;
+        UIEventSystem.current.onSkillListUp += SkillListUp;
     }
 
     private void OnDestroy()

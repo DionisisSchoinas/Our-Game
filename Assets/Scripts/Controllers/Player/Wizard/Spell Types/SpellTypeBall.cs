@@ -41,7 +41,7 @@ public class SpellTypeBall : Spell
                 GameObject exp = Instantiate(explosion, transform.position + transform.forward * 0.2f, transform.rotation) as GameObject;
                 exp.GetComponent<Explosion>().SetName(casterName);
 
-                CameraShake.current.ShakeCamera(0.5f, 0.5f);
+                CameraShake.current.ShakeCamera(0.2f, 0.5f);
                 Destroy(exp, 5f);
                 Destroy(gameObject);
             }

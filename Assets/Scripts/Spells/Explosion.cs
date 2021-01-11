@@ -11,7 +11,7 @@ public class Explosion : MonoBehaviour
 
     private string casterName;
 
-    private void Start()
+    protected void Start()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, BasicLayerMasks.DamageableEntities);
         GameObject[] hitObjects = OverlapDetection.NoObstaclesLine(colliders, transform.position, BasicLayerMasks.IgnoreOnDamageRaycasts);
@@ -30,7 +30,7 @@ public class Explosion : MonoBehaviour
     {
         if (gm == null || gm.name == casterName)  return;
 
-        HealthEventSystem.current.TakeDamage(gm.name, damage, DamageTypesManager.Fire);
-        if (Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, ConditionsManager.Burning);
+        HealthEventSystem.current.TakeDamage(gm.name, damage, damageType);
+        if (condition != null && Random.value <= 0.5f) HealthEventSystem.current.SetCondition(gm.name, condition);
     }
 }

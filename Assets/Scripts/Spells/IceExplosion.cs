@@ -1,9 +1,10 @@
 ﻿
 public class IceExplosion : Explosion
 {
-    private void Awake()
+    private new void Start()
     {
         damageType = DamageTypesManager.Cold;
         condition = ConditionsManager.Frozen;
+        base.Start();
     }
 }

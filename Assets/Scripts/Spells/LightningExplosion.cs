@@ -1,9 +1,10 @@
 ﻿
 public class LightningExplosion : Explosion
 {
-    private void Awake()
+    private new void Start()
     {
         damageType = DamageTypesManager.Lightning;
         condition = ConditionsManager.Electrified;
+        base.Start();
     }
 }

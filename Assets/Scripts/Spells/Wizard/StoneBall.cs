@@ -16,8 +16,9 @@ public class StoneBall : SpellTypeBall
         path.SetActive(true);
     }
 
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
+        base.FixedUpdate();
         MovePath();
         rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
     }
@@ -30,13 +31,6 @@ public class StoneBall : SpellTypeBall
         {
             path.transform.position = hit.point;
         }
-    }
-
-    private new void OnCollisionEnter(Collision collision)
-    {
-        GameObject exp = Instantiate(explosion, transform.position + transform.forward * 0.2f + Vector3.down, transform.rotation) as GameObject;
-        Destroy(exp, 5f);
-        Destroy(gameObject);
     }
 
     public override ParticleSystem GetSource()

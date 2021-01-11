@@ -31,12 +31,14 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         if (wand != null)
         {
             wand.GetDefaultSpell().onCooldown = false;
+            wand.GetDefaultSpell().cooldownPercentage = 0f;
             wand.GetDefaultSpell().uniqueOverlayToWeaponAdapterId = id;
             id++;
             foreach (Spell s in wand.GetSpells())
             {
                 spellNames.Add(s.skillName);
                 s.onCooldown = false;
+                s.cooldownPercentage = 0f;
                 s.uniqueOverlayToWeaponAdapterId = id;
                 id++;
             }
@@ -46,12 +48,14 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         if (sword != null)
         {
             sword.GetDefaultSwordEffect().onCooldown = false;
+            sword.GetDefaultSwordEffect().cooldownPercentage = 0f;
             sword.GetDefaultSwordEffect().uniqueOverlayToWeaponAdapterId = id;
             id++;
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
                 spellNames.Add(s.skillName);
                 s.onCooldown = false;
+                s.cooldownPercentage = 0f;
                 s.uniqueOverlayToWeaponAdapterId = id;
                 id++;
             }
