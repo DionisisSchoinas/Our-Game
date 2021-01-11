@@ -3,7 +3,8 @@ using UnityEngine;
 
 public abstract class BasicSword : Skill
 {
-    public float swingCooldown => 0.8f;
+    //public float swingCooldown => 0.85f;
+    public float swingCooldown => 1.5f;
 
     public abstract int comboPhaseMax { get; }
 
@@ -25,8 +26,8 @@ public abstract class BasicSword : Skill
     public List<ComboStage> comboTrailTimings => new List<ComboStage>()
     {
         new ComboStage(0, 0.45f, 0.25f, 0.55f),
-        new ComboStage(1, 0.22f, 0.25f, 0.34f),
-        new ComboStage(2, 0.05f, 0.25f, 0.15f)
+        new ComboStage(1, 0.1f, 0.25f, 0.25f),
+        new ComboStage(2, 0f, 0.25f, 0.05f)
     };
 
     public abstract void Attack(PlayerMovementScriptWarrior controls, AttackIndicator indicator, SkinnedMeshRenderer playerMesh);
@@ -34,6 +35,6 @@ public abstract class BasicSword : Skill
 
     public void StartSwingCooldown()
     {
-        UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId, swingCooldown * 0.5f);
+        UIEventSystem.current.SkillCast(uniqueOverlayToWeaponAdapterId, 0.4f);
     }
 }

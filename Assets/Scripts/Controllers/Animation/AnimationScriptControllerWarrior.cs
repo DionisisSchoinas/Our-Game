@@ -16,6 +16,7 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
     private PlayerMovementScriptWarrior controls;
 
     List<string> combos = new List<string>(new string[] { "Combo1", "Combo2", "Combo3" });
+    List<string> combosTriggers = new List<string>(new string[] { "Combo1 T", "Combo2 T", "Combo3 T" });
     public int combonum=0;
   
     // Start is called before the first frame update
@@ -97,18 +98,27 @@ public class AnimationScriptControllerWarrior : MonoBehaviour
     {
         if (combonum < 3 && combonum < limit)
         {
+            /*
+            if (combonum != 0)
+                animator.SetBool(combos[combonum-1], false);
+            
             animator.SetBool(combos[combonum], true);
+            */
+            animator.SetTrigger(combosTriggers[combonum]);
             combonum++;
         }
     }
 
     public void ResetAttack()
     {
+        /*
         for (int cnum = 0; cnum < 3; cnum++)
         {
             animator.SetBool(combos[cnum], false);
         }
+        */
         combonum = 0;
+        Debug.Log("reset");
     }
 
 }

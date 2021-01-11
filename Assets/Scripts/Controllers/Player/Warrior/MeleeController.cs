@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
+    public ParticleSystem readyForComboParticles;
+    private ParticleSystem comboParticles;
+
     // controllers
     private PlayerMovementScriptWarrior controls;
     private AnimationScriptControllerWarrior animations;
@@ -13,6 +16,7 @@ public class MeleeController : MonoBehaviour
 
     private bool attacking; //check if already attacking
     private bool canHit;
+
     //Combo spacers 
     private float comboCurrent;
     //Combo queue 
@@ -20,13 +24,14 @@ public class MeleeController : MonoBehaviour
     // Combo spam regulation
     public bool comboLock;
     public float comboCooldown;
+    private bool canComboHit;
     // Counters for swings and limit
     private int comboSwings; // Counts the swings at their end
     private int clicks;  // Counts the number of swing commands when the user gives them
     // Direction lock
     public bool isDuringAttack;
     // Mouse lock
-    private bool lockedMouseClick;
+    private float lockedMouseClickTime;
 
     private bool skillListUp;
     private float lastCooldownDisplayMessage;
@@ -43,13 +48,16 @@ public class MeleeController : MonoBehaviour
         animations = GetComponent<AnimationScriptControllerWarrior>() as AnimationScriptControllerWarrior;
         sword = GetComponent<Sword>() as Sword;
 
+        comboParticles = Instantiate(readyForComboParticles, transform);
+
         comboQueue = new List<int>();
 
         attacking = false;
         canHit = true;
         comboLock = false;
         isDuringAttack = false;
-        lockedMouseClick = false;
+        //lockedMouseClick = false;
+        lockedMouseClickTime = 0f;
 
         comboCurrent = 0f;
         comboSwings = 0;
@@ -58,6 +66,8 @@ public class MeleeController : MonoBehaviour
         lastManaDisplayMessage = Time.time;
 
         skillComboCooldown = comboCooldown;
+
+        canComboHit = false;
 
         skillListUp = false;
         UIEventSystem.current.onSkillListUp += SkillListUp;
@@ -77,49 +87,6 @@ public class MeleeController : MonoBehaviour
 
     void FixedUpdate()
     {
-        /*  Detect mouse click and start animation
-         *
-         *  Locks :
-         *      lockedMouseClick -----> locked by coroutine to stop spamming
-         *      
-         *      skillListUp -----> list of skills is showing
-         *      
-         *      sword.GetSelectedEffect().onCooldown -----> the selected skill is on cooldown
-         *      
-         *      clicks < sword.GetSelectedEffect().comboPhaseMax -----> if the clicks are lower than the max allowed combo amount ( with a max of 2 you can do up to 2 combo hits )
-         *      
-         *      controls.allowHitAfterRoll -----> check if mid roll
-         *      
-         *      !sword.isCastinSkill -----> checks for sword being occupied
-         *      
-         *      sword.GetSelectedEffect().manaCost <= currentMana -----> checks if there is enough mana to cast the skill
-         */
-        if (controls.mousePressed_1 && !lockedMouseClick && !skillListUp && !sword.GetSelectedEffect().onCooldown && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll && !sword.isCastingSkill && sword.GetSelectedEffect().manaCost <= currentMana)
-        {
-            if (canHit && !comboLock)
-            {
-                // Lock hits
-                canHit = false;
-                if (comboQueue.Count < 3)
-                {
-                    // Limit clicks to +2 of current swing
-                    if (clicks <= comboSwings + 1)
-                        clicks++;
-
-                    // Animate with swing limit (stops a fake combo 3 from firing)
-                    AttackAnimations(clicks);
-                    comboQueue.Add(0);
-
-                    lastCooldownDisplayMessage = Time.time;
-                    lastManaDisplayMessage = Time.time;
-                }
-            }
-        }
-        else if (!controls.mousePressed_1) // Lock mouse to avoid spam going thorough the canHit lock
-        {
-            StartCoroutine(LockMouse(0.05f));
-        }
-
         // Cooldown display message
         if (sword.GetSelectedEffect().onCooldown && controls.mousePressed_1)
         {
@@ -131,6 +98,7 @@ public class MeleeController : MonoBehaviour
             return;
         }
 
+        // Mana display message
         if (currentMana < sword.GetSelectedEffect().manaCost && controls.mousePressed_1)
         {
             if (Time.time - lastManaDisplayMessage >= 1f)
@@ -141,8 +109,57 @@ public class MeleeController : MonoBehaviour
             return;
         }
 
+
+
+        /*  Detect mouse click and start animation
+         *
+         *  Locks :
+         *  
+         *      skillListUp -----> list of skills is showing
+         *      
+         *      clicks < sword.GetSelectedEffect().comboPhaseMax -----> if the clicks are lower than the max allowed combo amount ( with a max of 2 you can do up to 2 combo hits )
+         *      
+         *      controls.allowHitAfterRoll -----> check if mid roll
+         *      
+         *      !sword.isCastinSkill -----> checks for sword being occupied
+         *      
+         *      sword.GetSelectedEffect().manaCost <= currentMana -----> checks if there is enough mana to cast the skill
+         */
+        if (lockedMouseClickTime < 0.1f)
+        {
+            lockedMouseClickTime += Time.deltaTime;
+        }
+        else if (controls.mousePressed_1 && !skillListUp && clicks < sword.GetSelectedEffect().comboPhaseMax && controls.allowHitAfterRoll && !sword.isCastingSkill)
+        {
+            if (canHit && !comboLock)
+            {
+                // Lock hits
+                canHit = false;
+                canComboHit = false;
+
+                if (comboQueue.Count < 3)
+                {
+                    // Limit clicks to +2 of current swing
+                    if (clicks <= comboSwings + 1)
+                        clicks++;
+
+                    if (!comboQueue.Contains(clicks))
+                    {
+                        lockedMouseClickTime = 0f;
+
+                        // Animate with swing limit (stops a fake combo 3 from firing)
+                        AttackAnimations(clicks);
+                        comboQueue.Add(clicks);
+
+                        lastCooldownDisplayMessage = Time.time;
+                        lastManaDisplayMessage = Time.time;
+                    }
+                }
+            }
+        }
+
         // Start the actual attack function
-        if (comboQueue.Count != 0 && !attacking && comboSwings < clicks && clicks <= 3 && comboSwings < sword.GetSelectedEffect().comboPhaseMax && !sword.isCastingSkill && sword.GetSelectedEffect().manaCost <= currentMana)
+        if (comboQueue.Count != 0 && !attacking && clicks <= sword.GetSelectedEffect().comboPhaseMax && comboSwings < sword.GetSelectedEffect().comboPhaseMax && !sword.isCastingSkill)
         {
             attacking = true;
             isDuringAttack = true;
@@ -152,8 +169,11 @@ public class MeleeController : MonoBehaviour
             Attack();
 
             comboCurrent = 0f;
+            canComboHit = true;
+
+            comboParticles.Stop();
         }
-        else if (isDuringAttack && ( comboSwings >= 3 || comboQueue.Count > 3 || comboSwings >= clicks || clicks > 3 || comboSwings >= sword.GetSelectedEffect().comboPhaseMax) )
+        else if (isDuringAttack && ( comboQueue.Count > 3 || comboSwings >= clicks || clicks > sword.GetSelectedEffect().comboPhaseMax || comboSwings >= sword.GetSelectedEffect().comboPhaseMax || (!attacking && comboQueue.Count != 0)) )
         {
             StartCooldowns();
             comboQueue.Clear();
@@ -163,6 +183,8 @@ public class MeleeController : MonoBehaviour
 
             comboSwings = 0;
             clicks = 0;
+
+            comboParticles.Stop();
         }
 
 
@@ -180,6 +202,8 @@ public class MeleeController : MonoBehaviour
         {
             isDuringAttack = false;
             animations.ResetAttack();
+
+            comboParticles.Stop();
         }
        
         // While the attack animation is playing
@@ -196,9 +220,10 @@ public class MeleeController : MonoBehaviour
                 attacking = false;
             }
             // Unlock input earlier
-            else if (comboCurrent > sword.GetSelectedEffect().swingCooldown * 0.52f && !canHit)
+            else if (comboCurrent > sword.GetSelectedEffect().swingCooldown * 0.5f && !canHit && canComboHit)
             {
                 canHit = true;
+                comboParticles.Play();
             }
         }
     }
@@ -217,14 +242,14 @@ public class MeleeController : MonoBehaviour
     {
         skillListUp = up;
     }
-
+    /*
     IEnumerator LockMouse(float duration)
     {
-        lockedMouseClick = true;
+        Debug.Log("lock");
         yield return new WaitForSeconds(duration);
         lockedMouseClick = false;
     }
-
+    */
     private void StartCooldowns()
     {
         sword.GetSelectedEffect().StartCooldown();

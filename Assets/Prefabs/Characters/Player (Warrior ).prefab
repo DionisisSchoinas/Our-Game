@@ -390,6 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4190a9fa21a849a41af1ab47017c359c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readyForComboParticles: {fileID: 3349908624138518530, guid: 2bf0c803b0109f440bb3bf5a5d08ae37,
+    type: 3}
   indicator: {fileID: 2984568328822126950}
   comboLock: 0
   comboCooldown: 0.2
