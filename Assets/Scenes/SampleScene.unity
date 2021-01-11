@@ -1548,6 +1548,7 @@ MonoBehaviour:
   regenPerSecond: 0
   invulnerable: 0
   respawn: 0
+  healthSystemId: 0
 --- !u!1001 &455215476
 PrefabInstance:
   m_ObjectHideFlags: 0

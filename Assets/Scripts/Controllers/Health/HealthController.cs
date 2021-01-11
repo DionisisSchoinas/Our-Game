@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 public class HealthController : EntityResource
 {
-    [SerializeField]
-    private bool invulnerable = false;
+    public bool invulnerable = false;
 
     public bool respawn = false;
 
     private ConditionsHandler conditionsHandler;
     private ResistanceHandler resistanceHandler;
     private HitStop hitStop;
+
+    public int healthSystemId;
 
     //temp
     Rigidbody rb;
@@ -39,7 +42,8 @@ public class HealthController : EntityResource
             currentValue = maxValue;
         }
 
-        HealthEventSystem.current.onDamageTaken += TakeDamage;
+        healthSystemId = HealthEventSystem.current.Subscribe(this);
+        //HealthEventSystem.current.onDamageTaken += TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken += TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
@@ -48,7 +52,8 @@ public class HealthController : EntityResource
 
     private void OnDestroy()
     {
-        HealthEventSystem.current.onDamageTaken -= TakeDamage;
+        HealthEventSystem.current.UnSubscribe(this);
+        //HealthEventSystem.current.onDamageTaken -= TakeDamage;
         HealthEventSystem.current.onDamageIgnoreInvunarableTaken -= TakeDamageIgnoreInvunarable;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
