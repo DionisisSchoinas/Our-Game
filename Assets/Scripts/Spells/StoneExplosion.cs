@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class StoneExplosion : Explosion
 {
-    private void Awake()
+    private new void Start()
     {
         damageType = DamageTypesManager.Physical;
         condition = null;
+        base.Start();
     }
 }

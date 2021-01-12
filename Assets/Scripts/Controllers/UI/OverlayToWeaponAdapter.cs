@@ -17,7 +17,10 @@ public class OverlayToWeaponAdapter : MonoBehaviour
     private int swordListLength;
 
     private PlayerMovementScript playerMovementScript;
-    
+
+    private void Awake()
+    {
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,12 +34,14 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         if (wand != null)
         {
             wand.GetDefaultSpell().onCooldown = false;
+            wand.GetDefaultSpell().cooldownPercentage = 0f;
             wand.GetDefaultSpell().uniqueOverlayToWeaponAdapterId = id;
             id++;
             foreach (Spell s in wand.GetSpells())
             {
                 spellNames.Add(s.skillName);
                 s.onCooldown = false;
+                s.cooldownPercentage = 0f;
                 s.uniqueOverlayToWeaponAdapterId = id;
                 id++;
             }
@@ -46,12 +51,14 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         if (sword != null)
         {
             sword.GetDefaultSwordEffect().onCooldown = false;
+            sword.GetDefaultSwordEffect().cooldownPercentage = 0f;
             sword.GetDefaultSwordEffect().uniqueOverlayToWeaponAdapterId = id;
             id++;
             foreach (SwordEffect s in sword.GetSwordEffects())
             {
                 spellNames.Add(s.skillName);
                 s.onCooldown = false;
+                s.cooldownPercentage = 0f;
                 s.uniqueOverlayToWeaponAdapterId = id;
                 id++;
             }
@@ -62,6 +69,8 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
         UIEventSystem.current.onHover += SetHover;
         UIEventSystem.current.onSkillPicked += SetSelectedSpell;
+
+        SetSelectedSpell(0);
     }
 
     private void OnDestroy()

@@ -38,6 +38,10 @@ public class Wand : MonoBehaviour
     private bool skillListUp;
     private float currentMana;
 
+    private void Awake()
+    {
+    }
+
     private void Start()
     {
         casting = false;
@@ -55,8 +59,10 @@ public class Wand : MonoBehaviour
         }
 
         skillListUp = false;
-        UIEventSystem.current.onSkillListUp += SkillListUp;
         ManaEventSystem.current.onManaUpdated += ManaUpdate;
+        UIEventSystem.current.onSkillListUp += SkillListUp;
+        // Requests update for mana values
+        ManaEventSystem.current.UseMana(0);
     }
 
     private void OnDestroy()

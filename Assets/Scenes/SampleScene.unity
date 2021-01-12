@@ -1546,8 +1546,9 @@ MonoBehaviour:
   maxValue: 100
   resourceBar: {fileID: 0}
   regenPerSecond: 0
-  invulnerable: 0
-  respawn: 0
+  _invulnerable: 0
+  _respawn: 0
+  healthSystemId: 0
 --- !u!1001 &455215476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2387,6 +2388,7 @@ GameObject:
   - component: {fileID: 693244361}
   - component: {fileID: 693244362}
   - component: {fileID: 693244363}
+  - component: {fileID: 693244364}
   m_Layer: 0
   m_Name: GameLogic
   m_TagString: Untagged
@@ -2469,6 +2471,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a0c28e3a562cc64c9d27caed56e304f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &693244364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693244357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8c1590d69cf304087ed23aa8ef6f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &701021990
@@ -6426,7 +6440,6 @@ GameObject:
   - component: {fileID: 1697498327}
   - component: {fileID: 1697498326}
   - component: {fileID: 1697498329}
-  - component: {fileID: 1697498330}
   m_Layer: 5
   m_Name: Overlay
   m_TagString: Untagged
@@ -6544,18 +6557,6 @@ MonoBehaviour:
   quickbarButtonTransforms: []
   quickbarButtonContainers: []
   overlayToWeaponAdapter: {fileID: 0}
---- !u!114 &1697498330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697498324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd8c1590d69cf304087ed23aa8ef6f53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1700715171 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5700972946874308678, guid: c0651748694f9bc4391c22d65399137d,
@@ -8266,6 +8267,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (Wizard)
       objectReference: {fileID: 0}
+    - target: {fileID: 4964402965454966613, guid: bbdf2f0f859680c448dbd66b93f6f062,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4964402965454966615, guid: bbdf2f0f859680c448dbd66b93f6f062,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8342,6 +8348,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player (Warrior )
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984568328822126948, guid: 01ec92abf451697428bfa85ae1f56038,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2984568328822126951, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
