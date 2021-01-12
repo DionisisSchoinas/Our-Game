@@ -1,25 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
 public class HealthEventSystem : MonoBehaviour
 {
-
+    // Job for health control
     public struct HealthDamageJob : IJobParallelFor
     {
-        public NativeArray<int> objectNameIndex;
-        public int beingDamagedNameIndex;
-        public float damageValue;
-        public NativeArray<float> currenthealth;
+        [ReadOnly] public NativeArray<int> objectNameIds;
+        [ReadOnly] public int beingDamagedNameId;
+        [ReadOnly] public float damageValue;
+        [ReadOnly] public int damageType;
+        [ReadOnly] public NativeArray<HealthController.HealthControllerData> data;
+        public NativeArray<float> health;
+        [ReadOnly] public NativeArray<int> resistancesIndex; // Contains the ening index of each controller's data in the "resistances" array
+        [ReadOnly] public NativeArray<int> resistances;  // Contains the resistances of all the controllers
+        [ReadOnly] public NativeArray<int> immunitiesIndex; // Contains the ening index of each controller's data in the "immunities" array
+        [ReadOnly] public NativeArray<int> immunities;  // Contains the immunities of all the controllers
 
         public void Execute(int index)
         {
-            if (objectNameIndex[index] == beingDamagedNameIndex)
+            // If controller matches
+            if (objectNameIds[index] == beingDamagedNameId)
             {
-                currenthealth[index] = currenthealth[index] - damageValue;
+                // If controller not invulnerable
+                if (!data[index].invulnerable)
+                {
+                    health[index] = data[index].health - CheckDamageTypes(index);
+                }
             }
+        }
+
+        private float CheckDamageTypes(int index)
+        {
+            // Gets the indexies to be searched in the total immunity array
+            int immStartIndex = (index == 0) ? 0 : immunitiesIndex[index - 1];
+            int immEndIndex = immunitiesIndex[index];
+
+            // Gets the indexies to be searched in the total resistance array
+            int resStartIndex = (index == 0) ? 0 : resistancesIndex[index - 1];
+            int resEndIndex = resistancesIndex[index];
+
+            for (int i = immStartIndex; i < immEndIndex; i++)
+            {
+                if (immunities[i] == damageType)
+                {
+                    return 0f;
+                }
+            }
+
+            for (int i = resStartIndex; i < resEndIndex; i++)
+            {
+                if (resistances[i] == damageType)
+                {
+                    return damageValue / 2f;
+                }
+            }
+            
+            return damageValue;
         }
     }
 
@@ -27,7 +68,7 @@ public class HealthEventSystem : MonoBehaviour
 
     private List<HealthController> healthControllers;
     private Dictionary<string, int> healthControllersNames;
-    private NativeArray<int> idsArray;
+    private NativeList<int> idsArray;
 
     private int ids;
 
@@ -35,102 +76,117 @@ public class HealthEventSystem : MonoBehaviour
     private void Awake()
     {
         current = this;
+
+        // Instatiate lists and native arrays
         healthControllers = new List<HealthController>();
         healthControllersNames = new Dictionary<string, int>();
-        idsArray = new NativeArray<int>(0, Allocator.Persistent); ;
+        idsArray = new NativeList<int>(Allocator.Persistent);
+
         ids = 0;
     }
 
     private void OnDestroy()
     {
+        // Clear memory
         idsArray.Dispose();
     }
 
     // Deals damage ignoring invunarable
-    public event Action<string, float, int> onDamageTaken;
     public void TakeDamage(string name, float damage, int damageType)
     {
-        /*
-        if (onDamageTaken != null)
-        {
-            onDamageTaken(name, damage, damageType);
-        }
-        */
-        NativeArray<float> currentHealth = new NativeArray<float>(healthControllers.Count, Allocator.TempJob);
+        // Copy data to Tmp native array
+        NativeArray<HealthController.HealthControllerData> dataTmp = new NativeArray<HealthController.HealthControllerData>(healthControllers.Count, Allocator.TempJob);
+        NativeArray<float> health = new NativeArray<float>(healthControllers.Count, Allocator.TempJob);
+
+        // Index ends of both arrays
+        // valeus inside like -> [2, 2, 3, 4] when the 1st controller has 2 entries, the 2nd 0, the 3rd 1 and the 4rth 1
+        NativeArray<int> resistancesIndex = new NativeArray<int>(healthControllers.Count, Allocator.TempJob);
+        NativeArray<int> immunitiesIndex = new NativeArray<int>(healthControllers.Count, Allocator.TempJob);
+
+        // Contnious arrays of values
+        NativeList<int> resistances = new NativeList<int>(Allocator.TempJob);
+        NativeList<int> immunities = new NativeList<int>(Allocator.TempJob);
 
         for (int i=0; i<healthControllers.Count; i++)
         {
-            currentHealth[i] = healthControllers[i].currentValue;
+            dataTmp[i] = healthControllers[i].data;
+            health[i] = healthControllers[i].data.health;
+            resistancesIndex[i] = healthControllers[i].resistances.Count + ((i == 0) ? 0 : resistancesIndex[i-1]);
+            immunitiesIndex[i] = healthControllers[i].immunities.Count + ((i == 0) ? 0 : immunitiesIndex[i-1]);
+
+            foreach (int type in healthControllers[i].resistances)
+                resistances.Add(type);
+
+            foreach (int type in healthControllers[i].immunities)
+                immunities.Add(type);
         }
 
+        // Check if given name is a controller
+        int id;
+        if (!healthControllersNames.TryGetValue(name, out id))
+            id = -10;
+
+        // Create Job object
         HealthDamageJob healthDamageJob = new HealthDamageJob()
         {
             damageValue = damage,
-            beingDamagedNameIndex = healthControllersNames[name],
-            objectNameIndex = idsArray,
-            currenthealth = currentHealth,
+            damageType = damageType,
+            beingDamagedNameId = id,
+            objectNameIds = idsArray,
+            data = dataTmp,
+            health = health,
+            resistancesIndex = resistancesIndex,
+            resistances = resistances,
+            immunitiesIndex = immunitiesIndex,
+            immunities = immunities,
         };
 
+        // Start Jobs
         JobHandle jobHandle = healthDamageJob.Schedule(healthControllers.Count, 1);
         jobHandle.Complete();
 
+        // Transfer new data over to the actual data
         for (int i = 0; i < healthControllers.Count; i++)
         {
-            healthControllers[i].currentValue = currentHealth[i];
+            healthControllers[i].currentValue = health[i];
         }
 
-        currentHealth.Dispose();
+        // Clear memory
+        dataTmp.Dispose();
+        health.Dispose();
+        resistancesIndex.Dispose();
+        resistances.Dispose();
+        immunitiesIndex.Dispose();
+        immunities.Dispose();
     }
 
+    // Subscribes a healthcontroller to the evetn system and returns the ID of the controller
     public int Subscribe(HealthController healthController)
     {
+        // Add controller to the lists
         ids++;
         healthControllers.Add(healthController);
         healthControllersNames.Add(healthController.gameObject.name, ids);
 
-        idsArray.Dispose();
-        idsArray = new NativeArray<int>(healthControllers.Count, Allocator.Persistent);
-        for (int i = 0; i < healthControllers.Count-1; i++)
-        {
-            idsArray[i] = healthControllers[i].healthSystemId;
-        }
-        idsArray[healthControllers.Count - 1] = ids;
+        // Add controller data to the Job's NativeArrays
+        if (idsArray.IsCreated)
+            idsArray.Add(ids);
 
         return ids;
     }
 
+    // Unsubscribes a healthcontroller from the evetn system
     public void UnSubscribe(HealthController healthController)
     {
+        // Remove controller data from the lists
         healthControllers.Remove(healthController);
         healthControllersNames.Remove(healthController.gameObject.name);
 
+        // Remove controller data from the Job's NativeArrays
         if (idsArray.IsCreated)
-        {
-            idsArray.Dispose();
-            idsArray = new NativeArray<int>(healthControllers.Count, Allocator.Persistent);
-            for (int i = 0; i < healthControllers.Count; i++)
-            {
-                idsArray[i] = healthControllers[i].healthSystemId;
-            }
-        }
+            idsArray.RemoveAt(idsArray.IndexOf(healthController.healthSystemId));
     }
 
-    // Deals damage without using the health event system
-    public void TakeDamageWithoutEvent(GameObject target, float damage, int damageType)
-    {
-        if (LayerMask.GetMask(LayerMask.LayerToName(target.gameObject.layer)) == BasicLayerMasks.DamageableEntities)
-            target.GetComponent<HealthController>().Damage(damage, damageType);
-    }
-    
-    // Deals damage ignoring invunarable
-    public event Action<string, float, int> onDamageIgnoreInvunarableTaken;
-    public void TakeDamageIgnoreShields(string name, float damage, int damageType)
-    {
-        if (onDamageIgnoreInvunarableTaken != null)
-        {
-            onDamageIgnoreInvunarableTaken(name, damage, damageType);
-        }
-    }
     // Sets the invunarablility state
     public event Action<string, bool> onChangeInvunerability;
     public void SetInvunerable(string name, bool state)
@@ -165,6 +221,15 @@ public class HealthEventSystem : MonoBehaviour
         if (onResistanceApply != null)
         {
             onResistanceApply(name, mesh, newMaterial, resistance, duration);
+        }
+    }
+    // Sends out current resistances
+    public event Action<string, List<int>> onResistanceUpdate;
+    public void UpdateResistance(string name, List<int> resistances)
+    {
+        if (onResistanceUpdate != null)
+        {
+            onResistanceUpdate(name, resistances);
         }
     }
 }

@@ -43,7 +43,7 @@ public class DefaultSpell : Spell
     {
         foreach (GameObject target in hitTargets)
         {
-            HealthEventSystem.current.TakeDamageWithoutEvent(target, damage, damageType);
+            HealthEventSystem.current.TakeDamage(target.name, damage, damageType);
 
             if (condition != null)
                 if (Random.value <= 0.1f) HealthEventSystem.current.SetCondition(target.name, condition);

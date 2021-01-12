@@ -20,8 +20,6 @@ public class OverlayToWeaponAdapter : MonoBehaviour
 
     private void Awake()
     {
-        UIEventSystem.current.onHover += SetHover;
-        UIEventSystem.current.onSkillPicked += SetSelectedSpell;
     }
 
     // Start is called before the first frame update
@@ -68,6 +66,11 @@ public class OverlayToWeaponAdapter : MonoBehaviour
         }
 
         playerMovementScript = GetComponent<PlayerMovementScript>();
+
+        UIEventSystem.current.onHover += SetHover;
+        UIEventSystem.current.onSkillPicked += SetSelectedSpell;
+
+        SetSelectedSpell(0);
     }
 
     private void OnDestroy()

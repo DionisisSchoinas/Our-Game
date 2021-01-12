@@ -6,19 +6,22 @@ using UnityEngine;
 
 public class ResistanceHandler : MonoBehaviour
 {
-    [HideInInspector]
+    //[HideInInspector]
     public List<int> damageResistances;
-    [HideInInspector]
+    //[HideInInspector]
     public List<int> damageImmunities;
 
     private Coroutine resistanceTimer;
     private bool countingResistanceDuration;
 
-    private void Start()
+    private void Awake()
     {
         damageResistances = new List<int>();
         damageImmunities = new List<int>();
+    }
 
+    private void Start()
+    {
         HealthEventSystem.current.onResistanceApply += ApplyResistance;
     }
 
@@ -46,6 +49,7 @@ public class ResistanceHandler : MonoBehaviour
         damageResistances.Add(resistance); // Add resistance to list
 
         UIEventSystem.current.ApplyResistance(DamageTypesManager.Types[resistance] + " Resistance", duration);
+        HealthEventSystem.current.UpdateResistance(gameObject.name, damageResistances);
 
         resistanceTimer = StartCoroutine(StartDuration(mesh, duration));
     }
@@ -64,6 +68,7 @@ public class ResistanceHandler : MonoBehaviour
         damageResistances.Clear(); // Empty resistance list ( works since we only have 1 way to add resistances )
 
         UIEventSystem.current.RemoveResistance();
+        HealthEventSystem.current.UpdateResistance(gameObject.name, damageResistances);
     }
 
     private IEnumerator StartDuration(SkinnedMeshRenderer mesh, float duration)

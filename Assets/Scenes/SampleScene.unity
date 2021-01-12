@@ -1546,8 +1546,8 @@ MonoBehaviour:
   maxValue: 100
   resourceBar: {fileID: 0}
   regenPerSecond: 0
-  invulnerable: 0
-  respawn: 0
+  _invulnerable: 0
+  _respawn: 0
   healthSystemId: 0
 --- !u!1001 &455215476
 PrefabInstance:
@@ -8270,7 +8270,7 @@ PrefabInstance:
     - target: {fileID: 4964402965454966613, guid: bbdf2f0f859680c448dbd66b93f6f062,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4964402965454966615, guid: bbdf2f0f859680c448dbd66b93f6f062,
         type: 3}
@@ -8352,7 +8352,7 @@ PrefabInstance:
     - target: {fileID: 2984568328822126948, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2984568328822126951, guid: 01ec92abf451697428bfa85ae1f56038,
         type: 3}
