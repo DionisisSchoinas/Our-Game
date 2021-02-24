@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EscapeMenuController : MonoBehaviour
@@ -65,7 +66,9 @@ public class EscapeMenuController : MonoBehaviour
 
     private void ExitToMenu()
     {
-        Debug.Log("To Main Menu");
+        Time.timeScale = 1;
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        SceneManager.LoadScene("StartMenuScene");
     }
 
     private void ExitGame()

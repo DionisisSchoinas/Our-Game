@@ -273,9 +273,9 @@ public class OverlayControls : MonoBehaviour
 
     private void EscapeMenu()
     {
+        escapeMenuUp = !escapeMenuUp;
         SetCanvasState(escapeMenuUp, escapeMenu);
         PauseGame(escapeMenuUp);
-        escapeMenuUp = !escapeMenuUp;
     }
 
     private void PauseGame(bool pause)

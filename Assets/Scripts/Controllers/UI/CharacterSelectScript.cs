@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharacterSelectScript : MonoBehaviour
@@ -14,6 +15,10 @@ public class CharacterSelectScript : MonoBehaviour
 
     private void Awake()
     {
+        SelectedCharacterScript[] scripts = FindObjectsOfType<SelectedCharacterScript>();
+        foreach (SelectedCharacterScript s in scripts)
+            Destroy(s.gameObject);
+
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
         OverlayControls.SetCanvasState(false, canvasGroup);
 
@@ -29,12 +34,23 @@ public class CharacterSelectScript : MonoBehaviour
 
     private void WizardPick()
     {
-
+        GameObject gm = new GameObject();
+        SelectedCharacterScript script = gm.AddComponent<SelectedCharacterScript>();
+        script.SetCharacter(SelectedCharacterScript.Character.Wizard);
+        ChangeToGameScene();
     }
 
     private void FighterPick()
     {
+        GameObject gm = new GameObject();
+        SelectedCharacterScript script = gm.AddComponent<SelectedCharacterScript>();
+        script.SetCharacter(SelectedCharacterScript.Character.Fighter);
+        ChangeToGameScene();
+    }
 
+    private void ChangeToGameScene()
+    {
+        SceneManager.LoadScene("MainGameScene");
     }
 
     private void BackToMenu()
