@@ -13,6 +13,7 @@ public class OverlayControls : MonoBehaviour
     public float secondsAfterPickingSkill = 0.02f;
     public float secondsAfterCastingSkill = 0.02f;
     public Color buttonColorSelected;
+    public CanvasGroup escapeMenu;
 
     // Quickbar data
     [HideInInspector]
@@ -27,6 +28,7 @@ public class OverlayControls : MonoBehaviour
     private SkillListFill skillList;
     private int selectedQuickbarIndex;
     private bool skillListUp;
+    private bool escapeMenuUp;
 
     public static float skillFreezeAfterPicking;
     public static float skillFreezeAfterCasting;
@@ -44,7 +46,8 @@ public class OverlayControls : MonoBehaviour
 
         skillList.FillList();
 
-        SetSkillListState(false);
+        SetCanvasState(false, spellListDisplay);
+        SetCanvasState(false, escapeMenu);
         spellListDisplay.gameObject.AddComponent<ElementHover>();
 
         quickbarButtons = buttonQuickbar.GetComponentsInChildren<Button>();
@@ -94,6 +97,7 @@ public class OverlayControls : MonoBehaviour
         HighlightQuickbarInList();
 
         skillListUp = false;
+        escapeMenuUp = false;
 
         SetSelectedQuickBar(0);
 
@@ -140,7 +144,7 @@ public class OverlayControls : MonoBehaviour
             }
             else
             {
-                // Escape menu
+                EscapeMenu();
             }
         }
 
@@ -186,25 +190,41 @@ public class OverlayControls : MonoBehaviour
         skillListUp = !skillListUp;
         UIEventSystem.current.SetHover(skillListUp);
         UIEventSystem.current.SetSkillListUp(skillListUp);
-        SetSkillListState(skillListUp);
+        SetCanvasState(skillListUp, spellListDisplay);
 
         if (!skillListUp)
             SetSelectedQuickBar(selectedQuickbarIndex);
     }
 
-    private void SetSkillListState(bool show)
+    public static void SetCanvasState(bool show, CanvasGroup canvasGroup)
     {
         if (show)
         {
-            spellListDisplay.alpha = 1f;
-            spellListDisplay.interactable = true;
-            spellListDisplay.blocksRaycasts = true;
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
         }
         else
         {
-            spellListDisplay.alpha = 0f;
-            spellListDisplay.interactable = false;
-            spellListDisplay.blocksRaycasts = false;
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+    }
+
+    public static void SetCanvasState(float alpha, CanvasGroup canvasGroup)
+    {
+        if (alpha > 0f)
+        {
+            canvasGroup.alpha = Mathf.Min(alpha, 1f);
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
         }
     }
 
@@ -249,6 +269,13 @@ public class OverlayControls : MonoBehaviour
             // Update Adapter
             UIEventSystem.current.SkillPicked(quickbarButtonContainers[selectedQuickbar].buttonData.skillIndexInAdapter);
         }
+    }
+
+    private void EscapeMenu()
+    {
+        SetCanvasState(escapeMenuUp, escapeMenu);
+        PauseGame(escapeMenuUp);
+        escapeMenuUp = !escapeMenuUp;
     }
 
     private void PauseGame(bool pause)
