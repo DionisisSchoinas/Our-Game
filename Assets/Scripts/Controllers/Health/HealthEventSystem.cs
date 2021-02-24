@@ -183,7 +183,7 @@ public class HealthEventSystem : MonoBehaviour
         healthControllersNames.Remove(healthController.gameObject.name);
 
         // Remove controller data from the Job's NativeArrays
-        if (idsArray.IsCreated)
+        if (idsArray.IsCreated && idsArray.IndexOf(healthController.healthSystemId) >= 0)
             idsArray.RemoveAt(idsArray.IndexOf(healthController.healthSystemId));
     }
 

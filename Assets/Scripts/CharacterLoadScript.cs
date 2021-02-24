@@ -27,10 +27,13 @@ public class CharacterLoadScript : MonoBehaviour
 
             foreach (GameObject gm in characters)
             {
-                gm.SetActive(false);
                 if (gm.name.Equals(character_name))
                 {
                     gm.SetActive(true);
+                }
+                else
+                {
+                    gm.SetActive(false);
                 }
             }
         }
