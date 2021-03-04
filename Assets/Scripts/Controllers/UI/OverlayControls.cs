@@ -13,6 +13,7 @@ public class OverlayControls : MonoBehaviour
     public float secondsAfterPickingSkill = 0.02f;
     public float secondsAfterCastingSkill = 0.02f;
     public Color buttonColorSelected;
+    public Color buttonColorUnselected;
     public CanvasGroup escapeMenu;
 
     // Quickbar data
@@ -33,11 +34,17 @@ public class OverlayControls : MonoBehaviour
     public static float skillFreezeAfterPicking;
     public static float skillFreezeAfterCasting;
     public static Color selectedButtonColor;
+    public static Color unselectedButtonColor;
 
 
     private void Start()
     {
         overlayToWeaponAdapter = FindObjectOfType<OverlayToWeaponAdapter>();
+
+        skillFreezeAfterPicking = secondsAfterPickingSkill;
+        skillFreezeAfterCasting = secondsAfterCastingSkill;
+        selectedButtonColor = buttonColorSelected;
+        unselectedButtonColor = buttonColorUnselected;
 
         skillList = gameObject.AddComponent<SkillListFill>();
         skillList.weaponAdapter = overlayToWeaponAdapter;
@@ -84,14 +91,11 @@ public class OverlayControls : MonoBehaviour
             }
             quickbarButtonContainers[i].overlayControls = this;
             quickbarButtonContainers[i].parent = buttonQuickbar.transform;
+            quickbarButtonContainers[i].SetSelectionColor(unselectedButtonColor);
 
             // Transforms
             quickbarButtonTransforms[i] = quickbarButtons[i].GetComponent<RectTransform>();
         }
-
-        skillFreezeAfterPicking = secondsAfterPickingSkill;
-        skillFreezeAfterCasting = secondsAfterCastingSkill;
-        selectedButtonColor = buttonColorSelected;
 
         // Hightlight the quickbar skills in the skill list
         HighlightQuickbarInList();
@@ -149,7 +153,7 @@ public class OverlayControls : MonoBehaviour
         }
 
         // Spell List
-        if (Input.GetKeyDown(KeyCode.K))
+        if (!escapeMenuUp && Input.GetKeyDown(KeyCode.K))
         {
             ChangeSkillListState();
         }

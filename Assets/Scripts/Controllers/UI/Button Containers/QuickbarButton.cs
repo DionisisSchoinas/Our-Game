@@ -33,7 +33,7 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
         }
         else
         {
-            buttonSelection.color = Color.white;
+            buttonSelection.color = OverlayControls.unselectedButtonColor;
         }
     }
 
@@ -86,6 +86,8 @@ public class QuickbarButton : ButtonContainer, IPointerClickHandler, IPointerDow
             clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
             transform.parent = canvas;
             lastPosition = rect.position;
+
+            rect.position = rect.position + Vector3.up * 3f + Vector3.left * 3f;
 
             UIEventSystem.current.DraggingButton(this, true);
         }

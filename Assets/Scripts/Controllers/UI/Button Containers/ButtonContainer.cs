@@ -76,6 +76,11 @@ public class ButtonContainer : ElementHover, IDragHandler
         skillListUp = block;
     }
 
+    public void SetSelectionColor(Color color)
+    {
+        buttonSelection.color = color;
+    }
+
     //------------ Reset functions ------------
     public void CheckCooldown()
     {

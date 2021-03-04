@@ -30,7 +30,7 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
     }
     private void UnHighlight()
     {
-        buttonSelection.color = Color.white;
+        buttonSelection.color = OverlayControls.unselectedButtonColor;
     }
 
     private SkillListButton ReInstantiate()
@@ -61,6 +61,10 @@ public class SkillListButton : ButtonContainer, IPointerDownHandler, IPointerUpH
         clickPositionOffset = eventData.position - new Vector2(transform.position.x, transform.position.y);
         // Move to canvas to allow drag around
         transform.parent = canvas;
+
+
+        rect.position = rect.position + Vector3.up * 3f + Vector3.left * 3f;
+
         // Notify event
         UIEventSystem.current.DraggingButton(this, true);
     }
