@@ -16,6 +16,9 @@ public class HealthController : EntityResource
     public List<int> resistances { get; private set; }
     public List<int> immunities { get; private set; }
 
+    private Animator animator;
+    private Collider collider;
+
     [SerializeField]
     private bool _invulnerable;
     public bool invulnerable
@@ -47,10 +50,17 @@ public class HealthController : EntityResource
                     value = maxValue;
                 else
                 {
-                    Destroy(gameObject);
+                    if (animator != null)
+                        animator.SetTrigger("Die");
+
+                    collider.enabled = false;
+                    Destroy(gameObject, 30f);
                     return;
                 }
             }
+
+            if (animator != null)
+                animator.SetTrigger("Hit");
 
             base.currentValue = value;
             data.health = currentValue;
@@ -59,7 +69,6 @@ public class HealthController : EntityResource
 
     private ConditionsHandler conditionsHandler;
     private ResistanceHandler resistanceHandler;
-    private HitStop hitStop;
 
     public int healthSystemId;
 
@@ -73,8 +82,10 @@ public class HealthController : EntityResource
         conditionsHandler = gameObject.AddComponent<ConditionsHandler>();
         resistanceHandler = gameObject.AddComponent<ResistanceHandler>();
 
-        rb = gameObject.GetComponent<Rigidbody>() as Rigidbody;
-        hitStop = FindObjectOfType<HitStop>();
+        animator = gameObject.GetComponent<Animator>();
+
+        rb = gameObject.GetComponent<Rigidbody>();
+        collider = gameObject.GetComponent<Collider>();
 
         data = new HealthControllerData();
         resistances = new List<int>();

@@ -16,9 +16,13 @@ public class CameraShake : MonoBehaviour
 	Transform camTransform;
 	Vector3 originalPos;
 
+	HitStop hitStop;
+
 	void Awake()
 	{
 		camTransform = Camera.main.transform;
+
+		hitStop = gameObject.AddComponent<HitStop>();
 
 		current = this;
 		current.onCameraShake += Shake;
@@ -45,6 +49,8 @@ public class CameraShake : MonoBehaviour
 		originalPos = camTransform.localPosition;
 		shakeDuration = duration;
 		shakeAmount = amount;
+
+		hitStop.Stop(0.01f);
 	}
 
 	void Update()
@@ -60,7 +66,6 @@ public class CameraShake : MonoBehaviour
 			else
 			{
 				shakeDuration = 0f;
-
 			}
 		}
 	}

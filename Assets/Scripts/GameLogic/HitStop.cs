@@ -12,12 +12,12 @@ public class HitStop : MonoBehaviour
         Time.timeScale = 0.0f;
         StartCoroutine(Wait(duration));
     }
+
     public IEnumerator Wait(float second)
     {
         waiting = true;
         yield return new WaitForSecondsRealtime(second);
         Time.timeScale = 1.0f;
         waiting = false;
-
     }
 }
