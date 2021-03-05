@@ -4,33 +4,62 @@ using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour
 {
+    private Collider col;
     private Rigidbody rb;
     [SerializeField]
     private float speed = 8f;
 
-  
-    // Start is called before the first frame update
-    void Start()
+    private bool stuck;
+
+    private void Awake()
     {
-     
-        rb = FindObjectOfType<Rigidbody>();
-    }
-    public void FireSimple(Transform firePoint)
-    {
-        
-        GameObject tmp = Instantiate(gameObject, firePoint.position + firePoint.forward * 0.5f, firePoint.rotation) as GameObject;
-        Destroy(tmp, 5f);
+        rb = gameObject.GetComponent<Rigidbody>();
+        col = gameObject.GetComponent<Collider>();
+
+        stuck = false;
     }
 
-    // Update is called once per frame
+    public void SetCaster(Collider caster)
+    {
+        Physics.IgnoreCollision(col, caster);
+    }
+
+    public void FireSimple(Transform firePoint, Collider caster)
+    {
+        ProjectileScript scr = Instantiate(gameObject, firePoint.position + firePoint.forward * 0.5f, firePoint.rotation).GetComponent<ProjectileScript>();
+        scr.SetCaster(caster);
+        Destroy(scr.gameObject, 5f);
+    }
+
     void FixedUpdate()
     {
-        rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
+        if (!stuck)
+        {
+            transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 180f);
+            rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
+        }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        stuck = true;
+        // Stick to target
+        int layer = collision.gameObject.layer;
+        if (layer.Equals(BasicLayerMasks.EnemiesLayer) || layer.Equals(BasicLayerMasks.DamageablesLayer))
+        {
+            rb.transform.parent = collision.transform;
+        }
+        rb.isKinematic = false;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        // Disable colider
+        col.enabled = false;
+        // Move a bit forward
+        transform.position += transform.forward / 3f;
+
+        // Damage
+        HealthEventSystem.current.TakeDamage(collision.gameObject.name, 15f, DamageTypesManager.Physical);
+
+        Destroy(gameObject, 15f);
     }
-
-
 }

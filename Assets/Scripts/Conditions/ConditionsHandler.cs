@@ -9,11 +9,15 @@ public class ConditionsHandler : MonoBehaviour
     private List<Coroutine> conditionsCoroutines;
     private List<ParticleSystem> conditionsParticles;
 
+    private HealthController healthController;
+
     private void Start()
     {
         conditions = new List<Condition>();
         conditionsCoroutines = new List<Coroutine>();
         conditionsParticles = new List<ParticleSystem>();
+
+        healthController = gameObject.GetComponent<HealthController>();
     }
 
     public void AddCondition(Condition condition)
@@ -50,7 +54,8 @@ public class ConditionsHandler : MonoBehaviour
         watch.Stop();
 
         int cur_con = conditions.IndexOf(condition);
-        Destroy(conditionsParticles[cur_con].gameObject); // Destroy particles
+        if (healthController.currentValue > 0f)
+            Destroy(conditionsParticles[cur_con].gameObject); // Destroy particles
         conditionsCoroutines.RemoveAt(cur_con); // Delete coroutine
         conditionsParticles.RemoveAt(cur_con); // Delete particles
         conditions.Remove(condition); // Delete condition

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ResourceBar : MonoBehaviour
 {
-    public Slider resourceBar;
+    private Slider resourceBar;
     private Color resourceBarColor;
 
     private Image resourceDisplay;
@@ -13,6 +13,7 @@ public class ResourceBar : MonoBehaviour
 
     private void Awake()
     {
+        resourceBar = GetComponent<Slider>();
         resourceDisplay = GetComponent<Image>();
         if (resourceDisplay != null)
         {
@@ -44,9 +45,21 @@ public class ResourceBar : MonoBehaviour
     public void SetValue(float value)
     {
         if (resourceBar != null)
+        {
             resourceBar.value = value;
+            if (resourceBar.value <= 0f)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(true);
+            }
+        }
 
         if (resourceDisplay != null)
+        {
             resourceDisplay.fillAmount = value / maxValue;
+        }
     }
 }

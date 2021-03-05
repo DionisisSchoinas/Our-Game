@@ -5,19 +5,11 @@ using UnityEngine;
 
 public class HealthController : EntityResource
 {
-    public struct HealthControllerData
-    {
-        public bool invulnerable;
-        public float health;
-        //public NativeHashMap<int, NativeList<int>> resistances;
-    }
-
-    public HealthControllerData data;
     public List<int> resistances { get; private set; }
     public List<int> immunities { get; private set; }
 
     private Animator animator;
-    private Collider collider;
+    private Collider col;
 
     [SerializeField]
     private bool _invulnerable;
@@ -27,7 +19,6 @@ public class HealthController : EntityResource
         set
         {
             _invulnerable = value;
-            data.invulnerable = value;
         }
     }
 
@@ -48,29 +39,31 @@ public class HealthController : EntityResource
             {
                 if (respawn)
                     value = maxValue;
-                else
+                else if (currentValue > 0f)
                 {
+                    base.currentValue = 0f;
+
                     if (animator != null)
                         animator.SetTrigger("Die");
 
-                    collider.enabled = false;
+                    col.enabled = false;
                     Destroy(gameObject, 30f);
                     return;
                 }
             }
 
-            if (animator != null)
-                animator.SetTrigger("Hit");
+            if (currentValue > 0f)
+            {
+                if (animator != null && value < currentValue)
+                    animator.SetTrigger("Hit");
+            }
 
             base.currentValue = value;
-            data.health = currentValue;
         }
     }
 
     private ConditionsHandler conditionsHandler;
     private ResistanceHandler resistanceHandler;
-
-    public int healthSystemId;
 
     //temp
     Rigidbody rb;
@@ -85,9 +78,8 @@ public class HealthController : EntityResource
         animator = gameObject.GetComponent<Animator>();
 
         rb = gameObject.GetComponent<Rigidbody>();
-        collider = gameObject.GetComponent<Collider>();
+        col = gameObject.GetComponent<Collider>();
 
-        data = new HealthControllerData();
         resistances = new List<int>();
         immunities = new List<int>();
     }
@@ -104,12 +96,7 @@ public class HealthController : EntityResource
             currentValue = maxValue;
         }
 
-        if (data.health != currentValue)
-        {
-            data.health = currentValue;
-        }
-
-        healthSystemId = HealthEventSystem.current.Subscribe(this);
+        HealthEventSystem.current.onTakeDamage += TakeDamage;
         HealthEventSystem.current.onChangeInvunerability += SetInvunerability;
         HealthEventSystem.current.onConditionHit += SetCondition;
         HealthEventSystem.current.onForceApply += ApplyForce;
@@ -118,11 +105,39 @@ public class HealthController : EntityResource
 
     private void OnDestroy()
     {
-        HealthEventSystem.current.UnSubscribe(this);
+        HealthEventSystem.current.onTakeDamage -= TakeDamage;
         HealthEventSystem.current.onChangeInvunerability -= SetInvunerability;
         HealthEventSystem.current.onConditionHit -= SetCondition;
         HealthEventSystem.current.onForceApply -= ApplyForce;
         HealthEventSystem.current.onResistanceUpdate -= UpdateResistances;
+    }
+
+    public void TakeDamage(string name, float damage, int damageType)
+    {
+        // If controller matches
+        if (gameObject.name == name)
+        {
+            // If controller not invulnerable
+            if (!invulnerable)
+            {
+                currentValue = currentValue - CheckDamageTypes(damage, damageType);
+            }
+        }
+    }
+
+    private float CheckDamageTypes(float damage, int damageType)
+    {
+        if (immunities.Contains(damageType))
+        {
+            return 0f;
+        }
+
+        if (resistances.Contains(damageType))
+        {
+            return damage / 2f;
+        }
+
+        return damage;
     }
 
     public void SetValues(float maxValue, float regenPerSecond, ResourceBar resourceBar, Color barColor, bool respawn, bool invulnerable)
@@ -130,9 +145,6 @@ public class HealthController : EntityResource
         SetValues(maxValue, regenPerSecond, resourceBar, barColor);
         this.respawn = respawn;
         this.invulnerable = invulnerable;
-
-        data.invulnerable = this.invulnerable;
-        data.health = this.currentValue;
     }
 
     private void UpdateResistances(string name, List<int> resistances)

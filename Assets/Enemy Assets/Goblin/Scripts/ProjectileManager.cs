@@ -11,11 +11,11 @@ public class ProjectileManager : MonoBehaviour
     public bool canAttack = false;
     public float attackDelay = 0.5f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private Collider col;
 
-        
+    private void Awake()
+    {
+        col = gameObject.GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -30,14 +30,8 @@ public class ProjectileManager : MonoBehaviour
    
     IEnumerator PerformAttack()
     {
-
-
         yield return new WaitForSeconds(attackDelay);
-        projectile.FireSimple(firepoint);
+        projectile.FireSimple(firepoint, col);
         yield return new WaitForSeconds(0.1f);
-
-
-
-
     }
 }

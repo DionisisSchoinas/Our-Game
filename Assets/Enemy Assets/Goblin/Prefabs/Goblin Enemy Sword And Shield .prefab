@@ -1752,7 +1752,6 @@ MonoBehaviour:
   regenPerSecond: 0
   _invulnerable: 0
   _respawn: 0
-  healthSystemId: 0
 --- !u!1 &5678388689331297564
 GameObject:
   m_ObjectHideFlags: 0

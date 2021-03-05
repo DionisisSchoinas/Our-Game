@@ -21,18 +21,34 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Weapons
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: fdeaba25b2b8f934dac41e40b684a3ad,
+    type: 3}
   m_ShaderKeywords: _ENVIRONMENTREFLECTIONS_OFF
-  m_LightmapFlags: 6
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_4B95EC26:
+        m_Texture: {fileID: 2800000, guid: c0b92c8ff004ed84ea0349e70c18c0a4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_AFF2176:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_C4528EDF:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_FD82F755:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 2e9da1baa9a7a4e2f83f1bc63bf855ba, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -78,6 +94,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_3F5C16C7: 8
+    - Vector1_5EBE93D0: 1
+    - Vector1_613B7DC5: 0
+    - Vector1_651F8D06: 0.3
+    - Vector1_9255E29A: 25
+    - Vector1_D82CA8DC: 4
+    - Vector1_E4412480: 0
+    - Vector1_EF070E57: 0
+    - Vector1_F0DEBEC8: 0.5
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,6 +129,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_3447E8ED: {r: 1, g: 1, b: 1, a: 1}
+    - Color_9B0201B5: {r: 0.3294118, g: 0.5411765, b: 0.7176471, a: 1}
+    - Vector2_3E192D2E: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_502C812D: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_BD346D02: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

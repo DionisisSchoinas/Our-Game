@@ -30,8 +30,6 @@ public class EnemyAi_V2 : MonoBehaviour
     //State Machine Variables
     public bool targetReached;
   
-
-   
     void Start()
     {
         GameObject[] transforms = GameObject.FindGameObjectsWithTag("Player");
@@ -101,7 +99,7 @@ public class EnemyAi_V2 : MonoBehaviour
         NavMeshHit hit;
         if (NavMesh.SamplePosition(walkpoint, out hit, 1.0f, NavMesh.AllAreas))
         {
-            Destroy(Instantiate(destinationIndicator, hit.position + new Vector3(0, 0.6f, 0), destinationIndicator.transform.rotation), 2f);
+            //Destroy(Instantiate(destinationIndicator, hit.position + new Vector3(0, 0.6f, 0), destinationIndicator.transform.rotation), 2f);
             agent.SetDestination(hit.position);
             hasTarget = true;
         }
@@ -115,8 +113,6 @@ public class EnemyAi_V2 : MonoBehaviour
 
     public void Relocate()
     {
-        Debug.Log("Relocating");
-
         if (!hasTarget)
         {
             SearchForTargetNearPlayer();
@@ -130,8 +126,6 @@ public class EnemyAi_V2 : MonoBehaviour
                 targetReached = true;
             }
         }
-
-
     }
 
     void OnDrawGizmosSelected()
@@ -150,14 +144,14 @@ public class EnemyAi_V2 : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(lookPos);
         transform.eulerAngles = rotation.eulerAngles;
     }
+
     public void Attack()
     {
         meleeController.canAttack = true;
     }
+
     public void AttackRanged()
     {
         rangedController.canAttack = true;
     }
-
-
 }
